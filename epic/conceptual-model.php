@@ -13,6 +13,8 @@
 			<li>profileEmail</li>
 			<li>profileHash</li>
 			<li>profileSalt</li>
+			<li>profileBio</li>
+
 		</ul>
 		<h3>MOVIES INFO</h3>
 		<ul>
