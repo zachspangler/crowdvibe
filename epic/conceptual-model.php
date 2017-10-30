@@ -19,14 +19,14 @@
 		<h3>EVENT</h3>
 		<ul>
 			<li>eventId (primary key)</li>
+			<li>eventProfileId (foreign key) - host of event </li>
 			<li>eventName</li>
 			<li>eventDetail</li>
 			<li>eventLocation</li>
 			<li>eventDateTime</li>
 			<li>eventDuration</li>
 			<li>eventImage</li>
-			<li>eventProfileId (foreign key) - host of event </li>
-			<li>eventType (is this public or private)</li>
+			<li>eventType - public or private event</li>
 		</ul>
 		<h3>ATTENDEE RATING</h3>
 		<ul>
@@ -62,6 +62,11 @@
 			<li>friendProfileId (foreign key) - this is the profile of the friend of the user</li>
 			<li>friendGroupName</li>
 			<li>friendActivationToken</li>
+		</ul>
+		<h3>INTERESTS</h3>
+		<ul>
+			<li>interestID (primary key)</li>
+			<li>interestTag</li>
 		</ul>
 	</body>
 </html>
