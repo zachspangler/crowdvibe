@@ -11,11 +11,11 @@
             so he can get the word out to his friends and the public. After accepting the invitation, attendees will be
             able to live rate his event. Guys goal is to be a "10" whos events reach "on fire" every time.</p>
 
-    <h2>Useage preconditions-</h2>
+    <h2>Usage preconditions-</h2>
     <p>Guy has created a profile with a user name, email, phone, and rating status. He has also "friended" his close
     chums. He has downloaded the app.</p>
 
-    <h2>Useage postconditions</h2>
+    <h2>Usage postconditions</h2>
     <p>Guy has created an event that was attended and rated by those who checked in.</p>
 
     <h2>Interaction flow</h2>
@@ -36,10 +36,10 @@
     Devin doesn't want to gamble on his only night out so he want to check out the status of the options in front of
     him</p>
 
-    <h2>Useage preconditions</h2>
+    <h2>Usage preconditions</h2>
     <p>Devin has downloaded the app. he has set up his profile and added friends</p>
 
-    <h2>Useage postconditions</h2>
+    <h2>Usage postconditions</h2>
     <p>Devin has selected an event, rsvp, checked in, and rated the event</p>
 
     <h2>Interaction Flow</h2>
