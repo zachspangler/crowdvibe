@@ -65,7 +65,7 @@
 			<li>friendID (primary key)</li>
 			<li>friendProfileId (foreign key) - this is the root friend</li>
 			<li>friendProfileProfileId (foreign key) - this is the profile of the friend of the user</li>
-			<li>friendGroupName? - is this hard to do?</li>
+			<li>friendGroupName - is this hard to do?</li>
 			<li>friendActivationToken</li>
 		</ul>
 		<h4>INTERESTS</h4>
