@@ -7,7 +7,7 @@
 	<body>
     <h2>Event Creator</h2>
 		<p>Its Friday night and Guy is excited about kicking off the weekend. Guy likes being the coolest dude that
-            throws the hottest events and wants people to talk about it. He uses the __________ app to post his event
+            throws the hottest events and wants people to talk about it. He uses the ________ app to post his event
             so he can get the word out to his friends and the public. After accepting the invitation, attendees will be
             able to live rate his event. Guys goal is to be a "10" whos events reach "on fire" every time.</p>
 
