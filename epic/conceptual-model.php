@@ -68,7 +68,7 @@
 			<li>friendGroupName? - is this hard to do?</li>
 			<li>friendActivationToken</li>
 		</ul>
-		<h4>INTERESTS - FUTURE?</h4>
+		<h4>INTERESTS</h4>
 		<ul>
 			<li>interestID (primary key)</li>
 			<li>interestTag</li>
