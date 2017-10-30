@@ -22,10 +22,10 @@
     <ol>
         <li>Guy clicks on his app icon</li>
         <li>app returns home screen</li>
-        <li>Guy clicks the create even button</li>
+        <li>Guy clicks the create event button</li>
         <li>app returns input form</li>
         <li>Guy enters credentials for even (date/time/location/description/public or friends) and hits submit</li>
-        <li>app returns even created!</li>
+        <li>app returns event created!</li>
         <li>if event is set to public, event will be posted to event board.</li>
         <li> Friends will be sent notification any time an even is posted by a friend.</li>
     </ol>
@@ -56,7 +56,7 @@
         <li>app returns have you arrived?</li>
         <li>Devin clicks to check in.</li>
         <li>app returns event page with rating input options</li>
-        <li>Devin gets 5 beers in and decides this even is awesome</li>
+        <li>Devin gets 5 beers in and decides this event is awesome</li>
         <li>Devin rates the event an 8 and clicks submit</li>
         <li>App confirms his rating</li>
         <li>Devin gets 8 beers in and decides he has beef with the event host. He clicks on the creator profile</li>
