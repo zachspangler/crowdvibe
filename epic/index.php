@@ -5,9 +5,12 @@
 		<title>Let's Chill | Home</title>
 	</head>
 	<body>
-		<a href="conceptual-model.php">Conceptual Model</a>
-		<a href="persona-one-guy.php">Persona 1 - Guy Cleve</a>
-		<a href="persona-two-devin.php">Persona 2 - Devin Cherokee</a>
-		<a href="persona-one-guy.php">Use Cases</a>
+		<h1>Directory</h1>
+		<ul>
+			<li><a href="conceptual-model.php" target="_blank">Conceptual Model</a></li>
+			<li><a href="persona-one-guy.php" target="_blank">Persona 1 - Guy Cleve</a></li>
+			<li><a href="persona-two-devin.php" target="_blank">Persona 2 - Devin Cherokee</a></li>
+			<li><a href="persona-one-guy.php" target="_blank">Use Cases</a></li>
+		</ul>
 	</body>
 </html>
