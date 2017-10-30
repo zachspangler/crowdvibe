@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8">
-		<title>SnapFlix | Persona Two</title>
+		<title>SnapFlix | Persona One</title>
 	</head>
 	<body>
 		<h1>Persona</h1>
