@@ -25,7 +25,9 @@
 			<li>eventLocation</li>
 			<li>eventDateTime</li>
 			<li>eventDuration</li>
+			<li>eventCategory</li>
 			<li>eventImage</li>
+			<li>eventPrice</li>
 			<li>eventType - public or private event</li>
 		</ul>
 		<h3>ATTENDEE RATING</h3>
