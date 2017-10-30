@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8">
-		<title>SnapFlix | Use Cases</title>
+		<title>Let's Chill | Use Cases</title>
 	</head>
 	<body>
 		

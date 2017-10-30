@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8">
-		<title>SnapFlix | Home</title>
+		<title>Let's Chill | Home</title>
 	</head>
 	<body>
 		<a href="conceptual-model.php">Conceptual Model</a>

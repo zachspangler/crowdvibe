@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8">
-		<title>SnapFlix | Conceptual Model</title>
+		<title>Let's Chill | Conceptual Model</title>
 	</head>
 	<body>
 		<h3>PROFILE</h3>
