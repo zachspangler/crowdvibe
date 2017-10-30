@@ -14,29 +14,41 @@
 			<li>profileHash</li>
 			<li>profileSalt</li>
 			<li>profileBio</li>
-
+			<li>profileImage</li>
 		</ul>
-		<h3>MOVIES INFO</h3>
+		<h3>EVENT</h3>
 		<ul>
-			<li>movieId (primary key)</li>
-			<li>movieBio</li>
-			<li>movieImage</li>
-			<li>movieRatingImdb</li>
-			<li>movieGenre</li>
-			<li>movieYear</li>
-			<li>movieTrailer</li>
-			<li>movieLocation</li>
+			<li>eventId (primary key)</li>
+			<li>eventName</li>
+			<li>eventDetail</li>
+			<li>eventLocation</li>
+			<li>eventDateTime</li>
+			<li>eventDuration</li>
+			<li>eventImage</li>
+			<li>eventProfileId (foreign key) - host of event </li>
 		</ul>
-		<h3>MOVIES INFO</h3>
+		<h3>PROFILE RATING</h3>
 		<ul>
-			<li>movieId (primary key)</li>
-			<li>movieBio</li>
-			<li>movieImage</li>
-			<li>movieRatingImdb</li>
-			<li>movieGenre</li>
-			<li>movieYear</li>
-			<li>movieTrailer</li>
-			<li>movieLocation</li>
+			<li>ratingId (primary key)</li>
+			<li>ratingProfileId (foreign key) - For the person giving the rating</li>
+			<li>ratingProfileId (foreign key) - For the person receiving the rating</li>
+			<li>ratingEventId (foreign key)</li>
+			<li>ratingSocialScore</li>
+			<li>ratingFlakeFactor</li>
+		</ul>
+		<h3>EVENT RATING</h3>
+		<ul>
+			<li>eventRatingId (primary key)</li>
+			<li>ratingProfileId (foreign key) - For the person giving the rating</li>
+			<li>ratingEventId (foreign key)</li>
+			<li>ratingEventScore</li>
+		</ul>
+		<h3>EVENT RATING</h3>
+		<ul>
+			<li>eventRatingId (primary key)</li>
+			<li>ratingProfileId (foreign key) - For the person giving the rating</li>
+			<li>ratingEventId (foreign key)</li>
+			<li>ratingEventScore</li>
 		</ul>
 	</body>
 </html>
