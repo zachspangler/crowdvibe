@@ -6,6 +6,7 @@
 	</head>
 	<body>
 		<h1>Persona</h1>
+		<h4>Author: Chris Owens</h4>
 		<img src="http://thefraternityadvisor.com/wp-content/uploads/2012/08/fraternity-nerd.jpg" alt="Guy Cleve"
 		<div>
 			<p><strong>Name:</strong> Guy Cleve</p>
