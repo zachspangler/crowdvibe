@@ -11,15 +11,15 @@
 
 <p><strong>Name:</strong> Guy Cleve</p>
 <p><strong>Age:</strong> 25</p>
-<p><strong>Profession:</strong> Works at Walgreens as a bagger, student at New Mexico State University</p>
-<p><strong>Technology:</strong> Has a surface laptop, and Google Pixel</p>
+<p><strong>Profession:</strong> Works at Walgreens as a bagger, student at New Mexico State University.</p>
+<p><strong>Technology:</strong> Has a surface laptop, and Google Pixel.</p>
 <p><strong>Attitudes and Behaviors:</strong></p>
 <p><strong>Frustrations and Needs:</strong></p>
 <ul>
     <li>Needs an easier way to make friends.</li>
-    <li>He hates unorganized plans, this makes him anxious </li>
-    <li>He doesn't like complicated apps because of his low attention span</li>
-    <li>Whenever he makes plans with people, and they dont end up showing up</li>
+    <li>He hates unorganized plans, this makes him anxious. </li>
+    <li>He doesn't like complicated apps because of his low attention span.</li>
+    <li>Whenever he makes plans with people, and they dont end up showing up.</li>
 </ul>
 <p><strong>Goals:</strong> The goal of this app for Guy is finally have friends who attend his events so he can actually have fun, spontaneous social life that he has always wanted.</p>
 
