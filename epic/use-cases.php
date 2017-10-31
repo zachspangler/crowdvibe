@@ -7,7 +7,7 @@
 	<body>
     <h2>Event Creator</h2>
 		<p>Its Friday night and Guy is excited about kicking off the weekend. Guy likes being the coolest dude that
-            throws the hottest events and wants people to talk about it. He uses the ________ app to post his event
+            throws the hottest events and wants people to talk about it. He uses crowdvibe to post his event
             so he can get the word out to his friends and the public. After accepting the invitation, attendees will be
             able to live rate his event. Guys goal is to be a "10" whos events reach "on fire" every time.</p>
 
@@ -32,7 +32,7 @@
 
     <h2>Attendee</h2>
     <p>Devin is pumped its Friday! He has been under the gun at work all week. He hasn't talked to any of the boys since
-    last weeks schinanigans. He gets home later than most and opens up his _________ app to see whats happening tonight.
+    last weeks schinanigans. He gets home later than most and opens up crowdvibe to see whats happening tonight.
     Devin doesn't want to gamble on his only night out so he want to check out the status of the options in front of
     him</p>
 
@@ -44,7 +44,7 @@
 
     <h2>Interaction Flow</h2>
     <ol>
-        <li>Devin opens his browser</li>
+        <li>Devin opens </li>
         <li>browser returns home page with tonights options to browse</li>
         <li>Devin scrolls through events until he finds what he likes.</li>
         <li>Devin clicks rsvp</li>
