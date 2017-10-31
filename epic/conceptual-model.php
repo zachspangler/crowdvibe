@@ -13,7 +13,6 @@
 			<li>profileActivationToken</li>
 			<li>profileBio</li>
 			<li>profileEmail</li>
-
 			<li>profileFirstName</li>
 			<li>profileHash</li>
 			<li>profileImage</li>
@@ -26,35 +25,35 @@
 		<ul>
 			<li>eventId (primary key)</li>
 			<li>eventProfileId (foreign key) - host of event </li>
-			<li>eventName</li>
-			<li>eventDetail</li>
-			<li>eventLocation</li>
-			<li>eventDateTime</li>
-			<li>eventDuration</li>
 			<li>eventAttendeeLimit</li>
 			<li>eventCategory</li>
+			<li>eventDateTime</li>
+			<li>eventDetail</li>
+			<li>eventDuration</li>
 			<li>eventImage</li>
-			<li>eventPrice</li>
 			<li>eventLat</li>
+			<li>eventLocation</li>
 			<li>eventLong</li>
+			<li>eventName</li>
+			<li>eventPrice</li>
 		</ul>
 		<h4>RATING</h4>
 		<ul>
 			<li>ratingId (primary key)</li>
-			<li>ratingRaterProfileId (foreign key) - For the person giving the rating</li>
-			<li>ratingRateeProfileId (foreign key) - For the person receiving the rating</li>
 			<li>ratingEventId (foreign key) - event that was attended </li>
-			<li>ratingType - is this a rating for a person or an event</li>
-			<li>ratingSocialScore</li>
+			<li>ratingRateeProfileId (foreign key) - For the person receiving the rating</li>
+			<li>ratingRaterProfileId (foreign key) - For the person giving the rating</li>
 			<li>ratingEventScore</li>
+			<li>ratingSocialScore</li>
+			<li>ratingType - is this a rating for a person or an event</li>
 		</ul>
 		<h4>EVENT ATTENDANCE</h4>
 		<ul>
 			<li>attendanceID (primary key)</li>
 			<li>attendanceEventId (foreign key)</li>
 			<li>attendanceProfileId (foreign key)</li>
-			<li>attendanceNumberAttending</li>
 			<li>attendanceCheckIn</li>
+			<li>attendanceNumberAttending</li>
 		</ul>
 	</body>
 </html>
