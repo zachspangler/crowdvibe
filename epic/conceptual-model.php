@@ -11,14 +11,16 @@
 		<ul>
 			<li>profileId (primary key)</li>
 			<li>profileActivationToken</li>
-			<li>profileUserName</li>
-			<li>profileFirstName</li>
-			<li>profileLastName</li>
-			<li>profileEmail</li>
-			<li>profileHash</li>
-			<li>profileSalt</li>
 			<li>profileBio</li>
+			<li>profileEmail</li>
+
+			<li>profileFirstName</li>
+			<li>profileHash</li>
 			<li>profileImage</li>
+			<li>profileLastName</li>
+			<li>profileSalt</li>
+
+			<li>profileUserName</li>
 		</ul>
 		<h4>EVENT</h4>
 		<ul>
