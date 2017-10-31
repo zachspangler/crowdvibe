@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8">
-		<title>CrowdVibe | Persona Two</title>
+		<title>CrowdVibe | Persona One</title>
 	</head>
 	<body>
 		<h1>Persona</h1>
