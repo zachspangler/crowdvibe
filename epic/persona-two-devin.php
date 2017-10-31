@@ -6,7 +6,7 @@
 	</head>
 	<body>
 		<h1>Persona</h1>
-		<h4>Author: Luther McKeiver</h4>
+		<h6>Author: Luther McKeiver</h6>
 		<img src="http://www.besteducationnews.com/wp-content/uploads/2014/03/f92a4__sad-male-student-lonely-l-016.jpg"
 			  alt="lonely devin"
 		<p></p>

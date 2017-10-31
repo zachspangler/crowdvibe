@@ -6,7 +6,7 @@
 	</head>
 	<body>
 		<h1>Conceptual Model</h1>
-		<h4>Author: Zach Spangler</h4>
+		<h6>Author: Zach Spangler</h6>
 		<h4>PROFILE</h4>
 		<ul>
 			<li>profileId (primary key)</li>
