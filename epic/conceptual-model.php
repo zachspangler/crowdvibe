@@ -32,46 +32,26 @@
 			<li>eventCategory</li>
 			<li>eventImage</li>
 			<li>eventPrice</li>
-			<li>eventType - public or private event</li>
+			<li>eventLat</li>
+			<li>eventLong</li>
 		</ul>
-		<h4>ATTENDEE RATING</h4>
+		<h4>RATING</h4>
 		<ul>
-			<li>attendeeRatingId (primary key)</li>
-			<li>attendeeRaterProfileId (foreign key) - For the person giving the rating</li>
-			<li>attendeeRateeProfileId (foreign key) - For the person receiving the rating</li>
-			<li>attendeeEventId (foreign key) - What event the profile is being rated from</li>
-			<li>attendeeSocialScore</li>
-			<li>attendeeRatingClosed? - ability to rate an event closes foo days after the event</li>
-		</ul>
-		<h4>EVENT RATING</h4>
-		<ul>
-			<li>eventRatingId (primary key)</li>
-			<li>eventRatingProfileId (foreign key) - For the person rating the event</li>
-			<li>eventRatingEventId (foreign key)</li>
-			<li>eventRatingEventScore</li>
-			<li>eventRatingClosed? - ability to rate an event closes foo days after the event</li>
+			<li>ratingId (primary key)</li>
+			<li>ratingRaterProfileId (foreign key) - For the person giving the rating</li>
+			<li>ratingRateeProfileId (foreign key) - For the person receiving the rating</li>
+			<li>ratingEventId (foreign key) - What event the profile is being rated from</li>
+			<li>ratingSocialScore</li>
+			<li>ratingEventScore</li>
+			<li>ratingType - is this a rating for a person or an event</li>
 		</ul>
 		<h4>EVENT ATTENDANCE</h4>
 		<ul>
 			<li>attendanceID (primary key)</li>
 			<li>attendanceEventId (foreign key)</li>
 			<li>attendanceProfileId (foreign key)</li>
-			<li>attendanceStatus</li>
 			<li>attendanceNumberAttending</li>
 			<li>attendanceCheckIn</li>
-		</ul>
-		<h4>FRIENDS</h4>
-		<ul>
-			<li>friendID (primary key)</li>
-			<li>friendProfileId (foreign key) - this is the root friend</li>
-			<li>friendProfileProfileId (foreign key) - this is the profile of the friend of the user</li>
-			<li>friendGroupName - is this hard to do?</li>
-			<li>friendActivationToken</li>
-		</ul>
-		<h4>INTERESTS</h4>
-		<ul>
-			<li>interestID (primary key)</li>
-			<li>interestTag</li>
 		</ul>
 	</body>
 </html>
