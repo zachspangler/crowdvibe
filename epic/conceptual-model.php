@@ -18,7 +18,6 @@
 			<li>profileImage</li>
 			<li>profileLastName</li>
 			<li>profileSalt</li>
-
 			<li>profileUserName</li>
 		</ul>
 		<h4>EVENT</h4>
