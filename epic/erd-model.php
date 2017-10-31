@@ -7,6 +7,6 @@
 	<body>
 		<h1>ERD Model</h1>
 		<h6>Author: Luther McKeiver</h6>
-		<img src="crowdvibe1.svg" alt="ERD Model">
+		<img src="images/crowdvibe1.svg" alt="ERD Model">
 	</body>
 </html>
