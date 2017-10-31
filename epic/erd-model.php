@@ -6,7 +6,7 @@
 	</head>
 	<body>
 		<h1>ERD Model</h1>
-		<h5>Author:Luther McKeiver</h5>
-		<img src="images/crowdvibe3.svg" alt="ERD Model">
+		<h5>Author: Luther McKeiver</h5>
+		<img src="images/crowdvibe4.svg" alt="ERD Model">
 	</body>
 </html>
