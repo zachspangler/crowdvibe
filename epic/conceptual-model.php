@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8">
-		<title>Let's Chill | Conceptual Model</title>
+		<title>CrowdVibe | Conceptual Model</title>
 	</head>
 	<body>
 		<h1>Conceptual Model</h1>

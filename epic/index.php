@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8">
-		<title>Let's Chill | Home</title>
+		<title>CrowdVibe | Home</title>
 	</head>
 	<body>
 		<h1>Directory</h1>
