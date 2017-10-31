@@ -8,10 +8,9 @@
 		<h1>Usage Case:</h1>
 		<h4>Author: Matt David</h4>
 		<h2>Event Creator</h2>
-		<p>Its Friday night and Guy is excited about kicking off the weekend. Guy likes being the coolest dude that throws the hottest events and wants people to talk about it. He uses crowdvibe to post his event so he can get the word out to his friends and the public. After accepting the invitation, attendees will be able to live rate his event. Guys goal is to be a "10" whos events reach "on fire" every time.</p>
+		<p>Its Friday night and Guy is excited about kicking off the weekend. Guy likes being the coolest dude that throws the hottest events and wants people to talk about it. He uses crowdvibe to post his event so he can get the word out to his friends and the public. After accepting the invitation, attendees will be able to live rate his event. Guys goal is to be a "10" whose events reach "on fire" every time.</p>
 		<h2>Usage preconditions-</h2>
-		<p>Guy has created a profile with a user name, email, phone, and rating status. He has also "friended" his close
-			chums. He has downloaded the app.</p>
+		<p>Guy has created a profile with a user name, email, phone, and rating status. He has also "friended" his close chums. He has downloaded the app.</p>
 		<h2>Usage postconditions</h2>
 		<p>Guy has created an event that was attended and rated by those who checked in.</p>
 		<h2>Interaction flow</h2>
@@ -34,7 +33,7 @@
 		<h2>Interaction Flow</h2>
 		<ol>
 			<li>Devin opens the browser</li>
-			<li>browser returns home page with tonights options to browse</li>
+			<li>browser returns home page with tonight's options to browse</li>
 			<li>Devin scrolls through events until he finds what he likes.</li>
 			<li>Devin clicks rsvp</li>
 			<li>browser returns are you sure?</li>
