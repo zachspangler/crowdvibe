@@ -42,8 +42,7 @@
 			<li>ratingEventId (foreign key) - event that was attended </li>
 			<li>ratingRateeProfileId (foreign key) - For the person receiving the rating</li>
 			<li>ratingRaterProfileId (foreign key) - For the person giving the rating</li>
-			<li>ratingEventScore</li>
-			<li>ratingSocialScore</li>
+			<li>ratingScore</li>
 			<li>ratingType - is this a rating for a person or an event</li>
 		</ul>
 		<h4>EVENT ATTENDANCE</h4>
