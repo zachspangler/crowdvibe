@@ -34,6 +34,7 @@
 			<li>eventLong</li>
 			<li>eventName</li>
 			<li>eventPrice</li>
+            <li>eventStartDateTime</li>
 		</ul>
 		<h4>RATING</h4>
 		<ul>
