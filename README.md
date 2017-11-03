@@ -1,2 +1,2 @@
-# snapflix
+# crowdvibe
 Deep Dive Capstone Project
