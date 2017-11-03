@@ -19,10 +19,29 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
  * @author Chris Owens <cowens17@cnm.edu>
  **/
 
-class EventAttendanceTest extends DataDesignTest {
+class EventAttendanceTest extends Crowdvibe{
 	/**
-	 * Profile that created the Event; this is for foreign key relations
-	 * @var EventAttendance Attendance
+	 * Event Attendance Id is the unique identifier for an Event; this is a primary key relations
+	 * @var AttendanceId
 	 **/
-	protected $EventAtendance = null;
+	protected $AttendanceId = null;
+	/**
+	 * Attendance Event id is how to relate a post to a specific event (foreign key)
+	 * @var AttendanceEventId
+	 */
+	protected $AttendanceEventId = null;
+	/**Attendance Profile Id is how the event is specific to one profile (foreign key)
+	 * @var AttendanceProfileId
+	 */
+	Protected $AttendanceProfileId = null;
+	/**
+	 * Attendance Check In is how people will let people know they will attend an event
+	 * @var
+	 **/
+	public $AttendanceCheckIn = null;
+	/**
+	 * Attendance Number Attending will tell the profile the amount of people present
+	 */
+	public $AttendanceNumberAttending = null;
+	}
 }
