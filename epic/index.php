@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en">g
 	<head>
 		<meta charset="UTF-8">
 		<title>CrowdVibe | Home</title>
