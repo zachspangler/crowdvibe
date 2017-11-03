@@ -5,16 +5,17 @@
 
 CREATE TABLE profile (
   profileId BINARY(16) NOT NULL ,
-  profileActivationToken CHAR(32) ,
-  profileEmail VARCHAR(128) ,
-  profileUsername VARCHAR(32) ,
-  profileHash CHAR(128) ,
+  profileActivationToken CHAR(32) NOT NULL,
+  profileEmail VARCHAR(128) NOT NULL ,
+  profileUsername VARCHAR(32) NOT NULL ,
+  profileHash CHAR(128) NOT NULL ,
   profileSalt CHAR(64) NOT NULL ,
-  profileBio VARCHAR(280) ,
-  profileFirstName VARCHAR(16) ,
-  profileLastName VARCHAR(16) ,
+  profileBio VARCHAR(280) NOT NULL ,
+  profileFirstName VARCHAR(16) NOT NULL ,
+  profileLastName VARCHAR(16) NOT NULL ,
   UNIQUE (profileEmail) ,
   UNIQUE (profileUsername) ,
+  -- this officiates the primary key for the entity
   PRIMARY KEY (profileId)
 
 );
@@ -23,16 +24,13 @@ CREATE TABLE rating (
   ratingEventId BINARY(16) NOT NULL,
   ratingRateeProfileId BINARY (16) NOT NULL,
   ratingRaterProfileId BINARY (16) NOT NULL,
-  ratingScore VARCHAR(100),
-  ratingType VARCHAR(16),
-  UNIQUE (ratingId),
-  UNIQUE (ratingEventId),
+  ratingScore TINYINT(100) NOT NULL,
+  ratingType CHAR(1) NOT NULL,
   UNIQUE (rating)
+
   FOREIGN KEY (ratingEventId),
   FOREIGN KEY (ratingRateeProfileId),
   FOREIGN KEY (ratingRaterProfileId),
-  FOREIGN KEY (ratingScore),
-  FOREIGN KEY (ratingType),
   PRIMARY KEY (ratingId),
 
 );
@@ -40,16 +38,24 @@ CREATE TABLE rating (
 CREATE TABLE event (
   eventId BINARY(16) NOT NULL,
   eventProfileId BINARY(16) NOT NULL,
-  eventAttendeeLimit VARCHAR(500),
-  eventDateTime DATETIME(6) NOT NULL,
-  eventDuration DATETIME(6) NOT NULL,
+  eventAttendeeLimit SMALLINT(500),
+  eventStartDateTime DATETIME(6) NOT NULL,
+  eventEndDateTime DATETIME(6) NOT NULL,
   eventImage VARCHAR (64) NOT NULL,
-  eventName
-  eventPrice
-  ,
+  eventName VARCHAR(72) NOT NULL,
+  eventPrice DECIMAL(7,2) NOT NULL,
   eventDetail VARCHAR(500) NOT NULL,
   eventLat DECIMAL(12) NOT NULL,
   eventLong DECIMAL(12) NOT NULL,
   eventCategory VARCHAR(32) NOT NULL,
+
+);
+
+CREATE TABLE eventAttendance (
+  attendanceId BINARY(16) NOT NULL,
+  attendanceEventId BINARY (16) NOT NULL,
+  attendanceProfileId BINARY (16) NOT NULL,
+  attendanceCheckIn BOOLEAN NOT NULL,
+  attendanceNumberAttending TINYINT NOT NULL,
 
 );
