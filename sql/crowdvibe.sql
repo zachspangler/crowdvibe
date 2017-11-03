@@ -26,7 +26,6 @@ CREATE TABLE rating (
   ratingRaterProfileId BINARY (16) NOT NULL,
   ratingScore TINYINT(100) NOT NULL,
   ratingType CHAR(1) NOT NULL,
-  UNIQUE (rating)
 
   FOREIGN KEY (ratingEventId),
   FOREIGN KEY (ratingRateeProfileId),
