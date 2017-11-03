@@ -51,7 +51,7 @@
 			<li>attendanceEventId (foreign key)</li>
 			<li>attendanceProfileId (foreign key)</li>
 			<li>attendanceCheckIn</li>
-			<li>attendanceNumberAttening</li>
+			<li>attendanceNumberAttenddding</li>
 		</ul>
 	</body>
 </html>
