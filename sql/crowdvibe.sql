@@ -41,6 +41,15 @@ CREATE TABLE event (
   eventId BINARY(16) NOT NULL,
   eventProfileId BINARY(16) NOT NULL,
   eventAttendeeLimit VARCHAR(500),
-  eventDateTime DATETIME(6) NOT NULL
+  eventDateTime DATETIME(6) NOT NULL,
+  eventDuration DATETIME(6) NOT NULL,
+  eventImage VARCHAR (64) NOT NULL,
+  eventName
+  eventPrice
+  ,
+  eventDetail VARCHAR(500) NOT NULL,
+  eventLat DECIMAL(12) NOT NULL,
+  eventLong DECIMAL(12) NOT NULL,
+  eventCategory VARCHAR(32) NOT NULL,
 
 );

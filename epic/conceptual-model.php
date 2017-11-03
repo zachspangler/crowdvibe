@@ -26,12 +26,11 @@
 			<li>eventProfileId (foreign key) - host of event </li>
 			<li>eventAttendeeLimit</li>
 			<li>eventCategory</li>
-			<li>eventDateTime</li>
+			<li>eventStartDateTime</li>
+            <li>eventEndStartTime</li>
 			<li>eventDetail</li>
-			<li>eventDuration</li>
-			<li>eventImage</li>
+            <li>eventImage</li>
 			<li>eventLat</li>
-			<li>eventLocation</li>
 			<li>eventLong</li>
 			<li>eventName</li>
 			<li>eventPrice</li>
