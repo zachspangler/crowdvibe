@@ -27,7 +27,7 @@ CREATE TABLE rating (
   ratingType VARCHAR(16),
   UNIQUE (ratingId),
   UNIQUE (ratingEventId),
-  UNIQUE (ra)
+  UNIQUE (rating)
   FOREIGN KEY (ratingEventId),
   FOREIGN KEY (ratingRateeProfileId),
   FOREIGN KEY (ratingRaterProfileId),
