@@ -21,7 +21,7 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
 
 class RatingTest extends DataDesignTest {
     /**
-     * Profile that created the Rating; this is for foreign key relations
+     * Profile that created the Rating; this is for foreign key relation
      * @var Profile profile
      **/
     protected $profile = null;
