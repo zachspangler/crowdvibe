@@ -5,7 +5,7 @@
     "phpunit/dbunit": "@stable",
     "phpunit/phpunit": "@stable",
     "ramsey/uuid": "@stable",
-    "roav/better-refelction": "dev-master#a402048"
+    "roav/better-reflection": "dev-master#a402048"
   },
 
   "scripts": {
