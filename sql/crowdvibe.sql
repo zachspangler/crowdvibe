@@ -23,15 +23,22 @@ CREATE TABLE rating (
   ratingEventId BINARY(16) NOT NULL,
   ratingRateeProfileId BINARY (16) NOT NULL,
   ratingRaterProfileId BINARY (16) NOT NULL,
-  ratingScore VARCHAR(100)
-  ratingType
+  ratingScore VARCHAR(100),
+  ratingType VARCHAR(16),
+  UNIQUE (ratingId),
+  FOREIGN KEY (ratingEventId),
+  FOREIGN KEY (ratingRateeProfileId),
+  FOREIGN KEY (ratingRaterProfileId),
+  FOREIGN KEY (ratingScore),
+  FOREIGN KEY (ratingType),
+  PRIMARY KEY (ratingId)
 
 );
 
 CREATE TABLE event (
   eventId BINARY(16) NOT NULL,
   eventProfileId BINARY(16) NOT NULL,
-  eventAttendeeLimit VARCHAR(500)
-  eventDateTime DATETIME(6) NOT NULL,
+  eventAttendeeLimit VARCHAR(500),
+  eventDateTime DATETIME(6) NOT NULL
 
 )
