@@ -1,0 +1,16 @@
+<phpunit>
+	<testsuites>
+		<testsuite name="Crowdvibe">
+			<file>ProfileTest.php</file>
+			<file>EventTest.php</file>
+			<file>RatingTest.php</file>
+			<file>EventAttendanceTest.php</file>
+			<file>ValidateUuidTest.php</file>
+		</testsuite>
+	</testsuites>
+	<filter>
+		<whitelist processUncoveredFilesFromWhitelist="true">
+			<directory suffix=".php">..</directory>
+		</whitelist>
+	</filter>
+</phpunit>
