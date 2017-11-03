@@ -48,6 +48,9 @@ CREATE TABLE event (
   eventLong DECIMAL(12) NOT NULL,
   eventCategory VARCHAR(32) NOT NULL,
 
+  FOREIGN KEY (eventProfileId),
+  PRIMARY KEY (eventId),
+
 );
 
 CREATE TABLE eventAttendance (
@@ -57,4 +60,9 @@ CREATE TABLE eventAttendance (
   attendanceCheckIn BOOLEAN NOT NULL,
   attendanceNumberAttending TINYINT NOT NULL,
 
+  FOREIGN KEY (attendanceEventId),
+  FOREIGN KEY (attendanceProfileId),
+  PRIMARY KEY (attendanceId),
+
 );
+
