@@ -18,4 +18,20 @@ CREATE TABLE profile (
   PRIMARY KEY (profileId)
 
 );
-CREATE TABLE
+CREATE TABLE rating (
+  ratingId BINARY(16) NOT NULL,
+  ratingEventId BINARY(16) NOT NULL,
+  ratingRateeProfileId BINARY (16) NOT NULL,
+  ratingRaterProfileId BINARY (16) NOT NULL,
+  ratingScore VARCHAR(100)
+  ratingType
+
+);
+
+CREATE TABLE event (
+  eventId BINARY(16) NOT NULL,
+  eventProfileId BINARY(16) NOT NULL,
+  eventAttendeeLimit VARCHAR(500)
+  eventDateTime DATETIME(6) NOT NULL,
+
+)
