@@ -27,14 +27,14 @@
 			<li>eventAttendeeLimit</li>
 			<li>eventCategory</li>
 			<li>eventStartDateTime</li>
-            <li>eventEndStartTime</li>
+			<li>eventEndStartTime</li>
 			<li>eventDetail</li>
-            <li>eventImage</li>
+			<li>eventImage</li>
 			<li>eventLat</li>
 			<li>eventLong</li>
 			<li>eventName</li>
 			<li>eventPrice</li>
-            <li>eventStartDateTime</li>
+			<li>eventStartDateTime</li>
 		</ul>
 		<h4>RATING</h4>
 		<ul>

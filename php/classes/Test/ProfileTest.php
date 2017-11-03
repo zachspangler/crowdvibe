@@ -41,19 +41,19 @@ class Profile extends CrowdVibe {
 
 	/**
 	 * Profile Bio is the text description for the user
-	 * @var profileBio
+	 * @var string profileBio
 	 **/
 	protected $profileBio = null;
 
 	/**
 	 * Profile Email is the email associated with the profile
-	 * @var profileEmail
+	 * @var string profileEmail
 	 **/
 	protected $profileEmail = null;
 
 	/**
 	 * Profile Fist Name is the first name of the user
-	 * @var profileFirstName
+	 * @var string profileFirstName
 	 **/
 	protected $profileFirstName = null;
 
@@ -65,13 +65,13 @@ class Profile extends CrowdVibe {
 
 	/**
 	 * Profile Image is image the profile will use
-	 * @var profileImage
+	 * @var string profileImage
 	 **/
 	protected $profileImage = null;
 
 	/**
 	 * Profile Last Name is the last name of the user
-	 * @var profileLastName
+	 * @var string profileLastName
 	 **/
 	protected $profileLastName = null;
 
@@ -83,7 +83,7 @@ class Profile extends CrowdVibe {
 
 	/**
 	 * Profile User Name is used as the screen name for profile
-	 * @var profileUserName
+	 * @var string profileUserName
 	 **/
 	protected $profileUserName = null;
 }
