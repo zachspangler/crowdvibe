@@ -41,4 +41,4 @@ CREATE TABLE event (
   eventAttendeeLimit VARCHAR(500),
   eventDateTime DATETIME(6) NOT NULL
 
-)
+);
