@@ -31,7 +31,7 @@ CREATE TABLE rating (
   FOREIGN KEY (ratingRaterProfileId),
   FOREIGN KEY (ratingScore),
   FOREIGN KEY (ratingType),
-  PRIMARY KEY (ratingId)
+  PRIMARY KEY (ratingId),
 
 );
 
