@@ -16,7 +16,12 @@ CREATE TABLE profile (
   UNIQUE (profileEmail) ,
   UNIQUE (profileUsername) ,
   -- this officiates the primary key for the entity
-  PRIMARY KEY (profileId)
+  PRIMARY KEY (profileId),
+  INDEX (profileEmail),
+  INDEX (profileUsername),
+  INDEX (profileFirstName),
+  INDEX (profileLastName),
+
 
 );
 CREATE TABLE rating (
@@ -32,6 +37,7 @@ CREATE TABLE rating (
   FOREIGN KEY (ratingRaterProfileId),
   PRIMARY KEY (ratingId),
 
+
 );
 
 CREATE TABLE event (
@@ -46,10 +52,16 @@ CREATE TABLE event (
   eventDetail VARCHAR(500) NOT NULL,
   eventLat DECIMAL(12) NOT NULL,
   eventLong DECIMAL(12) NOT NULL,
-  eventCategory VARCHAR(32) NOT NULL,
+
 
   FOREIGN KEY (eventProfileId),
   PRIMARY KEY (eventId),
+  INDEX (eventName),
+  INDEX (eventEndDateTime),
+  INDEX(eventStartDateTime),
+  INDEX (eventPrice),
+
+
 
 );
 
@@ -63,6 +75,9 @@ CREATE TABLE eventAttendance (
   FOREIGN KEY (attendanceEventId),
   FOREIGN KEY (attendanceProfileId),
   PRIMARY KEY (attendanceId),
+  INDEX (attendanceNumberAttending),
+  INDEX (attendanceCheckIn),
+
 
 );
 
