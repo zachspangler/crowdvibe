@@ -36,15 +36,6 @@
 			<li>eventPrice</li>
 			<li>eventStartDateTime</li>
 		</ul>
-		<h4>RATING</h4>
-		<ul>
-			<li>ratingId (primary key)</li>
-			<li>ratingEventId (foreign key) - event that was attended </li>
-			<li>ratingRateeProfileId (foreign key) - For the person receiving the rating</li>
-			<li>ratingRaterProfileId (foreign key) - For the person giving the rating</li>
-			<li>ratingScore</li>
-			<li>ratingType - is this a rating for a person or an event</li>
-		</ul>
 		<h4>EVENT ATTENDANCE</h4>
 		<ul>
 			<li>attendanceID (primary key)</li>
@@ -52,6 +43,14 @@
 			<li>attendanceProfileId (foreign key)</li>
 			<li>attendanceCheckIn</li>
 			<li>attendanceNumberAttending</li>
+		</ul>
+		<h4>RATING</h4>
+		<ul>
+			<li>ratingId (primary key)</li>
+			<li>ratingEventAttendanceId (foreign key) - event that was attended </li>
+			<li>ratingRateeProfileId (foreign key) - For the person receiving the rating</li>
+			<li>ratingRaterProfileId (foreign key) - For the person giving the rating</li>
+			<li>ratingScore</li>
 		</ul>
 	</body>
 </html>
