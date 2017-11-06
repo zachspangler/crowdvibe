@@ -162,6 +162,37 @@ class Profile implements \JsonSerializable {
 		$this->profileActivationToken = $newProfileActivationToken;
 	}
 	/**
+	 * accessor method for profile bio
+	 *
+	 * @return string value of at profile bio
+	 **/
+	public function getProfileBio(): string {
+		return ($this->profileBio);
+	}
+	/**
+	 * mutator method for profile bio
+	 *
+	 * @param string $newProfileBio new value of profile bio
+	 * @throws \InvalidArgumentException if $newProfileBio is not a string or insecure
+	 * @throws \RangeException if $newProfileBio is > 32 characters
+	 * @throws \TypeError if $newProfileBio is not a string
+	 **/
+	public function setProfileAtHandle(string $newProfileAtHandle) : void {
+		// verify the at handle is secure
+		$newProfileAtHandle = trim($newProfileAtHandle);
+		$newProfileAtHandle = filter_var($newProfileAtHandle, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newProfileAtHandle) === true) {
+			throw(new \InvalidArgumentException("profile at handle is empty or insecure"));
+		}
+		// verify the at handle will fit in the database
+		if(strlen($newProfileAtHandle) > 32) {
+			throw(new \RangeException("profile at handle is too large"));
+		}
+		// store the at handle
+		$this->profileAtHandle = $newProfileAtHandle;
+	}
+
+	/**
 	 * accessor method for email
 	 *
 	 * @return string value of email
