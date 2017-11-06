@@ -1,7 +1,7 @@
---DROP TABLE IF EXISTS 'profile';
---DROP TABLE IF EXISTS 'rating';
---DROP TABLE IF EXISTS 'event';
---DROP TABLE IF EXISTS 'eventAttendance';
+DROP TABLE IF EXISTS 'profile';
+DROP TABLE IF EXISTS 'rating';
+DROP TABLE IF EXISTS 'event';
+DROP TABLE IF EXISTS 'eventAttendance';
 
 CREATE TABLE profile (
   profileId BINARY(16) NOT NULL ,
@@ -20,10 +20,9 @@ CREATE TABLE profile (
   INDEX (profileEmail),
   INDEX (profileUsername),
   INDEX (profileFirstName),
-  INDEX (profileLastName),
-
-
+  INDEX (profileLastName)
 );
+
 CREATE TABLE rating (
   ratingId BINARY(16) NOT NULL,
   ratingEventId BINARY(16) NOT NULL,
@@ -31,13 +30,12 @@ CREATE TABLE rating (
   ratingRaterProfileId BINARY (16) NOT NULL,
   ratingScore TINYINT(100) NOT NULL,
   ratingType CHAR(1) NOT NULL,
-
-  FOREIGN KEY (ratingEventId),
-  FOREIGN KEY (ratingRateeProfileId),
-  FOREIGN KEY (ratingRaterProfileId),
+  FOREIGN KEY (ratingEventId) REFERENCES event(eventId),
+  FOREIGN KEY (ratingRateeProfileId) REFERENCES profile(profileId),
+  FOREIGN KEY (ratingRaterProfileId) REFERENCES profile(profileId),
   PRIMARY KEY (ratingId),
-
-
+  INDEX (ratingRateeProfileId),
+  INDEX (ratingRaterProfileId)
 );
 
 CREATE TABLE event (
@@ -52,18 +50,14 @@ CREATE TABLE event (
   eventDetail VARCHAR(500) NOT NULL,
   eventLat DECIMAL(12) NOT NULL,
   eventLong DECIMAL(12) NOT NULL,
-
-
-  FOREIGN KEY (eventProfileId),
+  FOREIGN KEY (eventProfileId) REFERENCES profile(profileId),
   PRIMARY KEY (eventId),
   INDEX (eventName),
   INDEX (eventEndDateTime),
   INDEX(eventStartDateTime),
   INDEX (eventPrice),
-
-
-
-);
+  INDEX (eventAttendeeLimit)
+  );
 
 CREATE TABLE eventAttendance (
   attendanceId BINARY(16) NOT NULL,
@@ -71,13 +65,11 @@ CREATE TABLE eventAttendance (
   attendanceProfileId BINARY (16) NOT NULL,
   attendanceCheckIn BOOLEAN NOT NULL,
   attendanceNumberAttending TINYINT NOT NULL,
-
-  FOREIGN KEY (attendanceEventId),
-  FOREIGN KEY (attendanceProfileId),
+  FOREIGN KEY (attendanceEventId) REFERENCES event(eventId),
+  FOREIGN KEY (attendanceProfileId) REFERENCES profile(profileId),
   PRIMARY KEY (attendanceId),
   INDEX (attendanceNumberAttending),
   INDEX (attendanceCheckIn),
-
-
+  INDEX (attendanceEventId)
 );
 
