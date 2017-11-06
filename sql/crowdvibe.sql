@@ -1,7 +1,7 @@
-DROP TABLE IF EXISTS 'profile';
-DROP TABLE IF EXISTS 'event';
-DROP TABLE IF EXISTS 'eventAttendance';
-DROP TABLE IF EXISTS 'rating';
+DROP TABLE IF EXISTS profile;
+DROP TABLE IF EXISTS event;
+DROP TABLE IF EXISTS eventAttendance;
+DROP TABLE IF EXISTS rating;
 
 CREATE TABLE profile (
   profileId BINARY(16) NOT NULL,
