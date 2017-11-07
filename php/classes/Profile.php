@@ -91,7 +91,7 @@ class Profile implements \JsonSerializable {
 			$this->setProfileActivationToken($newProfileActivationToken);
 			$this->setProfileBio($newProfileBio);
 			$this->setProfileEmail($newProfileEmail);
-			$this->setProfileProfileFirstName($newProfileFirstName);
+			$this->setProfileFirstName($newProfileFirstName);
 			$this->setProfileHash($newProfileHash);
 			$this->setProfileImage($newProfileImage);
 			$this->setProfileLastName($newProfileLastName);
@@ -432,7 +432,6 @@ class Profile implements \JsonSerializable {
 		$query = "DELETE FROM profile WHERE profileId = :profileId";
 		$statement = $pdo->prepare($query);
 		// bind the member variables to the place holders in the template
-		$formattedProfileId =
 		$parameters = ["profileId" => $this->profileId->getBytes()];
 		$statement->execute($parameters);
 	}
