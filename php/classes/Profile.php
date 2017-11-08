@@ -556,78 +556,78 @@ class Profile implements \JsonSerializable {
 		}
 		return ($profile);
 	}
-	/**
-	 * gets the Profile by First Name
-	 *
-	 * @param \PDO $pdo PDO connection object
-	 * @param string $profileFirstName to search for
-	 * @return Profile|null Profile or null if not found
-	 * @throws \PDOException when mySQL related errors occur
-	 * @throws \TypeError when variables are not the correct data type
-	 **/
-	public static function getProfileByProfileFirstName(\PDO $pdo, string $profileFirstName): ?Profile {
-		// sanitize the first name before searching
-		$profileFirstName = trim($profileFirstName);
-		$profileFirstName = filter_var($profileFirstName,  FILTER_SANITIZE_STRING);
-		if(empty($profileFirstName) === true) {
-			throw(new \PDOException("not a valid first name"));
-		}
-		// create query template
-		$query = "SELECT profileId, profileActivationToken, profileBio, profileEmail, profileFirstName, profileHash, profileImage, profileLastName, profileSalt, profileUserName FROM profile WHERE profileFirstName = :profileFirstName";
-		$statement = $pdo->prepare($query);
-		// bind the profile UserName to the place holder in the template
-		$parameters = ["profileFirstName" => $profileFirstName];
-		$statement->execute($parameters);
-		// grab the Profile from mySQL
-		try {
-			$profile = null;
-			$statement->setFetchMode(\PDO::FETCH_ASSOC);
-			$row = $statement->fetch();
-			if($row !== false) {
-				$profile = new Profile($row["profileId"], $row["profileActivationToken"], $row["profileBio"], $row["profileEmail"], $row["profileFirstName"], $row["profileHash"], $row["profileImage"], $row["profileLastName"], $row["profileSalt"], $row["profileUserName"]);
-			}
-		} catch(\Exception $exception) {
-			// if the row couldn't be converted, rethrow it
-			throw(new \PDOException($exception->getMessage(), 0, $exception));
-		}
-		return ($profile);
-	}
-	/**
-	 * gets the Profile by Last Name
-	 *
-	 * @param \PDO $pdo PDO connection object
-	 * @param string $profileLastName to search for
-	 * @return Profile|null Profile or null if not found
-	 * @throws \PDOException when mySQL related errors occur
-	 * @throws \TypeError when variables are not the correct data type
-	 **/
-	public static function getProfileByProfileLastName(\PDO $pdo, string $profileLastName): ?Profile {
-		// sanitize the first name before searching
-		$profileLastName = trim($profileLastName);
-		$profileLastName = filter_var($profileLastName,  FILTER_SANITIZE_STRING);
-		if(empty($profileLastName) === true) {
-			throw(new \PDOException("not a valid last name"));
-		}
-		// create query template
-		$query = "SELECT profileId, profileActivationToken, profileBio, profileEmail, profileFirstName, profileHash, profileImage, profileLastName, profileSalt, profileUserName FROM profile WHERE profileLastName = :profileLastName";
-		$statement = $pdo->prepare($query);
-		// bind the profile UserName to the place holder in the template
-		$parameters = ["profileLastName" => $profileLastName];
-		$statement->execute($parameters);
-		// grab the Profile from mySQL
-		try {
-			$profile = null;
-			$statement->setFetchMode(\PDO::FETCH_ASSOC);
-			$row = $statement->fetch();
-			if($row !== false) {
-				$profile = new Profile($row["profileId"], $row["profileActivationToken"], $row["profileBio"], $row["profileEmail"], $row["profileFirstName"], $row["profileHash"], $row["profileImage"], $row["profileLastName"], $row["profileSalt"], $row["profileUserName"]);
-			}
-		} catch(\Exception $exception) {
-			// if the row couldn't be converted, rethrow it
-			throw(new \PDOException($exception->getMessage(), 0, $exception));
-		}
-		return ($profile);
-	}
+//	/**
+//	 * gets the Profile by First Name
+//	 *
+//	 * @param \PDO $pdo PDO connection object
+//	 * @param string $profileFirstName to search for
+//	 * @return Profile|null Profile or null if not found
+//	 * @throws \PDOException when mySQL related errors occur
+//	 * @throws \TypeError when variables are not the correct data type
+//	 **/
+//	public static function getProfileByProfileFirstName(\PDO $pdo, string $profileFirstName): ?Profile {
+//		// sanitize the first name before searching
+//		$profileFirstName = trim($profileFirstName);
+//		$profileFirstName = filter_var($profileFirstName,  FILTER_SANITIZE_STRING);
+//		if(empty($profileFirstName) === true) {
+//			throw(new \PDOException("not a valid first name"));
+//		}
+//		// create query template
+//		$query = "SELECT profileId, profileActivationToken, profileBio, profileEmail, profileFirstName, profileHash, profileImage, profileLastName, profileSalt, profileUserName FROM profile WHERE profileFirstName = :profileFirstName";
+//		$statement = $pdo->prepare($query);
+//		// bind the profile UserName to the place holder in the template
+//		$parameters = ["profileFirstName" => $profileFirstName];
+//		$statement->execute($parameters);
+//		// grab the Profile from mySQL
+//		try {
+//			$profile = null;
+//			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+//			$row = $statement->fetch();
+//			if($row !== false) {
+//				$profile = new Profile($row["profileId"], $row["profileActivationToken"], $row["profileBio"], $row["profileEmail"], $row["profileFirstName"], $row["profileHash"], $row["profileImage"], $row["profileLastName"], $row["profileSalt"], $row["profileUserName"]);
+//			}
+//		} catch(\Exception $exception) {
+//			// if the row couldn't be converted, rethrow it
+//			throw(new \PDOException($exception->getMessage(), 0, $exception));
+//		}
+//		return ($profile);
+//	}
+//	/**
+//	 * gets the Profile by Last Name
+//	 *
+//	 * @param \PDO $pdo PDO connection object
+//	 * @param string $profileLastName to search for
+//	 * @return Profile|null Profile or null if not found
+//	 * @throws \PDOException when mySQL related errors occur
+//	 * @throws \TypeError when variables are not the correct data type
+//	 **/
+//	public static function getProfileByProfileLastName(\PDO $pdo, string $profileLastName): ?Profile {
+//		// sanitize the first name before searching
+//		$profileLastName = trim($profileLastName);
+//		$profileLastName = filter_var($profileLastName,  FILTER_SANITIZE_STRING);
+//		if(empty($profileLastName) === true) {
+//			throw(new \PDOException("not a valid last name"));
+//		}
+//		// create query template
+//		$query = "SELECT profileId, profileActivationToken, profileBio, profileEmail, profileFirstName, profileHash, profileImage, profileLastName, profileSalt, profileUserName FROM profile WHERE profileLastName = :profileLastName";
+//		$statement = $pdo->prepare($query);
+//		// bind the profile UserName to the place holder in the template
+//		$parameters = ["profileLastName" => $profileLastName];
+//		$statement->execute($parameters);
+//		// grab the Profile from mySQL
+//		try {
+//			$profile = null;
+//			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+//			$row = $statement->fetch();
+//			if($row !== false) {
+//				$profile = new Profile($row["profileId"], $row["profileActivationToken"], $row["profileBio"], $row["profileEmail"], $row["profileFirstName"], $row["profileHash"], $row["profileImage"], $row["profileLastName"], $row["profileSalt"], $row["profileUserName"]);
+//			}
+//		} catch(\Exception $exception) {
+//			// if the row couldn't be converted, rethrow it
+//			throw(new \PDOException($exception->getMessage(), 0, $exception));
+//		}
+//		return ($profile);
+//	}
 	/**
 	 * get the profile by profile activation token
 	 *
@@ -661,6 +661,43 @@ class Profile implements \JsonSerializable {
 		} catch(\Exception $exception) {
 			// if the row couldn't be converted, rethrow it
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return ($profile);
+	}
+	/**
+	 * gets the Profile by First or Last Name
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param string $profileFirstName to search
+	 * @param string $profileLastName to search
+	 * @return \SplFixedArray SplFixedArray of Profiles found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getProfileByProfileName(\PDO $pdo, string $profileFirstName, string $profileLastName): \SPLFixedArray {
+		// sanitize the name before searching
+		$profileFirstName = trim($profileFirstName);
+		$profileLastName = trim($profileLastName);
+		$profileFirstName = filter_var($profileFirstName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		$profileLastName = filter_var($profileLastName,  FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($profileFirstName && $profileLastName) === true) {
+			throw(new \PDOException("not a valid name"));
+		}
+		// create query template
+		$query = "SELECT profileId, profileActivationToken, profileBio, profileEmail, profileFirstName, profileHash, profileImage, profileLastName, profileSalt, profileUserName FROM profile WHERE profileFirstName = :profileFirstName OR profileLastName = :profileLastName";
+		$statement = $pdo->prepare($query);
+		// build an array of users
+		$profile = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$profile = new Profile($row["profileId"], $row["profileActivationToken"], $row["profileBio"], $row["profileEmail"], $row["profileFirstName"], $row["profileHash"], $row["profileImage"], $row["profileLastName"], $row["profileSalt"], $row["profileUserName"]);
+				$profile[$profile->key()] = $profile;
+				$profile->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
 		}
 		return ($profile);
 	}
