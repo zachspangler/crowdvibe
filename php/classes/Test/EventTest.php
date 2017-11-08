@@ -18,7 +18,7 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
  * @see Event
  * @author Luther <lmckeiver@cnm.edu>
  **/
-class Event extends CrowdVibeTest {
+class EventTest extends CrowdVibeTest {
     /**
      * Profile that created the Event; this is for foreign key relations
      * @var Profile profile

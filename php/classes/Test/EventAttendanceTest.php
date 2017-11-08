@@ -1,6 +1,7 @@
 <?php
 namespace Edu\Cnm\DataDesign\Test;
 
+use Edu\Cnm\CrowdVibe\Test\CrowdVibeTest;
 use Edu\Cnm\DataDesign\{Event, Attendance};
 
 // grab the class under scrutiny
@@ -19,7 +20,7 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
  * @author Chris Owens <cowens17@cnm.edu>
  **/
 
-class EventAttendanceTest extends Crowdvibe{
+class EventAttendanceTest extends CrowdVibeTest {
 	/**
 	 * Event Attendance Id is the unique identifier for an Event; this is a primary key relations
 	 * @var AttendanceId
