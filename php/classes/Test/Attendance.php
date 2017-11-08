@@ -11,28 +11,29 @@ use Ramsey\Uuid\Uuid;
  * Time: 16:42
  */
 
-class attendance implements JsonSerializable{
-use ValidateUuid;
-/**
- * id for the amount of people attending.
- */
-protected $attendanceId;
-/**
- * Id for attendance to a particular event
- */
-protected $attendanceEventId;
-/**
- * Id that relates the amount of people attending to a profile
- */
-protected $attendanceProfileId;
-/**
- * how to keep track of which users attend the event
- */
-protected  $attendanceCheckIn;
-/**
- * records how many people are attending
- */
-protected $attendanceNumberAttending;
+class attendance implements JsonSerializable {
+	use ValidateUuid;
+	/**
+	 * id for the amount of people attending.
+	 */
+	protected $attendanceId;
+	/**
+	 * Id for attendance to a particular event
+	 */
+	protected $attendanceEventId;
+	/**
+	 * Id that relates the amount of people attending to a profile
+	 */
+	protected $attendanceProfileId;
+	/**
+	 * how to keep track of which users attend the event
+	 */
+	protected $attendanceCheckIn;
+	/**
+	 * records how many people are attending
+	 */
+	protected $attendanceNumberAttending;
+
 	/**
 	 * constructor for this Comments
 	 *
@@ -59,7 +60,8 @@ protected $attendanceNumberAttending;
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
-}
+	}
+
 	/**
 	 * accessor method for Attendance id
 	 *
@@ -85,3 +87,29 @@ protected $attendanceNumberAttending;
 		//convert and store the Attendance id
 		$this->attendanceId = $uuid;
 	}
+
+/**
+ * accessor method for comments profile id
+ *
+ * @return Uuid value of comments profile id
+ **/
+public function getAttendanceEventId() {
+	return $this->attendanceEventId;
+}
+
+/**
+ * mutator method for Attendance event id
+ *
+ * @param Uuid $newAttendanceEventId new value of Attendance Event id
+ * @throws \UnexpectedValueException if $newAttendanceEventId is not a UUID
+ **/
+public function setAttendanceEventId($newAttendanceEventId): void {
+	try {
+		$uuid = self::validateUuid($newAttendanceEventId);
+	} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+		$exceptionType = get_class($exception);
+		throw(new $exceptionType($exception->getMessage(), 0, $exception));
+	}
+	//convert and store the Attendance Event id
+	$this->AttendanceEventId = $uuid;
+}
