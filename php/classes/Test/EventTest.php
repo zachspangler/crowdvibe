@@ -80,6 +80,11 @@ class EventTest extends CrowdVibeTest
         $password = "abc123";
         $this->VALID_PROFILE_SALT = bin2hex (random_bytes(32));
         $this->VALID_PROFILE_HASH = hash_pbkdf2("sha512", $password, $this->VALID_PROFILE_SALT, 262144);
+
+
+        // create and insert a Profile to own the test Event
+        $this->profile = new Profile(generateUuidV4(),null, "Wow very nice computer skills","woww@mail.com","Jee", $this->VALID_PROFILE_HASH, null,"Willikers", $this->VALID_PROFILE_SALT,"JeeWilikersImcool"
+            );
     }
 }
 
