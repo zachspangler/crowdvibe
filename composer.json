@@ -1,8 +1,11 @@
 {
   "require": {
+    "apigen/apigen": "dev-master",
+    "phpdocumentor/reflection-docblock": "@stable",
     "phpunit/dbunit": "@stable",
     "phpunit/phpunit": "@stable",
-    "ramsey/uuid": "@stable"
+    "ramsey/uuid": "@stable",
+    "roave/better-reflection": "dev-master#402048"
   },
 
   "scripts": {

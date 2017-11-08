@@ -89,7 +89,7 @@ class EventTest extends CrowdVibeTest
         );
 
         // calculate the date (just use the time the unit test was set up...)
-        $this - $this->VALID_EVENTDATE = new \DateTime();
+        $this->VALID_EVENTDATE = new \DateTime();
 
         //format the sunrise date to use for testing
         $this->VALID_SUNRISEDATE = new \DateTime();
@@ -214,7 +214,7 @@ public function testGetValidEventByEventContent() : void {
     $event->insert($this->getPDO());
 
     //enforce no other objects are bleeding into the test
-    $this->assertContainsOnlyInstancesOf("Edu\\Cnm\\CrowdVibe\\Event",$results);
+    $this->assertContainsOnlyInstancesOf("Edu\\Cnm\\CrowdVibe\\Event", $results);
 
     //grab the result from the array and validate it
     $pdoEvent = $results[0];
@@ -275,7 +275,15 @@ public function testGetAllValidEvents() : void {
     $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("event"));
     $this->assertCount(1, $results);
     $this->assertContainsOnlyInstancesOf("Edu\\Cnm\\CrowdVibe\\Event", $results);
+
+    // grab the result from the array and validate it
+    $pdoEvent = $results[0];
+    $this->assertEquals($pdoEvent->getEventProfileId(),$this->profile->getProfileId());
+    $this->assertEquals($pdoEvent->getEventDetail(), $this->VALID_EVENTDETAIL);
+    //format the date too seconds since the beginning of time to avoid round off error
+    $this->assertEquals($pdoEvent->getEventDate()->(getTimeStamp(), $this->VALID_EVENTDATE->getTimestamp()) );
 }
 }
+
 
 
