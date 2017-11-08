@@ -18,7 +18,8 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
  * @see Event
  * @author Luther <lmckeiver@cnm.edu>
  **/
-class EventTest extends CrowdVibeTest {
+class EventTest extends CrowdVibeTest
+{
     /**
      * Profile that created the Event; this is for foreign key relations
      * @var Profile profile
@@ -26,44 +27,60 @@ class EventTest extends CrowdVibeTest {
     protected $profile = null;
 
 
-/**
- * valid profile hash to create the profile object to own the test
- * @var $VALID_HASH
- **/
-protected $VALID_PROFILE_HASH;
+    /**
+     * valid profile hash to create the profile object to own the test
+     * @var $VALID_HASH
+     **/
+    protected $VALID_PROFILE_HASH;
 
-/**
- * vaild salt to use to create the profile object to own the test
- * @var string $VALID_SALT
- **/
-protected $VALID_PROFILE_SALT;
+    /**
+     * vaild salt to use to create the profile object to own the test
+     * @var string $VALID_SALT
+     **/
+    protected $VALID_PROFILE_SALT;
 
-/**
- * content of the event
- * @var string $VALID_EVENTCONTENT
- **/
-protected $VALID_EVENTCONTENT ="PHPUnit test passing";
+    /**
+     * name of the event
+     * @var string $VALID_EVENTNAME
+     **/
+    protected $VALID_EVENTNAME = "PHPUnit test passing";
+    /**
+     * content of the event
+     * @var string $VALID_EVENTDETAIL
+     **/
+    protected $VALID_EVENTDETAIL = "PHPUnit test passing";
 
-/**
- * content of the updated Event
- * @var string $VALID_EVENTCONTENT2
- **/
-protected $VALID_EVENTCONTENT2 = "PHPUnit test still passing";
+    /**
+     * content of the updated Event
+     * @var string $VALID_EVENTDETAIL2
+     **/
+    protected $VALID_EVENTDETAIL2 = "PHPUnit test still passing";
 
-/**
- * timestamp of the Event; this starts as null and is assigned later
- * @var \DateTime $VALID_EVENTDATE
- **/
+    /**
+     * timestamp of the Event; this starts as null and is assigned later
+     * @var \DateTime $VALID_EVENTDATE
+     **/
 
-/**
- * Valid timestamp to use as sunriseEventDate
- **/
-protected $VALID_SUNRISEDATE = null;
+    /**
+     * Valid timestamp to use as sunriseEventDate
+     **/
+    protected $VALID_SUNRISEDATE = null;
 
-/**
- * Valid timestamp to use as sunsetEventDate
- **/
-protected $VALID_SUNSETDATE = null;
+    /**
+     * Valid timestamp to use as sunsetEventDate
+     **/
+    protected $VALID_SUNSETDATE = null;
+
+    /**
+     * create dependent objects before running each test
+     **/
+    public final function setUp() :void {
+        // run the default setUP() method first
+        parent::setUp();
+        $password = "abc123";
+        $this->VALID_PROFILE_SALT = bin2hex (random_bytes(32));
+        $this->VALID_PROFILE_HASH = hash_pbkdf2("sha512", $password, $this->VALID_PROFILE_SALT, 262144);
+    }
 }
 
 
