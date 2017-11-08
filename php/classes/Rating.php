@@ -11,7 +11,7 @@ use Ramsey\Uuid\Uuid;
  * @version 1.0.0
  **/
 
-class Event implements \JsonSerializable {
+class Rating implements \JsonSerializable {
 	/**
 	 * formats the state variables for JSON serialization
 	 *
