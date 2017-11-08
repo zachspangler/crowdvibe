@@ -169,7 +169,7 @@ public function testDeleteInvalidEvent() : void {
  **/
 public function testGetInvalidEventbyEventId() : void {
     // grab a profile id that exceeds the maximum allowable profile id
-    $event = Event::getEventByEventId ($this->getPDO()), CrowdVibeTest::INVALID_KEY);
+    $event = Event::getEventByEventId ($this->getPDO(), CrowdVibeTest::INVALID_KEY());
 $this->assertNull($event);
 }
 
@@ -198,7 +198,83 @@ public function testGetValidEventByEventProfileId() {
  * test grabbing a Event that does not exist
  **/
 public function testGetInvalidEventByEventProfileId() : void {
-    // grab a profile id that exceeds the maximu, allowable profile id
+    // grab a profile id that exceeds the maximum allowable profile id
+    $event = Event::getEventByEventProfileId ($this->getPDO(), CrowdVibeTest::INVALID_KEY);
+    $this->assertCount(0, $event);
+}
+/**
+ * test grabbing a Event by event detail
+ **/
+public function testGetValidEventByEventContent() : void {
+    // count the number of rows and save it for later
+    $numRows = $this->getConnection()->getRowCount("event");
+
+    // create a new Event and insert into mySQL
+    $event = new Event(null, $this->profile->getProfileId(), $this->VALID_EVENTDETAIL, $this->VALID_EVENTDATE);
+    $event->insert($this->getPDO());
+
+    //enforce no other objects are bleeding into the test
+    $this->assertContainsOnlyInstancesOf("Edu\\Cnm\\CrowdVibe\\Event",$results);
+
+    //grab the result from the array and validate it
+    $pdoEvent = $results[0];
+    $this->assertEquals($pdoEvent->getEventProfileId(), $this->profile->getProfileId());
+    $this->assertEquals($pdoEvent->getEventDetail(), $this->VALID_EVENTDETAIL);
+    //format the date too seconds since the beginning of time to avoid round off error
+    $this->assertEquals($pdoEvent->getEventDate()->getTimestamp(), $this->VALID_EVENTDATE->getTimestamp());
+}
+/**
+ * test grabbing a Event by detail that does not exist
+ **/
+public function testGetInvalidEventByEventContent () : void {
+    // grab event by detail that does not exist
+    $event = Event::getEventByEventDetail ($this->getPDO(), "I don't like loud chewing");
+    $this->assertCount(0, $event);
+}
+
+/**
+ * test grabbing a valid Event by sunset and sunrise date
+ *
+ */
+public function testGetValidEventDateBySunDate() : void {
+    //count the number of rows and save it for later
+    $numRows = $this->getConnection()->getRowCount("event");
+
+
+    // grab the event from the database and see if it matches expectations
+    $results = Event::getEventByEventDate($this->getPDO(), $this->VALID_SUNRISEDATE, $this->VALID_SUNSETDATE);
+    $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("event"));
+    $this->assertCount(1, $results);
+
+
+    //enforce that no other objects are bleeding into the test
+    $this->assertContainsOnlyInstancesOf("Edu\\Cnm\\CrowdVibe\\Event", $results);
+
+    //use the first result to make sure that the inserted event meets expectations
+    $pdoEvent = $results[0];
+    $this->assertEquals($pdoEvent->getEventId(), $event->getEventId());
+    $this->assertEquals($pdoEvent->getEventProfileId(), $event->getEventProfileId());
+    $this->assertEquals($pdoEvent->getEventDetail(), $event->getEventDetail());
+    $this->assertEquals($pdoEvent->getEventDate()->getTimestamp(), $this->VALID_EVENTDATE->getTimestamp());
+}
+
+/**
+ *test grabbing all Events
+ **/
+public function testGetAllValidEvents() : void {
+    // count the number of rows and save it for later
+    $numRows = $this->getConnection()->getRowCount("event");
+
+
+    //create a new Event and insert into mySQL
+    $event = new Event(null, $this->profile->getProfileId(), $this->VALID_EVENTDETAIL, $this->VALID_EVENTDATE);
+    $event->insert($this->getPDO());
+
+    //grab the data from mySQL and enforce the fields match our expectations
+    $results = Event::getAllEvents($this->getPDO());
+    $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("event"));
+    $this->assertCount(1, $results);
+    $this->assertContainsOnlyInstancesOf("Edu\\Cnm\\CrowdVibe\\Event", $results);
 }
 }
 
