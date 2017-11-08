@@ -5,7 +5,6 @@
 			<file>EventTest.php</file>
 			<file>RatingTest.php</file>
 			<file>EventAttendanceTest.php</file>
-			<file>ValidateUuidTest.php</file>
 		</testsuite>
 	</testsuites>
 	<filter>
