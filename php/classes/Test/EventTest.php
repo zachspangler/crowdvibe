@@ -55,6 +55,15 @@ protected $VALID_EVENTCONTENT2 = "PHPUnit test still passing";
  * @var \DateTime $VALID_EVENTDATE
  **/
 
+/**
+ * Valid timestamp to use as sunriseEventDate
+ **/
+protected $VALID_SUNRISEDATE = null;
+
+/**
+ * Valid timestamp to use as sunsetEventDate
+ **/
+protected $VALID_SUNSETDATE = null;
 }
 
 
