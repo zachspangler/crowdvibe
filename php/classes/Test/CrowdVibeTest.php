@@ -11,7 +11,7 @@ use PHPUnit\DbUnit\Operation\{Composite, Factory, Operation};
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 // autoload Composer packages
-require_once(dirname(__DIR__, 3) . "../../vendor/autoload.php");
+require_once(dirname(__DIR__, 3) . "/vendor/autoload.php");
 
 /**
  * Abstract class containing universal and project specific mySQL parameters
@@ -96,8 +96,8 @@ abstract class CrowdVibeTest extends TestCase {
 		// if the connection hasn't been established, create it
 		if($this->connection === null) {
 			// connect to mySQL and provide the interface to PHPUnit
-			$config = readConfig("/etc/apache2/capstone-mysql/zspangler.ini");
-			$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/zspangler.ini");
+			$config = readConfig("/etc/apache2/capstone-mysql/crowdvibe.ini");
+			$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/crowdvibe.ini");
 			$this->connection = $this->createDefaultDBConnection($pdo, $config["database"]);
 		}
 		return($this->connection);
