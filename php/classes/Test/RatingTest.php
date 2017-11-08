@@ -20,55 +20,56 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
  **/
 
 class RatingTest extends crowdvibeTest {
-    /**
-     * Profile that created the Rating; this is for foreign key relation
-     * @var Profile $rater
-     **/
-    protected $rater = null;
+	/**
+	 * Profile that created the Rating; this is for foreign key relation
+	 * @var Profile $rater
+	 **/
+	protected $rater = null;
 
-    /**
-     * valid profile hash to create the profile object to own the test
-     * @var $VALID_HASH
-     */
-    protected $VALID_RATER_HASH;
+	/**
+	 * valid profile hash to create the profile object to own the test
+	 * @var $VALID_HASH
+	 */
+	protected $VALID_RATER_HASH;
 
-    /**
-     * valid salt to use to create the profile object to own the test
-     * @var string $VALID_SALT
-     */
-    protected $VALID_RATER_SALT;
+	/**
+	 * valid salt to use to create the profile object to own the test
+	 * @var string $VALID_SALT
+	 */
+	protected $VALID_RATER_SALT;
 
-    /**
-     * Profile that created the Rating; this is for foreign key relation
-     * @var Profile $ratee
-     **/
-    protected $ratee = null;
+	/**
+	 * Profile that created the Rating; this is for foreign key relation
+	 * @var Profile $ratee
+	 **/
+	protected $ratee = null;
 
-    /**
-     * valid profile hash to create the profile object to own the test
-     * @var $VALID_HASH
-     */
-    protected $VALID_RATEE_HASH;
+	/**
+	 * valid profile hash to create the profile object to own the test
+	 * @var $VALID_HASH
+	 */
+	protected $VALID_RATEE_HASH;
 
-    /**
-     * valid salt to use to create the profile object to own the test
-     * @var string $VALID_SALT
-     */
-    protected $VALID_RATEE_SALT;
+	/**
+	 * valid salt to use to create the profile object to own the test
+	 * @var string $VALID_SALT
+	 */
+	protected $VALID_RATEE_SALT;
 
-    /**
-     * score of the Rating
-     * @var int $VALID_RATINGSCORE
-     **/
-    protected $VALID_RATINGSCORE = 3;
+	/**
+	 * score of the Rating
+	 * @var int $VALID_RATINGSCORE
+	 **/
+	protected $VALID_RATINGSCORE = 3;
 
 
 	//TODO: add event variable for testing
-    /**
-     * type of the Rating- person or event
-     * @car string $VALID_RATINGTYPE
-     **/
-    protected $VALID_RATINGTYPE = "PHPUnit test passing";
+	/**
+	 * type of the Rating- person or event
+	 * @car string $VALID_RATINGTYPE
+	 **/
+	protected $VALID_RATINGTYPE = "PHPUnit test passing";
+}
 
     /**
      * create dependent objects before running each test

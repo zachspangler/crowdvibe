@@ -7,7 +7,7 @@ use Ramsey\Uuid\Uuid;
  *
  * This is the user profile information stored for a CrowdVibe user. This entity is a top level entity that holds the keys to the other entities in our capstone.
  *
- * @author Zach Spangler <zspangler@gmail.com> and Dylan McDonald <dmcdonald21@cnm.edu>
+ * @author Zach Spangler <zaspangler@gmail.com> and Dylan McDonald <dmcdonald21@cnm.edu>
  * @version 1.0.0
  **/
 
@@ -21,7 +21,7 @@ class Profile implements \JsonSerializable {
 	/**
 	 * /**
 	 * token handed out to verify that the profile is valid and not malicious.
-	 * @var $profileActivationToken
+	 * @var string $profileActivationToken
 	 **/
 	private $profileActivationToken;
 	/**
@@ -41,7 +41,7 @@ class Profile implements \JsonSerializable {
 	private $profileFirstName;
 	/**
 	 * hash for profile password
-	 * @var $profileHash
+	 * @var string $profileHash
 	 **/
 	private $profileHash;
 	/**
@@ -56,8 +56,7 @@ class Profile implements \JsonSerializable {
 	private $profileLastName;
 	/**
 	 * salt for profile password
-	 *
-	 * @var $profileSalt
+	 * @var string $profileSalt
 	 */
 	private $profileSalt;
 	/**
@@ -210,7 +209,7 @@ class Profile implements \JsonSerializable {
 	public function setProfileEmail(string $newProfileEmail): void {
 		// verify the email is secure
 		$newProfileEmail = trim($newProfileEmail);
-		$newProfileEmail = filter_var($newProfileEmail, FILTER_VALIDATE_EMAIL);
+		$newProfileEmail = filter_var($newProfileEmail, FILTER_SANITIZE_EMAIL);
 		if(empty($newProfileEmail) === true) {
 			throw(new \InvalidArgumentException("profile email is empty or insecure"));
 		}
@@ -298,7 +297,7 @@ class Profile implements \JsonSerializable {
 	 *
 	 * @param string $newProfileImage new value of profile image
 	 * @throws \InvalidArgumentException if $newProfileImage is not a string or insecure
-	 * @throws \RangeException if $newProfileImage is > 32 characters
+	 * @throws \RangeException if $newProfileImage is > 255 characters
 	 * @throws \TypeError if $newProfileImage is not a string
 	 **/
 	public function setProfileImage(string $newProfileImage) : void {
@@ -309,7 +308,7 @@ class Profile implements \JsonSerializable {
 			throw(new \InvalidArgumentException("profile image is empty or insecure"));
 		}
 		// verify the profile image will fit in the database
-		if(strlen($newProfileImage) > 32) {
+		if(strlen($newProfileImage) > 255) {
 			throw(new \RangeException("profile image is too large"));
 		}
 		// store the profile image
@@ -415,7 +414,7 @@ class Profile implements \JsonSerializable {
 	 **/
 	public function insert(\PDO $pdo): void {
 		// create query template
-		$query = "INSERT INTO profile(profileId, profileActivationToken, profileBio, profileEmail, profileFirstName, profileHash, profileImage, profileLastName, profileSalt, profileUsername) VALUES (:profileId, :profileActivationToken, :profileBio, :profileEmail, :profileFirstName, :profileHash, :profileImage, :profileLastName, :profileSalt, :profileUsername)";
+		$query = "INSERT INTO profile(profileId, profileActivationToken, profileBio, profileEmail, profileFirstName, profileHash, profileImage, profileLastName, profileSalt, profileUserName) VALUES (:profileId, :profileActivationToken, :profileBio, :profileEmail, :profileFirstName, :profileHash, :profileImage, :profileLastName, :profileSalt, :profileUserName)";
 		$statement = $pdo->prepare($query);
 		$parameters = ["profileId" => $this->profileId->getBytes(), "profileActivationToken" => $this->profileActivationToken, "profileBio" => $this->profileBio, "profileEmail" => $this->profileEmail, "profileFirstName" => $this->profileFirstName, "profileHash" => $this->profileHash,"profileImage" => $this->profileImage, "profileLastName" => $this->profileLastName,"profileSalt" => $this->profileSalt, "profileUserName" => $this->profileUserName];
 		$statement->execute($parameters);
@@ -466,7 +465,7 @@ class Profile implements \JsonSerializable {
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
 		// create query template
-		$query = "SELECT profileId, profileActivationToken, profileBio, profileEmail, profileFirstName, profileHash, profileImage, profileLastName, profileSalt, profileUsername FROM profile WHERE profileId = :profileId";
+		$query = "SELECT profileId, profileActivationToken, profileBio, profileEmail, profileFirstName, profileHash, profileImage, profileLastName, profileSalt, profileUserName FROM profile WHERE profileId = :profileId";
 		$statement = $pdo->prepare($query);
 		// bind the profile id to the place holder in the template
 		$parameters = ["profileId" => $profileId->getBytes()];
@@ -502,7 +501,7 @@ class Profile implements \JsonSerializable {
 			throw(new \PDOException("not a valid email"));
 		}
 		// create query template
-		$query = "SELECT profileId, profileActivationToken, profileBio, profileEmail, profileFirstName, profileHash, profileImage, profileLastName, profileSalt, profileUsername FROM profile WHERE profileEmail = :profileEmail";
+		$query = "SELECT profileId, profileActivationToken, profileBio, profileEmail, profileFirstName, profileHash, profileImage, profileLastName, profileSalt, profileUserName FROM profile WHERE profileEmail = :profileEmail";
 		$statement = $pdo->prepare($query);
 		// bind the profile email to the place holder in the template
 		$parameters = ["profileEmail" => $profileEmail];
@@ -531,16 +530,16 @@ class Profile implements \JsonSerializable {
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
 	public static function getProfileByProfileUserName(\PDO $pdo, string $profileUserName): ?Profile {
-		// sanitize the username before searching
+		// sanitize the UserName before searching
 		$profileUserName = trim($profileUserName);
 		$profileUserName = filter_var($profileUserName,  FILTER_SANITIZE_STRING);
 		if(empty($profileUserName) === true) {
-			throw(new \PDOException("not a valid username"));
+			throw(new \PDOException("not a valid UserName"));
 		}
 		// create query template
-		$query = "SELECT profileId, profileActivationToken, profileBio, profileEmail, profileFirstName, profileHash, profileImage, profileLastName, profileSalt, profileUsername FROM profile WHERE profileUsername = :profileUserName";
+		$query = "SELECT profileId, profileActivationToken, profileBio, profileEmail, profileFirstName, profileHash, profileImage, profileLastName, profileSalt, profileUserName FROM profile WHERE profileUserName = :profileUserName";
 		$statement = $pdo->prepare($query);
-		// bind the profile username to the place holder in the template
+		// bind the profile UserName to the place holder in the template
 		$parameters = ["profileUserName" => $profileUserName];
 		$statement->execute($parameters);
 		// grab the Profile from mySQL
@@ -574,9 +573,9 @@ class Profile implements \JsonSerializable {
 			throw(new \PDOException("not a valid first name"));
 		}
 		// create query template
-		$query = "SELECT profileId, profileActivationToken, profileBio, profileEmail, profileFirstName, profileHash, profileImage, profileLastName, profileSalt, profileUsername FROM profile WHERE profileFirstName = :profileFirstName";
+		$query = "SELECT profileId, profileActivationToken, profileBio, profileEmail, profileFirstName, profileHash, profileImage, profileLastName, profileSalt, profileUserName FROM profile WHERE profileFirstName = :profileFirstName";
 		$statement = $pdo->prepare($query);
-		// bind the profile username to the place holder in the template
+		// bind the profile UserName to the place holder in the template
 		$parameters = ["profileFirstName" => $profileFirstName];
 		$statement->execute($parameters);
 		// grab the Profile from mySQL
@@ -610,9 +609,9 @@ class Profile implements \JsonSerializable {
 			throw(new \PDOException("not a valid last name"));
 		}
 		// create query template
-		$query = "SELECT profileId, profileActivationToken, profileBio, profileEmail, profileFirstName, profileHash, profileImage, profileLastName, profileSalt, profileUsername FROM profile WHERE profileLastName = :profileLastName";
+		$query = "SELECT profileId, profileActivationToken, profileBio, profileEmail, profileFirstName, profileHash, profileImage, profileLastName, profileSalt, profileUserName FROM profile WHERE profileLastName = :profileLastName";
 		$statement = $pdo->prepare($query);
-		// bind the profile username to the place holder in the template
+		// bind the profile UserName to the place holder in the template
 		$parameters = ["profileLastName" => $profileLastName];
 		$statement->execute($parameters);
 		// grab the Profile from mySQL
@@ -646,7 +645,7 @@ class Profile implements \JsonSerializable {
 			throw(new \InvalidArgumentException("profile activation token is empty or in the wrong format"));
 		}
 		//create the query template
-		$query = "SELECT  profileId, profileActivationToken, profileBio, profileEmail, profileFirstName, profileHash, profileImage, profileLastName, profileSalt, profileUsername FROM profile WHERE profileActivationToken = :profileActivationToken";
+		$query = "SELECT  profileId, profileActivationToken, profileBio, profileEmail, profileFirstName, profileHash, profileImage, profileLastName, profileSalt, profileUserName FROM profile WHERE profileActivationToken = :profileActivationToken";
 		$statement = $pdo->prepare($query);
 		// bind the profile activation token to the placeholder in the template
 		$parameters = ["profileActivationToken" => $profileActivationToken];
