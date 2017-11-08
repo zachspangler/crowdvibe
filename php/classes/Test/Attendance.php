@@ -47,4 +47,41 @@ protected $attendanceNumberAttending;
 	 * @throws \Exception if some other exception occurs
 	 * @Documentation https://php.net/manual/en/language.oop5.decon.php
 	 **/
+	public function __construct($newAttendanceId, $newAttendanceProfileId, $newAttendanceEventId, $newAttendanceCheckIn, string $newAttendanceNumberAttending) {
+		try {
+			$this->setAttendanceId($newAttendanceId);
+			$this->setAttendanceProfileId($newAttendanceProfileId);
+			$this->setAttendanceEventId($newAttendanceEventId);
+			$this->setAttendanceCheckIn($newAttendanceCheckIn);
+			$this->setCAttendanceNumberAttending($newAttendanceNumberAttending);
+		} //determine what exception type was thrown
+		catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			$exceptionType = get_class($exception);
+			throw(new $exceptionType($exception->getMessage(), 0, $exception));
+		}
 }
+	/**
+	 * accessor method for Attendance id
+	 *
+	 * @return Uuid value of Attendance id
+	 **/
+	public function getAttendanceId(): Uuid {
+		return $this->attendanceId;
+	}
+
+	/**
+	 * mutator method for Attendance id
+	 *
+	 * @param Uuid $newAttendanceId new value of Attendance id
+	 * @throws \UnexpectedValueException if $newAttendanceId is not a UUID
+	 **/
+	public function setAttendanceId($newAttendanceId): void {
+		try {
+			$uuid = self::validateUuid($newAttendanceId);
+		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			$exceptionType = get_class($exception);
+			throw(new $exceptionType($exception->getMessage(), 0, $exception));
+		}
+		//convert and store the Attendance id
+		$this->attendanceId = $uuid;
+	}
