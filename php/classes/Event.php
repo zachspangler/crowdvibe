@@ -29,5 +29,60 @@ class Event implements \JsonSerializable {
      * @var string $eventDetail
      **/
     private $eventDetail;
+    /**
+     * this is the latitude of the event
+     *
+     * @var float $eventLat
+     **/
+    private $eventLat;
+    /**
+     * this is the longitude of the event
+     *
+     * @var float $eventLong
+     **/
+    private $eventLong;
+    /**
+     * this specifies whether the event will cost money or will be free
+     *
+     * @var int $eventCost
+     **/
+    private $eventCost;
+    /**
+     * this will specify when the event will begin
+     *
+     * @var \DateTime $eventStartTime
+     **/
+    private $eventStartTime;
+    /**
+     * this specifies the time the event will end.
+     *
+     * @var \DateTime $eventEndStartTime
+     **/
+    private $eventEndStartTime;
+    /**
+     * this specifies the limit of individuals thet can attent an event
+     *
+     * @var int $eventAttendeeLimit
+     **/
+    private $eventAttendeeLimit;
+    /**
+     * this is an image for an event
+     *
+     * @var null $eventImage;
+     */
+    private $eventImage;
 
+
+
+    /**
+     * Specify data which should be serialized to JSON
+     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return mixed data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     * @since 5.4.0
+     */
+    public function jsonSerialize()
+    {
+        // TODO: Implement jsonSerialize() method.
+    }
 }
