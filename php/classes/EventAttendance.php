@@ -1,5 +1,7 @@
 <?php
 namespace Edu\Cnm\CrowdVibe;
+require_once("autoload.php");
+
 require_once(dirname(__DIR__, 2) . "/vendor/autoload.php");
 use Ramsey\Uuid\Uuid;
 
@@ -42,9 +44,9 @@ class EventAttendance implements \JsonSerializable {
 	/**
 	 * constructor for this Comments
 	 *
-	 * @param Uuid $newAttendanceId id of this events or null if a new events
-	 * @param Uuid $newAttendanceProfileId id of the Profile that created the event
-	 * @param Uuid $newAttendanceEventId id of the Event people attend
+	 * @param Uuid|string $newAttendanceId id of this events or null if a new events
+	 * @param Uuid|string $newAttendanceProfileId id of the Profile that created the event
+	 * @param Uuid|string $newAttendanceEventId id of the Event people attend
 	 * @param int $newAttendanceCheckIn how people are going to notify their attendance
 	 * @param int $newAttendanceNumberAttending containing actual data on the amount of people
 	 * @throws \InvalidArgumentException if data types are not valid
@@ -70,7 +72,7 @@ class EventAttendance implements \JsonSerializable {
 	/**
 	 * accessor method for attendance id
 	 *
-	 * @return Uuid value of attendance id
+	 * @return Uuid | string of attendance id
 	 **/
 	public function getAttendanceId(): Uuid {
 		return ($this->attendanceId);
@@ -79,7 +81,7 @@ class EventAttendance implements \JsonSerializable {
 	/**
 	 * mutator method for attendance id
 	 *
-	 * @param Uuid /string $newAttendanceId new value of Attendance id
+	 * @param Uuid | string $newAttendanceId new value of Attendance id
 	 * @throws \RangeException if $newAttendanceId is not positive
 	 * @throws \TypeError if $newAttendanceId is not a uuid or string
 	 **/
@@ -97,7 +99,7 @@ class EventAttendance implements \JsonSerializable {
 	/**
 	 * accessor method for Attendance Event id
 	 *
-	 * @return Uuid value of Attendance Event id
+	 * @return Uuid | string value of Attendance Event id
 	 **/
 	public function getAttendanceEventId() : Uuid{
 		return $this->attendanceEventId;
@@ -123,7 +125,7 @@ class EventAttendance implements \JsonSerializable {
 	/**
 	 * accessor method for Attendance Profile id
 	 *
-	 * @return Uuid value of Attendance Profile id
+	 * @return Uuid | string value of Attendance Profile id
 	 **/
 	public function getAttendanceProfileId() : Uuid {
 		return $this->attendanceProfileId;
