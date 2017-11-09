@@ -55,21 +55,25 @@ class RatingTest extends crowdvibeTest {
         //run the default setUp() method first
         parent::setUp();
         $password = "abc123";
+        $validActivationToken = bin2hex(random_bytes(16));
         $eventEndDateTime = new \DateTime();
         $eventEndDateTime->sub(new \DateInterval("p5h"));
+        $eventStartDateTime = new \DateTime();
+        $eventStartDateTime->add(new \ DateInterval("p5h"));
         $SALT = bin2hex(random_bytes(32));
-        $HASH = hash_pbkdf2("sha512", $password, $this->VALID_RATEE_SALT, 262144);
+        $HASH = hash_pbkdf2("sha512", $password, $SALT, 262144);
         ;
         //create and insert a Rater to own the test Rating
-        $this->rater = new Profile(generateUuidV4(), "stringcheese", "i'm hugry", "breez@hometime.com", "Cheech", $this->VALID_RATER_HASH, null, "Maren", $this->VALID_RATER_SALT, "@sohigh");
+        $this->rater = new Profile(generateUuidV4(), null, "i'm hugry", "breez@hometime.com", "Cheech", $HASH, null, "Maren", $SALT, "@sohigh");
         $this->rater->insert($this->getPDO());
 
         //create and insert a Ratee to own the test Rating
-        $this->ratee = new Profile(generateUuidV4(),"cawabunga", "I like eggs", "getsome@me.com", "tommy", $this->VALID_RATEE_HASH, $this->VALID_RATEE_HASH, "chong", $this->VALID_RATEE_SALT,"@smoke");
+        $this->ratee = new Profile(generateUuidV4(),null, "I like eggs", "getsome@me.com", "tommy", $HASH, null, "chong", $SALT,"@smoke");
         $this->ratee->insert($this->getPDO());
 
         //create and insert a Event to own the test Rating
-        $this->event = new Event(generateUuidV4(), null, $eventDate, "fun fun fun", null, "35.084319", "-106.619781", "chris' 10th bithday", null, )
+        $this->event = new Event(generateUuidV4(), null, $eventEndDateTime, "fun fun fun", null, "35.084319", "-106.619781", "chris' 10th bithday", null, $eventStartDateTime);
+        $this->event->insert($this->getPDO());
 
 
     }
