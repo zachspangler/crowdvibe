@@ -20,11 +20,13 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
  **/
 
 class RatingTest extends crowdvibeTest {
+
 	/**
 	 * Profile that created the Rating; this is for foreign key relation
 	 * @var Profile $rater
 	 **/
-	protected $rater = null;
+	protected $rater;
+
 
 	/**
 	 * valid profile hash to create the profile object to own the test
@@ -42,7 +44,7 @@ class RatingTest extends crowdvibeTest {
 	 * Profile that created the Rating; this is for foreign key relation
 	 * @var Profile $ratee
 	 **/
-	protected $ratee = null;
+	protected $ratee;
 
 	/**
 	 * valid profile hash to create the profile object to own the test
@@ -58,47 +60,51 @@ class RatingTest extends crowdvibeTest {
 
 	/**
 	 * score of the Rating
-	 * @var int $VALID_RATINGSCORE
+	 * @var int $VALID_RATINGS_CORE
 	 **/
-	protected $VALID_RATINGSCORE = 3;
+	protected $VALID_RATING_SCORE = 3;
 
 
 	//TODO: add event variable for testing
 	/**
 	 * type of the Rating- person or event
-	 * @car string $VALID_RATINGTYPE
+	 * @car string $VALID_RATING_TYPE
 	 **/
-	protected $VALID_RATINGTYPE = "PHPUnit test passing";
-}
+	protected $VALID_RATING_TYPE = "PHPUnit test passing";
+
 
     /**
      * create dependent objects before running each test
      **/
-    public final function setUp() : void {
-		 //run the default setUp() method first
-		 parent::setUp();
-		 $password = "abc123";
-		 $activation = bin2hex(random_bytes(16));
-		 $this->VALID_RATER_SALT = bin2hex(random_bytes(32));
-		 $this->VALID_RATER_HASH = hash_pbkdf2("sha512", $password, $this->VALID_RATER_SALT, 262144)
+    public final function setUp() : void
+    {
+        //run the default setUp() method first
+        parent::setUp();
+        $password = "abc123";
+        $activation = bin2hex(random_bytes(16));
+        $this->VALID_RATER_SALT = bin2hex(random_bytes(32));
+        $this->VALID_RATER_HASH = hash_pbkdf2("sha512", $password, $this->VALID_RATER_SALT, 262144);
 
 
-		 //create and insert a Rater to own the test Rating
-		 $this->rater = new Profile(generateUuidV4(),$activation,"Admiral Andrea","random@admiral.com", "Admiral",$this->VALID_RATER_HASH,null,"Andrea",$this->VALID_RATER_SALT, "heydreday");
-		 $this->rater->insert($this->getPDO());
-	 }
-//        /**
-//         * create dependent objects before running each test
-//         **/
-//        public final function setUp() : void {
-//            //run the default setUp() method first
-//            parent::setUp();
-//            $password = "abc123";
-//            $this->VALID_RATEE_SALT = bin2hex(random_bytes(32));
-//            $this->VALID_RATEE_HASH = hash_pbkdf2("sha512", $password, $this->VALID_RATEE_SALT, 262144);
-//
-//            //create and insert a Rater to own the test Rating
-//            $this->rater = new Rater(generateUuidV4(), null,"@handle", "test@phpunit.de",$this->VALID_RATEE_HASH, "+12125551212", $this->VALID_RATEE_SALT);
-//            $this->rater->insert($this->getPDO());
-//    }
+        //create and insert a Rater to own the test Rating
+        $this->rater = new Profile(generateUuidV4(), $activation, "Admiral Andrea", "random@admiral.com", "Admiral", $this->VALID_RATER_HASH, null, "Andrea", $this->VALID_RATER_SALT, "heydreday");
+        $this->rater->insert($this->getPDO());
+    }
+		 // TODO: how to use accessor
+        //$this->rater->getProfileId()
+
+        /**
+         * create dependent objects before running each test
+         **/
+        public final function setUp() : void {
+            //run the default setUp() method first
+            parent::setUp();
+            $password = "abc123";
+            $this->VALID_RATEE_SALT = bin2hex(random_bytes(32));
+            $this->VALID_RATEE_HASH = hash_pbkdf2("sha512", $password, $this->VALID_RATEE_SALT, 262144);
+
+            //create and insert a Rater to own the test Rating
+            $this->rater = new Rater(generateUuidV4(), null,"@handle", "test@phpunit.de",$this->VALID_RATEE_HASH, "+12125551212", $this->VALID_RATEE_SALT);
+            $this->rater->insert($this->getPDO());
+    }
 }
