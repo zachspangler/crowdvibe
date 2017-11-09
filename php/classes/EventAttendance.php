@@ -160,13 +160,13 @@ class EventAttendance implements \JsonSerializable {
 	 * @throws \RangeException if $newAttendanceCheckIn is > 1 characters
 	 * @throws \TypeError if $newAttendanceCheckIn is not a string
 	 **/
-	public function setAttendanceNumberAttending($newAttendanceCheckIn): void {
+	public function setAttendanceCheckIn($newAttendanceCheckIn): void {
 		//verify the post content is secure
 		$newAttendanceCheckIn = trim($newAttendanceCheckIn);
 		$newAttendanceCheckIn = filter_var($newAttendanceCheckIn, FILTER_VALIDATE_INT, FILTER_FLAG_ALLOW_OCTAL);
 		$newAttendanceCheckIn =
 		if(empty($newAttendanceCheckIn) === true) {
-			throw(new \InvalidArgumentException("attendance check in content is empty or insecure"));
+			throw(new \InvalidArgumentException("attendance check is empty or insecure"));
 		}
 		//verify the Attendance content is 0 or 1
 		if($newAttendanceCheckIn !== 0 || 1) {
@@ -188,15 +188,23 @@ class EventAttendance implements \JsonSerializable {
 	 *
 	 * @param int $newAttendanceNumberAttending new value of Attendance Number
 	 * @throws \InvalidArgumentException if $newAttendanceNumberAttending is not a string or insecure
-	 * @throws \RangeException if $newAttendanceNumberAttending is > 1000 characters
+	 * @throws \RangeException if $newAttendanceNumberAttending is < 500 attendees
 	 * @throws \TypeError if $newCommentsContent is not a string
 	 **/
 	public function setAttendanceNumberAttending($newAttendanceNumberAttending): void {
 		//verify the post content is secure
 		$newAttendanceNumberAttending = trim($newAttendanceNumberAttending);
 		$newAttendanceNumberAttending = filter_var($newAttendanceNumberAttending, FILTER_VALIDATE_INT, FILTER_FLAG_ALLOW_OCTAL);
+		$newAttendanceNumberAttending =
 		if(empty($newAttendanceNumberAttending) === true) {
-			throw(new \InvalidArgumentException("Attendance content is empty or insecure"));
+			throw(new \InvalidArgumentException("attendance number is empty or insecure"));
+		}
+		//verify the Attendance content is 0 or 1
+		if($newAttendanceNumberAttending < 500) {
+			throw(new \RangeException("attendance is greater an maximum"));
+		}
+		// convert and store the profile id
+		$this->attendanceNumberAttending;
 		}
 	/**
 	 * formats the state variables for JSON serialization
