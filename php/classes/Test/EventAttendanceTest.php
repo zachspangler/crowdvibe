@@ -1,115 +1,75 @@
 <?php
-namespace Edu\Cnm\CrowdVibe;
-require_once(dirname(__DIR__, 2) . "/vendor/autoload.php");
+namespace Edu\Cnm\CrowbVibe\Test;
+use Edu\Cnm\CrowbVibe\{Profile, Event, EventAttendance};
+use Edu\Cnm\CrowdVibe\Test\CrowdVibeTest;
 
-use JsonSerializable;
-use Ramsey\Uuid\Uuid;
+// grab the class under scrutiny
+require_once(dirname(__DIR__) . "/autoload.php");
+// grab the uuid generator
+require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
 /**
- * Created by PhpStorm.
- * User: Chris Owens
- * Date: 11/7/2017
- * Time: 16:42
- */
-
-class attendance implements JsonSerializable {
-	use ValidateUuid;
-	/**
-	 * id for the amount of people attending.
-	 */
-	protected $attendanceId;
-	/**
-	 * Id for attendance to a particular event
-	 */
-	protected $attendanceEventId;
-	/**
-	 * Id that relates the amount of people attending to a profile
-	 */
-	protected $attendanceProfileId;
-	/**
-	 * how to keep track of which users attend the event
-	 */
-	protected $attendanceCheckIn;
-	/**
-	 * records how many people are attending
-	 */
-	protected $attendanceNumberAttending;
-
-	/**
-	 * constructor for this Comments
-	 *
-	 * @param Uuid $newAttendanceId id of this events or null if a new events
-	 * @param Uuid $newAttendanceProfileId id of the Profile that created the event
-	 * @param Uuid $newAttendanceEventId id of the Event people attend
-	 * @param Uuid $newAttendanceCheckIn how people are going to notify their attendance
-	 * @param string $newAttendanceNumberAttending string containing actual data on the amount of people
-	 * @throws \InvalidArgumentException if data types are not valid
-	 * @throws \RangeException if data values are out of bounds (e.g., strings too long, negative integers)
-	 * @throws \TypeError if data types violate type hints
-	 * @throws \Exception if some other exception occurs
-	 * @Documentation https://php.net/manual/en/language.oop5.decon.php
-	 **/
-	public function __construct($newAttendanceId, $newAttendanceProfileId, $newAttendanceEventId, $newAttendanceCheckIn, string $newAttendanceNumberAttending) {
-		try {
-			$this->setAttendanceId($newAttendanceId);
-			$this->setAttendanceProfileId($newAttendanceProfileId);
-			$this->setAttendanceEventId($newAttendanceEventId);
-			$this->setAttendanceCheckIn($newAttendanceCheckIn);
-			$this->setCAttendanceNumberAttending($newAttendanceNumberAttending);
-		} //determine what exception type was thrown
-		catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
-			$exceptionType = get_class($exception);
-			throw(new $exceptionType($exception->getMessage(), 0, $exception));
-		}
-	}
-
-	/**
-	 * accessor method for Attendance id
-	 *
-	 * @return Uuid value of Attendance id
-	 **/
-	public function getAttendanceId(): Uuid {
-		return $this->attendanceId;
-	}
-
-	/**
-	 * mutator method for Attendance id
-	 *
-	 * @param Uuid $newAttendanceId new value of Attendance id
-	 * @throws \UnexpectedValueException if $newAttendanceId is not a UUID
-	 **/
-	public function setAttendanceId($newAttendanceId): void {
-		try {
-			$uuid = self::validateUuid($newAttendanceId);
-		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
-			$exceptionType = get_class($exception);
-			throw(new $exceptionType($exception->getMessage(), 0, $exception));
-		}
-		//convert and store the Attendance id
-		$this->attendanceId = $uuid;
-	}
-
-/**
- * accessor method for comments profile id
+ * Full PHPUnit test for the Event Attendance class
  *
- * @return Uuid value of comments profile id
- **/
-public function getAttendanceEventId() {
-	return $this->attendanceEventId;
-}
-
-/**
- * mutator method for Attendance event id
+ * This is a complete PHPUnit test of the Like class. It is complete because *ALL* mySQL/PDO enabled methods
+ * are tested for both invalid and valid inputs.
  *
- * @param Uuid $newAttendanceEventId new value of Attendance Event id
- * @throws \UnexpectedValueException if $newAttendanceEventId is not a UUID
+ * @author Chris Owens
  **/
-public function setAttendanceEventId($newAttendanceEventId): void {
-	try {
-		$uuid = self::validateUuid($newAttendanceEventId);
-	} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
-		$exceptionType = get_class($exception);
-		throw(new $exceptionType($exception->getMessage(), 0, $exception));
+class EventAttendanceTest extends CrowdVibeTest {
+	/**
+	 * Profile that attended the event; this is for foreign key relations
+	 * @var  Profile $profile
+	 **/
+	protected $profile;
+	/**
+	 * Event is being attended; this is for foreign key relations
+	 * @var  Event $event
+	 **/
+	protected $event;
+	/**
+	 * Attendance Check In is a int used as a boolean to show whether or not the user attended the event
+	 * @var  $VALID_CHECK_IN
+	 **/
+	protected $VALID_CHECK_IN;
+	/**
+	 * valid hash to use
+	 * @var $VALID_HASH
+	 */
+	protected $VALID_HASH;
+	/**
+	 * valid number of attending this is the total number of people who are planning on attending
+	 * @var $VALID_NUMBER_ATTENDING
+	 */
+	protected $VALID_NUMBER_ATTENDING;
+	/**
+	 * valid salt to use to create the profile object to own the test
+	 * @var string $VALID_SALT
+	 */
+	protected $VALID_SALT;
+	/**
+	 * valid activationToken to create the profile object to own the test
+	 * @var string $VALID_ACTIVATION
+	 */
+	protected $VALID_ACTIVATION_TOKEN;
+	/**
+	 * create dependent objects before running each test
+	 **/
+	public final function setUp() : void {
+		// run the default setUp() method first
+		parent::setUp();
+		// create a salt and hash for the mocked profile
+		$password = "abc123";
+		$this->VALID_SALT = bin2hex(random_bytes(32));
+		$this->VALID_HASH = hash_pbkdf2("sha512", $password, $this->VALID_SALT, 262144);
+		$this->VALID_ACTIVATION_TOKEN = bin2hex(random_bytes(16));
+		// create and insert the mocked profile
+		$this->profile = new Profile(generateUuidV4(), $this->VALID_ACTIVATION_TOKEN, "For score and seven years ago","thisis@life.com", "Donald",$this->VALID_HASH, "https://upload.wikimedia.org/", "Knuth", $this->VALID_SALT, "mustreadtaocp");
+		$this->profile->insert($this->getPDO());
+		// create the and insert the mocked event
+		$this->event = new Event(generateUuidV4(), $this->profile->getProfileId(), 20, "19/11/2016 14:00:00","Celebrate the birth of mayan time"), null, "35.113281", "-106.621216", "End of the World - Mayan Style", "0.00", "19/11/2016 12:00:00";
+		$this->event->insert($this->getPDO());
+		// calculate the date (just use the time the unit test was setup...)
+		$this->VALID_LIKEDATE = new \DateTime();
 	}
-	//convert and store the Attendance Event id
-	$this->AttendanceEventId = $uuid;
+
 }
