@@ -674,14 +674,16 @@ class Profile implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getProfileByProfileName(\PDO $pdo, string $profileFirstName, string $profileLastName): \SPLFixedArray {
+	public static function getProfileByProfileName(\PDO $pdo, string $profileName): \SPLFixedArray {
 		// sanitize the name before searching
-		$profileFirstName = trim($profileFirstName);
-		$profileLastName = trim($profileLastName);
-		$profileFirstName = filter_var($profileFirstName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		$profileLastName = filter_var($profileLastName,  FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($profileFirstName && $profileLastName) === true) {
+		$profileName = trim($profileName);
+		$profileName = filter_var($profileName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($profileFirstName) === true) {
 			throw(new \PDOException("not a valid name"));
+		}
+		$names = explode(" ", $profileName);
+		foreach($names as $value) {
+			
 		}
 		// create query template
 		$query = "SELECT profileId, profileActivationToken, profileBio, profileEmail, profileFirstName, profileHash, profileImage, profileLastName, profileSalt, profileUserName FROM profile WHERE profileFirstName = :profileFirstName OR profileLastName = :profileLastName";

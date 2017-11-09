@@ -294,7 +294,7 @@ class ProfileTest extends CrowdVibeTest {
 		$profile = new Profile($profileId, $this->VALID_PROFILE_ACTIVATION_TOKEN, $this->VALID_PROFILE_BIO, $this->VALID_PROFILE_EMAIL1, $this->VALID_PROFILE_FIRST_NAME, $this->VALID_PROFILE_HASH, $this->VALID_PROFILE_IMAGE, $this->VALID_PROFILE_LAST_NAME, $this->VALID_PROFILE_SALT, $this->VALID_PROFILE_USERNAME);
 		$profile->insert($this->getPDO());
 		//grab the data from MySQL
-		$pdoProfile = Profile::getProfileByProfileFirstName($this->getPDO(), $profile->getProfileFirstName());
+		$pdoProfile = Profile::getProfileByProfileName($this->getPDO(), $profile->getProfileByProfileName());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
 		$this->assertEquals($pdoProfile->getProfileId(), $profileId);
 		$this->assertEquals($pdoProfile->getProfileActivationToken(), $this->VALID_PROFILE_ACTIVATION_TOKEN);
@@ -312,7 +312,7 @@ class ProfileTest extends CrowdVibeTest {
 	 **/
 	public function testGetInvalidProfileByProfileFirstName() : void {
 		// grab an first name that does not exist
-		$profile = Profile::getProfileByProfileFirstName($this->getPDO(), "Chuck");
+		$profile = Profile::getProfileByProfileName($this->getPDO(), "Chuck");
 		$this->assertNull($profile);
 	}
 	/**
@@ -325,7 +325,7 @@ class ProfileTest extends CrowdVibeTest {
 		$profile = new Profile($profileId, $this->VALID_PROFILE_ACTIVATION_TOKEN, $this->VALID_PROFILE_BIO, $this->VALID_PROFILE_EMAIL1, $this->VALID_PROFILE_FIRST_NAME, $this->VALID_PROFILE_HASH, $this->VALID_PROFILE_IMAGE, $this->VALID_PROFILE_LAST_NAME, $this->VALID_PROFILE_SALT, $this->VALID_PROFILE_USERNAME);
 		$profile->insert($this->getPDO());
 		//grab the data from MySQL
-		$pdoProfile = Profile::getProfileByProfileLastName($this->getPDO(), $profile->getProfileLastName());
+		$pdoProfile = Profile::getProfileByProfileName($this->getPDO(), $profile->getProfileByProfileName());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
 		$this->assertEquals($pdoProfile->getProfileId(), $profileId);
 		$this->assertEquals($pdoProfile->getProfileActivationToken(), $this->VALID_PROFILE_ACTIVATION_TOKEN);
@@ -343,7 +343,7 @@ class ProfileTest extends CrowdVibeTest {
 	 **/
 	public function testGetInvalidProfileByProfileLastName() : void {
 		// grab an last name that does not exist
-		$profile = Profile::getProfileByProfileLastName($this->getPDO(), "Norris");
+		$profile = Profile::getProfileByProfileName($this->getPDO(), "Norris");
 		$this->assertNull($profile);
 	}
 }
