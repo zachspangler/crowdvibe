@@ -252,9 +252,9 @@ public function testGetValidEventDateBySunDate() : void {
 
     //use the first result to make sure that the inserted event meets expectations
     $pdoEvent = $results[0];
-    $this->assertEquals($pdoEvent->getEventId(), $event->getEventId());
-    $this->assertEquals($pdoEvent->getEventProfileId(), $event->getEventProfileId());
-    $this->assertEquals($pdoEvent->getEventDetail(), $event->getEventDetail());
+    $this->assertEquals($pdoEvent->getEventId(), $this->event->getEventId());
+    $this->assertEquals($pdoEvent->getEventProfileId(), $this->event->getEventProfileId());
+    $this->assertEquals($pdoEvent->getEventDetail(), $this->event->getEventDetail());
     $this->assertEquals($pdoEvent->getEventDate()->getTimestamp(), $this->VALID_EVENTDATE->getTimestamp());
 }
 
@@ -281,7 +281,7 @@ public function testGetAllValidEvents() : void {
     $this->assertEquals($pdoEvent->getEventProfileId(),$this->profile->getProfileId());
     $this->assertEquals($pdoEvent->getEventDetail(), $this->VALID_EVENTDETAIL);
     //format the date too seconds since the beginning of time to avoid round off error
-    $this->assertEquals($pdoEvent->getEventDate()->(getTimeStamp(), $this->VALID_EVENTDATE->getTimestamp()) );
+    $this->assertEquals($pdoEvent->getEventDate()->getTimeStamp(), $this->VALID_EVENTDATE->getTimestamp());
 }
 }
 
