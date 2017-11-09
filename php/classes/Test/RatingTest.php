@@ -1,5 +1,5 @@
 <?php
-namespace Edu\Cnm\crowdvibe\Test;
+namespace Edu\Cnm\CrowdVibe\Test;
 
 use Edu\Cnm\CrowdVibe\{Profile, Event, Rating};
 
@@ -68,7 +68,7 @@ class RatingTest extends crowdvibeTest {
 	//TODO: add event variable for testing
 	/**
 	 * type of the Rating- person or event
-	 * @car string $VALID_RATING_TYPE
+	 * @var string $VALID_RATING_TYPE
 	 **/
 	protected $VALID_RATING_TYPE = "PHPUnit test passing";
 
@@ -102,9 +102,15 @@ class RatingTest extends crowdvibeTest {
             $password = "abc123";
             $this->VALID_RATEE_SALT = bin2hex(random_bytes(32));
             $this->VALID_RATEE_HASH = hash_pbkdf2("sha512", $password, $this->VALID_RATEE_SALT, 262144);
+            ;
+            //create and insert a Rater to own the test Rating
+            $this->rater = new Rater(generateUuidV4(), null,"@handle", "test@phpunit.de",$this->VALID_RATER_HASH, "+12125551212", $this->VALID_RATER_SALT);
+            $this->rater->insert($this->getPDO());
 
             //create and insert a Rater to own the test Rating
-            $this->rater = new Rater(generateUuidV4(), null,"@handle", "test@phpunit.de",$this->VALID_RATEE_HASH, "+12125551212", $this->VALID_RATEE_SALT);
-            $this->rater->insert($this->getPDO());
+            $this->ratee = new Ratee(generateUuidV4(), null,"@handle", "test@phpunit.de",$this->VALID_RATEE_HASH, "+12125551212", $this->VALID_RATEE_SALT);
+            $this->ratee->insert($this->getPDO());
+
+
     }
 }
