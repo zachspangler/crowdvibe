@@ -73,43 +73,29 @@ class RatingTest extends crowdvibeTest {
 	protected $VALID_RATING_TYPE = "PHPUnit test passing";
 
 
+
+
     /**
      * create dependent objects before running each test
      **/
-    public final function setUp() : void
-    {
+    public final function setUp() : void {
         //run the default setUp() method first
         parent::setUp();
         $password = "abc123";
-        $activation = bin2hex(random_bytes(16));
-        $this->VALID_RATER_SALT = bin2hex(random_bytes(32));
-        $this->VALID_RATER_HASH = hash_pbkdf2("sha512", $password, $this->VALID_RATER_SALT, 262144);
-
-
+        $eventDate = new \DateTime();
+        $this->VALID_RATEE_SALT = bin2hex(random_bytes(32));
+        $this->VALID_RATEE_HASH = hash_pbkdf2("sha512", $password, $this->VALID_RATEE_SALT, 262144);
+        ;
         //create and insert a Rater to own the test Rating
-        $this->rater = new Profile(generateUuidV4(), $activation, "Admiral Andrea", "random@admiral.com", "Admiral", $this->VALID_RATER_HASH, null, "Andrea", $this->VALID_RATER_SALT, "heydreday");
+        $this->rater = new Profile(generateUuidV4(), "stringcheese", "i'm hugry", "breez@hometime.com", "Cheech", $this->VALID_RATER_HASH, null, "Maren", $this->VALID_RATER_SALT, "@sohigh");
         $this->rater->insert($this->getPDO());
-    }
-		 // TODO: how to use accessor
-        //$this->rater->getProfileId()
 
-        /**
-         * create dependent objects before running each test
-         **/
-        public final function setUp() : void {
-            //run the default setUp() method first
-            parent::setUp();
-            $password = "abc123";
-            $this->VALID_RATEE_SALT = bin2hex(random_bytes(32));
-            $this->VALID_RATEE_HASH = hash_pbkdf2("sha512", $password, $this->VALID_RATEE_SALT, 262144);
-            ;
-            //create and insert a Rater to own the test Rating
-            $this->rater = new Rater(generateUuidV4(), null,"@handle", "test@phpunit.de",$this->VALID_RATER_HASH, "+12125551212", $this->VALID_RATER_SALT);
-            $this->rater->insert($this->getPDO());
+        //create and insert a Ratee to own the test Rating
+        $this->ratee = new Profile(generateUuidV4(),"cawabunga", "I like eggs", "getsome@me.com", "tommy", $this->VALID_RATEE_HASH, $this->VALID_RATEE_HASH, "chong", $this->VALID_RATEE_SALT,"@smoke");
+        $this->ratee->insert($this->getPDO());
 
-            //create and insert a Rater to own the test Rating
-            $this->ratee = new Ratee(generateUuidV4(), null,"@handle", "test@phpunit.de",$this->VALID_RATEE_HASH, "+12125551212", $this->VALID_RATEE_SALT);
-            $this->ratee->insert($this->getPDO());
+        //create and insert a Event to own the test Rating
+        $this->event = new Event(generateUuidV4(), null, $eventDate, "fun fun fun", null, "35.084319", "-106.619781", "chris' 10th bithday", null, )
 
 
     }
