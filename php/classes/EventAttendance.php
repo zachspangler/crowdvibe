@@ -207,6 +207,21 @@ class EventAttendance implements \JsonSerializable {
 		$this->attendanceNumberAttending;
 		}
 	/**
+	 * inserts this Event Attendance into mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 **/
+	public function insert(\PDO $pdo): void {
+		// create query template
+		$query = "INSERT INTO eventAttendance(attendanceId, attendanceProfileId, attendanceEventId, attendanceCheckIn, attendanceNumberAttending) VALUES (:attendanceId, :attendanceProfileId, :attendanceEventId, :attendanceCheckIn, :attendanceNumberAttending)";
+		$statement = $pdo->prepare($query);
+
+		// bind the member variables to the place holders in the template
+		$parameters = ["attendanceId" => $this->attendanceId->getBytes(), "attendanceProfileId" => $this->attendanceProfileId->getBytes(), "attendanceEventId" => $this->attendanceEventId->getBytes(), "attendanceCheckIn" => $this->attendanceCheckIn,"attendanceNumberAttending" => $this->attendanceNumberAttending];
+		$statement->execute($parameters);
+	}
+	/**
 	 * formats the state variables for JSON serialization
 	 *
 	 * @return array resulting state variables to serialize
