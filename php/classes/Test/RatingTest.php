@@ -1,7 +1,9 @@
 <?php
 namespace Edu\Cnm\CrowdVibe\Test;
 
-use Edu\Cnm\CrowdVibe\{Profile, Event, Rating};
+use Edu\Cnm\CrowdVibe\{
+    EventAttendance, Profile, Event, Rating
+};
 
 // grab the class under scrutiny
 require_once(dirname(__DIR__) . "/autoload.php");
@@ -40,6 +42,12 @@ class RatingTest extends crowdvibeTest {
      **/
     protected $event;
 
+    /**
+     * EventAttendance that connects the Rating; this is a foreign key relation
+     *@var EventAttendance $eventAttendance
+     **/
+    protected $eventAttendance;
+
 	/**
 	 * score of the Rating
 	 * @var int $VALID_RATINGS_SCORE
@@ -72,9 +80,27 @@ class RatingTest extends crowdvibeTest {
         $this->ratee->insert($this->getPDO());
 
         //create and insert a Event to own the test Rating
-        $this->event = new Event(generateUuidV4(), null, $eventEndDateTime, "fun fun fun", null, "35.084319", "-106.619781", "chris' 10th bithday", null, $eventStartDateTime);
+        $this->event = new Event(generateUuidV4(), $this->rater->getProfileId(), $eventEndDateTime, "fun fun fun", null, "35.084319", "-106.619781", "chris' 10th bithday", null, $eventStartDateTime);
         $this->event->insert($this->getPDO());
 
+        //create and insert event attendance to be able to rate
+        $this->eventAttendance = new eventAttendance(generateUuidV4(), $this->event->getEventId(),$this->rater->getProfileId(), "2", "15");
 
+
+    }
+
+    /**
+     * test inserting a valid Rating and verify that the actual mySQL data matches
+     **/
+    public function testInsertValidRating() : void {
+        //count number of rows and save for later
+        $numRows = $this->getConnection()->getRowCoung("rating");
+
+        //create a new Rating and insert into mySQL
+        $rating = new Rating(generateUuidV4(),$this->eventAttendance->getEventAttendanceId(), $this->ratee->getProfileId(), $this->rater->getProfileId(),"70");
+        $rating->insert($this->getPDO());
+
+        // grab the data from mySQL and enforce the fields match our expectations
+        $pdoRating= Rating::getRatingByRatingProfileIdAndRatingEventId($this->)
     }
 }
