@@ -11,8 +11,8 @@ use Ramsey\Uuid\Uuid;
  * @author Chris Owens
  * @version 1.0.0
  **/
-class EventAttendance implements \JsonSerializable {
 
+class EventAttendance implements \JsonSerializable {
 	/**
 	 * id for the amount of people attending.
 	 * @var string $attendanceId
@@ -164,7 +164,6 @@ class EventAttendance implements \JsonSerializable {
 		//verify the post content is secure
 		$newAttendanceCheckIn = trim($newAttendanceCheckIn);
 		$newAttendanceCheckIn = filter_var($newAttendanceCheckIn, FILTER_VALIDATE_INT, FILTER_FLAG_ALLOW_OCTAL);
-		$newAttendanceCheckIn =
 		if(empty($newAttendanceCheckIn) === true) {
 			throw(new \InvalidArgumentException("attendance check is empty or insecure"));
 		}
@@ -195,11 +194,10 @@ class EventAttendance implements \JsonSerializable {
 		//verify the post content is secure
 		$newAttendanceNumberAttending = trim($newAttendanceNumberAttending);
 		$newAttendanceNumberAttending = filter_var($newAttendanceNumberAttending, FILTER_VALIDATE_INT, FILTER_FLAG_ALLOW_OCTAL);
-		$newAttendanceNumberAttending =
 		if(empty($newAttendanceNumberAttending) === true) {
 			throw(new \InvalidArgumentException("attendance number is empty or insecure"));
 		}
-		//verify the Attendance content is 0 or 1
+		//verify the Attendance number is less than 500
 		if($newAttendanceNumberAttending < 500) {
 			throw(new \RangeException("attendance is greater an maximum"));
 		}
@@ -213,9 +211,9 @@ class EventAttendance implements \JsonSerializable {
 	 **/
 	public function jsonSerialize() {
 		$fields = get_object_vars($this);
-		$fields["profileId"] = $this->profileId->toString();
-		unset($fields["profileHash"]);
-		unset($fields["profileSalt"]);
+		$fields["attendanceId"] = $this->attendanceId->toString();
+		$fields["attendanceEventId"] = $this->attendanceEventId->toString();
+		$fields["attendanceProfileId"] = $this->attendanceProfileId->toString();
 		return ($fields);
 	}
 }
