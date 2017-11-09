@@ -11,6 +11,7 @@ use Ramsey\Uuid\Uuid;
  * This is the event attendance information stored for a CrowdVibe user.
  *
  * @author Chris Owens
+ * @email cowens17@cnm.edu
  * @version 1.0.0
  **/
 
@@ -219,6 +220,15 @@ class EventAttendance implements \JsonSerializable {
 
 		// bind the member variables to the place holders in the template
 		$parameters = ["attendanceId" => $this->attendanceId->getBytes(), "attendanceProfileId" => $this->attendanceProfileId->getBytes(), "attendanceEventId" => $this->attendanceEventId->getBytes(), "attendanceCheckIn" => $this->attendanceCheckIn,"attendanceNumberAttending" => $this->attendanceNumberAttending];
+		$statement->execute($parameters);
+	}
+	public function delete(\PDO $pdo): void {
+		// create query template
+		$query = "INSERT INTO eventAttendance(attendanceId, attendanceProfileId, attendanceEventId, attendanceCheckIn, attendanceNumberAttending) VALUES (:attendanceId, :attendanceProfileId, :attendanceEventId, :attendanceCheckIn, :attendanceNumberAttending)";
+		$statement = $pdo->execute($query);
+
+		// delete the variables from the place holders in the template
+		$parameters = ["attendanceId" => $this->attendanceId->getBytes(), "attendanceProfileId" => $this->attendanceProfileId->getBytes(), "attendanceEventId" => $this->attendanceEventId->getBytes(), "attendanceCheckIn" => $this->attendanceCheckIn, "attendanceNumberAttending" => $this->attendanceNumberAttending];
 		$statement->execute($parameters);
 	}
 	/**
