@@ -678,31 +678,26 @@ class Profile implements \JsonSerializable {
 		// sanitize the name before searching
 		$profileName = trim($profileName);
 		$profileName = filter_var($profileName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($profileFirstName) === true) {
+		if(empty($profileName) === true) {
 			throw(new \PDOException("not a valid name"));
-		}
-		$names = explode(" ", $profileName);
-		foreach($names as $value) {
-			
-		}
-		// create query template
-		$query = "SELECT profileId, profileActivationToken, profileBio, profileEmail, profileFirstName, profileHash, profileImage, profileLastName, profileSalt, profileUserName FROM profile WHERE profileFirstName = :profileFirstName OR profileLastName = :profileLastName";
-		$statement = $pdo->prepare($query);
-		// build an array of users
-		$profile = new \SplFixedArray($statement->rowCount());
-		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !== false) {
-			try {
-				$profile = new Profile($row["profileId"], $row["profileActivationToken"], $row["profileBio"], $row["profileEmail"], $row["profileFirstName"], $row["profileHash"], $row["profileImage"], $row["profileLastName"], $row["profileSalt"], $row["profileUserName"]);
-				$profile[$profile->key()] = $profile;
-				$profile->next();
-			} catch(\Exception $exception) {
-				// if the row couldn't be converted, rethrow it
-				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			// create query template
+			$query = "SELECT profileId, profileActivationToken, profileBio, profileEmail, profileFirstName, profileHash, profileImage, profileLastName, profileSalt, profileUserName FROM profile WHERE CONCAT (profileFirstName, ' ', profileLastName) LIKE %profileName% OR profileLastName LIKE %:profileName% OR profileFirstName LIKE %:profileName%";
+			$statement = $pdo->prepare($query);
+			// build an array of users
+			$profile = new \SplFixedArray($statement->rowCount());
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			while(($row = $statement->fetch()) !== false) {
+				try {
+					$profile = new Profile($row["profileId"], $row["profileActivationToken"], $row["profileBio"], $row["profileEmail"], $row["profileFirstName"], $row["profileHash"], $row["profileImage"], $row["profileLastName"], $row["profileSalt"], $row["profileUserName"]);
+					$profile[$profile->key()] = $profile;
+					$profile->next();
+				} catch(\Exception $exception) {
+					// if the row couldn't be converted, rethrow it
+					throw(new \PDOException($exception->getMessage(), 0, $exception));
+				}
 			}
+			return ($profile);
 		}
-		return ($profile);
-	}
 	/**
 	 * formats the state variables for JSON serialization
 	 *
