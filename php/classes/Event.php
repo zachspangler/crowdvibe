@@ -46,9 +46,9 @@ class Event implements \JsonSerializable {
     /**
      * this specifies whether the event will cost money or will be free
      *
-     * @var int $eventCost
+     * @var float $eventPrice
      **/
-    private $eventCost;
+    private $eventPrice;
     /**
      * this will specify when the event will begin
      *
@@ -79,12 +79,7 @@ class Event implements \JsonSerializable {
      * @var string $eventName
      */
     private $eventName;
-    /**
-     * this is the event Category
-     *
-     * @var boolean $eventCategory
-     */
-    private $eventCategory;
+
 
     /**
      * Event constructor.
@@ -92,7 +87,7 @@ class Event implements \JsonSerializable {
      * @param int $newEventProfileId
      * @param string $newEventDetail
      * @param \DateTime|null $newEventStartDateTime
-     * @param \DateTime|null $newEventEndStartTime
+     * @param \DateTime|null $newEventEndDateTime
      * @param int $newEventPrice
      * @param float $newEventLat
      * @param float $newEventLong
@@ -107,7 +102,7 @@ class Event implements \JsonSerializable {
         $this->setEventProfileId($newEventProfileId);
         $this->setEventDetail($newEventDetail);
         $this->setEventStartDateTime($newEventStartDateTime);
-        $this->setEventEndStartTime($newEventEndStartTime);
+        $this->setEventEndDateTime($newEventEndDateTime);
         $this->setEventPrice($newEventPrice);
         $this->setEventLat($newEventLat);
         $this->setEventLong($newEventLong);
@@ -256,69 +251,37 @@ class Event implements \JsonSerializable {
     }
 
     /**
-     * accessor method for event StartDateTime
+     * accessor method for event image
      *
-     * @return \DateTime value of event StartDateTime
+     * @return string value of event image
+     * @return null
      **/
-
-    /**
-     * @return \DateTime
-     */
-
-    /**
-     * @return \DateTime
-     */
-    public function getEventStartTime(): \DateTime {
-        return $this->eventStartTime;
+    public function getEventImage() {
+        return $this->eventImage;
     }
 
     /**
-     * mutator method for event StartDateTime
+     * mutator method for event image
      *
-     * @param \DateTime|string|null $newEventStartTime event date as a Datetime object or string (or null to load the current time)
-     * @throws \InvalidArgumentException if $newEventStartTime is not a valid object or string
-     * @throws \RangeException if $newEventStartTime is a date that does not exist
+     * @param string $newEventImage new value of event image
+     * @throws \InvalidArgumentException if $newEventImage is not not a string or insecure
+     * @throws \RangeException if $newEventImage is > 64 characters
+     * @throw \TypeError if $newEventImage is not a string
      **/
-    /**
-     * @param \DateTime $eventStartTime
-     **/
-    public function setEventStartTime($newEventStartTime = null) : void {
-        //base case: if the date is null, use the current date and time
-        if($newEventStartTime === null) {
-            $this->eventStartTime = new \DateTime();
-            return;
+    public function setEventImage (string $newEventImage) : void {
+        // verify the image is insecure
+        $newEventImage = trim($newEventImage);
+        $newEventImage = filter_var($newEventImage, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+        if (empty($newEventImage)===true) {
+            throw (new \InvalidArgumentException("event image is empty or insecure"));
         }
-
-        /**
-         * accessor method for event EndDateTime
-         *
-         * this is the time the event will end
-         * @return \DateTime value of event EndDateTime
-         **/
-        public function getEventEndDateTime() : \DateTime {
-            return($this->eventEndDateTime);
+        // verify the event image will fit in the database
+        if (strlen($newEventImage)> 64) {
+            throw (new \RangeException("event image is too long"));
         }
-
-        /**
-         * mutator method for event date
-         *
-         * @param \DateTime|string|null $newEventEndDateTime event date as a DateTime object or string (or null to load the current time)
-         * @throws \InvalidArgumentException if $newEventEndDateTime is not a valid object or string
-         * @throws \RangeException if $newEventEndDateTime is a date that does not exist
-         **/
-        public function setEventEndDateTime ($newEventEndDateTime = null) : void {
-            //base case: if the date is null, use the current date and time
-            if($newEventEndDateTime === null) {
-                $this->eventEndDateTime = new \DateTime();
-                return;
-
-            }
-        }
+        //store the event image
+        $this->eventImage = $newEventImage;
     }
-
-
-
-
 
     /**
      * formats the state variables for JSON serialization
@@ -331,4 +294,12 @@ class Event implements \JsonSerializable {
         $fields["eventStartDateTime"] = round(floatval($this->eventStartDateTime->format("U.u")) * 1000);
         return($fields);
     }
-}
+
+
+    }
+
+
+
+
+
+
