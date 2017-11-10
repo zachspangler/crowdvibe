@@ -255,6 +255,69 @@ class Event implements \JsonSerializable {
         $this->eventName = $newEventName;
     }
 
+    /**
+     * accessor method for event StartDateTime
+     *
+     * @return \DateTime value of event StartDateTime
+     **/
+
+    /**
+     * @return \DateTime
+     */
+
+    /**
+     * @return \DateTime
+     */
+    public function getEventStartTime(): \DateTime {
+        return $this->eventStartTime;
+    }
+
+    /**
+     * mutator method for event StartDateTime
+     *
+     * @param \DateTime|string|null $newEventStartTime event date as a Datetime object or string (or null to load the current time)
+     * @throws \InvalidArgumentException if $newEventStartTime is not a valid object or string
+     * @throws \RangeException if $newEventStartTime is a date that does not exist
+     **/
+    /**
+     * @param \DateTime $eventStartTime
+     **/
+    public function setEventStartTime($newEventStartTime = null) : void {
+        //base case: if the date is null, use the current date and time
+        if($newEventStartTime === null) {
+            $this->eventStartTime = new \DateTime();
+            return;
+        }
+
+        /**
+         * accessor method for event EndDateTime
+         *
+         * this is the time the event will end
+         * @return \DateTime value of event EndDateTime
+         **/
+        public function getEventEndDateTime() : \DateTime {
+            return($this->eventEndStartTime);
+        }
+
+        /**
+         * mutator method for event date
+         *
+         * @param \DateTime|string|null $newEventEndDateTime event date as a DateTime object or string (or null to load the current time)
+         * @throws \InvalidArgumentException if $newEventEndDateTime is not a valid object or string
+         * @throws \RangeException if $newEventEndDateTime is a date that does not exist
+         **/
+        public function setEventEndDateTime ($newEventEndDateTime = null) : void {
+            //base case: if the date is null, use the current date and time
+            if($newEventEndDateTime === null) {
+                $this->eventEndStartTime = new \DateTime();
+                return;
+            }
+        }
+    }
+
+
+
+
 
     /**
      * Specify data which should be serialized to JSON
