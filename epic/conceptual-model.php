@@ -25,8 +25,6 @@
 			<li>eventId (primary key)</li>
 			<li>eventProfileId (foreign key) - host of event </li>
 			<li>eventAttendeeLimit</li>
-			<li>eventCategory</li>
-			<li>eventStartDateTime</li>
 			<li>eventEndStartTime</li>
 			<li>eventDetail</li>
 			<li>eventImage</li>

@@ -60,7 +60,7 @@ class Event implements \JsonSerializable {
      **/
     private $eventEndStartTime;
     /**
-     * this specifies the limit of individuals thet can attent an event
+     * this specifies the limit of individuals that can attend an event
      *
      * @var int $eventAttendeeLimit
      **/
@@ -68,10 +68,42 @@ class Event implements \JsonSerializable {
     /**
      * this is an image for an event
      *
-     * @var null $eventImage;
+     * @var null $eventImage
      */
     private $eventImage;
+    /**
+     * this is the name of the event
+     *
+     * @var string $eventName
+     */
+    private $eventName;
+    /**
+     * this is the event Category
+     *
+     * @var boolean $eventCategory
+     */
+    private $eventCategory;
 
+    /**
+     * Event constructor.
+     * @param int|null $newEventId
+     * @param int $newEventProfileId
+     * @param string $newEventDetail
+     * @param \DateTime|null $newEventStartDateTime
+     * @param \DateTime|null $newEventEndStartTime
+     * @param int $newEventPrice
+     * @param float $newEventLat
+     * @param float $newEventLong
+     * @param null $eventImage
+     * @param string $newEventName
+     */
+
+    public function __construct(?int $newEventId, int $newEventProfileId, string $newEventDetail, \DateTime $newEventStartDateTime =
+    null, \DateTime $newEventEndStartTime = null, int $newEventPrice, float $newEventLat, float $newEventLong, $eventImage= null,
+string $newEventName, )
+
+    {
+    }
 
 
     /**
