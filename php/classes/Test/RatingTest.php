@@ -97,10 +97,14 @@ class RatingTest extends crowdvibeTest {
         $numRows = $this->getConnection()->getRowCoung("rating");
 
         //create a new Rating and insert into mySQL
-        $rating = new Rating(generateUuidV4(),$this->eventAttendance->getEventAttendanceId(), $this->ratee->getProfileId(), $this->rater->getProfileId(),"70");
+        $rating = new Rating(generateUuidV4(),$this->eventAttendance->getEventAttendanceId(), $this->ratee->getProfileId(), $this->rater->getProfileId(),70);
         $rating->insert($this->getPDO());
 
         // grab the data from mySQL and enforce the fields match our expectations
-        $pdoRating= Rating::getRatingByRatingProfileIdAndRatingEventId($this->)
+        $pdoRating= Rating::getRatingByRatingId($this->getPDO(), $this->rating->getRatingId());
+        $this->assertEquals($numRows + 1,$this->getConnection()->getRowCount("rating"));
+        $this->assertEquals($pdoRating->getRatingId(),$ratingId);
+        $this->assertEquals($pdoRating->getRatingEventAttendanceId(, $this->eventAttendance->getEventAttendanceId()))
+
     }
 }
