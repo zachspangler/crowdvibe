@@ -1,6 +1,8 @@
 <?php
 namespace Edu\Cnm\CrowdVibe;
 require_once(dirname(__DIR__, 2) . "/vendor/autoload.php");
+
+use Prophecy\Exception\InvalidArgumentException;
 use Ramsey\Uuid\Uuid;
 
 /**
@@ -216,6 +218,41 @@ class Event implements \JsonSerializable {
         }
         //store the event detail
         $this->eventDetail = $newEventDetail;
+    }
+    /**
+     * accessor method for event name
+     *
+     * @return string value of event name
+     **/
+    /**
+     * @return string
+     */
+    public function getEventName(): string {
+        return $this->eventName;
+    }
+
+    /**
+     * mutator method for event name
+     *
+     * @param string $newEventName new value of event name
+     * @throws \InvalidArgumentException if $newEventName is not a string or insecure
+     * @throws \RangeException if $newEventName is > 64 characters
+     * @throw \TypeError if $newEventName is not a string
+     **/
+    public function setEventName(string $newEventName) : void {
+        //verify the event name is secure
+        $newEventName = trim($newEventName);
+        $newEventName = filter_var($newEventName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+        if (empty($newEventName) ===true) {
+            throw (new \InvalidArgumentException("event name is empty or insecure"));
+        }
+        //verify the event name will fit in the database
+        if (strlen($newEventName)> 64) {
+            throw (new \RangeException("event name is too long"));
+        }
+
+        // store the event name
+        $this->eventName = $newEventName;
     }
 
 
