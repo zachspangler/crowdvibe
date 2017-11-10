@@ -120,8 +120,103 @@ class Event implements \JsonSerializable {
     }
 
     /**
-     * accessor
+     * accessor method for event id
+     *
+     * @return int|null value of event id
+     **/
+    /**
+     * @return int
      */
+    public function getEventId(): int {
+        return $this->eventId;
+    }
+
+    /**
+     * mutator method for event id
+     *
+     * @param int\null $newEventId new value of event id
+     * @throws \RangeException if $nevEventId is not positive
+     * @throws \TypeError if $newEventId is not an integer
+     **/
+    public function setEventId(?int $newEventId) : void {
+        //if event id is null immediately return it
+        if($newEventId===null) {
+            $this->eventId = null;
+            return;
+        }
+
+        // verify if the event id is positive
+        if ($newEventId <= 0) {
+            throw (new \RangeException("event id is not positive"));
+        }
+
+        //convert and store the event id
+        $this->eventId = $newEventId;
+    }
+    /**
+     * accessor method for event profile id
+     *
+     * @return int value of event profile id
+     **/
+    /**
+     * @return int
+     */
+    public function getEventProfileId(): int {
+        return $this->eventProfileId;
+    }
+
+    /**
+     * mutator method for event profile id
+     *
+     * @param int $newEventProfileId new value of event profile id
+     * @throws \RangeException if $newProfileId is not positive
+     * @throws \TypeError if $newProfileId is not an integer
+     **/
+    public function setEventProfileId(int $newEventProfileId) : void {
+
+        //verify the event id is positive
+        if ($newEventProfileId <= 0) {
+            throw (new \RangeException("event profile id is not positive"));
+        }
+
+        //convert and store the profile id
+        $this->eventProfileId = $newEventProfileId;
+    }
+
+    /**
+     * accessor method for event detail
+     *
+     * @return string value of event detail
+     **/
+    /**
+     * @return string
+     */
+    public function getEventDetail(): string {
+        return $this->eventDetail;
+    }
+
+    /**
+     * mutator method for event detail
+     *
+     * @param string $newEventDetail new value of event detail
+     * @throws \InvalidArgumentException if $newEventDetail is not a string or insecure
+     * @throws \RangeException if $newEventDetail is > 500
+     * @throws \TypeError if $newEventDetail is not a string
+     **/
+    public function setEventDetail(string $newEventDetail) : void {
+        // verify the event detail is secure
+        $newEventDetail = trim($newEventDetail);
+        $newEventDetail =filter_var($newEventDetail, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+        if (empty($newEventDetail)=== true) {
+            throw (new \InvalidArgumentException("event detail is empty or insecure"));
+        }
+        //verify the event detail will fit in the database
+        if (strlen($newEventDetail) > 500) {
+            throw (new \RangeException("event content is too long"));
+        }
+        //store the event detail
+        $this->eventDetail = $newEventDetail;
+    }
 
 
     /**
