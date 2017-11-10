@@ -17,5 +17,5 @@ $password = "fucking work";
 $SALT = bin2hex(random_bytes(32));
 $HASH = hash_pbkdf2("sha512", $password, $SALT, 262144);
 
-$profile = new Profile(generateUuidV4(),bin2hex(random_bytes(16)), "fuck this", "buller@buller.com", "first", $HASH, "We gotta get the burp string morty", "Sanchez", $SALT, "Pickle Rick");
+$profile = new Profile(generateUuidV4(),bin2hex(random_bytes(16)), "hope to figure this out3", "willy1@buller.com", "Willy", $HASH, "imageofimages3", "William", $SALT, "willster");
 $profile->insert($pdo);
