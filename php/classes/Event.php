@@ -54,13 +54,13 @@ class Event implements \JsonSerializable {
      *
      * @var \DateTime $eventStartTime
      **/
-    private $eventStartTime;
+    private $eventStartDateTime;
     /**
      * this specifies the time the event will end.
      *
      * @var \DateTime $eventEndStartTime
      **/
-    private $eventEndStartTime;
+    private $eventEndDateTime;
     /**
      * this specifies the limit of individuals that can attend an event
      *
@@ -296,7 +296,7 @@ class Event implements \JsonSerializable {
          * @return \DateTime value of event EndDateTime
          **/
         public function getEventEndDateTime() : \DateTime {
-            return($this->eventEndStartTime);
+            return($this->eventEndDateTime);
         }
 
         /**
@@ -309,7 +309,7 @@ class Event implements \JsonSerializable {
         public function setEventEndDateTime ($newEventEndDateTime = null) : void {
             //base case: if the date is null, use the current date and time
             if($newEventEndDateTime === null) {
-                $this->eventEndStartTime = new \DateTime();
+                $this->eventEndDateTime = new \DateTime();
                 return;
 
             }
@@ -328,7 +328,7 @@ class Event implements \JsonSerializable {
     public function jsonSerialize() {
         $fields = get_object_vars($this);
         //format the date so that the front end can consume it
-        $fields["eventStartDateTime"] = round(floatval($this->eventStartTime->format("U.u")) * 1000);
+        $fields["eventStartDateTime"] = round(floatval($this->eventStartDateTime->format("U.u")) * 1000);
         return($fields);
     }
 }
