@@ -80,6 +80,7 @@ class Profile implements \JsonSerializable {
 	 * @param string $newProfileLastName string last name of the user
 	 * @param string $newProfileSalt string containing password salt
 	 * @param string $newProfileUserName string user name designated by the user
+	 * @param string $newProfileName string which is the combination of first name and last name
 	 * @throws \InvalidArgumentException if data types are not valid
 	 * @throws \RangeException if data values are out of bounds (e.g., strings too long, negative integers)
 	 * @throws \TypeError if a data type violates a data hint
@@ -663,8 +664,7 @@ class Profile implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public
-	static function getProfileByProfileActivationToken(\PDO $pdo, string $profileActivationToken): ?Profile {
+	public static function getProfileByProfileActivationToken(\PDO $pdo, string $profileActivationToken): ?Profile {
 		//make sure activation token is in the right format and that it is a string representation of a hexadecimal
 		$profileActivationToken = trim($profileActivationToken);
 		if(ctype_xdigit($profileActivationToken) === false) {
@@ -692,7 +692,7 @@ class Profile implements \JsonSerializable {
 	}
 
 	/**
-	 * gets the Profile by First or Last Name
+	 * gets the Profile by First an/or Last Name
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param string $profileName is the search term that includes profile first namd and last name
@@ -707,23 +707,30 @@ class Profile implements \JsonSerializable {
 		if(empty($profileName) === true) {
 			throw(new \PDOException("not a valid name"));
 		}
+
 		// create query template
-		$query = "SELECT profileId, profileActivationToken, profileBio, profileEmail, profileFirstName, profileHash, profileImage, profileLastName, profileSalt, profileUserName FROM profile WHERE CONCAT (:profileFirstName, ' ', :profileLastName) LIKE CONCAT('%', REPLACE(:profileName, ' ', '%'),'%')";
+		$query = "SELECT profileId, profileActivationToken, profileBio, profileEmail, profileFirstName, profileHash, profileImage, profileLastName, profileSalt, profileUserName FROM profile WHERE :profileName LIKE CONCAT('%', REPLACE(:profileName, ' ', '%'),'%')";
 		$statement = $pdo->prepare($query);
-		// build an array of users
-		$profileName = new \SplFixedArray($statement->rowCount());
+
+		// bind the profile to the place holder in the template
+		$profileName = "profileName";
+		$parameters = ["profileName" => $profileName];
+		$statement->execute($parameters);
+
+		// build an array of profiles
+		$profileNames = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
 				$profileName = new Profile($row["profileId"], $row["profileActivationToken"], $row["profileBio"], $row["profileEmail"], $row["profileFirstName"], $row["profileHash"], $row["profileImage"], $row["profileLastName"], $row["profileSalt"], $row["profileUserName"]);
-				$profileName[$profileName->key()] = $profileName;
-				$profileName->next();
+				$profileNames[$profileNames->key()] = $profileName;
+				$profileNames->next();
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-		return ($profileName);
+		return ($profileNames);
 	}
 
 	/**
