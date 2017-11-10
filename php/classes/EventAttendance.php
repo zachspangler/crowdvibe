@@ -70,6 +70,9 @@ class EventAttendance implements \JsonSerializable {
 		}
 	}
 
+	private static function validateUuid($newAttendanceEventId) {
+	}
+
 	/**
 	 * accessor method for attendance id
 	 *
