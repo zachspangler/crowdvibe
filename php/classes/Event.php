@@ -136,7 +136,7 @@ class Event implements \JsonSerializable {
     /**
      * mutator method for event id
      *
-     * @param int\null $newEventId new value of event id
+     * @param int|null $newEventId new value of event id
      * @throws \RangeException if $nevEventId is not positive
      * @throws \TypeError if $newEventId is not an integer
      **/
@@ -311,6 +311,7 @@ class Event implements \JsonSerializable {
             if($newEventEndDateTime === null) {
                 $this->eventEndStartTime = new \DateTime();
                 return;
+
             }
         }
     }
@@ -320,14 +321,14 @@ class Event implements \JsonSerializable {
 
 
     /**
-     * Specify data which should be serialized to JSON
-     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
-     * @return mixed data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
-     * @since 5.4.0
-     */
-    public function jsonSerialize()
-    {
-        // TODO: Implement jsonSerialize() method.
+     * formats the state variables for JSON serialization
+     *
+     * @return array resulting state variables to serialize
+     **/
+    public function jsonSerialize() {
+        $fields = get_object_vars($this);
+        //format the date so that the front end can consume it
+        $fields["eventStartDateTime"] = round(floatval($this->eventStartTime->format("U.u")) * 1000);
+        return($fields);
     }
 }
