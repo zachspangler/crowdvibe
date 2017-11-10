@@ -278,4 +278,33 @@ class RatingTest extends crowdvibeTest {
         $rating = Rating::getrRatingByRaterProfileId($this->getPDO(), generateUuidV4());
         $this->assertCount(0, $rating);
     }
+
+    /**
+     * test grabbing all Ratings
+     */
+    public function testGetAllValidRatings() : void
+    {
+        //count number of rows and save for later
+        $numRows = $this->getConnection()->getRowCoung("rating");
+
+        //create a new Rating and insert into mySQL
+        $rating = new Rating(generateUuidV4(), $this->eventAttendance->getEventAttendanceId(), $this->ratee->getProfileId(), $this->rater->getProfileId(), 70);
+        $rating->insert($this->getPDO());
+
+        // grab the data from mySQL and enforce the fields match our expectations
+        $results = Rating::getAllRatings($this->getPDO(), $rating->getEventAttendanceId());
+        $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("rating"));
+        $this->assertCount(1, $results);
+        $this->assertContainsOnlyInstancesOf("Edu\\Cnm\\CrowdVibe\\Rating", $results);
+
+
+        //grab the results from the array and validate it
+        $pdoRating = $results[0];
+
+        $this->assertEquals($pdoRating->getRatingId(), $this->rating->getRatingId);
+        $this->assertEquals($pdoRating->getRatingEventAttendanceId(), $this->event->getEventAttendanceId());
+        $this->assertEquals($pdoRating->getRatingRateeProfileId(), $this->ratee->getRateeProfileId);
+        $this->assertEquals($pdoRating->getRatingRaterProfileId(), $this->rater->getRaterProfileId);
+        $this->assertEquals($pdoRating->getRatingScore(), $this->VALID_RATING_SCORE);
+    }
 }
