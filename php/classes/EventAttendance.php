@@ -170,8 +170,8 @@ class EventAttendance implements \JsonSerializable {
 		if(empty($newAttendanceCheckIn) === true) {
 			throw(new \InvalidArgumentException("attendance check is empty or insecure"));
 		}
-		//verify the Attendance content is 0 or 1
-		if($newAttendanceCheckIn !== 0 || 1) {
+		//verify the Attendance content
+		if($newAttendanceCheckIn) {
 			throw(new \RangeException("attendance check is not correct"));
 		}
 		// convert and store the profile id
@@ -208,7 +208,7 @@ class EventAttendance implements \JsonSerializable {
 		$this->attendanceNumberAttending;
 		}
 	/**
-	 * inserts this Event Attendance into mySQL
+	 * inserts Event Attendance into mySQL
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySQL related errors occur
