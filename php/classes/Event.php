@@ -99,11 +99,29 @@ class Event implements \JsonSerializable {
      */
 
     public function __construct(?int $newEventId, int $newEventProfileId, string $newEventDetail, \DateTime $newEventStartDateTime =
-    null, \DateTime $newEventEndStartTime = null, int $newEventPrice, float $newEventLat, float $newEventLong, $eventImage= null,
-string $newEventName, )
+    null, \DateTime $newEventEndStartTime = null, int $newEventPrice, float $newEventLat, float $newEventLong, $eventImage= null, string $newEventName){
+    try {
+        $this->setEventId($newEventId);
+        $this->setEventProfileId($newEventProfileId);
+        $this->setEventDetail($newEventDetail);
+        $this->setEventStartDateTime($newEventStartDateTime);
+        $this->setEventEndStartTime($newEventEndStartTime);
+        $this->setEventPrice($newEventPrice);
+        $this->setEventLat($newEventLat);
+        $this->setEventLong($newEventLong);
+        $this->setEventImage($newEventImage);
+        $this->setEventName($newEventName);
 
-    {
     }
+    //determine what exception type was thrown
+        catch (\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {$exceptionType = get_class($exception);
+        throw (new $exceptionType($exception->getMessage(), 0, $exception));
+        }
+    }
+
+    /**
+     * accessor
+     */
 
 
     /**
