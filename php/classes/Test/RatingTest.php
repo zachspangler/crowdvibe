@@ -54,6 +54,12 @@ class RatingTest extends crowdvibeTest {
 	 **/
 	protected $VALID_RATING_SCORE = 3;
 
+    /**
+     * score of the Rating
+     * @var int $VALID_RATINGS_SCORE2
+     **/
+    protected $VALID_RATING_SCORE2 = 7;
+
 
 
     /**
@@ -101,10 +107,175 @@ class RatingTest extends crowdvibeTest {
         $rating->insert($this->getPDO());
 
         // grab the data from mySQL and enforce the fields match our expectations
+
+        $pdoRating= Rating::getRatingByRatingId($this->getPDO(), $this->rating->getRatingId());
+        // CHECK ABOVE
+        $this->assertEquals($numRows + 1,$this->getConnection()->getRowCount("rating"));
+        $this->assertEquals($pdoRating->getRatingId(),$this->rating-> getRatingId);
+        $this->assertEquals($pdoRating->getRatingEventAttendanceId(), $this->event->getEventAttendanceId());
+        $this->assertEquals($pdoRating->getRatingRateeProfileId(),$this->ratee->getRateeProfileId);
+        $this->assertEquals($pdoRating->getRatingRaterProfileId(),$this-> rater->getRaterProfileId);
+        $this->assertEquals($pdoRating->getRatingScore(), $this->VALID_RATING_SCORE);
+    }
+
+    /**
+     * test inserting a Rating, edit it, and then updating it
+     **/
+    public function testUpdateValidRating() : void {
+        //count number of rows and save for later
+        $numRows = $this->getConnection()->getRowCoung("rating");
+
+        //create a new Rating and insert into mySQL
+        $rating = new Rating(generateUuidV4(),$this->eventAttendance->getEventAttendanceId(), $this->ratee->getProfileId(), $this->rater->getProfileId(),70);
+        $rating->insert($this->getPDO());
+
+        //edit the Rating and update it in mySQL
+        $rating->setRatingScore($this->VALID_RATING_SCORE2);
+        $rating->insert($this->getPDO());
+
+        // grab the data from mySQL and enforce the fields match our expectations
+
         $pdoRating= Rating::getRatingByRatingId($this->getPDO(), $this->rating->getRatingId());
         $this->assertEquals($numRows + 1,$this->getConnection()->getRowCount("rating"));
-        $this->assertEquals($pdoRating->getRatingId(),$ratingId);
-        $this->assertEquals($pdoRating->getRatingEventAttendanceId(, $this->eventAttendance->getEventAttendanceId()))
+        $this->assertEquals($pdoRating->getRatingId(),$this->rating-> getRatingId);
+        $this->assertEquals($pdoRating->getRatingEventAttendanceId(), $this->event->getEventAttendanceId());
+        $this->assertEquals($pdoRating->getRatingRateeProfileId(),$this->ratee->getRateeProfileId);
+        $this->assertEquals($pdoRating->getRatingRaterProfileId(),$this-> rater->getRaterProfileId);
+        $this->assertEquals($pdoRating->getRatingScore(), $this->VALID_RATING_SCORE);
+    }
 
+    /**
+     * test creating a Rating and then deleting it
+     **/
+    public function testDeleteValidRating() : void {
+        //count number of rows and save for later
+        $numRows = $this->getConnection()->getRowCoung("rating");
+
+        //create a new Rating and insert into mySQL
+        $rating = new Rating(generateUuidV4(),$this->eventAttendance->getEventAttendanceId(), $this->ratee->getProfileId(), $this->rater->getProfileId(),70);
+        $rating->insert($this->getPDO());
+
+        //delete the Rating from mySQL
+        $this->asertEquals($numRows + 1,$this->getConnection()->getRowCount("rating"));
+        $this->delete($this->getPDO());
+
+        // grab the data from mySQL and enforce the Rating does not exist
+        $pdoRating = rating::getRatingByRatingId($this->getPDO(), $this->getRatingId());
+        $this->assertNull($pdoRating);
+        $this->assertEquals($numRows,$this->getConnection()->getRowCount("rating"));
+    }
+
+    /**
+     * test inserting a Rating and regrabbing it from mySQL
+     **/
+    public function testGetValidEventAttendanceId() : void
+    {
+        //count number of rows and save for later
+        $numRows = $this->getConnection()->getRowCoung("rating");
+
+        //create a new Rating and insert into mySQL
+        $rating = new Rating(generateUuidV4(), $this->eventAttendance->getEventAttendanceId(), $this->ratee->getProfileId(), $this->rater->getProfileId(), 70);
+        $rating->insert($this->getPDO());
+
+        // grab the data from mySQL and enforce the fields match our expectations
+        $results = Rating::getRatingByEventAttnedanceId($this->getPDO(), $rating->getEventAttendanceId());
+        $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("rating"));
+        $this->assertCount(1, $results);
+        $this->assertContainsOnlyInstancesOf("Edu\\Cnm\\CrowdVibe\\Rating", $results);
+
+
+        //grab the results from the array and validate it
+        $pdoRating = $results[0];
+
+        $this->assertEquals($pdoRating->getRatingId(), $this->rating->getRatingId);
+        $this->assertEquals($pdoRating->getRatingEventAttendanceId(), $this->event->getEventAttendanceId());
+        $this->assertEquals($pdoRating->getRatingRateeProfileId(), $this->ratee->getRateeProfileId);
+        $this->assertEquals($pdoRating->getRatingRaterProfileId(), $this->rater->getRaterProfileId);
+        $this->assertEquals($pdoRating->getRatingScore(), $this->VALID_RATING_SCORE);
+    }
+
+    /**
+     * test grabbing a Rating that does not exist
+     **/
+    public function testGetInvalidRatingByEventAttendanceId() : void {
+        // grab a profile id that exceeds the maximum allowable profile id
+        $rating = Rating::getrRatingByEventAttendanceId($this->getPDO(), generateUuidV4());
+        $this->assertCount(0, $rating);
+    }
+
+    /**
+     * test inserting a Rating and regrabbing it from mySQL
+     **/
+    public function testGetValidRateeProfileId() : void
+    {
+        //count number of rows and save for later
+        $numRows = $this->getConnection()->getRowCoung("rating");
+
+        //create a new Rating and insert into mySQL
+        $rating = new Rating(generateUuidV4(), $this->eventAttendance->getEventAttendanceId(), $this->ratee->getProfileId(), $this->rater->getProfileId(), 70);
+        $rating->insert($this->getPDO());
+
+        // grab the data from mySQL and enforce the fields match our expectations
+        $results = Rating::getRatingByRateeProfileId($this->getPDO(), $rating->getEventAttendanceId());
+        $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("rating"));
+        $this->assertCount(1, $results);
+        $this->assertContainsOnlyInstancesOf("Edu\\Cnm\\CrowdVibe\\Rating", $results);
+
+
+        //grab the results from the array and validate it
+        $pdoRating = $results[0];
+
+        $this->assertEquals($pdoRating->getRatingId(), $this->rating->getRatingId);
+        $this->assertEquals($pdoRating->getRatingEventAttendanceId(), $this->event->getEventAttendanceId());
+        $this->assertEquals($pdoRating->getRatingRateeProfileId(), $this->ratee->getRateeProfileId);
+        $this->assertEquals($pdoRating->getRatingRaterProfileId(), $this->rater->getRaterProfileId);
+        $this->assertEquals($pdoRating->getRatingScore(), $this->VALID_RATING_SCORE);
+    }
+
+    /**
+     * test grabbing a Rating that does not exist
+     **/
+    public function testGetInvalidRatingByRateeProfileId() : void {
+        // grab a profile id that exceeds the maximum allowable profile id
+        $rating = Rating::getrRatingByRateeProfileId($this->getPDO(), generateUuidV4());
+        $this->assertCount(0, $rating);
+    }
+
+    /**
+     * test inserting a Rating and regrabbing it from mySQL
+     **/
+    public function testGetValidRaterProfileId() : void
+    {
+        //count number of rows and save for later
+        $numRows = $this->getConnection()->getRowCoung("rating");
+
+        //create a new Rating and insert into mySQL
+        $rating = new Rating(generateUuidV4(), $this->eventAttendance->getEventAttendanceId(), $this->ratee->getProfileId(), $this->rater->getProfileId(), 70);
+        $rating->insert($this->getPDO());
+
+        // grab the data from mySQL and enforce the fields match our expectations
+        $results = Rating::getRatingByRaterProfileId($this->getPDO(), $rating->getEventAttendanceId());
+        $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("rating"));
+        $this->assertCount(1, $results);
+        $this->assertContainsOnlyInstancesOf("Edu\\Cnm\\CrowdVibe\\Rating", $results);
+
+
+        //grab the results from the array and validate it
+        $pdoRating = $results[0];
+
+        $this->assertEquals($pdoRating->getRatingId(), $this->rating->getRatingId);
+        $this->assertEquals($pdoRating->getRatingEventAttendanceId(), $this->event->getEventAttendanceId());
+        $this->assertEquals($pdoRating->getRatingRateeProfileId(), $this->ratee->getRateeProfileId);
+        $this->assertEquals($pdoRating->getRatingRaterProfileId(), $this->rater->getRaterProfileId);
+        $this->assertEquals($pdoRating->getRatingScore(), $this->VALID_RATING_SCORE);
+    }
+
+    /**
+     * test grabbing a Rating that does not exist
+     **/
+    public function testGetInvalidRatingByRaterProfileId() : void {
+        // grab a profile id that exceeds the maximum allowable profile id
+        $rating = Rating::getrRatingByRaterProfileId($this->getPDO(), generateUuidV4());
+        $this->assertCount(0, $rating);
     }
 }
