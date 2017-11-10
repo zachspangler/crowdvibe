@@ -106,14 +106,16 @@ class EventTest extends CrowdVibeTest
 
         //create a new Event and insert into mySQL
         $eventId = generateUuidV4();
+        //todo be faithful to the constructor
         $event = new Event($eventId, $this->profile->getProfileId(), $this->VALID_EVENTDETAIL, $this->VALID_EVENTDATE);
         $this->insert($this->getPDO());
 
         //edit the Event and update it in mySQL
-        $event->setEventDetail($this->VALID_EVENTDETAIL2);
-        $event->update($this->getPDO());
+       // $event->setEventDetail($this->VALID_EVENTDETAIL2);
+        //$event->update($this->getPDO());
 
         // grab the data from mySQL and enforce the fields match our expectations
+		 //todo assertEqualsAllTheThings
         $pdoEvent = Event::getEventByEventId($this->getPDO(), $event->getEventId());
         $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("event"));
         $this->assertEquals($pdoEvent->getEventProfileId(), $this->profile->getProfileId());
@@ -123,16 +125,7 @@ class EventTest extends CrowdVibeTest
 
 
     }
-/**
- * test updating a Event that does not exist
- *
- * @exceptedException \PDOException
- **/
-public function testUpdateInvalidEvent() : void {
-    // create a Event with a non null event id and watch it fail
-    $event = new Event(null, $this->profile->getProfileId(), $this->VALID_EVENTDETAIL, $this->VALID_EVENTDATE);
-    $event->update($this->getPDO());
-}
+
 /**
  * test creating a Event and then deleting it
  **/
@@ -153,17 +146,7 @@ public function testDeleteValidEvent() : void {
     $this->assertNull($pdoEvent);
     $this->assertEquals($numRows, $this->getConnection()->getEventCount("event"));
 }
-/**
- * test deleting a Event that does not exist
- *
- * @expectedException \PD0Exception
- **/
-public function testDeleteInvalidEvent() : void {
-    // create a Event and try not to delete it without actually inserting it
-    $event = new Event(null, $this->profile->getProfileId(), $this->VALID_EVENTDETAIL, $this->VALID_EVENTDATE);
-    $event->delete($this->getPDO());
 
-}
 /**
  * test grabbing a Event that does not exist
  **/
@@ -192,7 +175,7 @@ public function testGetValidEventByEventProfileId() {
 
     //grab the result from the array and validate it
     $pdoEvent =$results[0];
-    $this->assertEquals($pdoEvent->getEventProfileId(), $this->profile->getProfileId());
+    $this->assertEquals($pdoEvent->getEventProfileId(), $event->getEventId());
 }
 /**
  * test grabbing a Event that does not exist
