@@ -156,6 +156,7 @@ public function setRatingId($newRatingId) : void{
            }
 
            //convert and store the rating ratee profile id
+           $this->ratingRateeProfileId = $uuid;
        }
 
 
