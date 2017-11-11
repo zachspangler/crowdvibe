@@ -143,7 +143,7 @@ public function setRatingId($newRatingId) : void{
        /**
         * mutator method for rating ratee profile id
         *
-        * @param string | Uuid $newRatingRateeProfileId
+        * @param string | Uuid $newRatingRateeProfileId new value of rating ratee profile id
         * @throw \RangeException if $newRatingRateeProfileId is not positive
         * @throw \TypeError if $new RatingRateeProfileId is not an integer
         **/
@@ -159,14 +159,61 @@ public function setRatingId($newRatingId) : void{
            $this->ratingRateeProfileId = $uuid;
        }
 
+       /**
+        * accessor method for rating ratee profile id
+        *
+        * @return Uuid value of a rating ratee profile id
+        **/
+      public function getRatingRateeProfileId() : Uuid{
+        return($this->ratingRateeProfileId);
+      }
+
+       /**
+        * mutator method for rating rater profile id
+        *
+        * @param string | Uuid $newRatingRaterProfileId new value of rating rater profile id
+        * @throw \RangeException if $newRatingRaterProfileId is not positive
+        * @throw \TypeError if $new RatingRaterProfileId is not an integer
+        **/
+       public function setRatingRateeProfileId( $newRatingRaterProfileId) : void {
+            try{
+                $uuid = self::validateUUid($newRatingRaterProfileId);
+            }catch (\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+                $exceptionType = get_class($exception);
+                throw (new$exceptionType($exception->getMessage(), 0, $exception));
+            }
+
+            //convert and store the rating ratee profile id
+            $this->ratingRateeProfileId = $uuid;
+       }
+
+       /**
+        * accessor method for rating score
+        *
+        * @return string value of rating score
+        **/
+       public function getRatingScore() : string {
+           return($this->ratingScore);
+       }
+
+       /**
+        * mutator method for rating score
+        *
+        * @param string $newRatingScore new value of rating score
+        * @throws \InvalidArgumentException if $newRatingScore is not a string or insecure
+        * @throws \RangeException if $newRatingScore is not a string or insec
+        */
 
 
-    /**
-	 * formats the state variables for JSON serialization
-	 *
-	 * @return array resulting state variables to serialize
-	 **/
-	public function jsonSerialize() {
+
+
+
+        /**
+	     * formats the state variables for JSON serialization
+	     *
+         * @return array resulting state variables to serialize
+	    **/
+	    public function jsonSerialize() {
 		$fields = get_object_vars($this);
 		$fields["profileId"] = $this->profileId->toString();
 		unset($fields["profileHash"]);
