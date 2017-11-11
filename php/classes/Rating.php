@@ -63,11 +63,104 @@ class Rating implements \JsonSerializable {
         try {
             $this->setRatingId($newRatingId);
             $this->setRatingEventAttendanceId($newEventAttendanceId);
+            $this->setRatingRateeProfileId($newRatingRateeProfileId);
+            $this->setRatingRaterProfileId($newRatingRaterProfileId);
+            $this->setRatingScore($newRatingScore);
+        }
+        //determine what exception type was thrown
+        catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+            $exceptionType = get_class($exception);
+            throw(new $exceptionType($exception->getMessage(),0, $exception));
+        }
+    }
 
-}
-}
+    /**
+     * accessor method for rating id
+     *
+     * @return Uuid value of rating id
+     **/
+    public function getRatingId() : Uuid {
+        Return($this->ratingId);
+    }
 
-	/**
+    /**
+     * mutator method for rating id
+     *
+     * @param Uuid/string $newRatingId new value of rating id
+     * @throws \RangeException if $newRatingId is not positive
+     * @throws \TypeError if $newRatingId is not a uuid or string
+     **/
+
+public function setRatingId($newRatingId) : void{
+    try{
+        $uuid = self::validateUuid($newRatingId);
+    }catch (\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+        $exceptionType = get_class($exception);
+        throw(new $exceptionType($exception->getMessage(), 0, $exception));
+    }
+
+    //convert and store the rating id
+    $this->ratingId = $uuid;
+    }
+
+     /**
+     * accessor method for rating event attendance id
+     *
+     * @return Uuid value of a rating event attendance id
+     **/
+     public function getRatingEventAttendanceId() : Uuid{
+        return ($this->ratingEventAttendanceId);
+     }
+
+     /**
+      * mutator method for rating event attendance id
+      *
+      *@param string | Uuid $newRatingEventAttendanceId new value of rating event attendance id
+      *@throw \RangeException if $newRatingEventAttendanceId is not positive
+      *@throw \TypeError if $newRatingProfileId is not an integer
+      **/
+     public function setRatingEventAttendanceId( $newRatingEventAttendanceId) : void {
+         try {
+             $uuid = self::validateUUid($newRatingEventAttendanceId);
+         }catch (\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+             $exceptionType = get_class($exception);
+             throw(new$exceptionType($exception->getMessage(), 0, $exception));
+         }
+
+         // convert and store the rating event attendanve Id
+        $this->ratingEventAttendanceId = $uuid;
+     }
+
+      /**
+       * accessor method for rating ratee profile id
+       *
+       * @return Uuid value of a rating ratee profile id
+       **/
+      public function getRatingRateeProfileId() : Uuid{
+          return($this->ratingRateeProfileId);
+       }
+
+       /**
+        * mutator method for rating ratee profile id
+        *
+        * @param string | Uuid $newRatingRateeProfileId
+        * @throw \RangeException if $newRatingRateeProfileId is not positive
+        * @throw \TypeError if $new RatingRateeProfileId is not an integer
+        **/
+       public function setRatingRateeProfileId( $newRatingRateeProfileId) : void {
+           try{
+               $uuid = self::validateUUid($newRatingRateeProfileId);
+           }catch (\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+               $exceptionType = get_class($exception);
+               throw (new$exceptionType($exception->getMessage(), 0, $exception));
+           }
+
+           //convert and store the rating ratee profile id
+       }
+
+
+
+    /**
 	 * formats the state variables for JSON serialization
 	 *
 	 * @return array resulting state variables to serialize
