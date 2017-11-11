@@ -41,7 +41,7 @@ class Rating implements \JsonSerializable {
 
     /**
      * rating that has been given to a ratee or event by rater after attending events
-     * @var tinyint(3) $ratingScore
+     * @var tinyint(3) unsigned $ratingScore
      */
     private $ratingScore;
 
@@ -201,8 +201,11 @@ public function setRatingId($newRatingId) : void{
         *
         * @param string $newRatingScore new value of rating score
         * @throws \InvalidArgumentException if $newRatingScore is not a string or insecure
-        * @throws \RangeException if $newRatingScore is not a string or insec
-        */
+        * @throws \RangeException if $newRatingScore is not positive
+        **/
+       public Function setRatingScore(string $newRatingScore) : void {
+
+}
 
 
 
