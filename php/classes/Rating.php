@@ -278,7 +278,7 @@ public function setRatingId($newRatingId) : void{
             }
 
             // create query template
-            $query = "INSERT INTO rating(ratingId, ratingEventAttendanceId, ratingRateeProfileId, ratingRaterProfileId, ratingScore) VALUES (:ratingId, :ratingEventAttendanceId, :ratingRateeProfileId, :ratingRaterProfileId, :ratingScore)";
+            $query = "SELECT ratingId, ratingEventAttendanceId, ratingRateeProfileId, ratingRaterProfileId, ratingScore FROM rating WHERE ratingId = :ratingId";
             $statement = $pdo->prepare($query);
 
             // bind the rating id to the place holdr in the template
@@ -299,6 +299,127 @@ public function setRatingId($newRatingId) : void{
             }
             return($rating);
         }
+
+        /**
+         * get the Rating by rating event attendance id
+         *
+         * @param \PDO $pdo $pdo PDO connection object
+         * @param string $ratingId rating Id to search for
+         * @return Rating|null Rating or null if not found
+         * @throws \PDOException when mySQL related errors occur
+         * @throws \TypeError when variable is not the correct date type
+         **/
+        public static function getRatingByRatingEventAttendanceId(\PDO $pdo, string $ratingEventAttendanceId);?Rating {
+            // sanitize the rating id before searching
+            try {
+                $ratingEventAttendanceId = self::validateUuid($ratingEventAttendanceId);
+            }catch (\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+                throw (new \PDOException($exception->getMessage(), 0, $exception));
+            }
+
+             // create query template
+             $query = "SELECT ratingId, ratingEventAttendanceId, ratingRateeProfileId, ratingRaterProfileId, ratingScore FROM rating WHERE ratingEventAttendanceId = :ratingEventAttendanceId" ;
+             $statement = $pdo->prepare($query);
+
+            // bind the rating id to the place holder in the template
+            $parameters = ["ratingEventAttendanceId" => $ratingEventAttendanceId->getBytes()];
+            $statement->execute($parameters);
+
+            // grab the rating from mySQL
+             try{
+                $rating = null;
+                $statement->setFetchMode(\PDO::FETCH_ASSOC);
+                $row = $statement->fetch();
+                 if($row !== false) {
+                     $rating = new Rating($row["ratingId"],$row["ratingEventAttendanceId"], $row["ratingRateeProfileId"], $row["ratingRaterProfileId"], $row["ratingScore"]);
+                }
+             }catch (\Exception $exception){
+                 //if the row couldn't be coverted, rethrow it
+                 throw(new \PDOException($exception->getMessage(), 0, $exception));
+             }
+             return($rating);
+        }
+
+        /**
+         * get the Rating by rating ratee profile id
+         *
+         * @param \PDO $pdo $pdo PDO connection object
+         * @param string $ratingId rating Id to search for
+         * @return Rating|null Rating or null if not found
+         * @throws \PDOException when mySQL related errors occur
+         * @throws \TypeError when variable is not the correct date type
+         **/
+        public static function getRatingByRatingRateeProfileId(\PDO $pdo, string $ratingRateeProfileId);?Rating {
+            // sanitize the rating id before searching
+            try {
+                $ratingRateeProfileId = self::validateUuid($ratingRateeProfileId);
+            }catch (\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+                throw (new \PDOException($exception->getMessage(), 0, $exception));
+            }
+
+            // create query template
+            $query = "SELECT ratingId, ratingEventAttendanceId, ratingRateeProfileId, ratingRateeProfileId, ratingScore FROM rating WHERE ratingRateeProfileId = :ratingRateeProfileId" ;
+    $statement = $pdo->prepare($query);
+
+            // bind the rating id to the place holder in the template
+            $parameters = ["ratingRateeProfileId" => $ratingRateeProfileId->getBytes()];
+            $statement->execute($parameters);
+
+            // grab the rating from mySQL
+            try{
+                $rating = null;
+                $statement->setFetchMode(\PDO::FETCH_ASSOC);
+                $row = $statement->fetch();
+                if($row !== false) {
+                    $rating = new Rating($row["ratingId"],$row["ratingEventAttendanceId"], $row["ratingRateeProfileId"], $row["ratingRaterProfileId"], $row["ratingScore"]);
+                }
+            }catch (\Exception $exception){
+                //if the row couldn't be coverted, rethrow it
+                throw(new \PDOException($exception->getMessage(), 0, $exception));
+            }
+            return($rating);
+        }
+
+        /**
+         * get the Rating by rating rater profile id
+         *
+         * @param \PDO $pdo $pdo PDO connection object
+         * @param string $ratingId rating Id to search for
+         * @return Rating|null Rating or null if not found
+         * @throws \PDOException when mySQL related errors occur
+         * @throws \TypeError when variable is not the correct date type
+         **/
+        public static function getRatingByRatingRaterProfileId(\PDO $pdo, string $ratingRaterProfileId);?Rating {
+            // sanitize the rating id before searching
+             try {
+                 $ratingRaterProfileId = self::validateUuid($ratingRaterProfileId);
+             }catch (\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+                 throw (new \PDOException($exception->getMessage(), 0, $exception));
+             }
+
+            // create query template
+            $query = "SELECT ratingId, ratingEventAttendanceId, ratingRateeProfileId, ratingRateeProfileId, ratingScore FROM rating WHERE ratingRaterProfileId = :ratingRaterProfileId" ;
+             $statement = $pdo->prepare($query);
+
+            // bind the rating id to the place holder in the template
+            $parameters = ["ratingRaterProfileId" => $ratingRaterProfileId->getBytes()];
+            $statement->execute($parameters);
+
+            // grab the rating from mySQL
+             try{
+                 $rating = null;
+                 $statement->setFetchMode(\PDO::FETCH_ASSOC);
+                 $row = $statement->fetch();
+                 if($row !== false) {
+                     $rating = new Rating($row["ratingId"],$row["ratingEventAttendanceId"], $row["ratingRateeProfileId"], $row["ratingRaterProfileId"], $row["ratingScore"]);
+                 }
+             }catch (\Exception $exception){
+                //if the row couldn't be coverted, rethrow it
+                throw(new \PDOException($exception->getMessage(), 0, $exception));
+             }
+             return($rating);
+        }
+
 
 
         /**
