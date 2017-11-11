@@ -208,7 +208,97 @@ public function setRatingId($newRatingId) : void{
 }
 
 
+        /**
+         * insert this Rating into mySQL
+         *
+         * @param \PDO $pdo PDO connection object
+         * @throws \PDOException when mySQL related errors occur
+         * @throws \TypeError if $pdo is not a PDO connection object
+         **/
+        public function insert(\PDO$pdo): void {
 
+            // create query template
+            $query = "INSERT INTO rating(ratingId, ratingEventAttendanceId, ratingRateeProfileId, ratingRaterProfileId, ratingScore) VALUES (:ratingId, :ratingEventAttendanceId, :ratingRateeProfileId, :ratingRaterProfileId, :ratingScore)";
+            $statement = $pdo->prepare($query);
+
+            $parameters = ["ratingId" => $this->ratingId->getBytes(), "ratingEventAttendanceId" => $this->ratingEventAttendanceId->getBytes(), "ratingRateeProfileId" => $this->ratingRateeProfileId->getBytes(), "ratingRaterProfileId" => $this->ratingRaterProfileId->getBytes(), "ratingScore" => $this->ratingScore];
+            $statement->execute($parameters);
+        }
+
+        /**
+         * delete this Rating from mySQL
+         *
+         * @param \PDO $pdo PDO connection object
+         * @throws \PDOException when mySQL related error occur
+         * @throws \TypeError if $pdo is not a PDO connection object
+         **/
+        public function delete(\PDO $pdo) : void {
+
+            //create query template
+            $query = "DELETE FROM rating WHERE ratingId= :ratingId";
+            $statement = $pdo->prepare($query);
+
+            // bind the member variables to the place holder in the template
+            $formattedRatingId=
+                $parameters = ["ratingId" => $this->ratingId->getBytes()];
+            $statement->execute($parameters);
+        }
+
+        /**
+         * update this Rating form mySQL
+         *
+         * @param \PDO $pdo PDO connection object
+         * @throws \PDOException when mySQL related error occur
+         **/
+        public function update(\PDO $pdo) : void {
+
+             // create query template
+             $query = "INSERT INTO rating(ratingId, ratingEventAttendanceId, ratingRateeProfileId, ratingRaterProfileId, ratingScore) VALUES (:ratingId, :ratingEventAttendanceId, :ratingRateeProfileId, :ratingRaterProfileId, :ratingScore)";
+             $statement = $pdo->prepare($query);
+
+             $parameters = ["ratingId" => $this->ratingId->getBytes(), "ratingEventAttendanceId" => $this->ratingEventAttendanceId->getBytes(), "ratingRateeProfileId" => $this->ratingRateeProfileId->getBytes(), "ratingRaterProfileId" => $this->ratingRaterProfileId->getBytes(), "ratingScore" => $this->ratingScore];
+             $statement->execute($parameters);
+        }
+
+        /**
+         * get the Rating by rating id
+         *
+         * @param \PDO $pdo $pdo PDO connection object
+         * @param string $ratingId rating Id to search for
+         * @return Rating|null Rating or null if not found
+         * @throws \PDOException when mySQL related errors occur
+         * @throws \TypeError when variable is not the correct date type
+         **/
+        public static function getRatingByRatingId(\PDO $pdo, string $ratingId);?Rating {
+            // sanitize the rating id before searching
+            try {
+                $ratingId = self::validateUuid($ratingId);
+            }catch (\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+                throw (new \PDOException($exception->getMessage(), 0, $exception));
+            }
+
+            // create query template
+            $query = "INSERT INTO rating(ratingId, ratingEventAttendanceId, ratingRateeProfileId, ratingRaterProfileId, ratingScore) VALUES (:ratingId, :ratingEventAttendanceId, :ratingRateeProfileId, :ratingRaterProfileId, :ratingScore)";
+            $statement = $pdo->prepare($query);
+
+            // bind the rating id to the place holdr in the template
+            $parameters = ["ratingId" => $ratingId->getBytes()];
+            $statement->execute($parameters);
+
+            // grab the rating from mySQL
+            try{
+                    $rating = null;
+                    $statement->setFetchMode(\PDO::FETCH_ASSOC);
+                    $row = $statement->fetch();
+                    if($row !== false) {
+                        $rating = new Rating($row["ratingId"],$row["ratingEventAttendanceId"], $row["ratingRateeProfileId"], $row["ratingRaterProfileId"], $row["ratingScore"]);
+                    }
+            }catch (\Exception $exception){
+                //if the row couldn't be coverted, rethrow it
+                throw(new \PDOException($exception->getMessage(), 0, $exception));
+            }
+            return($rating);
+        }
 
 
         /**
