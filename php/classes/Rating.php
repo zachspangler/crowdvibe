@@ -175,7 +175,7 @@ public function setRatingId($newRatingId) : void{
         * @throw \RangeException if $newRatingRaterProfileId is not positive
         * @throw \TypeError if $new RatingRaterProfileId is not an integer
         **/
-       public function setRatingRateeProfileId( $newRatingRaterProfileId) : void {
+       public function setRatingRaterProfileId( $newRatingRaterProfileId) : void {
             try{
                 $uuid = self::validateUUid($newRatingRaterProfileId);
             }catch (\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
@@ -269,7 +269,7 @@ public function setRatingId($newRatingId) : void{
          * @throws \PDOException when mySQL related errors occur
          * @throws \TypeError when variable is not the correct date type
          **/
-        public static function getRatingByRatingId(\PDO $pdo, string $ratingId);?Rating {
+        public static function getRatingByRatingId(\PDO $pdo, string $ratingId):?Rating {
             // sanitize the rating id before searching
             try {
                 $ratingId = self::validateUuid($ratingId);
@@ -309,7 +309,7 @@ public function setRatingId($newRatingId) : void{
          * @throws \PDOException when mySQL related errors occur
          * @throws \TypeError when variable is not the correct date type
          **/
-        public static function getRatingByRatingEventAttendanceId(\PDO $pdo, string $ratingEventAttendanceId);?Rating {
+        public static function getRatingByRatingEventAttendanceId(\PDO $pdo, string $ratingEventAttendanceId):?Rating {
             // sanitize the rating id before searching
             try {
                 $ratingEventAttendanceId = self::validateUuid($ratingEventAttendanceId);
@@ -349,7 +349,7 @@ public function setRatingId($newRatingId) : void{
          * @throws \PDOException when mySQL related errors occur
          * @throws \TypeError when variable is not the correct date type
          **/
-        public static function getRatingByRatingRateeProfileId(\PDO $pdo, string $ratingRateeProfileId);?Rating {
+        public static function getRatingByRatingRateeProfileId(\PDO $pdo, string $ratingRateeProfileId):?Rating {
             // sanitize the rating id before searching
             try {
                 $ratingRateeProfileId = self::validateUuid($ratingRateeProfileId);
@@ -389,7 +389,7 @@ public function setRatingId($newRatingId) : void{
          * @throws \PDOException when mySQL related errors occur
          * @throws \TypeError when variable is not the correct date type
          **/
-        public static function getRatingByRatingRaterProfileId(\PDO $pdo, string $ratingRaterProfileId);?Rating {
+        public static function getRatingByRatingRaterProfileId(\PDO $pdo, string $ratingRaterProfileId):?Rating {
             // sanitize the rating id before searching
              try {
                  $ratingRaterProfileId = self::validateUuid($ratingRaterProfileId);
