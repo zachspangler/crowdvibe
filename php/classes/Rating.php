@@ -59,10 +59,10 @@ class Rating implements \JsonSerializable {
      * @throws \Exception if some other exception occurs
      * @Documentation https://php.net/manuel/en/language.oop5.decon.php
      **/
-    public function__construct($newRatingId, $newEventAttendanceId, $newRateeProfileId, $newRaterProfileId, string $newRatingScore) {
+    public function __construct($newRatingId, $newRatingEventAttendanceId, $newRatingRateeProfileId, $newRatingRaterProfileId, string $newRatingScore) {
         try {
             $this->setRatingId($newRatingId);
-            $this->setRatingEventAttendanceId($newEventAttendanceId);
+            $this->setRatingEventAttendanceId($newRatingEventAttendanceId);
             $this->setRatingRateeProfileId($newRatingRateeProfileId);
             $this->setRatingRaterProfileId($newRatingRaterProfileId);
             $this->setRatingScore($newRatingScore);
@@ -160,11 +160,11 @@ public function setRatingId($newRatingId) : void{
        }
 
        /**
-        * accessor method for rating ratee profile id
+        * accessor method for rating rater profile id
         *
-        * @return Uuid value of a rating ratee profile id
+        * @return Uuid value of a rating rater profile id
         **/
-      public function getRatingRateeProfileId() : Uuid{
+      public function getRatingRaterProfileId() : Uuid{
         return($this->ratingRateeProfileId);
       }
 
