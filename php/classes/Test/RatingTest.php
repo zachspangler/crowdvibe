@@ -86,7 +86,7 @@ class RatingTest extends crowdvibeTest {
         $this->ratee->insert($this->getPDO());
 
         //create and insert a Event to own the test Rating
-        $this->event = new Event(generateUuidV4(), $this->rater->getProfileId(), $eventEndDateTime, "fun fun fun", null, "35.084319", "-106.619781", "chris' 10th bithday", null, $eventStartDateTime);
+        $this->event = new Event(generateUuidV4(), $this->rater->getProfileId(),"chris' 10th birthday",$eventStartDateTime, $eventEndDateTime, "5", "35.084319", "-106.619781", null, "big boy pants!");
         $this->event->insert($this->getPDO());
 
         //create and insert event attendance to be able to rate
