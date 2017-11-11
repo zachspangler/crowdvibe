@@ -42,16 +42,16 @@ CREATE TABLE event (
 );
 
 CREATE TABLE eventAttendance (
-  attendanceId BINARY(16) NOT NULL,
-  attendanceEventId BINARY (16) NOT NULL,
-  attendanceProfileId BINARY (16) NOT NULL,
-  attendanceCheckIn TINYINT UNSIGNED NOT NULL,
-  attendanceNumberAttending TINYINT UNSIGNED NOT NULL,
-  INDEX (attendanceProfileId),
-  INDEX (attendanceEventId),
-  FOREIGN KEY (attendanceEventId) REFERENCES event(eventId),
-  FOREIGN KEY (attendanceProfileId) REFERENCES profile(profileId),
-  PRIMARY KEY (attendanceId)
+  eventAttendanceId BINARY(16) NOT NULL,
+  eventAttendanceEventId BINARY (16) NOT NULL,
+  eventAttendanceProfileId BINARY (16) NOT NULL,
+  eventAttendanceCheckIn TINYINT UNSIGNED NOT NULL,
+  eventAttendanceNumberAttending TINYINT UNSIGNED NOT NULL,
+  INDEX (eventAttendanceProfileId),
+  INDEX (eventAttendanceEventId),
+  FOREIGN KEY (eventAttendanceEventId) REFERENCES event(eventId),
+  FOREIGN KEY (eventAttendanceProfileId) REFERENCES profile(profileId),
+  PRIMARY KEY (eventAttendanceId)
 );
 
 CREATE TABLE rating (
