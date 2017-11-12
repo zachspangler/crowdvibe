@@ -284,6 +284,12 @@ class Event implements \JsonSerializable {
     }
 
     /**
+     * accessor method for event price
+     *
+     * @return
+     */
+
+    /**
      * formats the state variables for JSON serialization
      *
      * @return array resulting state variables to serialize
