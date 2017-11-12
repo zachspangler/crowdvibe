@@ -78,18 +78,18 @@ class EventAttendance implements \JsonSerializable {
 	}
 
 	/**
-	 * accessor method for Event attendance id
+	 * accessor method for eventAttendanceId
 	 *
-	 * @return Uuid | string of  Event attendance id
+	 * @return Uuid | string of  eventAttendanceId
 	 **/
 	public function getEventAttendanceId(): Uuid {
 		return ($this->eventAttendanceId);
 	}
 
 	/**
-	 * mutator method for attendance id
+	 * mutator method for eventAttendanceId
 	 *
-	 * @param Uuid | string $newEventAttendanceId new value of Attendance id
+	 * @param Uuid | string $newEventAttendanceId new value of eventAttendance id
 	 * @throws RangeException if $newEventAttendanceId is not positive
 	 * @throws \TypeError if $newEventAttendanceId is not a uuid or string
 	 **/
@@ -100,8 +100,32 @@ class EventAttendance implements \JsonSerializable {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
-		// convert and store the tweet id
+		// convert and store the  eventAttendance id
 		$this->eventAttendanceId = $uuid;
+	}
+	/**
+	 * accessor method for Attendance Profile id
+	 *
+	 * @return Uuid | string value of Attendance Profile id
+	 **/
+	public function getEventAttendanceProfileId() : Uuid {
+		return $this->eventAttendanceProfileId;
+	}
+	/**
+	 * mutator method for Event Attendance Profile id
+	 *
+	 * @param Uuid $newEventAttendanceProfileId new value of comments post id
+	 * @throws \UnexpectedValueException if $newEventAttendanceProfileId is not a UUID
+	 **/
+	public function setEventAttendanceProfileId($newEventAttendanceProfileId): void {
+		try {
+			$uuid = self::validateUuid($newEventAttendanceProfileId);
+		} catch(\InvalidArgumentException | RangeException | \Exception | \TypeError $exception) {
+			$exceptionType = get_class($exception);
+			throw(new $exceptionType($exception->getMessage(), 0, $exception));
+		}
+		//convert and store the Event Attendance Profile id
+		$this->eventAttendanceProfileId = $uuid;
 	}
 
 	/**
@@ -128,31 +152,6 @@ class EventAttendance implements \JsonSerializable {
 		}
 		//convert and store the Attendance Event id
 		$this->eventAttendanceEventId = $uuid;
-	}
-
-	/**
-	 * accessor method for Attendance Profile id
-	 *
-	 * @return Uuid | string value of Attendance Profile id
-	 **/
-	public function getEventAttendanceProfileId() : Uuid {
-		return $this->eventAttendanceProfileId;
-	}
-	/**
-	 * mutator method for Event Attendance Profile id
-	 *
-	 * @param Uuid $newEventAttendanceProfileId new value of comments post id
-	 * @throws \UnexpectedValueException if $newEventAttendanceProfileId is not a UUID
-	 **/
-	public function setEventAttendanceProfileId($newEventAttendanceProfileId): void {
-		try {
-			$uuid = self::validateUuid($newEventAttendanceProfileId);
-		} catch(\InvalidArgumentException | RangeException | \Exception | \TypeError $exception) {
-			$exceptionType = get_class($exception);
-			throw(new $exceptionType($exception->getMessage(), 0, $exception));
-		}
-		//convert and store the Event Attendance Profile id
-		$this->eventAttendanceProfileId = $uuid;
 	}
 	/**
 	 * accessor method for Event Attendance Check In
@@ -182,7 +181,7 @@ class EventAttendance implements \JsonSerializable {
 			throw(newRangeException("event attendance check is not selected"));
 		}
 		// convert and store
-		$this->EventAttendanceCheckIn;
+		$this->eventAttendanceCheckIn;
 		}
 	/**
 	 * accessor method for Event Attendance Number Attending
@@ -241,15 +240,15 @@ class EventAttendance implements \JsonSerializable {
 		$parameters = ["eventAttendanceId" => $this->eventAttendanceId, "eventAttendanceProfileId" => $this->eventAttendanceProfileId, "eventAttendanceEventId" => $this->eventAttendanceEventId, "eventAttendanceCheckIn" => $this->eventAttendanceCheckIn, "eventAttendanceNumberAttending" => $this->eventAttendanceNumberAttending];
 		$statement->execute($parameters);
 	}
+
 	/**
 	 * gets the Event Attendance by EventAttendanceId
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param string $commentsId comment id to search for
-	 * @return EventAttendance|null Comments found or null if not found
-	 * @throws \PDOException when mySQL related errors occur
-	 * @throws \TypeError when a variable are not the correct data type
-	 **/
+	 * @param $eventAttendanceId
+	 * @return EventAttendance|null Event Attendance found or null if not found
+	 * @internal param Event $EventAttendanceId Attendance id to search for
+	 */
 	public static function getEventAttendanceByEventAttendanceId(\PDO $pdo, $eventAttendanceId) : ?EventAttendance {
 		// sanitize the EventAttendanceId before searching
 		try {
@@ -277,6 +276,26 @@ class EventAttendance implements \JsonSerializable {
 		}
 		return($eventAttendanceId);
 	}
+
+	/**
+	 * gets the Event Attendance by EventAttendanceProfileId
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param $eventAttendanceProfileIdId
+	 * @return EventAttendance|null Event Attendance Profile Id found or null if not found
+	 * @internal param Event $EventAttendanceProfileId Attendance id to search for
+	 */
+	public static function getEventAttendanceByEventAttendanceProfileId(\PDO $pdo, $eventAttendanceProfileId) : ?eventAttendance{
+		// sanitize the eventAttendanceProfileId
+		try {
+			$eventAttendanceProfileId = ($eventAttendanceProfileId);
+		}catch(\InvalidArgumentException| \RangeException | \Exception | \TypeError
+		 $exception) {
+			throw(new \PDOException($exception->getMessage(), 0,
+				$exception));
+		}
+	}
+
 	/**
 	 * formats the state variables for JSON serialization
 	 *
