@@ -13,7 +13,7 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
  * This is a complete PHPUnit test of the Like class. It is complete because *ALL* mySQL/PDO enabled methods
  * are tested for both invalid and valid inputs.
  *
- * @author Chris Owens
+ * @author
  **/
 class EventAttendanceTest extends CrowdVibeTest {
 	/**

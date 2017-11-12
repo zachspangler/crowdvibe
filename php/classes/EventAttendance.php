@@ -3,7 +3,10 @@ namespace Edu\Cnm\CrowdVibe;
 require_once("autoload.php");
 
 require_once(dirname(__DIR__, 2) . "/vendor/autoload.php");
+
+
 use Ramsey\Uuid\Uuid;
+
 
 /**
  * CrowdVibe Event Attendance
@@ -58,11 +61,11 @@ class EventAttendance implements \JsonSerializable {
 	 **/
 	public function __construct($newEventAttendanceId, $newEventAttendanceProfileId, $newEventAttendanceEventId, $newEventAttendanceCheckIn, string $newEventAttendanceNumberAttending) {
 		try {
-			$this->setAttendanceId($newEventAttendanceId);
-			$this->setAttendanceProfileId($newEventAttendanceProfileId);
+			$this->setEventAttendanceId($newEventAttendanceId);
+			$this->setEventAttendanceProfileId($newEventAttendanceProfileId);
 			$this->setEventAttendanceEventId($newEventAttendanceEventId);
-			$this->setAttendanceCheckIn($newEventAttendanceCheckIn);
-			$this->setAttendanceNumberAttending($newEventAttendanceNumberAttending);
+			$this->setEventAttendanceCheckIn($newEventAttendanceCheckIn);
+			$this->setEventAttendanceNumberAttending($newEventAttendanceNumberAttending);
 		} //determine what exception type was thrown
 		catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			$exceptionType = get_class($exception);
@@ -230,14 +233,14 @@ class EventAttendance implements \JsonSerializable {
 	 * @param \PDO $pdo
 	 */
 	public function delete(\PDO $pdo): void {
-		// create query template
-		$query = "DELETE FROM EventAttendance(eventAttendanceId, eventAttendanceProfileId, eventAttendanceEventId, eventAttendanceCheckIn, eventAttendanceNumberAttending) VALUES (:eventAttendanceId, :eventAttendanceProfileId, :eventAttendanceEventId, :eventAttendanceCheckIn, :eventAttendanceNumberAttending)";
+		$query = "DELETE FROM eventAttendance WHERE :eventAttendanceId";
 		$statement = $pdo->execute($query);
 
 		// delete the variables from the place holders in the template
-		$parameters = ["eventAttendanceId" => $this->attendanceId, "eventAttendanceProfileId" => $this->eventAttendanceProfileId, "eventAttendanceEventId" => $this->eventAttendanceEventId, "eventAttendanceCheckIn" => $this->eventAttendanceCheckIn, "eventAttendanceNumberAttending" => $this->eventAttendanceNumberAttending];
+		$parameters = ["eventAttendanceId" => $this->eventAttendanceId, "eventAttendanceProfileId" => $this->eventAttendanceProfileId, "eventAttendanceEventId" => $this->eventAttendanceEventId, "eventAttendanceCheckIn" => $this->eventAttendanceCheckIn, "eventAttendanceNumberAttending" => $this->eventAttendanceNumberAttending];
 		$statement->execute($parameters);
 	}
+public static function getEventAttendanceBy
 	/**
 	 * formats the state variables for JSON serialization
 	 *
