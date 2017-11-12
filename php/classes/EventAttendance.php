@@ -2,10 +2,11 @@
 namespace Edu\Cnm\CrowdVibe;
 require_once("autoload.php");
 
-require_once(dirname(__DIR__, 2) . "/vendor/autoload.php");
+require_once(dirname(__DIR__, 2) . "autoload.php");
 
 
 use Ramsey\Uuid\Uuid;
+use RangeException;
 
 
 /**
@@ -54,7 +55,7 @@ class EventAttendance implements \JsonSerializable {
 	 * @param int $newEventAttendanceCheckIn how people are going to notify their attendance
 	 * @param int $newEventAttendanceNumberAttending containing actual data on the amount of people
 	 * @throws \InvalidArgumentException if data types are not valid
-	 * @throws \RangeException if data values are out of bounds (e.g., strings too long, negative integers)
+	 * @throws RangeException if data values are out of bounds (e.g., strings too long, negative integers)
 	 * @throws \TypeError if data types violate type hints
 	 * @throws \Exception if some other exception occurs
 	 * @Documentation https://php.net/manual/en/language.oop5.decon.php
@@ -67,7 +68,7 @@ class EventAttendance implements \JsonSerializable {
 			$this->setEventAttendanceCheckIn($newEventAttendanceCheckIn);
 			$this->setEventAttendanceNumberAttending($newEventAttendanceNumberAttending);
 		} //determine what exception type was thrown
-		catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+		catch(\InvalidArgumentException | RangeException | \Exception | \TypeError $exception) {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
@@ -89,13 +90,13 @@ class EventAttendance implements \JsonSerializable {
 	 * mutator method for attendance id
 	 *
 	 * @param Uuid | string $newEventAttendanceId new value of Attendance id
-	 * @throws \RangeException if $newEventAttendanceId is not positive
+	 * @throws RangeException if $newEventAttendanceId is not positive
 	 * @throws \TypeError if $newEventAttendanceId is not a uuid or string
 	 **/
 	public function setEventAttendanceId($newEventAttendanceId): void {
 		try {
 			$uuid = self::validateUuid($newEventAttendanceId);
-		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+		} catch(\InvalidArgumentException | RangeException | \Exception | \TypeError $exception) {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
@@ -121,7 +122,7 @@ class EventAttendance implements \JsonSerializable {
 	public function setEventAttendanceEventId($newEventAttendanceEventId): void {
 		try {
 			$uuid = self::validateUuid($newEventAttendanceEventId);
-		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+		} catch(\InvalidArgumentException | RangeException | \Exception | \TypeError $exception) {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
@@ -146,7 +147,7 @@ class EventAttendance implements \JsonSerializable {
 	public function setEventAttendanceProfileId($newEventAttendanceProfileId): void {
 		try {
 			$uuid = self::validateUuid($newEventAttendanceProfileId);
-		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+		} catch(\InvalidArgumentException | RangeException | \Exception | \TypeError $exception) {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
@@ -166,19 +167,19 @@ class EventAttendance implements \JsonSerializable {
 	 *
 	 * @param int $newEventAttendanceCheckIn new value of Attendance Number
 	 * @throws \InvalidArgumentException if $newEventAttendanceCheckIn is not a integer
-	 * @throws \RangeException if $newEventAttendanceCheckIn is > 1 characters
+	 * @throws RangeException if $newEventAttendanceCheckIn is > 1 characters
 	 * @throws \TypeError if $newEventAttendanceCheckIn is not a string
 	 **/
 	public function setEventAttendanceCheckIn($newEventAttendanceCheckIn): void {
-		//verify the post content is secure
+		//verify the Event content is secure
 		$newEventAttendanceCheckIn = trim($newEventAttendanceCheckIn);
 		$newEventAttendanceCheckIn = filter_var($newEventAttendanceCheckIn, FILTER_VALIDATE_INT, FILTER_FLAG_ALLOW_OCTAL);
 		if(empty($newEventAttendanceCheckIn) === true) {
-			throw(new \InvalidArgumentException("event attendance check is empty or insecure"));
+			throw(new\InvalidArgumentException("event attendance check in is empty or insecure"));
 		}
 		//verify the Attendance content
 		if($newEventAttendanceCheckIn) {
-			throw(new \RangeException("event attendance check is not correct"));
+			throw(newRangeException("event attendance check is not selected"));
 		}
 		// convert and store
 		$this->EventAttendanceCheckIn;
@@ -196,7 +197,7 @@ class EventAttendance implements \JsonSerializable {
 	 *
 	 * @param int $newEventAttendanceNumberAttending new value of Attendance Number
 	 * @throws \InvalidArgumentException if $newEventAttendanceNumberAttending is not a string or insecure
-	 * @throws \RangeException if $newEventAttendanceNumberAttending is < 500 attendees
+	 * @throws RangeException if $newEventAttendanceNumberAttending is < 500 attendees
 	 * @throws \TypeError if $newCommentsContent is not a string
 	 **/
 	public function setEventAttendanceNumberAttending($newEventAttendanceNumberAttending): void {
@@ -240,7 +241,42 @@ class EventAttendance implements \JsonSerializable {
 		$parameters = ["eventAttendanceId" => $this->eventAttendanceId, "eventAttendanceProfileId" => $this->eventAttendanceProfileId, "eventAttendanceEventId" => $this->eventAttendanceEventId, "eventAttendanceCheckIn" => $this->eventAttendanceCheckIn, "eventAttendanceNumberAttending" => $this->eventAttendanceNumberAttending];
 		$statement->execute($parameters);
 	}
-public static function getEventAttendanceBy
+	/**
+	 * gets the Event Attendance by EventAttendanceId
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param string $commentsId comment id to search for
+	 * @return EventAttendance|null Comments found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when a variable are not the correct data type
+	 **/
+	public static function getEventAttendanceByEventAttendanceId(\PDO $pdo, $eventAttendanceId) : ?EventAttendance {
+		// sanitize the EventAttendanceId before searching
+		try {
+			$eventAttendanceId = ($eventAttendanceId);
+		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		// create query template
+		$query = "SELECT eventAttendance(eventAttendanceid, eventAttendanceProfileId, eventAttendanceEventid, eventAttendanceCheckIn, eventAttendanceNumberAttending) FROM eventAttendance WHERE eventAttendanceId = :eventAttendanceId";
+		$statement = $pdo->prepare($query);
+		// bind the Event Attendance id to the place holder in the template
+		$parameters = ["eventAttendanceId" => $eventAttendanceId->getBytes()];
+		$statement->execute($parameters);
+		// grab the eventAttendance from mySQL
+		try {
+			$eventAttendanceId = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$eventAttendanceId = new eventAttendance($row["eventAttendanceId"], $row["eventAttendanceProfileId"], $row["eventAttendanceEventId"], $row["eventAttendanceCheckIn"], $row["eventAttendanceNumberAttending"]);
+			}
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return($eventAttendanceId);
+	}
 	/**
 	 * formats the state variables for JSON serialization
 	 *
