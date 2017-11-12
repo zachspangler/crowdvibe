@@ -63,7 +63,7 @@ CREATE TABLE rating (
   INDEX (ratingEventAttendanceId),
   INDEX (ratingRateeProfileId),
   INDEX (ratingRaterProfileId),
-  FOREIGN KEY (ratingEventAttendanceId) REFERENCES eventAttendance(attendanceId),
+  FOREIGN KEY (ratingEventAttendanceId) REFERENCES eventAttendance(eventAttendanceId),
   FOREIGN KEY (ratingRateeProfileId) REFERENCES profile(profileId),
   FOREIGN KEY (ratingRaterProfileId) REFERENCES profile(profileId),
   PRIMARY KEY (ratingId)
