@@ -41,7 +41,7 @@ class Rating implements \JsonSerializable {
 
     /**
      * rating that has been given to a ratee or event by rater after attending events
-     * @var tinyint(3) unsigned $ratingScore
+     * @var int(3) unsigned $ratingScore
      */
     private $ratingScore;
 
@@ -192,7 +192,7 @@ public function setRatingId($newRatingId) : void{
         *
         * @return string value of rating score
         **/
-       public function getRatingScore() : string {
+       public function getRatingScore() : int {
            return($this->ratingScore);
        }
 
@@ -207,10 +207,10 @@ public function setRatingId($newRatingId) : void{
        {
            // if new rating score is less than min or greater than max throw range exception
            if ($newRatingScore < 0 || $newRatingScore > 5) {
-               $exceptionType = get_class($exception);
-               throw (new$exceptionType($exception->getMessage(), 0, $exception));
-               $this->ratingScore = $newRatingScore;
+             throw(new \RangeException("rating is out of range"));
            }
+
+           $this->ratingScore = $newRatingScore;
        }
 
 
@@ -245,8 +245,7 @@ public function setRatingId($newRatingId) : void{
             $statement = $pdo->prepare($query);
 
             // bind the member variables to the place holder in the template
-            $formattedRatingId=
-                $parameters = ["ratingId" => $this->ratingId->getBytes()];
+            $parameters = ["ratingId" => $this->ratingId->getBytes()];
             $statement->execute($parameters);
         }
 
@@ -420,7 +419,7 @@ public function setRatingId($newRatingId) : void{
                      $rating = new Rating($row["ratingId"],$row["ratingEventAttendanceId"], $row["ratingRateeProfileId"], $row["ratingRaterProfileId"], $row["ratingScore"]);
                  }
              }catch (\Exception $exception){
-                //if the row couldn't be coverted, rethrow it
+                //if the row couldn't be covert, rethrow it
                 throw(new \PDOException($exception->getMessage(), 0, $exception));
              }
              return($rating);
@@ -435,9 +434,10 @@ public function setRatingId($newRatingId) : void{
 	    **/
 	    public function jsonSerialize() {
 		$fields = get_object_vars($this);
-		$fields["profileId"] = $this->profileId->toString();
-		unset($fields["profileHash"]);
-		unset($fields["profileSalt"]);
+		$fields["ratingId"] = $this->ratingId->toString();
+		$fields["ratingEventAttendanceId"] = $this->ratingEventAttendanceId->toString();
+		$fields["ratingRateeProfileId"] = $this->ratingRateeProfileId->toString();
+		$fields["ratingRaterProfileId"] = $this->ratingRaterProfileId->toString();
 		return ($fields);
 	}
 }
