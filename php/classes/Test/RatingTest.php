@@ -69,7 +69,6 @@ class RatingTest extends crowdvibeTest {
         //run the default setUp() method first
         parent::setUp();
         $password = "abc123";
-        $validActivationToken = bin2hex(random_bytes(16));
         $eventEndDateTime = new \DateTime();
         $eventEndDateTime->sub(new \DateInterval("p5h"));
         $eventStartDateTime = new \DateTime();
@@ -275,7 +274,7 @@ class RatingTest extends crowdvibeTest {
      **/
     public function testGetInvalidRatingByRaterProfileId() : void {
         // grab a profile id that exceeds the maximum allowable profile id
-        $rating = Rating::getrRatingByRaterProfileId($this->getPDO(), generateUuidV4());
+        $rating = Rating::getRatingByRaterProfileId($this->getPDO(), generateUuidV4());
         $this->assertCount(0, $rating);
     }
 
