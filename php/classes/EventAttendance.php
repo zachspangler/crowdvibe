@@ -27,7 +27,7 @@ class EventAttendance implements \JsonSerializable {
 	protected $eventAttendanceId;
 	/**
 	 * Id for attendance to a particular event
-	 * @var string $attendanceEventId
+	 * @var Uuid $attendanceEventId
 	 */
 	protected $eventAttendanceEventId;
 	/**
@@ -63,8 +63,8 @@ class EventAttendance implements \JsonSerializable {
 	public function __construct($newEventAttendanceId, $newEventAttendanceProfileId, $newEventAttendanceEventId, $newEventAttendanceCheckIn, string $newEventAttendanceNumberAttending) {
 		try {
 			$this->setEventAttendanceId($newEventAttendanceId);
-			$this->setEventAttendanceProfileId($newEventAttendanceProfileId);
-			$this->setEventAttendanceEventId($newEventAttendanceEventId);
+			$this->setEventAttendanceEventId($newEventAttendanceProfileId);
+			$this->setEventAttendanceProfileId($newEventAttendanceEventId);
 			$this->setEventAttendanceCheckIn($newEventAttendanceCheckIn);
 			$this->setEventAttendanceNumberAttending($newEventAttendanceNumberAttending);
 		} //determine what exception type was thrown
@@ -105,6 +105,32 @@ class EventAttendance implements \JsonSerializable {
 	}
 
 	/**
+	 * accessor method for Attendance Event id
+	 *
+	 * @return Uuid | string value of Attendance Event id
+	 **/
+	public function getEventAttendanceEventId(): Uuid {
+		return $this->eventAttendanceId;
+	}
+
+	/**
+	 * mutator method for Attendance event id
+	 *
+	 * @param Uuid $newEventAttendanceEventId new value of Attendance Event id
+	 * @throws \UnexpectedValueException if $newEventAttendanceEventId is not a UUID
+	 **/
+	public function setEventAttendanceEventId($newEventAttendanceEventId): void {
+		try {
+			$uuid = self::validateUuid($newEventAttendanceEventId);
+		} catch(\InvalidArgumentException | RangeException | \Exception | \TypeError $exception) {
+			$exceptionType = get_class($exception);
+			throw(new $exceptionType($exception->getMessage(), 0, $exception));
+		}
+		//convert and store the Attendance Event id
+		$this->eventAttendanceEventId = $uuid;
+	}
+
+	 /**
 	 * accessor method for Attendance Profile id
 	 *
 	 * @return Uuid | string value of Attendance Profile id
@@ -130,31 +156,7 @@ class EventAttendance implements \JsonSerializable {
 		$this->eventAttendanceProfileId = $uuid;
 	}
 
-	/**
-	 * accessor method for Attendance Event id
-	 *
-	 * @return Uuid | string value of Attendance Event id
-	 **/
-	public function getEventAttendanceEventId(): Uuid {
-		return $this->eventAttendanceId;
-	}
 
-	/**
-	 * mutator method for Attendance event id
-	 *
-	 * @param Uuid $newEventAttendanceEventId new value of Attendance Event id
-	 * @throws \UnexpectedValueException if $newEventAttendanceEventId is not a UUID
-	 **/
-	public function setEventAttendanceEventId($newEventAttendanceEventId): void {
-		try {
-			$uuid = self::validateUuid($newEventAttendanceEventId);
-		} catch(\InvalidArgumentException | RangeException | \Exception | \TypeError $exception) {
-			$exceptionType = get_class($exception);
-			throw(new $exceptionType($exception->getMessage(), 0, $exception));
-		}
-		//convert and store the Attendance Event id
-		$this->eventAttendanceEventId = $uuid;
-	}
 
 	/**
 	 * accessor method for Event Attendance Check In
@@ -228,11 +230,11 @@ class EventAttendance implements \JsonSerializable {
 	 **/
 	public function insert(\PDO $pdo): void {
 		// create query template
-		$query = "INSERT INTO eventAttendance(eventAttendanceId, eventAttendanceProfileId, eventAttendanceEventId, eventAttendanceCheckIn, eventAttendanceNumberAttending) VALUES (:eventAttendanceId, :eventAttendanceProfileId, :eventAttendanceEventId, :eventAttendanceCheckIn, :eventAttendanceNumberAttending)";
+		$query = "INSERT INTO eventAttendance(eventAttendanceId, eventAttendanceEventId,eventAttendanceProfileId, eventAttendanceCheckIn, eventAttendanceNumberAttending) VALUES (:eventAttendanceId, :eventAttendanceProfileId, :eventAttendanceEventId, :eventAttendanceCheckIn, :eventAttendanceNumberAttending)";
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holders in the template
-		$parameters = ["eventAttendanceId" => $this->eventAttendanceId, "eventAttendanceProfileId" => $this->eventAttendanceProfileId, "eventAttendanceEventId" => $this->eventAttendanceEventId, "eventAttendanceCheckIn" => $this->eventAttendanceCheckIn, "eventAttendanceNumberAttending" => $this->eventAttendanceNumberAttending];
+		$parameters = ["eventAttendanceId" => $this->eventAttendanceId,"eventAttendanceEventId" => $this->eventAttendanceEventId, "eventAttendanceProfileId" => $this->eventAttendanceProfileId,  "eventAttendanceCheckIn" => $this->eventAttendanceCheckIn, "eventAttendanceNumberAttending" => $this->eventAttendanceNumberAttending];
 		$statement->execute($parameters);
 	}
 
@@ -258,12 +260,12 @@ class EventAttendance implements \JsonSerializable {
 	 **/
 	public function update(\PDO $pdo) : void {
 		// create query template
-		$query = "UPDATE eventAttendance SET eventAttendance = :eventAttendanceId, eventAttendanceProfileId = :eventAttendanceProfileId, eventAttendanceEventId = :eventAttentionEventId, eventAttendanceCheckIn = :eventAttendanceCheckin, eventAttendanceNumberAttending = :eventAttendanceNumberAttending WHERE eventAttendance = :eventAttendance";
+		$query = "UPDATE eventAttendance SET eventAttendance = :eventAttendanceId, eventAttendanceEventId = :eventAttentionEventId, eventAttendanceProfileId = :eventAttendanceProfileId, eventAttendanceCheckIn = :eventAttendanceCheckin, eventAttendanceNumberAttending = :eventAttendanceNumberAttending WHERE eventAttendance = :eventAttendance";
 		$statement = $pdo->prepare($query);
 
 
 		// delete the variables from the place holders in the template
-		$parameters = ["eventAttendanceId" => $this->eventAttendanceId, "eventAttendanceProfileId" => $this->eventAttendanceProfileId, "eventAttendanceEventId" => $this->eventAttendanceEventId, "eventAttendanceCheckIn" => $this->eventAttendanceCheckIn, "eventAttendanceNumberAttending" => $this->eventAttendanceNumberAttending];
+		$parameters = ["eventAttendanceId" => $this->eventAttendanceId, "eventAttendanceEventId"=> $this->eventAttendanceEventId, "eventAttendanceProfileId" => $this->eventAttendanceProfileId,  "eventAttendanceCheckIn" => $this->eventAttendanceCheckIn, "eventAttendanceNumberAttending" => $this->eventAttendanceNumberAttending];
 		$statement->execute($parameters);
 	}
 	/**
@@ -282,7 +284,7 @@ class EventAttendance implements \JsonSerializable {
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
 		// create query template
-		$query = "SELECT eventAttendanceId, eventAttendanceProfileId, eventAttendanceEventid, eventAttendanceCheckIn, eventAttendanceNumberAttending FROM eventAttendance WHERE eventAttendanceId = :eventAttendanceId";
+		$query = "SELECT eventAttendanceId, eventAttendanceEventid,eventAttendanceProfileId,  eventAttendanceCheckIn, eventAttendanceNumberAttending FROM eventAttendance WHERE eventAttendanceId = :eventAttendanceId";
 		$statement = $pdo->prepare($query);
 		// bind the eventAttendanceId to the place holder in the template
 		$parameters = ["eventAttendanceId" => $eventAttendanceId];
@@ -293,13 +295,47 @@ class EventAttendance implements \JsonSerializable {
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$eventAttendanceId = new eventAttendance($row["eventAttendanceId"], $row["eventAttendanceProfileId"], $row["eventAttendanceEventId"], $row["eventAttendanceCheckIn"], $row["eventAttendanceNumberAttending"]);
+				$eventAttendanceId = new eventAttendance($row["eventAttendanceId"],$row["eventAttendanceEventId"],  $row["eventAttendanceProfileId"], $row["eventAttendanceCheckIn"], $row["eventAttendanceNumberAttending"]);
 			}
 		} catch(\Exception $exception) {
 			// if the row couldn't be converted, rethrow it
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
 		return ($eventAttendanceId);
+	}
+	/**
+	 * gets the Event Attendance by eventAttendanceEventId
+	 * @param \PDO $pdo PDO connection object
+	 * @param $eventAttendanceEventId
+	 * @return \SPLFixedArray eventAttendanceEventId found or null if not found
+	 * @internal param $eventAttendanceEventId
+	 * @internal param $eventAttendanceEventId to search for
+	 */
+	public static function getEventAttendancesByEventAttendanceEventId(\PDO $pdo, $eventAttendanceEventId): \SplFixedArray {
+		try {
+			$eventAttendanceEventId = ($eventAttendanceEventId);
+		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		// create query template
+		$query = "SELECT eventAttendanceId, eventAttendanceEventId, eventAttendanceProfileId,  EventAttendanceCheckIn, eventAttendanceNumberAttending FROM eventAttendance WHERE eventAttendanceEventId = :eventAttendanceEventId";
+		$statement = $pdo->prepare($query);
+		// bind the EventAttendanceEventId to the place holder in the template
+		$parameters = ["eventAttendanceEventId" => $eventAttendanceEventId];
+		$statement->execute($parameters);
+		// build and array of EventAttendanceEventId
+		$eventAttendanceEventIdArray = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$eventAttendanceEventIdArray = new eventAttendance($row["eventAttendanceId"],$row["eventAttendanceEventId"], $row["eventAttendanceProfileId"],  $row["eventAttendanceCheckIn"], $row["eventAttendanceNumberAttending"]);
+				$eventAttendanceEventIdArray[$eventAttendanceEventIdArray = key()] = $eventAttendanceEventId;
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($eventAttendanceEventId);
 	}
 
 	/**
@@ -317,7 +353,7 @@ class EventAttendance implements \JsonSerializable {
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
 		// create query template
-		$query = "SELECT eventAttendanceId, eventAttendanceProfileId, eventAttendanceEventId, eventAttendanceCheckIn, eventAttendanceNumberAttending FROM eventAttendance WHERE eventAttendanceProfileId = :eventAttendanceProfileId";
+		$query = "SELECT eventAttendanceId, eventAttendanceEventId, eventAttendanceProfileId,  eventAttendanceCheckIn, eventAttendanceNumberAttending FROM eventAttendance WHERE eventAttendanceProfileId = :eventAttendanceProfileId";
 		$statement = $pdo->prepare($query);
 		// bind the eventAttendanceProfileId to the place holder in the template
 		$parameters = ["eventAttendanceProfileId" => $eventAttendanceProfileId];
@@ -328,7 +364,7 @@ class EventAttendance implements \JsonSerializable {
 		while(($row = $statement->fetch()) !== false) {
 			try {
 				$eventAttendanceProfileId = new eventAttendance ($row["eventAttendanceId"], $row["eventAttendanceProfileId"], $row["eventAttendanceEventId"], $row["eventAttendanceCheckIn"], $row["eventAttendanceNumberAttending"]);
-				$eventAttendanceProfileIdArray[$eventAttendanceProfileIdArray = key()] = $eventAttendanceProfileId;
+				$eventAttendanceProfileIdArray[$eventAttendanceProfileIdArray = key($eventAttendanceProfileId)] = $eventAttendanceProfileId;
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
@@ -337,40 +373,6 @@ class EventAttendance implements \JsonSerializable {
 		return ($eventAttendanceProfileId);
 	}
 
-	/**
-	 * gets the Event Attendance by eventAttendanceEventId
-	 * @param \PDO $pdo PDO connection object
-	 * @param $eventAttendanceEventId
-	 * @return \SPLFixedArray eventAttendanceEventId found or null if not found
-	 * @internal param $eventAttendanceEventId
-	 * @internal param $eventAttendanceEventId to search for
-	 */
-	public static function getEventAttendancesByEventAttendanceEventId(\PDO $pdo, $eventAttendanceEventId): \SplFixedArray {
-		try {
-			$eventAttendanceEventId = ($eventAttendanceEventId);
-		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
-			throw(new \PDOException($exception->getMessage(), 0, $exception));
-		}
-		// create query template
-		$query = "SELECT eventAttendanceId, eventAttendanceProfileId, eventAttendanceEventId, EventAttendanceCheckIn, eventAttendanceNumberAttending FROM eventAttendance WHERE eventAttendanceEventId = :eventAttendanceEventId";
-		$statement = $pdo->prepare($query);
-		// bind the EventAttendanceEventId to the place holder in the template
-		$parameters = ["eventAttendanceEventId" => $eventAttendanceEventId];
-		$statement->execute($parameters);
-		// build and array of EventAttendanceEventId
-		$eventAttendanceEventIdArray = new \SplFixedArray($statement->rowCount());
-		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !== false) {
-			try {
-				$eventAttendanceEventIdArray = new eventAttendance($row["eventAttendanceId"], $row["eventAttendanceProfileId"], $row["eventAttendanceEventId"], $row["eventAttendanceCheckIn"], $row["eventAttendanceNumberAttending"]);
-				$eventAttendanceEventIdArray[$eventAttendanceEventIdArray = key()] = $eventAttendanceEventId;
-			} catch(\Exception $exception) {
-				// if the row couldn't be converted, rethrow it
-				throw(new \PDOException($exception->getMessage(), 0, $exception));
-			}
-		}
-		return ($eventAttendanceEventId);
-	}
 
 	/**
 	 * gets the Event Attendance Check In by eventAttendanceCheckIn
@@ -387,7 +389,7 @@ class EventAttendance implements \JsonSerializable {
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
 		// create query template
-		$query = "SELECT eventAttendanceId, eventAttendanceProfileId, eventAttendanceEventId, EventAttendanceCheckIn, eventAttendanceNumberAttending FROM eventAttendance WHERE eventAttendanceCheckIn = :eventAttendanceCheckIn";
+		$query = "SELECT eventAttendanceId, eventAttendanceEventId, eventAttendanceProfileId,  EventAttendanceCheckIn, eventAttendanceNumberAttending FROM eventAttendance WHERE eventAttendanceCheckIn = :eventAttendanceCheckIn";
 		$statement = $pdo->prepare($query);
 		// bind the EventAttendanceCheckIn to the place holder in the template
 		$parameters = ["eventAttendanceCheckIn" => $eventAttendanceCheckIn];
@@ -397,7 +399,7 @@ class EventAttendance implements \JsonSerializable {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$eventAttendanceCheckInArray = new eventAttendance($row["eventAttendanceId"], $row["eventAttendanceProfileId"], $row["eventAttendanceEventId"], $row["eventAttendanceCheckIn"], $row["eventAttendanceNumberAttending"]);
+				$eventAttendanceCheckInArray = new eventAttendance($row["eventAttendanceId"], $row["eventAttendanceEventId"],$row["eventAttendanceProfileId"],  $row["eventAttendanceCheckIn"], $row["eventAttendanceNumberAttending"]);
 				$eventAttendanceCheckInArray[$eventAttendanceCheckInArray = key()] = $eventAttendanceCheckIn;
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
@@ -422,7 +424,7 @@ class EventAttendance implements \JsonSerializable {
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
 		// create query template
-		$query = "SELECT eventAttendanceId, eventAttendanceProfileId, eventAttendanceEventId, EventAttendanceCheckIn, eventAttendanceNumberAttending FROM eventAttendance WHERE eventAttendanceNumberAttending = :eventAttendanceNumberAttending";
+		$query = "SELECT eventAttendanceId, eventAttendanceEventId, eventAttendanceProfileId,  EventAttendanceCheckIn, eventAttendanceNumberAttending FROM eventAttendance WHERE eventAttendanceNumberAttending = :eventAttendanceNumberAttending";
 		$statement = $pdo->prepare($query);
 		// bind the EventAttendanceNumberAttending to the place holder in the template
 		$parameters = ["eventAttendanceNumberAttending" => $eventAttendanceNumberAttending];
@@ -434,7 +436,7 @@ class EventAttendance implements \JsonSerializable {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$eventAttendanceNumberAttendingArray = new eventAttendance($row["eventAttendanceId"], $row["eventAttendanceProfileId"], $row["eventAttendanceEventId"], $row["eventAttendanceCheckIn"], $row["eventAttendanceNumberAttending"]);
+				$eventAttendanceNumberAttendingArray = new eventAttendance($row["eventAttendanceId"],$row["eventAttendanceEventId"], $row["eventAttendanceProfileId"],  $row["eventAttendanceCheckIn"], $row["eventAttendanceNumberAttending"]);
 				$eventAttendanceNumberAttendingArray[$eventAttendanceNumberAttendingArray = key()] = $eventAttendanceNumberAttending;
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
@@ -443,7 +445,6 @@ class EventAttendance implements \JsonSerializable {
 		}
 		return ($eventAttendanceNumberAttending);
 	}
-
 	/**
 	 * formats the state variables for JSON serialization
 	 *
