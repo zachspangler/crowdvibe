@@ -100,7 +100,7 @@ class RatingTest extends crowdvibeTest {
      **/
     public function testInsertValidRating() : void {
         //count number of rows and save for later
-        $numRows = $this->getConnection()->getRowCoung("rating");
+        $numRows = $this->getConnection()->getRowCount("rating");
 
         //create a new Rating and insert into mySQL
         $rating = new Rating(generateUuidV4(),$this->eventAttendance->getEventAttendanceId(), $this->ratee->getProfileId(), $this->rater->getProfileId(),70);
@@ -178,7 +178,7 @@ class RatingTest extends crowdvibeTest {
         $rating->insert($this->getPDO());
 
         // grab the data from mySQL and enforce the fields match our expectations
-        $results = Rating::getRatingByEventAttnedanceId($this->getPDO(), $rating->getEventAttendanceId());
+        $results = Rating::getRatingByRatingEventAttendanceId($this->getPDO(), $rating->getEventAttendanceId());
         $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("rating"));
         $this->assertCount(1, $results);
         $this->assertContainsOnlyInstancesOf("Edu\\Cnm\\CrowdVibe\\Rating", $results);
@@ -199,7 +199,7 @@ class RatingTest extends crowdvibeTest {
      **/
     public function testGetInvalidRatingByEventAttendanceId() : void {
         // grab a profile id that exceeds the maximum allowable profile id
-        $rating = Rating::getrRatingByEventAttendanceId($this->getPDO(), generateUuidV4());
+        $rating = Rating::getRatingByEventAttendanceId($this->getPDO(), generateUuidV4());
         $this->assertCount(0, $rating);
     }
 
@@ -209,7 +209,7 @@ class RatingTest extends crowdvibeTest {
     public function testGetValidRateeProfileId() : void
     {
         //count number of rows and save for later
-        $numRows = $this->getConnection()->getRowCoung("rating");
+        $numRows = $this->getConnection()->getRowCount("rating");
 
         //create a new Rating and insert into mySQL
         $rating = new Rating(generateUuidV4(), $this->eventAttendance->getEventAttendanceId(), $this->ratee->getProfileId(), $this->rater->getProfileId(), 70);
@@ -237,7 +237,7 @@ class RatingTest extends crowdvibeTest {
      **/
     public function testGetInvalidRatingByRateeProfileId() : void {
         // grab a profile id that exceeds the maximum allowable profile id
-        $rating = Rating::getrRatingByRateeProfileId($this->getPDO(), generateUuidV4());
+        $rating = Rating::getRatingByRateeProfileId($this->getPDO(), generateUuidV4());
         $this->assertCount(0, $rating);
     }
 
