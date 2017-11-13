@@ -392,16 +392,15 @@ class Event implements \JsonSerializable {
 
 
 
-    /**
-     * Specify data which should be serialized to JSON
-     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
-     * @return mixed data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
-     * @since 5.4.0
-     */
+
     public function jsonSerialize()
     {
-        // TODO: Implement jsonSerialize() method.
+        $fields = get_object_vars($this);
+        $fields["eventId"] = $this->eventId;
+        $fields["eventProfileId"] = $this->eventProfileId;
+        //format the date so that the front end can consume it
+        $fields["eventStartDateTime"] = round(floatval($this->eventStartDateTime->format("U.u")) * 1000);
+        return ($fields);
     }
 }
 
