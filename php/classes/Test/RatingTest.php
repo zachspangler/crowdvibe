@@ -123,7 +123,7 @@ class RatingTest extends crowdvibeTest {
      **/
     public function testUpdateValidRating() : void {
         //count number of rows and save for later
-        $numRows = $this->getConnection()->getRowCoung("rating");
+        $numRows = $this->getConnection()->getRowCount("rating");
 
         //create a new Rating and insert into mySQL
         $rating = new Rating(generateUuidV4(),$this->eventAttendance->getEventAttendanceId(), $this->ratee->getProfileId(), $this->rater->getProfileId(),70);
@@ -149,14 +149,14 @@ class RatingTest extends crowdvibeTest {
      **/
     public function testDeleteValidRating() : void {
         //count number of rows and save for later
-        $numRows = $this->getConnection()->getRowCoung("rating");
+        $numRows = $this->getConnection()->getRowCount("rating");
 
         //create a new Rating and insert into mySQL
         $rating = new Rating(generateUuidV4(),$this->eventAttendance->getEventAttendanceId(), $this->ratee->getProfileId(), $this->rater->getProfileId(),70);
         $rating->insert($this->getPDO());
 
         //delete the Rating from mySQL
-        $this->asertEquals($numRows + 1,$this->getConnection()->getRowCount("rating"));
+        $this->assertEquals($numRows + 1,$this->getConnection()->getRowCount("rating"));
         $this->delete($this->getPDO());
 
         // grab the data from mySQL and enforce the Rating does not exist
@@ -166,12 +166,12 @@ class RatingTest extends crowdvibeTest {
     }
 
     /**
-     * test inserting a Rating and regrabbing it from mySQL
+     * test inserting a Rating and regrab it from mySQL
      **/
     public function testGetValidEventAttendanceId() : void
     {
         //count number of rows and save for later
-        $numRows = $this->getConnection()->getRowCoung("rating");
+        $numRows = $this->getConnection()->getRowCount("rating");
 
         //create a new Rating and insert into mySQL
         $rating = new Rating(generateUuidV4(), $this->eventAttendance->getEventAttendanceId(), $this->ratee->getProfileId(), $this->rater->getProfileId(), 70);
@@ -247,7 +247,7 @@ class RatingTest extends crowdvibeTest {
     public function testGetValidRaterProfileId() : void
     {
         //count number of rows and save for later
-        $numRows = $this->getConnection()->getRowCoung("rating");
+        $numRows = $this->getConnection()->getRowCount("rating");
 
         //create a new Rating and insert into mySQL
         $rating = new Rating(generateUuidV4(), $this->eventAttendance->getEventAttendanceId(), $this->ratee->getProfileId(), $this->rater->getProfileId(), 70);
