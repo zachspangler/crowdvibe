@@ -127,7 +127,7 @@ public function setRatingId($newRatingId) : void{
              throw(new$exceptionType($exception->getMessage(), 0, $exception));
          }
 
-         // convert and store the rating event attendanve Id
+         // convert and store the rating event attendance Id
         $this->ratingEventAttendanceId = $uuid;
      }
 
@@ -205,12 +205,11 @@ public function setRatingId($newRatingId) : void{
         **/
        public Function setRatingScore(int $newRatingScore) : void {
            // if new rating score is less than min or greater than max throw range exception
-           if($newRatingScore < 0 || $newRatingScore > 5);
-           catch (\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+           if ($newRatingScore < 0 || $newRatingScore > 5);{
                $exceptionType = get_class($exception);
                throw (new$exceptionType($exception->getMessage(), 0, $exception));
-
-}
+               $this->ratingScore = $newRatingScore;
+           }
 
 
         /**
