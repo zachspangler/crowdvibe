@@ -1,6 +1,6 @@
 <?php
 namespace Edu\Cnm\CrowbVibe\Test;
-use Edu\Cnm\CrowbVibe\{Profile, Event, EventAttendance};
+use Edu\Cnm\CrowbVibe\{EventAttendance, Profile, Event};
 use Edu\Cnm\CrowdVibe\Test\CrowdVibeTest;
 
 // grab the class under scrutiny
@@ -75,7 +75,7 @@ class EventAttendanceTest extends CrowdVibeTest {
 	/**
 	 * test inserting a valid Event Attendance and verify that the actual mySQL data matches
 	 **/
-	public function testInsertValidLike(): void {
+	public function testInsertValidEventAttendance(): void {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("eventAttendance");
 		// create a new Event Attendance and insert to into mySQL
@@ -84,13 +84,15 @@ class EventAttendanceTest extends CrowdVibeTest {
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoEventAttendance = EventAttendance::getEventAttendanceByEventId($this->getPDO(), $this->profile->getProfileId(), $this->event->getEventId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("eventAttendance"));
-		$this->assertEquals($pdoEventAttendance->getEventAttendanceProfileId(), $this->profile->getProfileId());
 		$this->assertEquals($pdoEventAttendance->getEventAttendanceEventId(), $this->event->getEventId());
+		$this->assertEquals($pdoEventAttendance->getEventAttendanceProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoEventAttendance->getEventAttendanceCheckIn(), $this->VALID_CHECK_IN);
+		$this->assertEquals($pdoEventAttendance->getEventAttendanceNumberAttending(), $this->VALID_NUMBER_ATTENDING);
 	}
 	/**
 	 * test creating a Event Attendance and then deleting it
 	 **/
-	public function testDeleteValidLike() : void {
+	public function testDeleteValidEventAttendance() : void {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("eventAttendance");
 		// create a new Event Attendance and insert to into mySQL
@@ -100,16 +102,25 @@ class EventAttendanceTest extends CrowdVibeTest {
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("eventAttendance"));
 		$eventAttendance->delete($this->getPDO());
 		// grab the data from mySQL and enforce the Event Attendance does not exist
-		$pdoEventAttendance = EventAttendance::getEventAttendanceByEventId($this->getPDO(), $this->profile->getProfileId(), $this->event->getEventId());
-		$this->assertNull($pdoEventAttendance);
+		$pdoEventAttendance = EventAttendance::getEventAttendanceByEventId($this->getPDO(), generateUuidV4(), $this->event->getEventId(), $this->profile->getProfileId(), $this->VALID_CHECK_IN, $this->VALID_NUMBER_ATTENDING);
 		$this->assertEquals($numRows, $this->getConnection()->getRowCount("eventAttendance"));
 	}
 	/**
-	 * test grabbing a Event Attendance that does not exist
+	 * test inserting a Event Attendance and regrabbing it from mySQL
 	 **/
-	public function testGetInvalidLikeByTweetIdAndProfileId() {
-		// grab a profile id and profile id that exceeds the maximum allowable tweet id and profile id
-		$eventAttendance = EventAttendance::getEventAttendanceByEventId($this->getPDO(), generateUuidV4(), generateUuidV4());
-		$this->assertNull($eventAttendance);
+	public function testGetValidEventAttendanceByProfileId() : void {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("eventAttendance");
+		// create a new Event Attendance and insert to into mySQL
+		$eventAttendance = new EventAttendance(generateUuidV4(), $this->event->getEventId(), $this->profile->getProfileId(), $this->VALID_CHECK_IN, $this->VALID_NUMBER_ATTENDING);
+		$eventAttendance->insert($this->getPDO());
+		// grab the data from mySQL and enforce the fields match our expectations
+		$pdoEventAttendance = EventAttendance::getEventAttendanceByProfileId($this->getPDO(), $this->event->getEventId(), $this->profile->getProfileId(), $this->VALID_CHECK_IN, $this->VALID_NUMBER_ATTENDING);
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("eventAttendance"));
+		$this->assertEquals($pdoEventAttendance->get);
+		$this->assertEquals($pdoEventAttendance->getLikeTweetId(), $this->tweet->getTweetId());
+		//format the date too seconds since the beginning of time to avoid round off error
+		$this->assertEquals($pdoEventAttendance->getLikeDate()->getTimeStamp(), $this->VALID_LIKEDATE->getTimestamp());
 	}
+
 }

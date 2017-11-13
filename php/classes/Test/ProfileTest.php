@@ -115,6 +115,7 @@ class ProfileTest extends CrowdVibeTest {
 		$this->assertEquals($pdoProfile->getProfileSalt(), $this->VALID_PROFILE_SALT);
 		$this->assertEquals($pdoProfile->getProfileUserName(), $this->VALID_PROFILE_USERNAME);
 	}
+
 	/**
 	 * test inserting a Profile, editing it, and then updating it
 	 **/
@@ -142,10 +143,11 @@ class ProfileTest extends CrowdVibeTest {
 		$this->assertEquals($pdoProfile->getProfileSalt(), $this->VALID_PROFILE_SALT);
 		$this->assertEquals($pdoProfile->getProfileUserName(), $this->VALID_PROFILE_USERNAME);
 	}
+
 	/**
 	 * test creating a Profile and then deleting it
 	 **/
-	public function testDeleteValidProfile() : void {
+	public function testDeleteValidProfile(): void {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("profile");
 		$profileId = generateUuidV4();
@@ -159,10 +161,11 @@ class ProfileTest extends CrowdVibeTest {
 		$this->assertNull($pdoProfile);
 		$this->assertEquals($numRows, $this->getConnection()->getRowCount("profile"));
 	}
+
 	/**
 	 * test inserting a Profile and regrabbing it from mySQL
 	 **/
-	public function testGetValidProfileByProfileId() : void {
+	public function testGetValidProfileByProfileId(): void {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("profile");
 		$profileId = generateUuidV4();
@@ -182,19 +185,21 @@ class ProfileTest extends CrowdVibeTest {
 		$this->assertEquals($pdoProfile->getProfileSalt(), $this->VALID_PROFILE_SALT);
 		$this->assertEquals($pdoProfile->getProfileUserName(), $this->VALID_PROFILE_USERNAME);
 	}
+
 	/**
 	 * test grabbing a Profile that does not exist
 	 **/
-	public function testGetInvalidProfileByProfileId() : void {
+	public function testGetInvalidProfileByProfileId(): void {
 		// grab a profile id that exceeds the maximum allowable profile id
 		$fakeProfileId = generateUuidV4();
-		$profile = Profile::getProfileByProfileId($this->getPDO(), $fakeProfileId );
+		$profile = Profile::getProfileByProfileId($this->getPDO(), $fakeProfileId);
 		$this->assertNull($profile);
 	}
+
 	/**
 	 * test grabbing a profile by its activation token
 	 */
-	public function testGetValidProfileByProfileActivationToken() : void {
+	public function testGetValidProfileByProfileActivationToken(): void {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("profile");
 		$profileId = generateUuidV4();
@@ -214,14 +219,16 @@ class ProfileTest extends CrowdVibeTest {
 		$this->assertEquals($pdoProfile->getProfileSalt(), $this->VALID_PROFILE_SALT);
 		$this->assertEquals($pdoProfile->getProfileUserName(), $this->VALID_PROFILE_USERNAME);
 	}
+
 	/**
 	 * test grabbing a Profile by an activation token that does not exists
 	 **/
-	public function testGetInvalidProfileActivationToken() : void {
+	public function testGetInvalidProfileActivationToken(): void {
 		// grab an email that does not exist
 		$profile = Profile::getProfileByProfileActivationToken($this->getPDO(), "5ebc7867885cb8dd25af05b991dd5609");
 		$this->assertNull($profile);
 	}
+
 	/**
 	 * test getting a valid Profile by an email
 	 **/
@@ -245,14 +252,16 @@ class ProfileTest extends CrowdVibeTest {
 		$this->assertEquals($pdoProfile->getProfileSalt(), $this->VALID_PROFILE_SALT);
 		$this->assertEquals($pdoProfile->getProfileUserName(), $this->VALID_PROFILE_USERNAME);
 	}
+
 	/**
 	 * test grabbing a Profile by profile email that does not exist
 	 **/
-	public function testGetInvalidProfileByProfileEmail() : void {
+	public function testGetInvalidProfileByProfileEmail(): void {
 		// grab an email that does not exist
 		$profile = Profile::getProfileByProfileEmail($this->getPDO(), "emailfailing@failing.failing");
 		$this->assertNull($profile);
 	}
+
 	/**
 	 * test getting a valid Profile by a username
 	 **/
@@ -276,14 +285,16 @@ class ProfileTest extends CrowdVibeTest {
 		$this->assertEquals($pdoProfile->getProfileSalt(), $this->VALID_PROFILE_SALT);
 		$this->assertEquals($pdoProfile->getProfileUserName(), $this->VALID_PROFILE_USERNAME);
 	}
+
 	/**
 	 * test grabbing a Profile by user name that does not exist
 	 **/
-	public function testGetInvalidProfileByProfileUserName() : void {
+	public function testGetInvalidProfileByProfileUserName(): void {
 		// grab an at user name that does not exist
 		$profile = Profile::getProfileByProfileUserName($this->getPDO(), "Failing");
 		$this->assertNull($profile);
 	}
+
 	/**
 	 * test getting a valid Profile by a profile name
 	 **/
@@ -315,43 +326,4 @@ class ProfileTest extends CrowdVibeTest {
 		$this->assertEquals($pdoProfile->getProfileSalt(), $this->VALID_PROFILE_SALT);
 		$this->assertEquals($pdoProfile->getProfileUserName(), $this->VALID_PROFILE_USERNAME);
 	}
-//	/**
-//	 * test grabbing a Profile by first name that does not exist
-//	 **/
-//	public function testGetInvalidProfileByProfileFirstName() : void {
-//		// grab an first name that does not exist
-//		$profile = Profile::getProfileByProfileName($this->getPDO(), "Chuck");
-//		$this->assertNull($profile);
-//	}
-//	/**
-//	 * test getting a valid Profile by a last name
-//	 **/
-//	public function testGetValidProfileByProfileLastName() {
-//		// count the number of rows and save it for later
-//		$numRows = $this->getConnection()->getRowCount("profile");
-//		$profileId = generateUuidV4();
-//		$profile = new Profile($profileId, $this->VALID_PROFILE_ACTIVATION_TOKEN, $this->VALID_PROFILE_BIO, $this->VALID_PROFILE_EMAIL1, $this->VALID_PROFILE_FIRST_NAME, $this->VALID_PROFILE_HASH, $this->VALID_PROFILE_IMAGE, $this->VALID_PROFILE_LAST_NAME, $this->VALID_PROFILE_SALT, $this->VALID_PROFILE_USERNAME);
-//		$profile->insert($this->getPDO());
-//		//grab the data from MySQL
-//		$pdoProfile = Profile::getProfileByProfileLastName($this->getPDO(), $profile->getProfileByProfileLastName());
-//		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
-//		$this->assertEquals($pdoProfile->getProfileId(), $profileId);
-//		$this->assertEquals($pdoProfile->getProfileActivationToken(), $this->VALID_PROFILE_ACTIVATION_TOKEN);
-//		$this->assertEquals($pdoProfile->getProfileBio(), $this->VALID_PROFILE_BIO);
-//		$this->assertEquals($pdoProfile->getProfileEmail(), $this->VALID_PROFILE_EMAIL1);
-//		$this->assertEquals($pdoProfile->getProfileFirstName(), $this->VALID_PROFILE_FIRST_NAME);
-//		$this->assertEquals($pdoProfile->getProfileHash(), $this->VALID_PROFILE_HASH);
-//		$this->assertEquals($pdoProfile->getProfileImage(), $this->VALID_PROFILE_IMAGE);
-//		$this->assertEquals($pdoProfile->getProfileLastName(), $this->VALID_PROFILE_LAST_NAME);
-//		$this->assertEquals($pdoProfile->getProfileSalt(), $this->VALID_PROFILE_SALT);
-//		$this->assertEquals($pdoProfile->getProfileUserName(), $this->VALID_PROFILE_USERNAME);
-//	}
-//	/**
-//	 * test grabbing a Profile by last name that does not exist
-//	 **/
-//	public function testGetInvalidProfileByProfileLastName() : void {
-//		// grab an last name that does not exist
-//		$profile = Profile::getProfileByProfileName($this->getPDO(), "Norris");
-//		$this->assertNull($profile);
-//	}
 }

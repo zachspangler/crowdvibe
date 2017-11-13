@@ -263,7 +263,6 @@ class EventAttendance implements \JsonSerializable {
 		$query = "UPDATE eventAttendance SET eventAttendancId = :eventAttendanceId, eventAttendanceEventId = :eventAttentionEventId, eventAttendanceProfileId = :eventAttendanceProfileId, eventAttendanceCheckIn = :eventAttendanceCheckin, eventAttendanceNumberAttending = :eventAttendanceNumberAttending WHERE eventAttendanceId = :eventAttendanceId";
 		$statement = $pdo->prepare($query);
 
-
 		// delete the variables from the place holders in the template
 		$parameters = ["eventAttendanceId" => $this->eventAttendanceId, "eventAttendanceEventId"=> $this->eventAttendanceEventId, "eventAttendanceProfileId" => $this->eventAttendanceProfileId,  "eventAttendanceCheckIn" => $this->eventAttendanceCheckIn, "eventAttendanceNumberAttending" => $this->eventAttendanceNumberAttending];
 		$statement->execute($parameters);
@@ -284,7 +283,7 @@ class EventAttendance implements \JsonSerializable {
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
 		// create query template
-		$query = "SELECT eventAttendanceId, eventAttendanceEventid,eventAttendanceProfileId,  eventAttendanceCheckIn, eventAttendanceNumberAttending FROM eventAttendance WHERE eventAttendanceId = :eventAttendanceId";
+		$query = "SELECT eventAttendanceId, eventAttendanceEventId,eventAttendanceProfileId,  eventAttendanceCheckIn, eventAttendanceNumberAttending FROM eventAttendance WHERE eventAttendanceId = :eventAttendanceId";
 		$statement = $pdo->prepare($query);
 		// bind the eventAttendanceId to the place holder in the template
 		$parameters = ["eventAttendanceId" => $eventAttendanceId];
