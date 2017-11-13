@@ -4,6 +4,7 @@ require_once(dirname(__DIR__, 2) . "/vendor/autoload.php");
 
 use Prophecy\Exception\InvalidArgumentException;
 use Ramsey\Uuid\Uuid;
+use TypeError;
 
 /**
  * An event is user created, it is allow people to join you in any activity you are participating in.
@@ -111,7 +112,7 @@ class Event implements \JsonSerializable {
 
     }
     //determine what exception type was thrown
-        catch (\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {$exceptionType = get_class($exception);
+        catch (\InvalidArgumentException | \RangeException | \Exception | TypeError $exception) {$exceptionType = get_class($exception);
         throw (new $exceptionType($exception->getMessage(), 0, $exception));
         }
     }
@@ -133,7 +134,7 @@ class Event implements \JsonSerializable {
      *
      * @param int|null $newEventId new value of event id
      * @throws \RangeException if $nevEventId is not positive
-     * @throws \TypeError if $newEventId is not an integer
+     * @throws TypeError if $newEventId is not an integer
      **/
     public function setEventId(?int $newEventId) : void {
         //if event id is null immediately return it
@@ -167,7 +168,7 @@ class Event implements \JsonSerializable {
      *
      * @param int $newEventProfileId new value of event profile id
      * @throws \RangeException if $newProfileId is not positive
-     * @throws \TypeError if $newProfileId is not an integer
+     * @throws TypeError if $newProfileId is not an integer
      **/
     public function setEventProfileId(int $newEventProfileId) : void {
 
@@ -286,23 +287,123 @@ class Event implements \JsonSerializable {
     /**
      * accessor method for event price
      *
-     * @return
-     */
+     * @return float of event price
+     **/
+    public function getEventPrice() {
+        return $this->eventPrice;
+    }
+    /**
+     * mutator method for event price
+     *
+     * @param float $newEventPrice new value of event price
+     * @throws \InvalidArgumentException if $newEventPrice is not a float or insecure
+     * @throws \RangeException if $newEventPrice is >
+     * @throw |TypeError if $newEventPrice is not a float
+     **/
+    public function setEventPrice (float $newEventPrice) : void {
+        // verify the price is insecure
+        $newEventPrice = trim($newEventPrice);
+        $newEventPrice = filter_var($newEventPrice, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+        if (empty($newEventPrice)===true) {
+            throw (new InvalidArgumentException("event price is empty or insecure"));
+        }
+        // verify the event price will fit in the database
+        if (strlen($newEventPrice) <= 7) {
+        } else {
+            throw (new \RangeException("event price is too much"));
+        }
+        // store this event price
+        $this->eventPrice=$newEventPrice;
+    }
 
     /**
-     * formats the state variables for JSON serialization
+     * accessor method for event Latitude
      *
-     * @return array resulting state variables to serialize
+     * @return float value of event Latitude
      **/
-    public function jsonSerialize() {
-        $fields = get_object_vars($this);
-        //format the date so that the front end can consume it
-        $fields["eventStartDateTime"] = round(floatval($this->eventStartDateTime->format("U.u")) * 1000);
-        return($fields);
+    public function getEventLat() : float {
+        return($this->eventLat);
+    }
+    /**
+     * mutator method for event Latitude
+     *
+     * @param float $newEventLat new value event Latitude
+     * @throws \InvalidArgumentException if $newEventLat is not a valid latitude or insecure
+     * @throws \RangeException if $newEventLat is > 12 characters
+     * @throws TypeError if $newEventLat is not a float
+     **/
+    public function setEventLat(float $newEventLat): void {
+        // verify the float will fit in the database
+        if (($newEventLat > 90) || ($newEventLat < -90)); {
+            throw (new \RangeException("latitude is too big of a number"));
+        }
+        // store the latitude for event
+        $this->eventLat=$newEventLat;
+    }
+    /**
+     * accessor method for eventLong
+     *
+     * @return float value for event Longitude
+     **/
+    /**
+     * @return float
+     **/
+    public function getEventLong(): float{
+        return $this->eventLong;
+    }
+    /**
+     * mutator method for event Longitude
+     *
+     * @param float $newEventLong new value event Longitude
+     * @throws \InvalidArgumentException if $newEventLong is not a valid longitude or insecure
+     * @throws \RangeException if $newEventLong is > 12 characters
+     * @throws TypeError if $newEventLong is not a float
+     **/
+    /**
+     * @param float $newEventLong
+     * @internal param float $eventLong
+     */
+    public function setEventLong(float $newEventLong): void {
+    // verify the float will fit in the database
+        if (($newEventLong >180) || ($newEventLong < -180)) {
+            throw(new \RangeException("longitude is too large of a number"));
+        }
+        //store the event longitude
+        $this->eventLong=$newEventLong;
+
     }
 
-
+    /**
+     * accessor methof for eventStartDateTime
+     *
+     * @return \DateTime
+     */
+    public function getEventStartDateTime(): \DateTime{
+        return $this->eventStartDateTime;
     }
+    /**
+     * mutator method for eventStartDateTime
+     *
+     * @throws \DateTime|string|null $newStartDateTime comment date as a DateTime object or string (or null to load the current time)
+     * @throws \InvalidArgumentException if $newCommentDateTime is not a valid object or string
+     * @throws \RangeException if $newCommentDateTime is a date that does not exist
+     **/
+
+
+
+
+    /**
+     * Specify data which should be serialized to JSON
+     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return mixed data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     * @since 5.4.0
+     */
+    public function jsonSerialize()
+    {
+        // TODO: Implement jsonSerialize() method.
+    }
+}
 
 
 
