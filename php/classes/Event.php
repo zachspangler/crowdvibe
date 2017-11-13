@@ -85,11 +85,11 @@ class Event implements \JsonSerializable
 
     /**
      * Event constructor.
-     * @param int|null $newEventId
-     * @param int $newEventProfileId
+     * @param string|Uuid $newEventId
+     * @param string|Uuid $newEventProfileId
      * @param string $newEventDetail
-     * @param \DateTime|null $newEventStartDateTime
-     * @param \DateTime|null $newEventEndDateTime
+     * @param \DateTime|string $newEventStartDateTime
+     * @param \DateTime|string $newEventEndDateTime
      * @param int $newEventPrice
      * @param float $newEventLat
      * @param float $newEventLong
@@ -97,7 +97,7 @@ class Event implements \JsonSerializable
      * @param string $newEventName
      */
 
-    public function __construct(?int $newEventId, int $newEventProfileId, string $newEventDetail, \DateTime $newEventStartDateTime = null, \DateTime $newEventEndDateTime = null, int $newEventPrice, float $newEventLat, float $newEventLong, $newEventImage = null, string $newEventName) {
+    public function __construct( $newEventId, $newEventProfileId, string $newEventDetail, $newEventStartDateTime = null, $newEventEndDateTime = null, int $newEventPrice, float $newEventLat, float $newEventLong, $newEventImage = null, string $newEventName) {
         try {
             $this->setEventId($newEventId);
             $this->setEventProfileId($newEventProfileId);
