@@ -374,7 +374,7 @@ class Event implements \JsonSerializable {
     }
 
     /**
-     * accessor methof for eventStartDateTime
+     * accessor method for eventStartDateTime
      *
      * @return \DateTime
      */
@@ -385,14 +385,59 @@ class Event implements \JsonSerializable {
      * mutator method for eventStartDateTime
      *
      * @throws \DateTime|string|null $newStartDateTime comment date as a DateTime object or string (or null to load the current time)
-     * @throws \InvalidArgumentException if $newCommentDateTime is not a valid object or string
-     * @throws \RangeException if $newCommentDateTime is a date that does not exist
+     * @throws \InvalidArgumentException if $newEventStartDateTime is not a valid object or string
+     * @throws \RangeException if $newEventStartDateTime is a date that does not exist
      **/
+    public function setEventStartDateTime ($newEventStartDateTime = null): void {
+        //base case: if the date is null, use the current date and time
+        if ($newEventStartDateTime === null) {
+            $this->eventStartDateTime = new \DateTime();
+            return;
+        }
+        // store the date/time using the Validate Trait
+        try {
+            $newEventStartDateTime =self::validateDateTime($newEventStartDateTime);
+        } catch (\InvalidArgumentException | \RangeException $exception) {
+            $exceptionType = get_class($exception);
+            throw(new $exceptionType($exception->getMessage(), 0, $exception));
+        }
+        $this->eventStartDateTime = $newEventStartDateTime;
+    }
 
+    /**
+     * accessor method to eventEndDateTime
+     *
+     * @return \DateTime
+     **/
+    /**
+     * @return \DateTime
+     */
+    public function getEventEndDateTime(): \DateTime {
+        return $this->eventEndDateTime;
+    }
 
-
-
-
+    /**
+     * mutator method for eventEndDateTime
+     *
+     * @throws |DateTime|string\null $newEventDateTime comment date as a DateTime object or string (or null to load the current time)
+     * @throws |InvalidArgumentException if $newEventEndDateTime is not a valid object or string
+     * @throws \RangeException if $newEventEndDateTime is a date that does not exist
+     **/
+    public function setEventEndDateTime ($newEventEndDateTime = null): void {
+        //base case: if the date is null, use the current date and time
+        if ($newEventEndDateTime === null) {
+            $this->getEventEndDateTime = new \DateTime();
+            return;
+        }
+        // store the date/time using the Validate Trait
+            try {
+                $newEventEndDateTime=self::validateDateTime($newEventEndDateTime);
+            } catch (\InvalidArgumentException | \RangeException $exception) {
+                $exceptionType = get_class($exception);
+                throw(new $exceptionType($exception->getMessage(), 0, $exception));
+            }
+            $this->eventEndDateTime = $newEventEndDateTime;
+        }
     public function jsonSerialize()
     {
         $fields = get_object_vars($this);
@@ -402,7 +447,15 @@ class Event implements \JsonSerializable {
         $fields["eventStartDateTime"] = round(floatval($this->eventStartDateTime->format("U.u")) * 1000);
         return ($fields);
     }
-}
+
+    }
+
+
+
+
+
+
+
 
 
 
