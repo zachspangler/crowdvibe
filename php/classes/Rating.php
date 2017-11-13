@@ -203,13 +203,15 @@ public function setRatingId($newRatingId) : void{
         * @throws \InvalidArgumentException if $newRatingScore is not a string or insecure
         * @throws \RangeException if $newRatingScore is not positive
         **/
-       public Function setRatingScore(int $newRatingScore) : void {
+       public Function setRatingScore(int $newRatingScore) : void
+       {
            // if new rating score is less than min or greater than max throw range exception
-           if ($newRatingScore < 0 || $newRatingScore > 5);{
+           if ($newRatingScore < 0 || $newRatingScore > 5) {
                $exceptionType = get_class($exception);
                throw (new$exceptionType($exception->getMessage(), 0, $exception));
                $this->ratingScore = $newRatingScore;
            }
+       }
 
 
         /**
