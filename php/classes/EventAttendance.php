@@ -69,9 +69,6 @@ class EventAttendance implements \JsonSerializable {
 		}
 	}
 
-	private function validateUuid($newEventAttendanceEventId) {
-	}
-
 	/**
 	 * accessor method for eventAttendanceId
 	 *
@@ -105,7 +102,7 @@ class EventAttendance implements \JsonSerializable {
 	 * @return Uuid | string value of Attendance Event id
 	 **/
 	public function getEventAttendanceEventId(): Uuid {
-		return $this->eventAttendanceId;
+		return ($this->eventAttendanceId);
 	}
 
 	/**
@@ -131,7 +128,7 @@ class EventAttendance implements \JsonSerializable {
 	 * @return Uuid | string value of Attendance Profile id
 	 **/
 	public function getEventAttendanceProfileId(): Uuid {
-		return $this->eventAttendanceProfileId;
+		return ($this->eventAttendanceProfileId);
 	}
 
 	/**
@@ -157,7 +154,7 @@ class EventAttendance implements \JsonSerializable {
 	 * @return int value of Event Attendance Check In this will be a 0 or 1 and treated as a boolean
 	 **/
 	public function getEventAttendanceCheckIn() {
-		return $this->eventAttendanceCheckIn;
+		return ($this->eventAttendanceCheckIn);
 	}
 
 	/**
@@ -183,7 +180,7 @@ class EventAttendance implements \JsonSerializable {
 	 * @return int value of Number Attending
 	 **/
 	public function getEventAttendanceNumberAttending() {
-		return $this->eventAttendanceNumberAttending;
+		return ($this->eventAttendanceNumberAttending);
 	}
 
 	/**
