@@ -296,13 +296,13 @@ public function setRatingId($newRatingId) : void{
                 try {
                     $rating = new Rating($row["ratingId"], $row["ratingEventAttendanceId"], $row["ratingRateeProfileId"], $row["ratingRaterProfileId"], $row["ratingScore"]);
                     $ratings[$ratings->key()] = $rating;
-                    $rating->next();
+                    $ratings->next();
                 } catch (\Exception $exception) {
                     //if the row couldn't be covert, rethrow it
                     throw(new \PDOException($exception->getMessage(), 0, $exception));
                 }
             }
-            return($rating);
+            return($ratings);
         }
 
         /**
@@ -336,13 +336,13 @@ public function setRatingId($newRatingId) : void{
                 try {
                     $rating = new Rating($row["ratingId"], $row["ratingEventAttendanceId"], $row["ratingRateeProfileId"], $row["ratingRaterProfileId"], $row["ratingScore"]);
                     $ratings[$ratings->key()] = $rating;
-                    $rating->next();
+                    $ratings->next();
 
              }catch (\Exception $exception){
                  //if the row couldn't be coverted, rethrow it
                  throw(new \PDOException($exception->getMessage(), 0, $exception));
              }
-             return($rating);
+             return($ratings);
         }
 
         /**
@@ -376,12 +376,12 @@ public function setRatingId($newRatingId) : void{
                     try {
                         $rating = new Rating($row["ratingId"], $row["ratingEventAttendanceId"], $row["ratingRateeProfileId"], $row["ratingRaterProfileId"], $row["ratingScore"]);
                         $ratings[$ratings->key()] = $rating;
-                        $rating->next();
+                        $ratings->next();
             }catch (\Exception $exception){
                 //if the row couldn't be coverted, rethrow it
                 throw(new \PDOException($exception->getMessage(), 0, $exception));
             }
-            return($rating);
+            return($ratings);
         }
 
         /**
@@ -415,12 +415,12 @@ public function setRatingId($newRatingId) : void{
                         try {
                             $rating = new Rating($row["ratingId"], $row["ratingEventAttendanceId"], $row["ratingRateeProfileId"], $row["ratingRaterProfileId"], $row["ratingScore"]);
                             $ratings[$ratings->key()] = $rating;
-                            $rating->next();
+                            $ratings->next();
              }catch (\Exception $exception){
                 //if the row couldn't be covert, rethrow it
                 throw(new \PDOException($exception->getMessage(), 0, $exception));
              }
-             return($rating);
+             return($ratings);
         }
 
 
