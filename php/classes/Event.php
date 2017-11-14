@@ -95,6 +95,10 @@ class Event implements \JsonSerializable
      * @param float $newEventLong
      * @param string|null $newEventImage
      * @param string $newEventName
+     * @throws \InvalidArgumentException if data types are out of bounds (e.g., strings to long, negative integers)
+     * @throws \RangeException if data values are out of bounds (e.g., strings too long, negative integers)
+     * @throws \TypeError if a data type violates a data hint
+     * @throws \Exception if some other exception occurs
      */
 
     public function __construct( $newEventId, $newEventProfileId, float $newEventAttendeeLimit, $newEventEndDateTime = null, string $newEventDetail, $newEventImage = null, float $newEventLat, float $newEventLong,string $newEventName, int $newEventPrice, $newEventStartDateTime = null) {
