@@ -15,6 +15,8 @@ use Ramsey\Uuid\Uuid;
  **/
 
 class EventAttendance implements \JsonSerializable {
+	use ValidateUuid;
+
 	/**
 	 * id for the amount of people attending
 	 * @var string binary $attendanceId
