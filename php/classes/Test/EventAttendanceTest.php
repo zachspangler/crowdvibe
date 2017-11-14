@@ -1,6 +1,10 @@
 <?php
+
 namespace Edu\Cnm\CrowbVibe\Test;
-use Edu\Cnm\CrowbVibe\{Profile, Event, EventAttendance};
+
+use Edu\Cnm\CrowbVibe\{
+	Profile, Event, EventAttendance
+};
 use Edu\Cnm\CrowdVibe\Test\CrowdVibeTest;
 
 // grab the class under scrutiny
@@ -8,6 +12,7 @@ require_once(dirname(__DIR__) . "/autoload.php");
 
 // grab the uuid generator
 require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
+
 /**
  * Full PHPUnit test for the Event Attendance class
  *
@@ -19,12 +24,12 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
 class EventAttendanceTest extends CrowdVibeTest {
 	/**
 	 * Profile that attended the event; this is for foreign key relations
-	 * @var  Profile $profile
+	 * @var Profile $profile
 	 **/
 	protected $profile;
 	/**
 	 * Event is being attended; this is for foreign key relations
-	 * @var  Event $event
+	 * @var Event $event
 	 **/
 	protected $event;
 	/**
@@ -42,6 +47,11 @@ class EventAttendanceTest extends CrowdVibeTest {
 	 * @var $VALID_NUMBER_ATTENDING
 	 */
 	protected $VALID_NUMBER_ATTENDING = 2;
+	/**
+	 * valid number of attending this is the total number of people who are planning on attending
+	 * @var $VALID_NUMBER_ATTENDING
+	 */
+	protected $VALID_NUMBER_ATTENDING2 = 4;
 	/**
 	 * valid salt to use to create the profile object to own the test
 	 * @var string $VALID_SALT
@@ -71,6 +81,7 @@ class EventAttendanceTest extends CrowdVibeTest {
 		$this->event = new Event(generateUuidV4(), $profile->getProfileId(), 20, "19/11/2016 14:00:00", "Celebrate the birth of mayan time", null, "35.113281", "-106.621216", "End of the World - Mayan Style", "0.00", "19/11/2016 12:00:00");
 		$this->event->insert($this->getPDO());
 	}
+
 	/**
 	 * test inserting a valid Event Attendance and verify that the actual mySQL data matches
 	 **/
@@ -88,10 +99,33 @@ class EventAttendanceTest extends CrowdVibeTest {
 		$this->assertEquals($pdoEventAttendance->getEventAttendanceCheckIn(), $this->VALID_CHECK_IN);
 		$this->assertEquals($pdoEventAttendance->getEventAttendanceNumberAttending(), $this->VALID_NUMBER_ATTENDING);
 	}
+
+	/**
+	 * test inserting a Event Attendance, editing it, and then updating it
+	 **/
+	public function testUpdateValidEventAttendance(): void {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("eventAttendance");
+		// create a new Event Attendance and insert to into mySQL
+		$eventAttendance = new EventAttendance(generateUuidV4(), $event->getEventId(), $profile->getProfileId(), $this->VALID_CHECK_IN, $this->VALID_NUMBER_ATTENDING);
+		$eventAttendance->insert($this->getPDO());
+		// edit the Tweet and update it in mySQL
+		$eventAttendance->setEventAttendanceNumberAttending($this->VALID_NUMBER_ATTENDING2);
+		$eventAttendance->update($this->getPDO());
+		// grab the data from mySQL and enforce the fields match our expectations
+		// grab the data from mySQL and enforce the fields match our expectations
+		$pdoEventAttendance = EventAttendance::getEventAttendanceByProfileId($this->getPDO(), $event->getEventId(), $profile->getProfileId(), $this->VALID_CHECK_IN, $this->VALID_NUMBER_ATTENDING);
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("eventAttendance"));
+		$this->assertEquals($pdoEventAttendance->getEventAttendanceEventId(), $event->getEventId());
+		$this->assertEquals($pdoEventAttendance->getEventAttendanceProfileId(), $profile->getProfileId());
+		$this->assertEquals($pdoEventAttendance->getEventAttendanceCheckIn(), $this->VALID_CHECK_IN);
+		$this->assertEquals($pdoEventAttendance->getEventAttendanceNumberAttending(), $this->VALID_NUMBER_ATTENDING2);
+	}
+
 	/**
 	 * test creating a Event Attendance and then deleting it
 	 **/
-	public function testDeleteValidEventAttendance() : void {
+	public function testDeleteValidEventAttendance(): void {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("eventAttendance");
 		// create a new Event Attendance and insert to into mySQL
@@ -105,10 +139,11 @@ class EventAttendanceTest extends CrowdVibeTest {
 		$this->assertNull($pdoEventAttendance);
 		$this->assertEquals($numRows, $this->getConnection()->getRowCount("eventAttendance"));
 	}
+
 	/**
 	 * test inserting a Event Attendance and regrabbing it from mySQL
 	 **/
-	public function testGetValidEventAttendanceByProfileId() : void {
+	public function testGetValidEventAttendanceByProfileId(): void {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("eventAttendance");
 		// create a new Event Attendance and insert to into mySQL
@@ -122,10 +157,11 @@ class EventAttendanceTest extends CrowdVibeTest {
 		$this->assertEquals($pdoEventAttendance->getEventAttendanceCheckIn(), $this->VALID_CHECK_IN);
 		$this->assertEquals($pdoEventAttendance->getEventAttendanceNumberAttending(), $this->VALID_NUMBER_ATTENDING);
 	}
+
 	/**
 	 * test grabbing event attendance by event attendance Id
 	 **/
-	public function testGetValidEventAttendanceByEventAttendanceId() : void {
+	public function testGetValidEventAttendanceByEventAttendanceId(): void {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("eventAttendance");
 		// create a new Event Attendance and insert to into mySQL
@@ -143,10 +179,11 @@ class EventAttendanceTest extends CrowdVibeTest {
 		$this->assertEquals($pdoEventAttendance->getEventAttendanceCheckIn(), $this->VALID_CHECK_IN);
 		$this->assertEquals($pdoEventAttendance->getEventAttendanceNumberAttending(), $this->VALID_NUMBER_ATTENDING);
 	}
+
 	/**
 	 * test grabbing event attendance by event Id
 	 **/
-	public function testGetValidEventAttendanceByEventAttendanceEventId() : void {
+	public function testGetValidEventAttendanceByEventAttendanceEventId(): void {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("eventAttendance");
 		// create a new Event Attendance and insert to into mySQL
@@ -164,10 +201,11 @@ class EventAttendanceTest extends CrowdVibeTest {
 		$this->assertEquals($pdoEventAttendance->getEventAttendanceCheckIn(), $this->VALID_CHECK_IN);
 		$this->assertEquals($pdoEventAttendance->getEventAttendanceNumberAttending(), $this->VALID_NUMBER_ATTENDING);
 	}
+
 	/**
 	 * test grabbing event attendance by profile Id
 	 **/
-	public function testGetValidEventAttendanceByEventAttendanceProfileId() : void {
+	public function testGetValidEventAttendanceByEventAttendanceProfileId(): void {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("eventAttendance");
 		// create a new Event Attendance and insert to into mySQL
