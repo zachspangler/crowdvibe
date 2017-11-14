@@ -286,21 +286,21 @@ public function setRatingId($newRatingId) : void{
             $query = "SELECT ratingId, ratingEventAttendanceId, ratingRateeProfileId, ratingRaterProfileId, ratingScore FROM rating WHERE ratingId = :ratingId";
             $statement = $pdo->prepare($query);
 
-            // bind the rating id to the place holdr in the template
+            // bind the rating id to the place holder in the template
             $parameters = ["ratingId" => $ratingId->getBytes()];
             $statement->execute($parameters);
 
-            // grab the rating from mySQL
-            try{
-                    $rating = null;
-                    $statement->setFetchMode(\PDO::FETCH_ASSOC);
-                    $row = $statement->fetch();
-                    if($row !== false) {
-                        $rating = new Rating($row["ratingId"],$row["ratingEventAttendanceId"], $row["ratingRateeProfileId"], $row["ratingRaterProfileId"], $row["ratingScore"]);
-                    }
-            }catch (\Exception $exception){
-                //if the row couldn't be coverted, rethrow it
-                throw(new \PDOException($exception->getMessage(), 0, $exception));
+            // build an array of ratings
+            $rating = new \SplFixedArray($statement->rowCount());
+            while (($row = $statement->fetch()) !== false) {
+                try {
+                    $rating = new Rating($row["ratingId"], $row["ratingEventAttendanceId"], $row["ratingRateeProfileId"], $row["ratingRaterProfileId"], $row["ratingScore"]);
+                    $ratings[$ratings->key()] = $rating;
+                    $rating->next();
+                } catch (\Exception $exception) {
+                    //if the row couldn't be covert, rethrow it
+                    throw(new \PDOException($exception->getMessage(), 0, $exception));
+                }
             }
             return($rating);
         }
