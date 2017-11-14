@@ -292,7 +292,7 @@ class EventTest extends CrowdVibeTest {
     /**
      * test grabbing a event by a event attendeee limit that does not exist
      **/
-    public function testGetInvalidEventByEventAttendeeLimit (): {
+    public function testGetInvalidEventByEventAttendeeLimit (): void {
         // grab a event limit that does not exist
         $event = Event::getEventByEventAttendeeLimit($this->getPDO(), "600");
         $this->assertNull($event);
