@@ -90,7 +90,7 @@ class EventAttendanceTest extends CrowdVibeTest {
 		$eventAttendance = new EventAttendance($eventAttendanceId, $this->event->getEventId(), $this->profile->getProfileId(), $this->VALID_CHECK_IN, $this->VALID_NUMBER_ATTENDING);
 		$eventAttendance->insert($this->getPDO());
 		// grab the data from mySQL and enforce the fields match our expectations
-		$results = EventAttendance::getEventAttendanceByEventAttendanceId($this->getPDO());
+		$results = EventAttendance::getEventAttendanceByEventAttendanceId($this->getPDO(), $eventAttendanceId->getEventAttendanceId);
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("eventAttendance"));
 		$this->assertCount(1, $results);
 		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Crowdvibe\\EventAttendance", $results);
@@ -118,7 +118,7 @@ class EventAttendanceTest extends CrowdVibeTest {
 		$eventAttendance->setEventAttendanceNumberAttending($this->VALID_NUMBER_ATTENDING2);
 		$eventAttendance->update($this->getPDO());
 		// grab the data from mySQL and enforce the fields match our expectations
-		$results = EventAttendance::getEventAttendanceByEventAttendanceId($this->getPDO());
+		$results = EventAttendance::getEventAttendanceByEventAttendanceId($this->getPDO(), $eventAttendance->getEventAttendanceId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("eventAttendance"));
 		$this->assertCount(1, $results);
 		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Crowdvibe\\EventAttendance", $results);
@@ -160,7 +160,7 @@ class EventAttendanceTest extends CrowdVibeTest {
 		$eventAttendance = new EventAttendance(generateUuidV4(), $this->event->getEventId(), $this->profile->getProfileId(), $this->VALID_CHECK_IN, $this->VALID_NUMBER_ATTENDING);
 		$eventAttendance->insert($this->getPDO());
 		// grab the data from mySQL and enforce the fields match our expectations
-		$results = EventAttendance::getEventAttendanceByEventAttendanceId($this->getPDO());
+		$results = EventAttendance::getEventAttendanceByEventAttendanceId($this->getPDO(), $eventAttendance->getEventAttendanceEventId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("eventAttendance"));
 		$this->assertCount(1, $results);
 		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\CrowdVibe\\EventAttendance", $results);

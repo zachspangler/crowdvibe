@@ -262,7 +262,7 @@ class EventAttendance implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 */
-	public static function getEventAttendanceByEventAttendanceId(\PDO $pdo): \SplFixedArray {
+	public static function getEventAttendanceByEventAttendanceId(\PDO $pdo, string $eventAttendanceId): \SplFixedArray {
 		try {
 			$eventAttendanceId = self::validateUuid($eventAttendanceId);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
