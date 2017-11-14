@@ -5,6 +5,8 @@ require_once("autoload.php");
 require_once(dirname(__DIR__, 2) . "vendor/autoload.php");
 
 
+use foo\bar;
+use PHPUnit\Runner\Exception;
 use Ramsey\Uuid\Uuid;
 use RangeException;
 
@@ -182,12 +184,6 @@ class EventAttendance implements \JsonSerializable {
 		if(empty($newEventAttendanceCheckIn) === true) {
 			throw(new\InvalidArgumentException(" if event attendance check in is empty"));
 		}
-		//verify the Attendance content
-		if($newEventAttendanceCheckIn) {
-			throw(RangeException("if event attendance check is not selected"));
-		}
-		// convert and store
-		$this->eventAttendanceCheckIn;
 	}
 
 	/**
@@ -260,7 +256,7 @@ class EventAttendance implements \JsonSerializable {
 	 **/
 	public function update(\PDO $pdo) : void {
 		// create query template
-		$query = "UPDATE eventAttendance SET eventAttendancId = :eventAttendanceId, eventAttendanceEventId = :eventAttentionEventId, eventAttendanceProfileId = :eventAttendanceProfileId, eventAttendanceCheckIn = :eventAttendanceCheckin, eventAttendanceNumberAttending = :eventAttendanceNumberAttending WHERE eventAttendanceId = :eventAttendanceId";
+		$query = "UPDATE eventAttendance SET eventAttendanceId = :eventAttendanceId, eventAttendanceEventId = :eventAttentionEventId, eventAttendanceProfileId = :eventAttendanceProfileId, eventAttendanceCheckIn = :eventAttendanceCheckin, eventAttendanceNumberAttending = :eventAttendanceNumberAttending WHERE eventAttendanceId = :eventAttendanceId";
 		$statement = $pdo->prepare($query);
 
 		// delete the variables from the place holders in the template
@@ -304,6 +300,7 @@ class EventAttendance implements \JsonSerializable {
 	}
 	/**
 	 * gets the Event Attendance by eventAttendanceEventId
+	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param $eventAttendanceEventId
 	 * @return \SPLFixedArray eventAttendanceEventId found or null if not found
@@ -323,11 +320,12 @@ class EventAttendance implements \JsonSerializable {
 		$parameters = ["eventAttendanceEventId" => $eventAttendanceEventId];
 		$statement->execute($parameters);
 		// build and array of EventAttendanceEventId
-		$eventAttendanceEventIdArray = new \SplFixedArray($statement->rowCount());
+		$eventAttendanceEventId = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
 				$eventAttendanceEventIdArray = new eventAttendance($row["eventAttendanceId"],$row["eventAttendanceEventId"], $row["eventAttendanceProfileId"],  $row["eventAttendanceCheckIn"], $row["eventAttendanceNumberAttending"]);
+				/** @var bar $eventAttendanceEventId */
 				$eventAttendanceEventIdArray[$eventAttendanceEventIdArray = key()] = $eventAttendanceEventId;
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
@@ -363,7 +361,7 @@ class EventAttendance implements \JsonSerializable {
 		while(($row = $statement->fetch()) !== false) {
 			try {
 				$eventAttendanceProfileId = new eventAttendance ($row["eventAttendanceId"], $row["eventAttendanceProfileId"], $row["eventAttendanceEventId"], $row["eventAttendanceCheckIn"], $row["eventAttendanceNumberAttending"]);
-				$eventAttendanceProfileIdArray[$eventAttendanceProfileIdArray = key($eventAttendanceProfileId)] = $eventAttendanceProfileId;
+				$eventAttendanceProfileIdArray [$eventAttendanceProfileIdArray = key()] = $eventAttendanceProfileId;
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
@@ -394,7 +392,7 @@ class EventAttendance implements \JsonSerializable {
 		$parameters = ["eventAttendanceCheckIn" => $eventAttendanceCheckIn];
 		$statement->execute($parameters);
 		// build and array of EventAttendanceCheckIn
-		$eventAttendanceCheckInArray = new \SplFixedArray($statement->rowCount());
+		$eventAttendanceCheckIn = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
@@ -412,11 +410,11 @@ class EventAttendance implements \JsonSerializable {
 	 * gets the Event Attendance by eventAttendanceNumberAttending
 	 * @param \PDO $pdo PDO connection object
 	 * @param $eventAttendanceNumberAttending
-	 * @return \SPLFixedArray eventAttendanceNumberAttending found or null if not found
+	 * @return int
 	 * @internal param $eventAttendanceNumberAttending
 	 * @internal param $eventAttendanceNumberAttending to search for
 	 */
-	public static function getEventAttendancesByNumberAttending(\PDO $pdo, $eventAttendanceNumberAttending): \SplFixedArray {
+	public static function getEventAttendancesByNumberAttending(\PDO $pdo, $eventAttendanceNumberAttending): int {
 		try {
 			$eventAttendanceNumberAttending = ($eventAttendanceNumberAttending);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
@@ -431,17 +429,18 @@ class EventAttendance implements \JsonSerializable {
 		// build and array of EventAttendanceNumberAttending
 		/** @var $eventAttendanceNumberAttendingArray
 		 */
-		$eventAttendanceNumberAttendingArray = new \SplFixedArray($statement->rowCount());
+		$eventAttendanceNumberAttending = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
 				$eventAttendanceNumberAttendingArray = new eventAttendance($row["eventAttendanceId"],$row["eventAttendanceEventId"], $row["eventAttendanceProfileId"],  $row["eventAttendanceCheckIn"], $row["eventAttendanceNumberAttending"]);
-				$eventAttendanceNumberAttendingArray[$eventAttendanceNumberAttendingArray = key()] = $eventAttendanceNumberAttending;
+				$eventAttendanceNumberAttendingArray[$eventAttendanceNumberAttendingArray = key($eventAttendanceNumberAttendingArray)] = $eventAttendanceNumberAttending;
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
+		/** @var int $eventAttendanceNumberAttending */
 		return ($eventAttendanceNumberAttending);
 	}
 	/**
