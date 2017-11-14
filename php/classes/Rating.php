@@ -376,6 +376,20 @@ class Rating implements \JsonSerializable {
             // bind the rating id to the place holder in the template
             $parameters = ["ratingRateeProfileId" => $ratingRateeProfileId->getBytes()];
             $statement->execute($parameters);
+            // grab the rating from mySQL
+            try {
+                $rating = null;
+                $statement->fetch();
+                $row = $statement->fetch();
+                if($row !== false) {
+                    $rating = new Rating($row["ratingId"], $row["ratingEventAttendanceId"], $row["ratingRateeProfileId"], $row["ratingRaterProfileId"], $row["ratingScore"]);
+                }
+            } catch (\Exception $exception) {
+                //if the row couldn't be covert, rethrow it
+                throw(new \PDOException($exception->getMessage(), 0, $exception));
+            }
+            return ($rating);
+        }
 
 
 
