@@ -1,10 +1,11 @@
 <?php
 namespace Edu\Cnm\CrowbVibe\Test;
-use Edu\Cnm\CrowbVibe\{EventAttendance, Profile, Event};
+use Edu\Cnm\CrowbVibe\{Profile, Event, EventAttendance};
 use Edu\Cnm\CrowdVibe\Test\CrowdVibeTest;
 
 // grab the class under scrutiny
 require_once(dirname(__DIR__) . "/autoload.php");
+
 // grab the uuid generator
 require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
 /**
@@ -69,8 +70,6 @@ class EventAttendanceTest extends CrowdVibeTest {
 		// create the and insert the mocked event
 		$this->event = new Event(generateUuidV4(), $profile->getProfileId(), 20, "19/11/2016 14:00:00", "Celebrate the birth of mayan time", null, "35.113281", "-106.621216", "End of the World - Mayan Style", "0.00", "19/11/2016 12:00:00");
 		$this->event->insert($this->getPDO());
-		// calculate the date (just use the time the unit test was setup...)
-		$this->VALID_LIKEDATE = new \DateTime();
 	}
 	/**
 	 * test inserting a valid Event Attendance and verify that the actual mySQL data matches
@@ -103,6 +102,7 @@ class EventAttendanceTest extends CrowdVibeTest {
 		$eventAttendance->delete($this->getPDO());
 		// grab the data from mySQL and enforce the Event Attendance does not exist
 		$pdoEventAttendance = EventAttendance::getEventAttendanceByEventId($this->getPDO(), generateUuidV4(), $event->getEventId(), $profile->getProfileId(), $this->VALID_CHECK_IN, $this->VALID_NUMBER_ATTENDING);
+		$this->assertNull($pdoEventAttendance);
 		$this->assertEquals($numRows, $this->getConnection()->getRowCount("eventAttendance"));
 	}
 	/**
@@ -117,10 +117,72 @@ class EventAttendanceTest extends CrowdVibeTest {
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoEventAttendance = EventAttendance::getEventAttendanceByProfileId($this->getPDO(), $event->getEventId(), $profile->getProfileId(), $this->VALID_CHECK_IN, $this->VALID_NUMBER_ATTENDING);
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("eventAttendance"));
-		$this->assertEquals($pdoEventAttendance->get);
-		$this->assertEquals($pdoEventAttendance->getLikeTweetId(), $this->tweet->getTweetId());
-		//format the date too seconds since the beginning of time to avoid round off error
-		$this->assertEquals($pdoEventAttendance->getLikeDate()->getTimeStamp(), $this->VALID_LIKEDATE->getTimestamp());
+		$this->assertEquals($pdoEventAttendance->getEventAttendanceEventId(), $event->getEventId());
+		$this->assertEquals($pdoEventAttendance->getEventAttendanceProfileId(), $profile->getProfileId());
+		$this->assertEquals($pdoEventAttendance->getEventAttendanceCheckIn(), $this->VALID_CHECK_IN);
+		$this->assertEquals($pdoEventAttendance->getEventAttendanceNumberAttending(), $this->VALID_NUMBER_ATTENDING);
 	}
-
+	/**
+	 * test grabbing event attendance by event attendance Id
+	 **/
+	public function testGetValidEventAttendanceByEventAttendanceId() : void {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("eventAttendance");
+		// create a new Event Attendance and insert to into mySQL
+		$eventAttendance = new EventAttendance(generateUuidV4(), $event->getEventId(), $profile->getProfileId(), $this->VALID_CHECK_IN, $this->VALID_NUMBER_ATTENDING);
+		$eventAttendance->insert($this->getPDO());
+		// grab the data from mySQL and enforce the fields match our expectations
+		$results = EventAttendance::getEventAttendanceByEventAttendanceId($this->getPDO(), $eventAttendance->getEventAttendanceId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("eventAttendance"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\CrowdVibe\\EventAttendance", $results);
+		// grab the result from the array and validate it
+		$pdoEventAttendance = $results[0];
+		$this->assertEquals($pdoEventAttendance->getEventAttendanceEventId(), $event->getEventId());
+		$this->assertEquals($pdoEventAttendance->getEventAttendanceProfileId(), $profile->getProfileId());
+		$this->assertEquals($pdoEventAttendance->getEventAttendanceCheckIn(), $this->VALID_CHECK_IN);
+		$this->assertEquals($pdoEventAttendance->getEventAttendanceNumberAttending(), $this->VALID_NUMBER_ATTENDING);
+	}
+	/**
+	 * test grabbing event attendance by event Id
+	 **/
+	public function testGetValidEventAttendanceByEventAttendanceEventId() : void {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("eventAttendance");
+		// create a new Event Attendance and insert to into mySQL
+		$eventAttendance = new EventAttendance(generateUuidV4(), $event->getEventId(), $profile->getProfileId(), $this->VALID_CHECK_IN, $this->VALID_NUMBER_ATTENDING);
+		$eventAttendance->insert($this->getPDO());
+		// grab the data from mySQL and enforce the fields match our expectations
+		$results = EventAttendance::getEventAttendanceByEventAttendanceEventId($this->getPDO(), $eventAttendance->getEventAttendanceEventId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("eventAttendance"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\CrowdVibe\\EventAttendance", $results);
+		// grab the result from the array and validate it
+		$pdoEventAttendance = $results[0];
+		$this->assertEquals($pdoEventAttendance->getEventAttendanceEventId(), $event->getEventId());
+		$this->assertEquals($pdoEventAttendance->getEventAttendanceProfileId(), $profile->getProfileId());
+		$this->assertEquals($pdoEventAttendance->getEventAttendanceCheckIn(), $this->VALID_CHECK_IN);
+		$this->assertEquals($pdoEventAttendance->getEventAttendanceNumberAttending(), $this->VALID_NUMBER_ATTENDING);
+	}
+	/**
+	 * test grabbing event attendance by profile Id
+	 **/
+	public function testGetValidEventAttendanceByEventAttendanceProfileId() : void {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("eventAttendance");
+		// create a new Event Attendance and insert to into mySQL
+		$eventAttendance = new EventAttendance(generateUuidV4(), $event->getEventId(), $profile->getProfileId(), $this->VALID_CHECK_IN, $this->VALID_NUMBER_ATTENDING);
+		$eventAttendance->insert($this->getPDO());
+		// grab the data from mySQL and enforce the fields match our expectations
+		$results = EventAttendance::getEventAttendanceByEventAttendanceProfileId($this->getPDO(), $eventAttendance->getEventAttendanceProfileId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("eventAttendance"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\CrowdVibe\\EventAttendance", $results);
+		// grab the result from the array and validate it
+		$pdoEventAttendance = $results[0];
+		$this->assertEquals($pdoEventAttendance->getEventAttendanceEventId(), $event->getEventId());
+		$this->assertEquals($pdoEventAttendance->getEventAttendanceProfileId(), $profile->getProfileId());
+		$this->assertEquals($pdoEventAttendance->getEventAttendanceCheckIn(), $this->VALID_CHECK_IN);
+		$this->assertEquals($pdoEventAttendance->getEventAttendanceNumberAttending(), $this->VALID_NUMBER_ATTENDING);
+	}
 }
