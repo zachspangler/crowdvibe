@@ -330,14 +330,14 @@ public function setRatingId($newRatingId) : void{
             $parameters = ["ratingEventAttendanceId" => $ratingEventAttendanceId->getBytes()];
             $statement->execute($parameters);
 
-            // grab the rating from mySQL
-             try{
-                $rating = null;
-                $statement->setFetchMode(\PDO::FETCH_ASSOC);
-                $row = $statement->fetch();
-                 if($row !== false) {
-                     $rating = new Rating($row["ratingId"],$row["ratingEventAttendanceId"], $row["ratingRateeProfileId"], $row["ratingRaterProfileId"], $row["ratingScore"]);
-                }
+            // build an array of ratings
+            $rating = new \SplFixedArray($statement->rowCount());
+            while (($row = $statement->fetch()) !== false) {
+                try {
+                    $rating = new Rating($row["ratingId"], $row["ratingEventAttendanceId"], $row["ratingRateeProfileId"], $row["ratingRaterProfileId"], $row["ratingScore"]);
+                    $ratings[$ratings->key()] = $rating;
+                    $rating->next();
+
              }catch (\Exception $exception){
                  //if the row couldn't be coverted, rethrow it
                  throw(new \PDOException($exception->getMessage(), 0, $exception));
@@ -370,14 +370,13 @@ public function setRatingId($newRatingId) : void{
             $parameters = ["ratingRateeProfileId" => $ratingRateeProfileId->getBytes()];
             $statement->execute($parameters);
 
-            // grab the rating from mySQL
-            try{
-                $rating = null;
-                $statement->setFetchMode(\PDO::FETCH_ASSOC);
-                $row = $statement->fetch();
-                if($row !== false) {
-                    $rating = new Rating($row["ratingId"],$row["ratingEventAttendanceId"], $row["ratingRateeProfileId"], $row["ratingRaterProfileId"], $row["ratingScore"]);
-                }
+                // build an array of ratings
+                $rating = new \SplFixedArray($statement->rowCount());
+                while (($row = $statement->fetch()) !== false) {
+                    try {
+                        $rating = new Rating($row["ratingId"], $row["ratingEventAttendanceId"], $row["ratingRateeProfileId"], $row["ratingRaterProfileId"], $row["ratingScore"]);
+                        $ratings[$ratings->key()] = $rating;
+                        $rating->next();
             }catch (\Exception $exception){
                 //if the row couldn't be coverted, rethrow it
                 throw(new \PDOException($exception->getMessage(), 0, $exception));
@@ -410,14 +409,13 @@ public function setRatingId($newRatingId) : void{
             $parameters = ["ratingRaterProfileId" => $ratingRaterProfileId->getBytes()];
             $statement->execute($parameters);
 
-            // grab the rating from mySQL
-             try{
-                 $rating = null;
-                 $statement->setFetchMode(\PDO::FETCH_ASSOC);
-                 $row = $statement->fetch();
-                 if($row !== false) {
-                     $rating = new Rating($row["ratingId"],$row["ratingEventAttendanceId"], $row["ratingRateeProfileId"], $row["ratingRaterProfileId"], $row["ratingScore"]);
-                 }
+                    // build an array of ratings
+                    $rating = new \SplFixedArray($statement->rowCount());
+                    while (($row = $statement->fetch()) !== false) {
+                        try {
+                            $rating = new Rating($row["ratingId"], $row["ratingEventAttendanceId"], $row["ratingRateeProfileId"], $row["ratingRaterProfileId"], $row["ratingScore"]);
+                            $ratings[$ratings->key()] = $rating;
+                            $rating->next();
              }catch (\Exception $exception){
                 //if the row couldn't be covert, rethrow it
                 throw(new \PDOException($exception->getMessage(), 0, $exception));
