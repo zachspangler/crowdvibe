@@ -168,8 +168,48 @@ class EventTest extends CrowdVibeTest {
         $eventId = generateUuidV4();
             $event = new Event($eventId, $this->profile->getProfileId(), $this->VALID_EVENTATTENDEELIMIT,$this->VALID_EVENTENDDATETIME,$this->VALID_EVENTDETAIL,$this->VALID_EVENTIMAGE, $this->VALID_EVENTLAT, $this->VALID_EVENTLONG, $this->VALID_EVENTNAME,
                 $this->VALID_EVENTPRICE, $this->VALID_EVENTSTARTDATETIME);
+            $event->insert($this->getPDO());
+
+
+        // delete the Event from mySQL
+        $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("event"));
+        $event->delete($this->getPDO());
+
+        //grab the data from mySQQL and enforce the Event does not exist
+        $pdoEvent = Event::getEventByEventId($this->getPDO(), $event->getEventId());
+        $this->assertNull($pdoEvent);
+        $this->assertEquals($numRows, $this->getConnection()->getRowCount("event"));
     }
 
+    /**
+     * test grabbing a Event that does not exist
+     **/
+    public function testGetInvalidEventbyEventId() : void {
+        // grab a profile id that exceeds the maximum allowable profile id
+        $event = Event::getEventByEventId($this->getPDO(), generateUuidV4());
+        $this->assertNull($event);
+    }
+
+    /**
+     * test inserting a Event and regrabbing it from mySQL
+     **/
+    public function testGetValidEventsByEventProfileId() {
+        // count the number of rows and save it for later
+        $numRows = $this->getConnection()->getRowCount("event");
+
+    // create a new Event and insert to mySQL
+        $eventId = generateUuidV4();
+        $event = new Event($eventId, $this->profile->getProfileId(), $this->VALID_EVENTATTENDEELIMIT, $this->VALID_EVENTENDDATETIME, $this->VALID_EVENTDETAIL, $this->VALID_EVENTIMAGE, $this->VALID_EVENTLAT, $this->VALID_EVENTLONG, $this->VALID_EVENTNAME, $this->VALID_EVENTPRICE, $this->VALID_EVENTSTARTDATETIME);
+        $event->insert($this->getPDO());
+
+        //grab the data from mySQL and enforce the fields match our expectations
+        $results = Event::getEventByEventProfileId($this->getPDO(), $event->getEventProfileId());
+        $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("event"));
+        $this->assertCount(1, $results);
+        $this->assertContainsOnlyInstancesOf("Edu\\Cnm\\CrowdVibe\\Event", $results);
+
+
+    }
 
 }
 
