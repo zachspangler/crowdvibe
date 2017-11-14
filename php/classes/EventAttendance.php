@@ -324,9 +324,7 @@ class EventAttendance implements \JsonSerializable {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$eventAttendanceEventIdArray = new eventAttendance($row["eventAttendanceId"],$row["eventAttendanceEventId"], $row["eventAttendanceProfileId"],  $row["eventAttendanceCheckIn"], $row["eventAttendanceNumberAttending"]);
-				/** @var bar $eventAttendanceEventId */
-				$eventAttendanceEventIdArray[$eventAttendanceEventIdArray = key()] = $eventAttendanceEventId;
+				$eventAttendanceEventId = new eventAttendance($row["eventAttendanceId"],$row["eventAttendanceEventId"], $row["eventAttendanceProfileId"],  $row["eventAttendanceCheckIn"], $row["eventAttendanceNumberAttending"]);
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
@@ -356,12 +354,11 @@ class EventAttendance implements \JsonSerializable {
 		$parameters = ["eventAttendanceProfileId" => $eventAttendanceProfileId];
 		$statement->execute($parameters);
 		// build an array of eventAttendanceProfileId
-		$eventAttendanceProfileIdArray = new \SplFixedArray($statement->rowCount());
+		$eventAttendanceProfileId = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
 				$eventAttendanceProfileId = new eventAttendance ($row["eventAttendanceId"], $row["eventAttendanceProfileId"], $row["eventAttendanceEventId"], $row["eventAttendanceCheckIn"], $row["eventAttendanceNumberAttending"]);
-				$eventAttendanceProfileIdArray [$eventAttendanceProfileIdArray = key()] = $eventAttendanceProfileId;
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
@@ -396,8 +393,7 @@ class EventAttendance implements \JsonSerializable {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$eventAttendanceCheckInArray = new eventAttendance($row["eventAttendanceId"], $row["eventAttendanceEventId"],$row["eventAttendanceProfileId"],  $row["eventAttendanceCheckIn"], $row["eventAttendanceNumberAttending"]);
-				$eventAttendanceCheckInArray[$eventAttendanceCheckInArray = key()] = $eventAttendanceCheckIn;
+				$eventAttendanceCheckIn = new eventAttendance($row["eventAttendanceId"], $row["eventAttendanceEventId"],$row["eventAttendanceProfileId"],  $row["eventAttendanceCheckIn"], $row["eventAttendanceNumberAttending"]);
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
@@ -433,8 +429,7 @@ class EventAttendance implements \JsonSerializable {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$eventAttendanceNumberAttendingArray = new eventAttendance($row["eventAttendanceId"],$row["eventAttendanceEventId"], $row["eventAttendanceProfileId"],  $row["eventAttendanceCheckIn"], $row["eventAttendanceNumberAttending"]);
-				$eventAttendanceNumberAttendingArray[$eventAttendanceNumberAttendingArray = key($eventAttendanceNumberAttendingArray)] = $eventAttendanceNumberAttending;
+				$eventAttendanceNumberAttending = new eventAttendance($row["eventAttendanceId"],$row["eventAttendanceEventId"], $row["eventAttendanceProfileId"],  $row["eventAttendanceCheckIn"], $row["eventAttendanceNumberAttending"]);
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
