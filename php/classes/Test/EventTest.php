@@ -165,8 +165,9 @@ class EventTest extends CrowdVibeTest {
         $numRows = $this->getConnection()->getRowCount("event");
 
         // create a new Event and insert into mySQL
-        $eventId = generateUuidV4()
-            $event = new Event($eventId, $this->profile->getProfileId(), $this->VALID_EVENTDETAIL, $this->VALID_EVENTDETAIL,  )
+        $eventId = generateUuidV4();
+            $event = new Event($eventId, $this->profile->getProfileId(), $this->VALID_EVENTATTENDEELIMIT,$this->VALID_EVENTENDDATETIME,$this->VALID_EVENTDETAIL,$this->VALID_EVENTIMAGE, $this->VALID_EVENTLAT, $this->VALID_EVENTLONG, $this->VALID_EVENTNAME,
+                $this->VALID_EVENTPRICE, $this->VALID_EVENTSTARTDATETIME);
     }
 
 

@@ -97,7 +97,7 @@ class Event implements \JsonSerializable
      * @param string $newEventName
      */
 
-    public function __construct( $newEventId, $newEventProfileId, string $newEventDetail, $newEventStartDateTime = null, $newEventEndDateTime = null, int $newEventPrice, float $newEventLat, float $newEventLong, $newEventImage = null, string $newEventName) {
+    public function __construct( $newEventId, $newEventProfileId, float $newEventAttendeeLimit, $newEventEndDateTime = null, string $newEventDetail, $newEventImage = null, float $newEventLat, float $newEventLong,string $newEventName, int $newEventPrice, $newEventStartDateTime = null) {
         try {
             $this->setEventId($newEventId);
             $this->setEventProfileId($newEventProfileId);
