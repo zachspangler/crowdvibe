@@ -19,17 +19,17 @@ class EventAttendance implements \JsonSerializable {
 
 	/**
 	 * id for the amount of people attending
-	 * @var string binary $attendanceId
+	 * @var Uuid|string $attendanceId
 	 */
 	protected $eventAttendanceId;
 	/**
 	 * Id for attendance to a particular event
-	 * @var Uuid $attendanceEventId
+	 * @var Uuid|string $attendanceEventId
 	 */
 	protected $eventAttendanceEventId;
 	/**
 	 * Id that relates the amount of people attending to a profile
-	 * @var string $attendanceProfileId
+	 * @var Uuid|string $attendanceProfileId
 	 */
 	protected $eventAttendanceProfileId;
 	/**
@@ -110,7 +110,7 @@ class EventAttendance implements \JsonSerializable {
 	/**
 	 * mutator method for Attendance event id
 	 *
-	 * @param Uuid $newEventAttendanceEventId new value of Attendance Event id
+	 * @param Uuid|string $newEventAttendanceEventId new value of Attendance Event id
 	 * @throws \UnexpectedValueException if $newEventAttendanceEventId is not a UUID
 	 **/
 	public function setEventAttendanceEventId($newEventAttendanceEventId): void {
@@ -136,7 +136,7 @@ class EventAttendance implements \JsonSerializable {
 	/**
 	 * mutator method for Event Attendance Profile id
 	 *
-	 * @param Uuid $newEventAttendanceProfileId new value of comments post id
+	 * @param Uuid|string $newEventAttendanceProfileId new value of comments post id
 	 * @throws \UnexpectedValueException if $newEventAttendanceProfileId is not a UUID
 	 **/
 	public function setEventAttendanceProfileId($newEventAttendanceProfileId): void {
