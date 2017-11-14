@@ -399,11 +399,11 @@ class Rating implements \JsonSerializable {
              *
              * @param \PDO $pdo $pdo PDO connection object
              * @param string $ratingId rating Id to search for
-             * @return Rating Rating
+             * @return \SplFixedArray SplFixedArray
              * @throws \PDOException when mySQL related errors occur
              * @throws \TypeError when variable is not the correct date type
              **/
-            public static function getRatingByRatingRaterProfileId(\PDO $pdo, string $ratingRaterProfileId):?Rating
+            public static function getRatingByRatingRaterProfileId(\PDO $pdo, string $ratingRaterProfileId) : \SplFixedArray
             {
                 // sanitize the rating id before searching
                 try {
