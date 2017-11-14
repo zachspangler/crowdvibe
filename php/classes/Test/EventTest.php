@@ -143,7 +143,7 @@ class EventTest extends CrowdVibeTest {
         $pdoEvent = Event::getEventByEventId($this->getPDO(), $event->getEventId());
         $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("event"));
         $this->assertEquals($pdoEvent->getEventId(), $eventId);
-        $this->assertEquals($pdoEvent->getEventProfileId(),$profile->getProfileId());
+        $this->assertEquals($pdoEvent->getEventProfileId(),$this->profile->getProfileId());
         $this->assertEquals($pdoEvent->getEventAttendeeLimit(), $this->VALID_EVENTATTENDEELIMIT);
         // format the date too seconds since the beginning of time to avoid round off error
         $this->assertEquals($pdoEvent->getEventEndDateTime()->getTimestamp(),$this->VALID_EVENTENDDATETIME);
@@ -272,7 +272,7 @@ class EventTest extends CrowdVibeTest {
         $event = new Event($eventId, $this->profile->getProfileId(), $this->VALID_EVENTATTENDEELIMIT, $this->VALID_EVENTENDDATETIME, $this->VALID_EVENTDETAIL, $this->VALID_EVENTIMAGE, $this->VALID_EVENTLAT, $this->VALID_EVENTLONG, $this->VALID_EVENTNAME, $this->VALID_EVENTPRICE, $this->VALID_EVENTSTARTDATETIME);
         $event->insert($this->getPDO());
         //grab the data from mySQL and enforce the field to meet our expectations
-        $pdoEvent = Event::getEventByEventAttendanceList($this->getPDO(),$event->getEventAttendeeLimit());
+        $pdoEvent = Event::getEventByEventAttendanceLimit($this->getPDO(),$event->getEventAttendeeLimit());
         $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("event"));
         $this->assertEquals($pdoEvent->getEventId(), $eventId);
         $this->assertEquals($pdoEvent->getEventProfileId(),$this->profile->getProfileId());

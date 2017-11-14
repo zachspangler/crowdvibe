@@ -114,6 +114,7 @@ class Event implements \JsonSerializable
             $this->setEventLong($newEventLong);
             $this->setEventImage($newEventImage);
             $this->setEventName($newEventName);
+            $this->getEventAttendeeLimit($newEventAttendeeLimit);
 
         } //determine what exception type was thrown
         catch (\InvalidArgumentException | \RangeException | \Exception | TypeError $exception) {
@@ -130,8 +131,7 @@ class Event implements \JsonSerializable
     /**
      * @return int
      */
-    public function getEventId(): int
-    {
+    public function getEventId(): int {
         return ($this->eventId);
     }
 
@@ -164,8 +164,7 @@ class Event implements \JsonSerializable
      *
      * @return int value of event profile id
      **/
-    public function getEventProfileId(): int
-    {
+    public function getEventProfileId(): int {
         return ($this->eventProfileId);
     }
 
@@ -192,8 +191,7 @@ class Event implements \JsonSerializable
      *
      * @return string value of event detail
      **/
-    public function getEventDetail(): string
-    {
+    public function getEventDetail(): string {
         return ($this->eventDetail);
     }
 
@@ -226,8 +224,7 @@ class Event implements \JsonSerializable
      *
      * @return string value of event name
      **/
-    public function getEventName(): string
-    {
+    public function getEventName(): string {
         return ($this->eventName);
     }
 
@@ -261,8 +258,7 @@ class Event implements \JsonSerializable
      *
      * @return string value of event image
      **/
-    public function getEventImage()
-    {
+    public function getEventImage() {
         return ($this->eventImage);
     }
 
@@ -295,8 +291,7 @@ class Event implements \JsonSerializable
      *
      * @return float of event price
      **/
-    public function getEventPrice()
-    {
+    public function getEventPrice() {
         return ($this->eventPrice);
     }
 
@@ -358,8 +353,7 @@ class Event implements \JsonSerializable
      *
      * @return float value for event Longitude
      **/
-    public function getEventLong(): float
-    {
+    public function getEventLong(): float{
         return ($this->eventLong);
     }
 
@@ -387,8 +381,7 @@ class Event implements \JsonSerializable
      *
      * @return \DateTime
      */
-    public function getEventStartDateTime(): \DateTime
-    {
+    public function getEventStartDateTime(): \DateTime{
         return ($this->eventStartDateTime);
     }
 
@@ -420,9 +413,7 @@ class Event implements \JsonSerializable
      *
      * @return \DateTime
      **/
-
-    public function getEventEndDateTime(): \DateTime
-    {
+    public function getEventEndDateTime(): \DateTime{
         return ($this->eventEndDateTime);
     }
 
@@ -452,12 +443,11 @@ class Event implements \JsonSerializable
     }
 
     /**
-     * accessor method for eventAttendee
+     * accessor method for eventAttendeeLimit
      *
      * @return int
      **/
-    public function getEventAttendeeLimit(): int
-    {
+    public function getEventAttendeeLimit(): int {
         return ($this->eventAttendeeLimit);
     }
 
@@ -483,7 +473,100 @@ class Event implements \JsonSerializable
     }
 
     /**
+     * Insert this Event into mySQL
+     *
+     * @param \PDO $pdo PDO connection object
+     * @throws \PDOException when mySQL related errors occur
+     * @throws \TypeError if $pdo is not a PDO connection object
+     **/
+    public function insert(\PDO $pdo): void
+    {
+        //create query template
+        $query = "INSERT INTO event(eventId, eventProfileId, eventAttendeeLimit, eventEndDateTime, eventDetail, eventImage, eventLat, eventLong, eventName, eventPrice, eventStartDateTime) VALUES (:eventId, :eventProfileId, :eventAttendeeLimit, :eventEndDateTime, :eventDetail, :eventImage, :eventLat, :eventLong, :eventName, :eventPrice, :eventStartDateTime)";
+        $statement = $pdo->prepare($query);
+        $parameters = ["eventId" => $this->eventId->getBytes(), "eventProfileId" => $this->eventProfileId, "eventAttendeeLimit" => $this->getEventAttendeeLimit, "eventEndDateTime =>$this->eventEndDateTime", "eventDetail" => $this->eventDetail, "eventImage" => $this->eventImage, "eventLat" => $this->eventLat, "eventLong" => $this->eventLong, "eventName" => $this->eventName, "eventPrice" => $this->eventPrice, "eventStartDateTime" => $this->eventStartDateTime];
+        $statement->execute($parameters);
+    }
+
+    /**
+     * Delete this Event from mySQL
+     *
+     * @param \PDO $pdo PDO connection object
+     * @throws \PDOException when mySQL related errors occur
+     * @throws \TypeError if $pdo is not a PDO connection object
+     **/
+    public function delete(\PDO $pdo): void {
+        // create query template
+        $query = "DELETE FROM event WHERE eventId = :eventId";
+        $statement = $pdo->prepare($query);
+        // bind the member variables to the place holders in the template
+        $parameters = ["eventId" =>$this->eventId->getBytes()];
+        $statement->execute($parameters);
+
+    }
+
+    /**
+     * updates this Event from mySQL
+     *
+     * @param \PDO $pdo PDO connection object
+     * @throws \PDOException when mySQL related errors occur
+     **/
+    public function update (\PDO $pdo): void {
+        //create query template
+        $query="UPDATE event SET eventId = :eventId, eventProfileId= :eventProfileId, eventAttendeeLimit= :eventAttendeeLimit, eventEndDateTime= :eventEndDateTime, eventDetail= :eventDetail, eventImage= :eventImage, eventLat= :eventLat, eventLong= :eventLong, eventName= :eventName, eventPrice= :eventPrice, eventStartDateTime= :eventStartDateTime";
+        $statement= $pdo->prepare($query);
+        // bind the member variables to the place holders in the template
+        $parameters = ["eventId" => $this->eventId->getBytes(), "eventProfileId" => $this->eventProfileId, "eventAttendeeLimit" => $this->getEventAttendeeLimit, "eventEndDateTime =>$this->eventEndDateTime", "eventDetail" => $this->eventDetail, "eventImage" => $this->eventImage, "eventLat" => $this->eventLat, "eventLong" => $this->eventLong, "eventName" => $this->eventName, "eventPrice" => $this->eventPrice, "eventStartDateTime" => $this->eventStartDateTime];
+        $statement->execute($parameters);
+
+    }
+
+
+
+
+
+
+    /**
      * gets the Event by event id
+     *
+     * @param \PDO $pdo $pdo PDO Connection object
+     * @param string $eventId event id to search for
+     * @return Event|null Event or null if not found
+     * @throws \PDOException when mySQL related errors occur
+     * @throws \TypeError when variables are not the correct data type
+     **/
+    public static function getEventByEventId(\PDO $pdo, string $eventId):?Event {
+        //sanitize the event id before searching
+        try {
+            $eventId=self::validateUuid($eventId);
+        } catch (\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+            throw (new \PDOException($exception->getMessage(), 0, $exception));
+        }
+        // create query template
+        $query ="SELECT eventId, eventProfileId, eventAttendeeLimit, eventEndDateTime, eventDetail, eventImage, eventLat, eventLong, eventName, eventPrice, eventStartDateTime FROM event WHERE eventId =:eventId";
+        $statement = $pdo->prepare($query);
+        // bind the event id to the placeholder in the template
+        $parameters = ["eventId" => $eventId->getBytes()];
+        $statement->execute($parameters);
+        // grab the event id from mySQL
+        try {
+            $eventId = null;
+            $statement->setFetchMode(\PDO::FETCH_ASSOC);
+            $row = $statement->fetch();
+            if ($row !==false) {
+                $event = new Event($row["eventId"],$row["eventProfileId"], $row["EventAttendeeLimit"],$row["EventEndDateTime"],$row["eventDetail"],
+                    $row["eventImage"], $row["eventLat"], $row["eventLong"], $row["eventName"], $row["eventPrice"], $row["eventStartDateTime"]);
+            }
+        } catch (\Exception $exception) {
+            // if the row could not be converted, rethrow it
+            throw (new \PDOException($exception->getMessage(), 0, $exception));
+        }
+        return ($event);
+
+    }
+
+    /**
+     * gets the Event by event profile id
      *
      * @param \PDO $pdo $pdo PDO Connection object
      * @param string $eventProfileId event id to search for
@@ -492,21 +575,21 @@ class Event implements \JsonSerializable
      * @throws \TypeError when variables are not the correct data type
      **/
     public static function getEventByEventProfileId(\PDO $pdo, string $eventProfileId):?Event {
-        //sanitize the event id before searching
+        //sanitize the event profile id before searching
         try {
             $eventProfileId =self::validateUuid($eventProfileId);
         } catch (\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
             throw (new \PDOException($exception->getMessage(), 0, $exception));
         }
         //create query template
-        $query ="SELECT eventId, eventProfileId, eventAttendeeLimit, eventEndDateTime, eventDetail, eventImage, eventLat, eventLong, eventName, eventPrice, eventStartDateTime FROM event WHERE eventId =:eventId";
+        $query ="SELECT eventId, eventProfileId, eventAttendeeLimit, eventEndDateTime, eventDetail, eventImage, eventLat, eventLong, eventName, eventPrice, eventStartDateTime FROM event WHERE eventProfileId =:eventProfileId";
         $statement = $pdo->prepare($query);
-        //bind the event Id to the placeholder in the template
+        //bind the event profile Id to the placeholder in the template
         $parameters =["eventProfileId" =>$eventProfileId->getBytes()];
         $statement->execute($parameters);
-        // grab the profile from mySQL
+        // grab the profile id from mySQL
         try {
-            $event = null;
+            $eventProfileId = null;
             $statement->setFetchMode(\PDO::FETCH_ASSOC);
             $row = $statement->fetch();
             if ($row !==false) {
@@ -520,9 +603,45 @@ class Event implements \JsonSerializable
         return ($event);
     }
 
-
     /**
-     */
+     * gets the Event by event name
+     *
+     * @param \PDO $pdo $pdo PDO Connection object
+     * @param string $eventName event id to search for
+     * @return Event|null Event or null if not found
+     * @throws \PDOException when mySQL related errors occur
+     * @throws \TypeError when variables are not the correct data type
+     **/
+    public static function getEventByEventName (\PDO $pdo, string $eventName):?Event {
+        // sanitize the event name before searching
+        try {
+            $eventName =self::validateUuid($eventName);
+        } catch (\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+            throw (new \PDOException($exception->getMessage(), 0, $exception));
+        }
+        //create query template
+        $query ="SELECT eventId, eventProfileId, eventAttendeeLimit, eventEndDateTime, eventDetail, eventImage, eventLat, eventLong, eventName, eventPrice, eventStartDateTime FROM event WHERE eventName =:eventName";
+        $statement = $pdo->prepare($query);
+        // bind the event name to the placeholder in the template
+        $parameters =["eventName" =>$eventName->getBytes()];
+        $statement->execute($parameters);
+        // grab the event Name from mySQL
+        try {
+        $eventName = null;
+        $statement->setFetchMode(\PDO::FETCH_ASSOC);
+        $row = $statement->fetch();
+        if ($row !==false) {
+            $event = new Event($row["eventId"],$row["eventProfileId"], $row["EventAttendeeLimit"],$row["EventEndDateTime"],$row["eventDetail"],
+                $row["eventImage"], $row["eventLat"], $row["eventLong"], $row["eventName"], $row["eventPrice"], $row["eventStartDateTime"]);
+        }
+        } catch (\Exception $exception) {
+            // if the row could not be converted rethrow it
+            throw (new \PDOException($exception->getMessage(), 0, $exception));
+        }
+        return ($event);
+}
+
+
 
     public function jsonSerialize()
     {
