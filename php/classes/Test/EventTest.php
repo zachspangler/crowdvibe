@@ -209,9 +209,94 @@ class EventTest extends CrowdVibeTest {
         $this->assertContainsOnlyInstancesOf("Edu\\Cnm\\CrowdVibe\\Event", $results);
 
 
+        // grab the result from the array and validate it
+        $pdoEvent = $results[0];
+
+        $this->assertEquals($pdoEvent->getEventId(), $eventId);
+        $this->assertEquals($pdoEvent->getEventProfileId(),$this->profile->getProfileId());
+        $this->assertEquals($pdoEvent->getEventAttendeeLimit(), $this->VALID_EVENTATTENDEELIMIT);
+        // format the date too seconds since the beginning of time to avoid round off error
+        $this->assertEquals($pdoEvent->getEventEndDateTime()->getTimestamp(),$this->VALID_EVENTENDDATETIME);
+        $this->assertEquals($pdoEvent->getEventDetail(), $this->VALID_EVENTDETAIL);
+        $this->assertEquals($pdoEvent->getEventImage(), $this->VALID_EVENTIMAGE);
+        $this->assertEquals($pdoEvent->getEventLat(), $this->VALID_EVENTLAT);
+        $this->assertEquals($pdoEvent->getEventLong(), $this->VALID_EVENTLONG);
+        $this->assertEquals($pdoEvent->getEventName(), $this->VALID_EVENTNAME);
+        $this->assertEquals($pdoEvent->getEventPrice(), $this->VALID_EVENTPRICE);
+        // format the date too seconds since the beginning of time to avoid round off error
+        $this->assertEquals($pdoEvent->getEventStartDateTime()->getTimestamp(), $this->VALID_EVENTSTARTDATETIME->getTimestamp());
     }
 
-}
+    /**
+     * test grabbing a event from by event name
+     **/
+    public function testGetValidEventByEventName (): void {
+        // count the number of rows and save it for later
+        $numRows = $this->getConnection()->getRowCount("event");
+        $eventId = generateUuidV4();
+        $event = new Event($eventId, $this->profile->getProfileId(), $this->VALID_EVENTATTENDEELIMIT, $this->VALID_EVENTENDDATETIME, $this->VALID_EVENTDETAIL, $this->VALID_EVENTIMAGE, $this->VALID_EVENTLAT, $this->VALID_EVENTLONG, $this->VALID_EVENTNAME, $this->VALID_EVENTPRICE, $this->VALID_EVENTSTARTDATETIME);
+        $event->insert($this->getPDO());
+        // grab the data from mySQL and enforce the fields match our expectations
+        $pdoEvent = Event::getEventbyEventName($this->getPDO(), $event->getEventName());
+        $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("event"));
+        $this->assertEquals($pdoEvent->getEventId(), $eventId);
+        $this->assertEquals($pdoEvent->getEventProfileId(),$this->profile->getProfileId());
+        $this->assertEquals($pdoEvent->getEventAttendeeLimit(), $this->VALID_EVENTATTENDEELIMIT);
+        // format the date too seconds since the beginning of time to avoid round off error
+        $this->assertEquals($pdoEvent->getEventEndDateTime()->getTimestamp(),$this->VALID_EVENTENDDATETIME);
+        $this->assertEquals($pdoEvent->getEventDetail(), $this->VALID_EVENTDETAIL);
+        $this->assertEquals($pdoEvent->getEventImage(), $this->VALID_EVENTIMAGE);
+        $this->assertEquals($pdoEvent->getEventLat(), $this->VALID_EVENTLAT);
+        $this->assertEquals($pdoEvent->getEventLong(), $this->VALID_EVENTLONG);
+        $this->assertEquals($pdoEvent->getEventName(), $this->VALID_EVENTNAME);
+        $this->assertEquals($pdoEvent->getEventPrice(), $this->VALID_EVENTPRICE);
+        // format the date too seconds since the beginning of time to avoid round off error
+        $this->assertEquals($pdoEvent->getEventStartDateTime()->getTimestamp(), $this->VALID_EVENTSTARTDATETIME->getTimestamp());
+    }
+    /**
+     * test grabbing a Event by a name that does not exist
+     **/
+    public function testGetInvalidEventName (): void {
+        // grab an name that does not exist
+        $event = Event::getEventByEventName($this->getPDO(), "omgmynameisLuther");
+        $this->assertNull($event);
+    }
 
+    /**
+     * test grabbing a event by eventAttendeeLimit
+     **/
+    public function testGetValidEventByEventAttendeeLimit (): void {
+        // count the number of rows and save it for later
+        $numRows = $this->getConnection()->getRowCount("event");
+        $eventId = generateUuidV4();
+        $event = new Event($eventId, $this->profile->getProfileId(), $this->VALID_EVENTATTENDEELIMIT, $this->VALID_EVENTENDDATETIME, $this->VALID_EVENTDETAIL, $this->VALID_EVENTIMAGE, $this->VALID_EVENTLAT, $this->VALID_EVENTLONG, $this->VALID_EVENTNAME, $this->VALID_EVENTPRICE, $this->VALID_EVENTSTARTDATETIME);
+        $event->insert($this->getPDO());
+        //grab the data from mySQL and enforce the field to meet our expectations
+        $pdoEvent = Event::getEventByEventAttendanceList($this->getPDO(),$event->getEventAttendeeLimit());
+        $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("event"));
+        $this->assertEquals($pdoEvent->getEventId(), $eventId);
+        $this->assertEquals($pdoEvent->getEventProfileId(),$this->profile->getProfileId());
+        $this->assertEquals($pdoEvent->getEventAttendeeLimit(), $this->VALID_EVENTATTENDEELIMIT);
+        // format the date too seconds since the beginning of time to avoid round off error
+        $this->assertEquals($pdoEvent->getEventEndDateTime()->getTimestamp(),$this->VALID_EVENTENDDATETIME);
+        $this->assertEquals($pdoEvent->getEventDetail(), $this->VALID_EVENTDETAIL);
+        $this->assertEquals($pdoEvent->getEventImage(), $this->VALID_EVENTIMAGE);
+        $this->assertEquals($pdoEvent->getEventLat(), $this->VALID_EVENTLAT);
+        $this->assertEquals($pdoEvent->getEventLong(), $this->VALID_EVENTLONG);
+        $this->assertEquals($pdoEvent->getEventName(), $this->VALID_EVENTNAME);
+        $this->assertEquals($pdoEvent->getEventPrice(), $this->VALID_EVENTPRICE);
+        // format the date too seconds since the beginning of time to avoid round off error
+        $this->assertEquals($pdoEvent->getEventStartDateTime()->getTimestamp(), $this->VALID_EVENTSTARTDATETIME->getTimestamp());
 
+    }
+    /**
+     * test grabbing a event by a event attendeee limit that does not exist
+     **/
+    public function testGetInvalidEventByEventAttendeeLimit (): {
+        // grab a event limit that does not exist
+        $event = Event::getEventByEventAttendeeLimit($this->getPDO(), "600");
+        $this->assertNull($event);
+    }
+
+    }
 
