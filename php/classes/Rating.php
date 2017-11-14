@@ -337,20 +337,19 @@ class Rating implements \JsonSerializable {
         $parameters = ["ratingEventAttendanceId" => $ratingEventAttendanceId->getBytes()];
         $statement->execute($parameters);
 
-        // build an array of ratings
-        $ratings = new \SplFixedArray($statement->rowCount());
-        while (($row = $statement->fetch()) !== false) {
-            try {
+        // grab the rating from mySQL
+        try {
+            $rating = null;
+            $statement->fetch();
+            $row = $statement->fetch();
+            if($row !== false) {
                 $rating = new Rating($row["ratingId"], $row["ratingEventAttendanceId"], $row["ratingRateeProfileId"], $row["ratingRaterProfileId"], $row["ratingScore"]);
-                $ratings[$ratings->key()] = $rating;
-                $ratings->next();
-
-            } catch (\Exception $exception) {
-                //if the row couldn't be converted, rethrow it
-                throw(new \PDOException($exception->getMessage(), 0, $exception));
             }
+        } catch (\Exception $exception) {
+            //if the row couldn't be covert, rethrow it
+            throw(new \PDOException($exception->getMessage(), 0, $exception));
         }
-        return($ratings);
+        return ($rating);
     }
 
         /**
@@ -378,20 +377,7 @@ class Rating implements \JsonSerializable {
             $parameters = ["ratingRateeProfileId" => $ratingRateeProfileId->getBytes()];
             $statement->execute($parameters);
 
-            // build an array of ratings
-            $ratings = new \SplFixedArray($statement->rowCount());
-            while (($row = $statement->fetch()) !== false) {
-                try {
-                    $rating = new Rating($row["ratingId"], $row["ratingEventAttendanceId"], $row["ratingRateeProfileId"], $row["ratingRaterProfileId"], $row["ratingScore"]);
-                    $ratings[$ratings->key()] = $rating;
-                    $ratings->next();
-                } catch (\Exception $exception) {
-                    //if the row couldn't be coverted, rethrow it
-                    throw(new \PDOException($exception->getMessage(), 0, $exception));
-                }
-            }
-            return ($ratings);
-        }
+
 
 
             /**
@@ -403,8 +389,7 @@ class Rating implements \JsonSerializable {
              * @throws \PDOException when mySQL related errors occur
              * @throws \TypeError when variable is not the correct date type
              **/
-            public
-            static function getRatingByRatingRaterProfileId(\PDO $pdo, string $ratingRaterProfileId):?Rating
+            public static function getRatingByRatingRaterProfileId(\PDO $pdo, string $ratingRaterProfileId):?Rating
             {
                 // sanitize the rating id before searching
                 try {
