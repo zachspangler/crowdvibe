@@ -204,7 +204,7 @@ class RatingTest extends crowdvibeTest {
     }
 
     /**
-     * test inserting a Rating and regrabbing it from mySQL
+     * test inserting a Rating and regrab it from mySQL
      **/
     public function testGetValidRateeProfileId() : void
     {
