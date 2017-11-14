@@ -130,7 +130,7 @@ class EventTest extends CrowdVibeTest {
     /**
      * test inserting a valid Event and verify that the actual mySQL data matches
      **/
-    public function testInsertValifEvent() : void {
+    public function testInsertValidEvent() : void {
         // count the number of rows and save it for later
         $numRows = $this->getConnection()->getRowCount("event");
 
@@ -297,6 +297,7 @@ class EventTest extends CrowdVibeTest {
         $event = Event::getEventByEventAttendeeLimit($this->getPDO(), "600");
         $this->assertNull($event);
     }
+
 
     }
 
