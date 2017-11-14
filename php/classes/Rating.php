@@ -209,7 +209,7 @@ class Rating implements \JsonSerializable {
     /**
      * mutator method for rating score
      *
-     * @param string $newRatingScore new value of rating score
+     * @param int $newRatingScore new value of rating score
      * @throws \InvalidArgumentException if $newRatingScore is not a string or insecure
      * @throws \RangeException if $newRatingScore is not positive
      **/
@@ -297,19 +297,19 @@ class Rating implements \JsonSerializable {
         $parameters = ["ratingId" => $ratingId->getBytes()];
         $statement->execute($parameters);
 
-        // build an array of ratings
-        $ratings = new \SplFixedArray($statement->rowCount());
-        while (($row = $statement->fetch()) !== false) {
+        // grab the rating from mySQL
             try {
-                $rating = new Rating($row["ratingId"], $row["ratingEventAttendanceId"], $row["ratingRateeProfileId"], $row["ratingRaterProfileId"], $row["ratingScore"]);
-                $ratings[$ratings->key()] = $rating;
-                $ratings->next();
+                $rating = null;
+                $statement->fetch();
+                $row = $statement->fetch();
+                if($row !== false) {
+                    $rating = new Rating($row["ratingId"], $row["ratingEventAttendanceId"], $row["ratingRateeProfileId"], $row["ratingRaterProfileId"], $row["ratingScore"]);
+                }
             } catch (\Exception $exception) {
                 //if the row couldn't be covert, rethrow it
                 throw(new \PDOException($exception->getMessage(), 0, $exception));
             }
-        }
-        return ($ratings);
+        return ($rating);
     }
 
     /**
@@ -321,7 +321,7 @@ class Rating implements \JsonSerializable {
      * @throws \PDOException when mySQL related errors occur
      * @throws \TypeError when variable is not the correct date type
      **/
-    public static function getRatingByRatingEventAttendanceId(\PDO $pdo, string $ratingEventAttendanceId):?Rating {
+    public static function getRatingByRatingEventAttendanceId(\PDO $pdo, string $ratingEventAttendanceId): ?Rating {
         // sanitize the rating id before searching
         try {
             $ratingEventAttendanceId = self::validateUuid($ratingEventAttendanceId);
