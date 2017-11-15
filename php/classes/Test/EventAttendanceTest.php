@@ -75,6 +75,7 @@ class EventAttendanceTest extends CrowdVibeTest {
 		// create and insert the mocked profile
 		$this->profile = new Profile($profileId, $this->VALID_ACTIVATION_TOKEN, "For score and seven years ago", "thisis@life.com", "Donald", $this->VALID_HASH, "https://upload.wikimedia.org/", "Knuth", $this->VALID_SALT, "mustreadtaocp");
 		$this->profile->insert($this->getPDO());
+		//TODO Fix date formats
 		// create the and insert the mocked event
 		$this->event = new Event(generateUuidV4(), $this->profile->getProfileId(), 20, "19/11/2016 14:00:00", "Celebrate the birth of mayan time", null, "35.113281", "-106.621216", "End of the World - Mayan Style", "0.00", "19/11/2016 12:00:00");
 		$this->event->insert($this->getPDO());
@@ -171,6 +172,8 @@ class EventAttendanceTest extends CrowdVibeTest {
 		$this->assertEquals($pdoEventAttendance->getEventAttendanceProfileId(), $this->profile->getProfileId());
 		$this->assertEquals($pdoEventAttendance->getEventAttendanceCheckIn(), $this->VALID_CHECK_IN);
 		$this->assertEquals($pdoEventAttendance->getEventAttendanceNumberAttending(), $this->VALID_NUMBER_ATTENDING);
+
+		//TODO should return only 1 not an array
 	}
 
 	/**
@@ -216,4 +219,5 @@ class EventAttendanceTest extends CrowdVibeTest {
 		$this->assertEquals($pdoEventAttendance->getEventAttendanceCheckIn(), $this->VALID_CHECK_IN);
 		$this->assertEquals($pdoEventAttendance->getEventAttendanceNumberAttending(), $this->VALID_NUMBER_ATTENDING);
 	}
+	//TODO test invalid getby cases
 }

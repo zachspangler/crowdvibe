@@ -389,6 +389,8 @@ class Event implements \JsonSerializable {
 	 *
 	 * @param \DateTime $newEventStartDateTime
 	 */
+
+	//TODO remove if blocks
 	public
 	function setEventStartDateTime($newEventStartDateTime = null): void {
 		//base case: if the date is null, use the current date and time
@@ -425,8 +427,9 @@ class Event implements \JsonSerializable {
 	 * @throws |InvalidArgumentException if $newEventEndDateTime is not a valid object or string
 	 * @throws \RangeException if $newEventEndDateTime is a date that does not exist
 	 **/
-	public
-	function setEventEndDateTime($newEventEndDateTime = null): void {
+
+	//TODO remove if blocks
+	public function setEventEndDateTime($newEventEndDateTime = null): void {
 		//base case: if the date is null, use the current date and time
 		if($newEventEndDateTime === null) {
 			$this->eventEndDateTime = new \DateTime();
@@ -447,7 +450,7 @@ class Event implements \JsonSerializable {
 	 *
 	 * @return int
 	 **/
-	public function getEventAttendeeLimit(): int {
+	public function getEventAttendeeLimit(): ?int {
 		return ($this->eventAttendeeLimit);
 	}
 
@@ -457,7 +460,7 @@ class Event implements \JsonSerializable {
 	 * @param int $newEventAttendeeLimit new value of event Attendee
 	 * @throws \RangeException if $newEventAttendeeLimit is not positive
 	 **/
-	public function setEventAttendeeLimit($newEventAttendeeLimit): void {
+	public function setEventAttendeeLimit(?int $newEventAttendeeLimit): void {
 		// verify the attendance is less than <500
 		$newEventAttendeeLimit = trim($newEventAttendeeLimit);
 		$newEventAttendeeLimit = filter_var($newEventAttendeeLimit . FILTER_SANITIZE_NUMBER_INT, FILTER_FLAG_NO_ENCODE_QUOTES);
@@ -519,17 +522,17 @@ class Event implements \JsonSerializable {
 
 	}
 
-
+//TODO add getByStartDateTime
 	/**
 	 * gets the Event by event id
 	 *
 	 * @param \PDO $pdo $pdo PDO Connection object
-	 * @param string $eventId event id to search for
+	 * @param Uuid|string $eventId event id to search for
 	 * @return Event|null Event found or null if not found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getEventByEventId(\PDO $pdo, string $eventId): ?Event {
+	public static function getEventByEventId(\PDO $pdo, $eventId): ?Event {
 		//sanitize the event id before searching
 		try {
 			$eventId = self::validateUuid($eventId);
@@ -562,12 +565,12 @@ class Event implements \JsonSerializable {
 	 * gets the Event by event profile id
 	 *
 	 * @param \PDO $pdo $pdo PDO Connection object
-	 * @param string $eventProfileId event id to search for
+	 * @param Uuid|string $eventProfileId event id to search for
 	 * @return Event|null Event or null if not found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getEventByEventProfileId(\PDO $pdo, string $eventProfileId):?\SplFixedArray {
+	public static function getEventByEventProfileId(\PDO $pdo, $eventProfileId): \SplFixedArray {
 		try {
 			$eventProfileId = self::validateUuid($eventProfileId);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
@@ -606,20 +609,16 @@ class Event implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getEventByEventName(\PDO $pdo, string $eventName):?\SplFixedArray {
+	public static function getEventByEventName(\PDO $pdo, string $eventName): \SplFixedArray {
 		// sanitize the event name before searching
 		$eventName = trim($eventName);
 		$eventName = filter_var($eventName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		if(empty($eventName) === true) {
 			throw (new \PDOException("not a valid event name"));
 		}
-		try {
-			$eventName = self::validateUuid($eventName);
-		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
-			throw (new \PDOException($exception->getMessage(), 0, $exception));
-		}
+
 		//create query template
-		$query = "SELECT eventId, eventProfileId, eventAttendeeLimit, eventEndDateTime, eventDetail, eventImage, eventLat, eventLong, eventName, eventPrice, eventStartDateTime FROM event WHERE eventName =:eventName";
+		$query = "SELECT eventId, eventProfileId, eventAttendeeLimit, eventEndDateTime, eventDetail, eventImage, eventLat, eventLong, eventName, eventPrice, eventStartDateTime FROM event WHERE eventName LIKE :eventName";
 		$statement = $pdo->prepare($query);
 		// bind the event name to the placeholder in the template
 		$parameters = ["eventName" => $eventName->getBytes()];
@@ -641,22 +640,22 @@ class Event implements \JsonSerializable {
 			return ($events);
 		}
 
-
+//TODO check braces
 		// grab the event Name from mySQL
-		try {
-			$eventName = null;
-			$statement->setFetchMode(\PDO::FETCH_ASSOC);
-			$row = $statement->fetch();
-			if($row !== false) {
-				$events = new Event($row["eventId"], $row["eventProfileId"], $row["EventAttendeeLimit"], $row["EventEndDateTime"], $row["eventDetail"],
-					$row["eventImage"], $row["eventLat"], $row["eventLong"], $row["eventName"], $row["eventPrice"], $row["eventStartDateTime"]);
-			}
-		} catch(\Exception $exception) {
-			// if the row could not be converted rethrow it
-			throw (new \PDOException($exception->getMessage(), 0, $exception));
-		}
-		return ($events);
-	}
+//		try {
+//			$eventName = null;
+//			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+//			$row = $statement->fetch();
+//			if($row !== false) {
+//				$events = new Event($row["eventId"], $row["eventProfileId"], $row["EventAttendeeLimit"], $row["EventEndDateTime"], $row["eventDetail"],
+//					$row["eventImage"], $row["eventLat"], $row["eventLong"], $row["eventName"], $row["eventPrice"], $row["eventStartDateTime"]);
+//			}
+//		} catch(\Exception $exception) {
+//			// if the row could not be converted rethrow it
+//			throw (new \PDOException($exception->getMessage(), 0, $exception));
+//		}
+//		return ($events);
+//	}
 
 
 	public function jsonSerialize() {
@@ -666,9 +665,13 @@ class Event implements \JsonSerializable {
 
 		//format the date so that the front end can consume it
 		$fields["eventStartDateTime"] = round(floatval($this->eventStartDateTime->format("U.u")) * 1000);
+
+		//TODO format end date
 		return ($fields);
 	}
 }
+
+
 
 
 

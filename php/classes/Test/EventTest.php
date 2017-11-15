@@ -260,36 +260,6 @@ class EventTest extends CrowdVibeTest {
         $event = Event::getEventByEventName($this->getPDO(), "omgmynameisLuther");
         $this->assertNull($event);
     }
-
-
-
-    /**
-     * test grabbing all events
-     **/
-    public function testGetAllValidEvents() : void {
-        // count the number of rows and save it for later
-        $numRows = $this->getConnection()->getRowCount("event");
-
-        //create a new event and insert it into MySQL
-        $eventId = $this->generateUuidV4();
-        $event = new Event($eventId, $this->profile->getProfileId(), $this->VALID_EVENTATTENDEELIMIT,
-            $this->VALID_EVENTENDDATETIME, $this->VALID_EVENTDETAIL, $this->VALID_EVENTIMAGE, $this->VALID_EVENTLAT, $this->VALID_EVENTLONG, $this->VALID_EVENTNAME, $this->VALID_EVENTPRICE, $this->VALID_EVENTSTARTDATETIME);
-        $event->insert($this->getPDO());
-
-        // grab the data from mySQL and enforce the fields match our expectations
-        $results = Event::getAllEvents($this->getPDO());
-        $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("event"));
-        $this->assertCount(1, $results);
-        $this->assertContainsOnlyInstancesOf("Edu\\Cnm\\CrowdVibe\\Event", $results);
-
-        // grab the result from the array and validate it
-        $pdoEvent = $results[0];
-        $this->assertEquals($pdoEvent->getEventId(), $eventId);
-        $this->assertEquals($pdoEvent->getEventProfileId(), $this->profile->getProfileId());
-        $this->assertEquals($pdoEvent->getEventDetail(), $this->VALID_EVENTDETAIL);
-        //format the date too seconds since the beginning of time to avoid round off error
-        $this->assertEquals($pdoEvent->getEventDate()->getTimestamp(), $this->VALID_EVENTSTARTDATETIME->getTimestamp());
-
-    }
+	//TODO write valid test method for update. write valid and invalid test method for getEventByEventStartDate.
 }
 

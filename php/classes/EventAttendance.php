@@ -50,14 +50,14 @@ class EventAttendance implements \JsonSerializable {
 	 * @param Uuid|string $newEventAttendanceProfileId id of the Profile that created the event
 	 * @param Uuid|string $newEventAttendanceEventId id of the Event people attend
 	 * @param int $newEventAttendanceCheckIn how people are going to notify their attendance
-	 * @param int $newEventAttendanceNumberAttending containing actual data on the amount of people
+	 * @param boolean $newEventAttendanceNumberAttending containing actual data on the amount of people
 	 * @throws \InvalidArgumentException if data types are not valid
 	 * @throws \RangeException if data values are out of bounds (e.g., strings too long, negative integers)
 	 * @throws \TypeError if data types violate type hints
 	 * @throws \Exception if some other exception occurs
 	 * @Documentation https://php.net/manual/en/language.oop5.decon.php
 	 **/
-	public function __construct($newEventAttendanceId, $newEventAttendanceProfileId, $newEventAttendanceEventId, $newEventAttendanceCheckIn, string $newEventAttendanceNumberAttending) {
+	public function __construct($newEventAttendanceId, $newEventAttendanceProfileId, $newEventAttendanceEventId, boolean $newEventAttendanceCheckIn, int $newEventAttendanceNumberAttending) {
 		try {
 			$this->setEventAttendanceId($newEventAttendanceId);
 			$this->setEventAttendanceEventId($newEventAttendanceProfileId);
@@ -174,6 +174,7 @@ class EventAttendance implements \JsonSerializable {
 		if(empty($newEventAttendanceCheckIn) === true) {
 			throw(new\InvalidArgumentException(" if event attendance check in is empty"));
 		}
+		//TODO change to a boolean; Chris bloody fix this
 	}
 
 	/**
@@ -184,7 +185,7 @@ class EventAttendance implements \JsonSerializable {
 	public function getEventAttendanceNumberAttending() {
 		return ($this->eventAttendanceNumberAttending);
 	}
-
+//TODO add return type
 	/**
 	 * mutator method for Attendance Number Attending
 	 *
@@ -193,13 +194,8 @@ class EventAttendance implements \JsonSerializable {
 	 * @throws \RangeException if $newEventAttendanceNumberAttending is < 500 attendees
 	 * @throws \TypeError if $newCommentsContent is not a string
 	 **/
+
 	public function setEventAttendanceNumberAttending(int $newEventAttendanceNumberAttending): void {
-		//verify the post content is secure
-		$newEventAttendanceNumberAttending = trim($newEventAttendanceNumberAttending);
-		$newEventAttendanceNumberAttending = filter_var($newEventAttendanceNumberAttending, FILTER_VALIDATE_INT, FILTER_FLAG_ALLOW_OCTAL);
-		if(empty($newEventAttendanceNumberAttending) === true) {
-			throw(new \InvalidArgumentException(" event attendance number is empty or insecure"));
-		}
 		//verify the Attendance number is less than 500
 		if($newEventAttendanceNumberAttending < 500) {
 			throw(new \RangeException("event attendance is greater an maximum"));
@@ -223,7 +219,7 @@ class EventAttendance implements \JsonSerializable {
 		$parameters = ["eventAttendanceId" => $this->eventAttendanceId,"eventAttendanceEventId" => $this->eventAttendanceEventId, "eventAttendanceProfileId" => $this->eventAttendanceProfileId,  "eventAttendanceCheckIn" => $this->eventAttendanceCheckIn, "eventAttendanceNumberAttending" => $this->eventAttendanceNumberAttending];
 		$statement->execute($parameters);
 	}
-
+//TODO clean up $parameters 235
 	/**
 	 * deletes this EventAttendance from mySQL
 	 *
@@ -270,7 +266,7 @@ class EventAttendance implements \JsonSerializable {
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
-
+//TODO type declaration
 		// create query template
 		$query = "SELECT eventAttendanceId, eventAttendanceEventId, eventAttendanceProfileId,  EventAttendanceCheckIn, eventAttendanceNumberAttending FROM eventAttendance WHERE eventAttendanceId = :eventAttendanceId";
 		$statement = $pdo->prepare($query);
