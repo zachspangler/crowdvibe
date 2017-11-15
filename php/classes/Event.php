@@ -555,12 +555,11 @@ class Event implements \JsonSerializable
      *
      * @param \PDO $pdo $pdo PDO Connection object
      * @param string $eventId event id to search for
-     * @return Event|null Event or null if not found
+     * @return Event|null Event found or null if not found
      * @throws \PDOException when mySQL related errors occur
      * @throws \TypeError when variables are not the correct data type
      **/
-    public static function getEventByEventId(\PDO $pdo, string $eventId):?Event
-    {
+    public static function getEventByEventId(\PDO $pdo, string $eventId): ?Event{
         //sanitize the event id before searching
         try {
             $eventId = self::validateUuid($eventId);
@@ -575,7 +574,7 @@ class Event implements \JsonSerializable
         $statement->execute($parameters);
         // grab the event id from mySQL
         try {
-            $eventId = null;
+            $event = null;
             $statement->setFetchMode(\PDO::FETCH_ASSOC);
             $row = $statement->fetch();
             if ($row !== false) {
@@ -585,7 +584,7 @@ class Event implements \JsonSerializable
             // if the row could not be converted, rethrow it
             throw (new \PDOException($exception->getMessage(), 0, $exception));
         }
-        return ($eventId);
+        return ($event);
 
     }
 
@@ -598,35 +597,36 @@ class Event implements \JsonSerializable
      * @throws \PDOException when mySQL related errors occur
      * @throws \TypeError when variables are not the correct data type
      **/
-    public static function getEventByEventProfileId(\PDO $pdo, string $eventProfileId):?Event
-    {
-        //sanitize the event profile id before searching
+    public static function getEventByEventProfileId(\PDO $pdo, string $eventProfileId):?\SplFixedArray {
         try {
             $eventProfileId = self::validateUuid($eventProfileId);
         } catch (\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
             throw (new \PDOException($exception->getMessage(), 0, $exception));
         }
+
         //create query template
-        $query = "SELECT eventId, eventProfileId, eventAttendeeLimit, eventEndDateTime, eventDetail, eventImage, eventLat, eventLong, eventName, eventPrice, eventStartDateTime FROM event WHERE eventProfileId =:eventProfileId";
+        $query = "SELECT eventId, eventProfileId, eventAttendeeLimit, eventEndDateTime, eventDetail, eventImage, eventLat, eventLong, eventName, eventPrice, eventStartDateTime FROM event WHERE eventProfileId = :eventProfileId";
         $statement = $pdo->prepare($query);
-        //bind the event profile Id to the placeholder in the template
-        $parameters = ["eventProfileId" => $eventProfileId->getBytes()];
+        //bind the event profile id to the placeholder in the template
+        $parameters = ["eventProfileId"=> $eventProfileId->getBytes()];
         $statement->execute($parameters);
-        // grab the profile id from mySQL
-        try {
-            $eventProfileId = null;
-            $statement->setFetchMode(\PDO::FETCH_ASSOC);
-            $row = $statement->fetch();
-            if ($row !== false) {
-                $event = new Event($row["eventId"], $row["eventProfileId"], $row["EventAttendeeLimit"], $row["EventEndDateTime"], $row["eventDetail"],
-                    $row["eventImage"], $row["eventLat"], $row["eventLong"], $row["eventName"], $row["eventPrice"], $row["eventStartDateTime"]);
+        // build an array of events
+        $events = new \SplFixedArray($statement->rowCount());
+        $statement->setFetchMode(\PDO::FETCH_ASSOC);
+        while (($row = $statement->fetch())!== false) {
+            try {
+                $event = new Event($row["eventId"], $row["eventProfileId"],$row["eventAttendeeLimit"],$row["eventEndDateTime"], $row["eventDetail"], $row["eventImage"], $row["eventLat"], $row["eventLong"], $row["eventName"], $row["eventPrice"], $row["eventStartDateTime"]);
+                $events[$events->key()] = $event;
+                $events->next();
+            } catch (\Exception $exception) {
+                // if the row couldn't be converted, rethrow it
+                throw (new \PDOException($exception->getMessage(), 0, $exception));
             }
-        } catch (\Exception $exception) {
-            // if the row could not be converted, rethrow it
-            throw (new \PDOException($exception->getMessage(), 0, $exception));
         }
-        return ($event);
+        return($events);
     }
+
+
 
     /**
      * gets the Event by event name
@@ -637,8 +637,7 @@ class Event implements \JsonSerializable
      * @throws \PDOException when mySQL related errors occur
      * @throws \TypeError when variables are not the correct data type
      **/
-    public static function getEventByEventName(\PDO $pdo, string $eventName):?\SplFixedArray
-    {
+    public static function getEventByEventName(\PDO $pdo, string $eventName):?\SplFixedArray {
         // sanitize the event name before searching
         $eventName = trim($eventName);
         $eventName = filter_var($eventName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
@@ -696,6 +695,7 @@ class Event implements \JsonSerializable
         $fields = get_object_vars($this);
         $fields["eventId"] = $this->eventId;
         $fields["eventProfileId"] = $this->eventProfileId;
+
         //format the date so that the front end can consume it
         $fields["eventStartDateTime"] = round(floatval($this->eventStartDateTime->format("U.u")) * 1000);
         return ($fields);
