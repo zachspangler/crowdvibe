@@ -107,10 +107,10 @@ class EventTest extends CrowdVibeTest {
         $password ="Idkwhatimdoing";
         $this->VALID_PROFILE_SALT = bin2hex(random_bytes(32));
         $this->VALID_PROFILE_HASH = hash_pbkdf2("sha512", $password, $this->VALID_PROFILE_SALT, 262144);
-
+        $profileId = generateUuidV4();
 
         //create and insert a Profile to own test Event
-        $this->profile = new Profile(generateUuidV4(), null,"hey im cool", "wow@email.com","JeeWilikers","01010101010101010101010101010101","https://www.google.com/search?q=image&rlz=1C5CHFA_enUS729US729&source=lnms&tbm=isch&sa=X&ved=0ahUKEwjGiIeN3rzXAhXmqFQKHbCfAyAQ_AUICigB&biw=1440&bih=723#imgrc=9rzb-Rok9-rBiM:","Coolio","0110101001001010","WowIamtehbest101");
+        $this->profile = new Profile($profileId, null,"hey im cool", "wow@email.com","JeeWilikers",$this->VALID_PROFILE_HASH,"https://www.google.com/search?q=image&rlz=1C5CHFA_enUS729US729&source=lnms&tbm=isch&sa=X&ved=0ahUKEwjGiIeN3rzXAhXmqFQKHbCfAyAQ_AUICigB&biw=1440&bih=723#imgrc=9rzb-Rok9-rBiM:","Coolio",$this->VALID_PROFILE_SALT,"WowIamtehbest101");
         $this->profile->insert($this->getPDO());
 
 
