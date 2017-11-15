@@ -339,19 +339,20 @@ class Rating implements \JsonSerializable {
         $parameters = ["ratingEventAttendanceId" => $ratingEventAttendanceId->getBytes()];
         $statement->execute($parameters);
 
-        // grab the rating from mySQL
-        try {
-            $rating = null;
-            $statement->fetch();
-            $row = $statement->fetch();
-            if($row !== false) {
+        // build an array
+        $rating = new \SplFixedArray($statement->rowCount());
+        $statement->setFetchMode(\PDO :: FETCH_ASSOC);
+        while (($row = $statement->fetch()) !== false) {
+            try {
                 $rating = new Rating($row["ratingId"], $row["ratingEventAttendanceId"], $row["ratingRateeProfileId"], $row["ratingRaterProfileId"], $row["ratingScore"]);
+                $ratings[$ratings->key()] = $rating;
+                $ratings->next();
+            } catch (\Exception $exception) {
+                //if the row couldn't be covert, rethrow it
+                throw(new \PDOException($exception->getMessage(), 0, $exception));
             }
-        } catch (\Exception $exception) {
-            //if the row couldn't be covert, rethrow it
-            throw(new \PDOException($exception->getMessage(), 0, $exception));
         }
-        return ($rating);
+        return ($ratings);
     }
 
         /**
