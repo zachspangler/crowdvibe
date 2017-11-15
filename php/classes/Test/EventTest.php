@@ -23,7 +23,7 @@ class EventTest extends CrowdVibeTest {
      * Profile that created the Event; this is for foreign key relations
      * @var Profile profile
      **/
-    protected $profile = null;
+    protected $profile;
 
 
     /**
