@@ -316,7 +316,7 @@ class Rating implements \JsonSerializable {
      * get the Rating by rating event attendance id
      *
      * @param \PDO $pdo $pdo PDO connection object
-     * @param string $ratingId rating Id to search for
+     * @param Uuid | string $ratingId rating Id to search for
      * @return Rating Rating or null if not found
      * @throws \PDOException when mySQL related errors occur
      * @throws \TypeError when variable is not the correct date type

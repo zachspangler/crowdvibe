@@ -157,7 +157,7 @@ class RatingTest extends crowdvibeTest {
 
         //delete the Rating from mySQL
         $this->assertEquals($numRows + 1,$this->getConnection()->getRowCount("rating"));
-        $this->delete($this->getPDO());
+        $rating->delete($this->getPDO());
 
         // grab the data from mySQL and enforce the Rating does not exist
         $pdoRating = rating::getRatingByRatingId($this->getPDO(), $rating->getRatingId());
@@ -168,13 +168,13 @@ class RatingTest extends crowdvibeTest {
     /**
      * test inserting a Rating and regrab it from mySQL
      **/
-    public function testGetValidEventAttendanceId() : void
-    {
+    public function testGetValidEventAttendanceId() {
         //count number of rows and save for later
         $numRows = $this->getConnection()->getRowCount("rating");
 
         //create a new Rating and insert into mySQL
-        $rating = new Rating(generateUuidV4(), $this->eventAttendance->getEventAttendanceId(), $this->ratee->getProfileId(), $this->rater->getProfileId(), 70);
+        $ratingId = generateUuidV4();
+        $rating = new Rating($ratingId, $this->eventAttendance->getEventAttendanceId(), $this->ratee->getProfileId(), $this->rater->getProfileId(), 70);
         $rating->insert($this->getPDO());
 
         // grab the data from mySQL and enforce the fields match our expectations
@@ -187,8 +187,8 @@ class RatingTest extends crowdvibeTest {
         //grab the results from the array and validate it
         $pdoRating = $results[0];
 
-        $this->assertEquals($pdoRating->getRatingId(), $rating->getRatingId());
-        $this->assertEquals($pdoRating->get, $rating->getRatingRaterProfileId());
+        $this->assertEquals($pdoRating->getRatingId(), $ratingId);
+        $this->assertEquals($pdoRating->getRatingEventAttendanceId(), $rating->getRatingEventAttendanceId());
         $this->assertEquals($pdoRating->getRatingRateeProfileId(), $rating->getRatingRateeProfileId());
         $this->assertEquals($pdoRating->getRatingRaterProfileId(), $rating->getRatingRaterProfileId());
         $this->assertEquals($pdoRating->getRatingScore(), $this->VALID_RATING_SCORE);
@@ -199,7 +199,7 @@ class RatingTest extends crowdvibeTest {
      **/
     public function testGetInvalidRatingByEventAttendanceId() : void {
         // grab a profile id that exceeds the maximum allowable profile id
-        $rating = Rating::getRatingByEventAttendanceId($this->getPDO(), generateUuidV4());
+        $rating = Rating::getRatingByRatingEventAttendanceId($this->getPDO(), generateUuidV4());
         $this->assertCount(0, $rating);
     }
 
@@ -216,7 +216,7 @@ class RatingTest extends crowdvibeTest {
         $rating->insert($this->getPDO());
 
         // grab the data from mySQL and enforce the fields match our expectations
-        $results = Rating::getRatingByRateeProfileId($this->getPDO(), $rating->getEventAttendanceId());
+        $results = Rating::getRatingByRatingRateeProfileId($this->getPDO(), $rating->getRatingEventAttendanceId());
         $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("rating"));
         $this->assertCount(1, $results);
         $this->assertContainsOnlyInstancesOf("Edu\\Cnm\\CrowdVibe\\Rating", $results);
@@ -226,7 +226,7 @@ class RatingTest extends crowdvibeTest {
         $pdoRating = $results[0];
 
         $this->assertEquals($pdoRating->getRatingId(), $this->rating->getRatingId);
-        $this->assertEquals($pdoRating->getRatingEventAttendanceId(), $this->event->getEventAttendanceId());
+        $this->assertEquals($pdoRating->getRatingEventAttendanceId(),$this->event->getEventAttendanceId());
         $this->assertEquals($pdoRating->getRatingRateeProfileId(), $this->ratee->getRateeProfileId);
         $this->assertEquals($pdoRating->getRatingRaterProfileId(), $this->rater->getRaterProfileId);
         $this->assertEquals($pdoRating->getRatingScore(), $this->VALID_RATING_SCORE);
@@ -237,7 +237,7 @@ class RatingTest extends crowdvibeTest {
      **/
     public function testGetInvalidRatingByRateeProfileId() : void {
         // grab a profile id that exceeds the maximum allowable profile id
-        $rating = Rating::getRatingByRateeProfileId($this->getPDO(), generateUuidV4());
+        $rating = Rating::getRatingByRatingRateeProfileId($this->getPDO(), generateUuidV4());
         $this->assertCount(0, $rating);
     }
 
@@ -254,7 +254,7 @@ class RatingTest extends crowdvibeTest {
         $rating->insert($this->getPDO());
 
         // grab the data from mySQL and enforce the fields match our expectations
-        $results = Rating::getRatingByRaterProfileId($this->getPDO(), $rating->getEventAttendanceId());
+        $results = Rating::getRatingByRatingRaterProfileId($this->getPDO(), $rating->getRatingId());
         $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("rating"));
         $this->assertCount(1, $results);
         $this->assertContainsOnlyInstancesOf("Edu\\Cnm\\CrowdVibe\\Rating", $results);
@@ -263,10 +263,10 @@ class RatingTest extends crowdvibeTest {
         //grab the results from the array and validate it
         $pdoRating = $results[0];
 
-        $this->assertEquals($pdoRating->getRatingId(), $this->rating->getRatingId);
-        $this->assertEquals($pdoRating->getRatingEventAttendanceId(), $this->event->getEventAttendanceId());
-        $this->assertEquals($pdoRating->getRatingRateeProfileId(), $this->ratee->getRateeProfileId);
-        $this->assertEquals($pdoRating->getRatingRaterProfileId(), $this->rater->getRaterProfileId);
+        $this->assertEquals($pdoRating->getRatingId(), $rating->getRatingId());
+        $this->assertEquals($pdoRating->getRatingEventAttendanceId(), $this->eventAttendance->getEventAttendanceId());
+        $this->assertEquals($pdoRating->getRatingRateeProfileId(), $this->ratee->getProfileId());
+        $this->assertEquals($pdoRating->getRatingRaterProfileId(), $this->rater->getProfileId());
         $this->assertEquals($pdoRating->getRatingScore(), $this->VALID_RATING_SCORE);
     }
 
