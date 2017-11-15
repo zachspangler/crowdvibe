@@ -391,9 +391,6 @@ class Rating implements \JsonSerializable {
             return ($rating);
         }
 
-
-
-
             /**
              * get the Rating by rating rater profile id
              *
