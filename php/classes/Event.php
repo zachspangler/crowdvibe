@@ -3,9 +3,8 @@
 namespace Edu\Cnm\CrowdVibe;
 require_once(dirname(__DIR__, 2) . "/vendor/autoload.php");
 
-use Prophecy\Exception\InvalidArgumentException;
 use Ramsey\Uuid\Uuid;
-use TypeError;
+
 
 /**
  * An event is user created, it is allow people to join you in any activity you are participating in.
@@ -13,18 +12,19 @@ use TypeError;
  * @author Luther Mckeiver <lmckeiver@cnm.edu>
  * @version 1.0.0
  **/
-class Event implements \JsonSerializable
-{
+class Event implements \JsonSerializable {
+
     use ValidateDate;
+    use ValidateUuid;
     /**
      * id for this Event; this is the primary key
-     * @var int $eventId
+     * @var uuid $eventId
      **/
     private $eventId;
 
     /**
      * id of the profile that sent the event, this is foreign key
-     * @var int $eventProfileId ;
+     * @var uuid $eventProfileId ;
      **/
     private $eventProfileId;
     /**
@@ -92,6 +92,7 @@ class Event implements \JsonSerializable
      * @param \DateTime|string $newEventEndDateTime
      * @param int $newEventPrice
      * @param float $newEventLat
+     * @param int $newEventAttendeeLimit
      * @param float $newEventLong
      * @param string|null $newEventImage
      * @param string $newEventName
@@ -101,8 +102,7 @@ class Event implements \JsonSerializable
      * @throws \Exception if some other exception occurs
      */
 
-    public function __construct($newEventId, $newEventProfileId, float $newEventAttendeeLimit, $newEventEndDateTime = null, string $newEventDetail, $newEventImage = null, float $newEventLat, float $newEventLong, string $newEventName, int $newEventPrice, $newEventStartDateTime = null)
-    {
+    public function __construct($newEventId, $newEventProfileId, int $newEventAttendeeLimit, $newEventEndDateTime = null, string $newEventDetail, $newEventImage = null, float $newEventLat, float $newEventLong, string $newEventName, int $newEventPrice, $newEventStartDateTime = null) {
         try {
             $this->setEventId($newEventId);
             $this->setEventProfileId($newEventProfileId);
@@ -114,363 +114,385 @@ class Event implements \JsonSerializable
             $this->setEventLong($newEventLong);
             $this->setEventImage($newEventImage);
             $this->setEventName($newEventName);
-            $this->getEventAttendeeLimit($newEventAttendeeLimit);
+            $this->setEventAttendeeLimit($newEventAttendeeLimit);
+        }
 
-        } //determine what exception type was thrown
-        catch (\InvalidArgumentException | \RangeException | \Exception | TypeError $exception) {
+        //determine what exception type was thrown
+        catch (\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
             $exceptionType = get_class($exception);
             throw (new $exceptionType($exception->getMessage(), 0, $exception));
         }
     }
-
-    /**
-     * accessor method for event id
-     *
-     * @return int|null value of event id
-     **/
-    /**
-     * @return int
-     */
-    public function getEventId(): int {
-        return ($this->eventId);
-    }
-
-    /**
-     * mutator method for event id
-     *
-     * @param int|null $newEventId new value of event id
-     * @throws \RangeException if $nevEventId is not positive
-     * @throws TypeError if $newEventId is not an integer
-     **/
-    public function setEventId(?int $newEventId): void
-    {
-        //if event id is null immediately return it
-        if ($newEventId === null) {
-            $this->eventId = null;
-            return;
+        /**
+         * accessor method for event id
+         *
+         * @return uuid value of event id
+         **/
+        /
+        public function getEventId(): uuid {
+            return ($this->eventId);
         }
 
-        // verify if the event id is positive
-        if ($newEventId <= 0) {
-            throw (new \RangeException("event id is not positive"));
+        /**
+         * mutator method for event id
+         *
+         * @param uuid $newEventId new value of event id
+         * @throws \RangeException if $nevEventId is not positive
+         * @throws \TypeError if $newEventId is not an integer
+         **/
+        public function setEventId(?uuid $newEventId): void {
+            //if event id is null immediately return it
+            if ($newEventId === null) {
+                $this->eventId = null;
+                return;
+            }
+
+            // verify if the event id is positive
+            if ($newEventId <= 0) {
+                throw (new \RangeException("event id is not positive"));
+            }
+
+            //convert and store the event id
+            $this->eventId = $newEventId;
         }
 
-        //convert and store the event id
-        $this->eventId = $newEventId;
-    }
-
-    /**
-     * accessor method for event profile id
-     *
-     * @return int value of event profile id
-     **/
-    public function getEventProfileId(): int {
-        return ($this->eventProfileId);
-    }
-
-    /**
-     * mutator method for event profile id
-     *
-     * @param int $newEventProfileId new value of event profile id
-     * @throws \RangeException if $newProfileId is not positive
-     * @throws TypeError if $newProfileId is not an integer
-     **/
-    public function setEventProfileId(int $newEventProfileId): void
-    {
-        //verify the event id is positive
-        if ($newEventProfileId <= 0) {
-            throw (new \RangeException("event profile id is not positive"));
+        /**
+         * accessor method for event profile id
+         *
+         * @return uuid value of event profile id
+         **/
+        public
+        function getEventProfileId(): uuid
+        {
+            return ($this->eventProfileId);
         }
 
-        //convert and store the profile id
-        $this->eventProfileId = $newEventProfileId;
-    }
+        /**
+         * mutator method for event profile id
+         *
+         * @param uuid $newEventProfileId new value of event profile id
+         * @throws \RangeException if $newProfileId is not positive
+         * @throws \TypeError if $newProfileId is not an integer
+         **/
+        public
+        function setEventProfileId(uuid $newEventProfileId): void
+        {
+            //verify the event id is positive
+            if ($newEventProfileId <= 0) {
+                throw (new \RangeException("event profile id is not positive"));
+            }
 
-    /**
-     * accessor method for event detail
-     *
-     * @return string value of event detail
-     **/
-    public function getEventDetail(): string {
-        return ($this->eventDetail);
-    }
-
-    /**
-     * mutator method for event detail
-     *
-     * @param string $newEventDetail new value of event detail
-     * @throws \InvalidArgumentException if $newEventDetail is not a string or insecure
-     * @throws \RangeException if $newEventDetail is > 500
-     * @throws \TypeError if $newEventDetail is not a string
-     **/
-    public function setEventDetail(string $newEventDetail): void
-    {
-        // verify the event detail is secure
-        $newEventDetail = trim($newEventDetail);
-        $newEventDetail = filter_var($newEventDetail, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-        if (empty($newEventDetail) === true) {
-            throw (new \InvalidArgumentException("event detail is empty or insecure"));
-        }
-        //verify the event detail will fit in the database
-        if (strlen($newEventDetail) > 500) {
-            throw (new \RangeException("event content is too long"));
-        }
-        //store the event detail
-        $this->eventDetail = $newEventDetail;
-    }
-
-    /**
-     * accessor method for event name
-     *
-     * @return string value of event name
-     **/
-    public function getEventName(): string {
-        return ($this->eventName);
-    }
-
-    /**
-     * mutator method for event name
-     *
-     * @param string $newEventName new value of event name
-     * @throws \InvalidArgumentException if $newEventName is not a string or insecure
-     * @throws \RangeException if $newEventName is > 64 characters
-     * @throw \TypeError if $newEventName is not a string
-     **/
-    public function setEventName(string $newEventName): void
-    {
-        //verify the event name is secure
-        $newEventName = trim($newEventName);
-        $newEventName = filter_var($newEventName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-        if (empty($newEventName) === true) {
-            throw (new \InvalidArgumentException("event name is empty or insecure"));
-        }
-        //verify the event name will fit in the database
-        if (strlen($newEventName) > 64) {
-            throw (new \RangeException("event name is too long"));
+            //convert and store the profile id
+            $this->eventProfileId = $newEventProfileId;
         }
 
-        // store the event name
-        $this->eventName = $newEventName;
-    }
-
-    /**
-     * accessor method for event image
-     *
-     * @return string value of event image
-     **/
-    public function getEventImage() {
-        return ($this->eventImage);
-    }
-
-    /**
-     * mutator method for event image
-     *
-     * @param string $newEventImage new value of event image
-     * @throws \InvalidArgumentException if $newEventImage is not not a string or insecure
-     * @throws \RangeException if $newEventImage is > 64 characters
-     * @throw \TypeError if $newEventImage is not a string
-     **/
-    public function setEventImage(string $newEventImage): void
-    {
-        // verify the image is insecure
-        $newEventImage = trim($newEventImage);
-        $newEventImage = filter_var($newEventImage, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-        if (empty($newEventImage) === true) {
-            throw (new \InvalidArgumentException("event image is empty or insecure"));
-        }
-        // verify the event image will fit in the database
-        if (strlen($newEventImage) > 64) {
-            throw (new \RangeException("event image is too long"));
-        }
-        //store the event image
-        $this->eventImage = $newEventImage;
-    }
-
-    /**
-     * accessor method for event price
-     *
-     * @return float of event price
-     **/
-    public function getEventPrice() {
-        return ($this->eventPrice);
-    }
-
-    /**
-     * mutator method for event price
-     *
-     * @param float $newEventPrice new value of event price
-     * @throws \InvalidArgumentException if $newEventPrice is not a float or insecure
-     * @throws \RangeException if $newEventPrice is >
-     * @throw |TypeError if $newEventPrice is not a float
-     **/
-    public function setEventPrice(float $newEventPrice): void
-    {
-        // verify the price is insecure
-        $newEventPrice = trim($newEventPrice);
-        $newEventPrice = filter_var($newEventPrice, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-        if (empty($newEventPrice) === true) {
-            throw (new InvalidArgumentException("event price is empty or insecure"));
-        }
-        // verify the event price will fit in the database
-        if (strlen($newEventPrice) <= 7) {
-        } else {
-            throw (new \RangeException("event price is too much"));
-        }
-        // store this event price
-        $this->eventPrice = $newEventPrice;
-    }
-
-    /**
-     * accessor method for event Latitude
-     *
-     * @return float value of event Latitude
-     **/
-    public function getEventLat(): float
-    {
-        return ($this->eventLat);
-    }
-
-    /**
-     * mutator method for event Latitude
-     *
-     * @param float $newEventLat new value event Latitude
-     * @throws \InvalidArgumentException if $newEventLat is not a valid latitude or insecure
-     * @throws \RangeException if $newEventLat is > 12 characters
-     * @throws TypeError if $newEventLat is not a float
-     **/
-    public function setEventLat(float $newEventLat): void
-    {
-        // verify the float will fit in the database
-        if (($newEventLat > 90) || ($newEventLat < -90)) {
-            throw (new \RangeException("latitude is too big of a number"));
-        }
-        // store the latitude for event
-        $this->eventLat = $newEventLat;
-    }
-
-    /**
-     * accessor method for eventLong
-     *
-     * @return float value for event Longitude
-     **/
-    public function getEventLong(): float{
-        return ($this->eventLong);
-    }
-
-    /**
-     * mutator method for event Longitude
-     *
-     * @param float $newEventLong new value event Longitude
-     * @throws \InvalidArgumentException if $newEventLong is not a valid longitude or insecure
-     * @throws \RangeException if $newEventLong is > 12 characters
-     * @throws TypeError if $newEventLong is not a float
-     **/
-    public function setEventLong(float $newEventLong): void
-    {
-        // verify the float will fit in the database
-        if (($newEventLong > 180) || ($newEventLong < -180)) {
-            throw(new \RangeException("longitude is too large of a number"));
-        }
-        //store the event longitude
-        $this->eventLong = $newEventLong;
-
-    }
-
-    /**
-     * accessor method for eventStartDateTime
-     *
-     * @return \DateTime
-     */
-    public function getEventStartDateTime(): \DateTime{
-        return ($this->eventStartDateTime);
-    }
-
-    /**
-     * mutator method for eventStartDateTime
-     *
-     * @param \DateTime $newEventStartDateTime
-     */
-    public function setEventStartDateTime($newEventStartDateTime = null): void
-    {
-        //base case: if the date is null, use the current date and time
-        if ($newEventStartDateTime === null) {
-            $this->eventStartDateTime = new \DateTime();
-            return;
-        }
-        // store the date/time using the Validate Trait
-        try {
-            $newEventStartDateTime = self::validateDateTime($newEventStartDateTime);
-        } catch (\InvalidArgumentException | \RangeException $exception) {
-            $exceptionType = get_class($exception);
-            throw(new $exceptionType($exception->getMessage(), 0, $exception));
+        /**
+         * accessor method for event detail
+         *
+         * @return string value of event detail
+         **/
+        public
+        function getEventDetail(): string
+        {
+            return ($this->eventDetail);
         }
 
-        $this->eventStartDateTime = $newEventStartDateTime;
-    }
-
-    /**
-     * accessor method to eventEndDateTime
-     *
-     * @return \DateTime
-     **/
-    public function getEventEndDateTime(): \DateTime{
-        return ($this->eventEndDateTime);
-    }
-
-    /**
-     * mutator method for eventEndDateTime
-     *
-     * @param \DateTime $newEventEndDateTime
-     * @throws |DateTime|string\null $newEventDateTime comment date as a DateTime object or string (or null to load the current time)
-     * @throws |InvalidArgumentException if $newEventEndDateTime is not a valid object or string
-     * @throws \RangeException if $newEventEndDateTime is a date that does not exist
-     **/
-    public function setEventEndDateTime($newEventEndDateTime = null): void
-    {
-        //base case: if the date is null, use the current date and time
-        if ($newEventEndDateTime === null) {
-            $this->eventEndDateTime = new \DateTime();
-            return;
+        /**
+         * mutator method for event detail
+         *
+         * @param string $newEventDetail new value of event detail
+         * @throws \InvalidArgumentException if $newEventDetail is not a string or insecure
+         * @throws \RangeException if $newEventDetail is > 500
+         * @throws \TypeError if $newEventDetail is not a string
+         **/
+        public
+        function setEventDetail(string $newEventDetail): void
+        {
+            // verify the event detail is secure
+            $newEventDetail = trim($newEventDetail);
+            $newEventDetail = filter_var($newEventDetail, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+            if (empty($newEventDetail) === true) {
+                throw (new \InvalidArgumentException("event detail is empty or insecure"));
+            }
+            //verify the event detail will fit in the database
+            if (strlen($newEventDetail) > 500) {
+                throw (new \RangeException("event content is too long"));
+            }
+            //store the event detail
+            $this->eventDetail = $newEventDetail;
         }
-        // store the date/time using the Validate Trait
-        try {
-            $newEventEndDateTime = self::validateDateTime($newEventEndDateTime);
-        } catch (\InvalidArgumentException | \RangeException $exception) {
-            $exceptionType = get_class($exception);
-            throw(new $exceptionType($exception->getMessage(), 0, $exception));
-        }
-        $this->eventEndDateTime = $newEventEndDateTime;
-    }
 
-    /**
-     * accessor method for eventAttendeeLimit
-     *
-     * @return int
-     **/
-    public function getEventAttendeeLimit(): int {
-        return ($this->eventAttendeeLimit);
-    }
+        /**
+         * accessor method for event name
+         *
+         * @return string value of event name
+         **/
+        public
+        function getEventName(): string
+        {
+            return ($this->eventName);
+        }
 
-    /**
-     * mutator method for eventAttendee
-     * @param int $newEventAttendee new value of event Attendee
-     * @throws \RangeException if $newEventAttendee is not positive
-     *
-     * @return int value of eventAttendance
-     **/
-    public function setEventAttendance($newEventAttendance): void
-    {
-        // verify the attendance is less than <500
-        $newEventAttendance = trim($newEventAttendance);
-        $newEventAttendance = filter_var($newEventAttendance . FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-        if (empty($newEventAttendance) === true) {
-            throw (new \InvalidArgumentException("event Attendance is empty or insecure"));
+        /**
+         * mutator method for event name
+         *
+         * @param string $newEventName new value of event name
+         * @throws \InvalidArgumentException if $newEventName is not a string or insecure
+         * @throws \RangeException if $newEventName is > 64 characters
+         * @throw \TypeError if $newEventName is not a string
+         **/
+        public
+        function setEventName(string $newEventName): void
+        {
+            //verify the event name is secure
+            $newEventName = trim($newEventName);
+            $newEventName = filter_var($newEventName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+            if (empty($newEventName) === true) {
+                throw (new \InvalidArgumentException("event name is empty or insecure"));
+            }
+            //verify the event name will fit in the database
+            if (strlen($newEventName) > 64) {
+                throw (new \RangeException("event name is too long"));
+            }
+
+            // store the event name
+            $this->eventName = $newEventName;
         }
-        //verify the event attendance will fit in the database
-        if (strlen($newEventAttendance) > 500) {
-            throw (new \RangeException("event attendance is too large"));
+
+        /**
+         * accessor method for event image
+         *
+         * @return string value of event image
+         **/
+        public
+        function getEventImage()
+        {
+            return ($this->eventImage);
         }
-    }
+
+        /**
+         * mutator method for event image
+         *
+         * @param string $newEventImage new value of event image
+         * @throws \InvalidArgumentException if $newEventImage is not not a string or insecure
+         * @throws \RangeException if $newEventImage is > 64 characters
+         * @throw \TypeError if $newEventImage is not a string
+         **/
+        public
+        function setEventImage(string $newEventImage): void
+        {
+            // verify the image is insecure
+            $newEventImage = trim($newEventImage);
+            $newEventImage = filter_var($newEventImage, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+            if (empty($newEventImage) === true) {
+                throw (new \InvalidArgumentException("event image is empty or insecure"));
+            }
+            // verify the event image will fit in the database
+            if (strlen($newEventImage) > 64) {
+                throw (new \RangeException("event image is too long"));
+            }
+            //store the event image
+            $this->eventImage = $newEventImage;
+        }
+
+        /**
+         * accessor method for event price
+         *
+         * @return float of event price
+         **/
+        public
+        function getEventPrice()
+        {
+            return ($this->eventPrice);
+        }
+
+        /**
+         * mutator method for event price
+         *
+         * @param float $newEventPrice new value of event price
+         * @throws \InvalidArgumentException if $newEventPrice is not a float or insecure
+         * @throws \RangeException if $newEventPrice is >
+         * @throw |TypeError if $newEventPrice is not a float
+         **/
+        public
+        function setEventPrice(float $newEventPrice): void
+        {
+            // verify the price is insecure
+            $newEventPrice = trim($newEventPrice);
+            $newEventPrice = filter_var($newEventPrice, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+            if (empty($newEventPrice) === true) {
+                throw (new \InvalidArgumentException("event price is empty or insecure"));
+            }
+            // verify the event price will fit in the database
+            if (strlen($newEventPrice) <= 7) {
+            } else {
+                throw (new \RangeException("event price is too much"));
+            }
+            // store this event price
+            $this->eventPrice = $newEventPrice;
+        }
+
+        /**
+         * accessor method for event Latitude
+         *
+         * @return float value of event Latitude
+         **/
+        public
+        function getEventLat(): float
+        {
+            return ($this->eventLat);
+        }
+
+        /**
+         * mutator method for event Latitude
+         *
+         * @param float $newEventLat new value event Latitude
+         * @throws \InvalidArgumentException if $newEventLat is not a valid latitude or insecure
+         * @throws \RangeException if $newEventLat is > 12 characters
+         * @throws \TypeError if $newEventLat is not a float
+         **/
+        public
+        function setEventLat(float $newEventLat): void
+        {
+            // verify the float will fit in the database
+            if (($newEventLat > 90) || ($newEventLat < -90)) {
+                throw (new \RangeException("latitude is too big of a number"));
+            }
+            // store the latitude for event
+            $this->eventLat = $newEventLat;
+        }
+
+        /**
+         * accessor method for eventLong
+         *
+         * @return float value for event Longitude
+         **/
+        public
+        function getEventLong(): float
+        {
+            return ($this->eventLong);
+        }
+
+        /**
+         * mutator method for event Longitude
+         *
+         * @param float $newEventLong new value event Longitude
+         * @throws \InvalidArgumentException if $newEventLong is not a valid longitude or insecure
+         * @throws \RangeException if $newEventLong is > 12 characters
+         * @throws \TypeError if $newEventLong is not a float
+         **/
+        public
+        function setEventLong(float $newEventLong): void
+        {
+            // verify the float will fit in the database
+            if (($newEventLong > 180) || ($newEventLong < -180)) {
+                throw(new \RangeException("longitude is too large of a number"));
+            }
+            //store the event longitude
+            $this->eventLong = $newEventLong;
+
+        }
+
+        /**
+         * accessor method for eventStartDateTime
+         *
+         * @return \DateTime
+         */
+        public
+        function getEventStartDateTime(): \DateTime
+        {
+            return ($this->eventStartDateTime);
+        }
+
+        /**
+         * mutator method for eventStartDateTime
+         *
+         * @param \DateTime $newEventStartDateTime
+         */
+        public
+        function setEventStartDateTime($newEventStartDateTime = null): void
+        {
+            //base case: if the date is null, use the current date and time
+            if ($newEventStartDateTime === null) {
+                $this->eventStartDateTime = new \DateTime();
+                return;
+            }
+            // store the date/time using the Validate Trait
+            try {
+                $newEventStartDateTime = self::validateDateTime($newEventStartDateTime);
+            } catch (\InvalidArgumentException | \RangeException $exception) {
+                $exceptionType = get_class($exception);
+                throw(new $exceptionType($exception->getMessage(), 0, $exception));
+            }
+
+            $this->eventStartDateTime = $newEventStartDateTime;
+        }
+
+        /**
+         * accessor method to eventEndDateTime
+         *
+         * @return \DateTime
+         **/
+        public
+        function getEventEndDateTime(): \DateTime
+        {
+            return ($this->eventEndDateTime);
+        }
+
+        /**
+         * mutator method for eventEndDateTime
+         *
+         * @param \DateTime $newEventEndDateTime
+         * @throws |DateTime|string\null $newEventDateTime comment date as a DateTime object or string (or null to load the current time)
+         * @throws |InvalidArgumentException if $newEventEndDateTime is not a valid object or string
+         * @throws \RangeException if $newEventEndDateTime is a date that does not exist
+         **/
+        public
+        function setEventEndDateTime($newEventEndDateTime = null): void
+        {
+            //base case: if the date is null, use the current date and time
+            if ($newEventEndDateTime === null) {
+                $this->eventEndDateTime = new \DateTime();
+                return;
+            }
+            // store the date/time using the Validate Trait
+            try {
+                $newEventEndDateTime = self::validateDateTime($newEventEndDateTime);
+            } catch (\InvalidArgumentException | \RangeException $exception) {
+                $exceptionType = get_class($exception);
+                throw(new $exceptionType($exception->getMessage(), 0, $exception));
+            }
+            $this->eventEndDateTime = $newEventEndDateTime;
+        }
+
+        /**
+         * accessor method for eventAttendeeLimit
+         *
+         * @return int
+         **/
+        public function getEventAttendeeLimit(): int {
+            return ($this->eventAttendeeLimit);
+        }
+
+        /**
+         * mutator method for eventAttendeeLimit
+         *
+         * @param int $newEventAttendeeLimit new value of event Attendee
+         * @throws \RangeException if $newEventAttendeeLimit is not positive
+         **/
+        public function setEventAttendeeLimit($newEventAttendeeLimit): void {
+            // verify the attendance is less than <500
+            $newEventAttendeeLimit = trim($newEventAttendeeLimit);
+            $newEventAttendeeLimit = filter_var($newEventAttendeeLimit . FILTER_SANITIZE_NUMBER_INT, FILTER_FLAG_NO_ENCODE_QUOTES);
+            if (empty($newEventAttendeeLimit) === true) {
+                throw (new \InvalidArgumentException("event Attendance is empty or insecure"));
+            }
+            //verify the event attendance will fit in the database
+            if (strlen($newEventAttendeeLimit) > 500) {
+                throw (new \RangeException("event attendance is too large"));
+            }
+
+        }
 
     /**
      * Insert this Event into mySQL
@@ -484,7 +506,7 @@ class Event implements \JsonSerializable
         //create query template
         $query = "INSERT INTO event(eventId, eventProfileId, eventAttendeeLimit, eventEndDateTime, eventDetail, eventImage, eventLat, eventLong, eventName, eventPrice, eventStartDateTime) VALUES (:eventId, :eventProfileId, :eventAttendeeLimit, :eventEndDateTime, :eventDetail, :eventImage, :eventLat, :eventLong, :eventName, :eventPrice, :eventStartDateTime)";
         $statement = $pdo->prepare($query);
-        $parameters = ["eventId" => $this->eventId->getBytes(), "eventProfileId" => $this->eventProfileId, "eventAttendeeLimit" => $this->getEventAttendeeLimit, "eventEndDateTime =>$this->eventEndDateTime", "eventDetail" => $this->eventDetail, "eventImage" => $this->eventImage, "eventLat" => $this->eventLat, "eventLong" => $this->eventLong, "eventName" => $this->eventName, "eventPrice" => $this->eventPrice, "eventStartDateTime" => $this->eventStartDateTime];
+        $parameters = ["eventId" => $this->eventId->getBytes(), "eventProfileId" => $this->eventProfileId, "eventAttendeeLimit" => $this->eventAttendeeLimit, "eventEndDateTime =>$this->eventEndDateTime", "eventDetail" => $this->eventDetail, "eventImage" => $this->eventImage, "eventLat" => $this->eventLat, "eventLong" => $this->eventLong, "eventName" => $this->eventName, "eventPrice" => $this->eventPrice, "eventStartDateTime" => $this->eventStartDateTime];
         $statement->execute($parameters);
     }
 
@@ -516,7 +538,7 @@ class Event implements \JsonSerializable
         $query="UPDATE event SET eventId = :eventId, eventProfileId= :eventProfileId, eventAttendeeLimit= :eventAttendeeLimit, eventEndDateTime= :eventEndDateTime, eventDetail= :eventDetail, eventImage= :eventImage, eventLat= :eventLat, eventLong= :eventLong, eventName= :eventName, eventPrice= :eventPrice, eventStartDateTime= :eventStartDateTime";
         $statement= $pdo->prepare($query);
         // bind the member variables to the place holders in the template
-        $parameters = ["eventId" => $this->eventId->getBytes(), "eventProfileId" => $this->eventProfileId, "eventAttendeeLimit" => $this->getEventAttendeeLimit, "eventEndDateTime =>$this->eventEndDateTime", "eventDetail" => $this->eventDetail, "eventImage" => $this->eventImage, "eventLat" => $this->eventLat, "eventLong" => $this->eventLong, "eventName" => $this->eventName, "eventPrice" => $this->eventPrice, "eventStartDateTime" => $this->eventStartDateTime];
+        $parameters = ["eventId" => $this->eventId->getBytes(), "eventProfileId" => $this->eventProfileId, "eventAttendeeLimit" => $this->eventAttendeeLimit, "eventEndDateTime =>$this->eventEndDateTime", "eventDetail" => $this->eventDetail, "eventImage" => $this->eventImage, "eventLat" => $this->eventLat, "eventLong" => $this->eventLong, "eventName" => $this->eventName, "eventPrice" => $this->eventPrice, "eventStartDateTime" => $this->eventStartDateTime];
         $statement->execute($parameters);
 
     }
@@ -554,14 +576,13 @@ class Event implements \JsonSerializable
             $statement->setFetchMode(\PDO::FETCH_ASSOC);
             $row = $statement->fetch();
             if ($row !==false) {
-                $event = new Event($row["eventId"],$row["eventProfileId"], $row["EventAttendeeLimit"],$row["EventEndDateTime"],$row["eventDetail"],
-                    $row["eventImage"], $row["eventLat"], $row["eventLong"], $row["eventName"], $row["eventPrice"], $row["eventStartDateTime"]);
+                $event = new Event($row["eventId"],$row["eventProfileId"], $row["EventAttendeeLimit"],$row["EventEndDateTime"],$row["eventDetail"], $row["eventImage"], $row["eventLat"], $row["eventLong"], $row["eventName"], $row["eventPrice"], $row["eventStartDateTime"]);
             }
         } catch (\Exception $exception) {
             // if the row could not be converted, rethrow it
             throw (new \PDOException($exception->getMessage(), 0, $exception));
         }
-        return ($event);
+        return ($eventId);
 
     }
 
@@ -608,12 +629,17 @@ class Event implements \JsonSerializable
      *
      * @param \PDO $pdo $pdo PDO Connection object
      * @param string $eventName event id to search for
-     * @return Event|null Event or null if not found
+     * @return \SplFixedArray of all events found or null
      * @throws \PDOException when mySQL related errors occur
      * @throws \TypeError when variables are not the correct data type
      **/
-    public static function getEventByEventName (\PDO $pdo, string $eventName):?Event {
+    public static function getEventByEventName (\PDO $pdo, string $eventName):?\SplFixedArray {
         // sanitize the event name before searching
+        $eventName = trim($eventName);
+        $eventName = filter_var($eventName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+        if (empty($eventName)=== true) {
+            throw (new \PDOException("not a valid event name"));
+        }
         try {
             $eventName =self::validateUuid($eventName);
         } catch (\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
@@ -625,20 +651,40 @@ class Event implements \JsonSerializable
         // bind the event name to the placeholder in the template
         $parameters =["eventName" =>$eventName->getBytes()];
         $statement->execute($parameters);
+        //build an array of events
+        $events = new \SplFixedArray($statement->rowCount());
+        $statement->setFetchMode(\PDO::FETCH_ASSOC);
+
+        while(($row=$statement->fetch()) !==false) {
+            try {
+                $event = new Event($row["eventId"], $row["eventProfileId"], $row ["eventAttendeeLimit"],$row["eventEndDateTime"], $row["eventDetail"],$row["eventImage"], $row["eventLat"],$row["eventLong"], $row["eventName"], $row["eventPrice"],$row["eventStartDateTime"]);
+            $events[$events->key()] = $event;
+            $events->next();
+
+            } catch (\Exception $exception) {
+                //if the row couldn't be converted, rethrow it
+                throw (new \PDOException($exception->getMessage(), 0, $exception));
+            }
+            return($events);
+        }
+
+
+
+
         // grab the event Name from mySQL
         try {
         $eventName = null;
         $statement->setFetchMode(\PDO::FETCH_ASSOC);
         $row = $statement->fetch();
         if ($row !==false) {
-            $event = new Event($row["eventId"],$row["eventProfileId"], $row["EventAttendeeLimit"],$row["EventEndDateTime"],$row["eventDetail"],
+            $events = new Event($row["eventId"],$row["eventProfileId"], $row["EventAttendeeLimit"],$row["EventEndDateTime"],$row["eventDetail"],
                 $row["eventImage"], $row["eventLat"], $row["eventLong"], $row["eventName"], $row["eventPrice"], $row["eventStartDateTime"]);
         }
         } catch (\Exception $exception) {
             // if the row could not be converted rethrow it
             throw (new \PDOException($exception->getMessage(), 0, $exception));
         }
-        return ($event);
+        return ($events);
 }
 
 
