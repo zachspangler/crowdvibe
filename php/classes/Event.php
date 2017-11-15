@@ -394,8 +394,7 @@ class Event implements \JsonSerializable
      *
      * @return \DateTime
      */
-    public
-    function getEventStartDateTime(): \DateTime
+    public function getEventStartDateTime(): \DateTime
     {
         return ($this->eventStartDateTime);
     }
