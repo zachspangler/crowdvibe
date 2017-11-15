@@ -321,6 +321,8 @@ class Rating implements \JsonSerializable {
      * @throws \PDOException when mySQL related errors occur
      * @throws \TypeError when variable is not the correct date type
      **/
+
+    //TODO changed to SPL Array, review type declarations
     public static function getRatingByRatingEventAttendanceId(\PDO $pdo, string $ratingEventAttendanceId): ?Rating {
         // sanitize the rating id before searching
         try {
@@ -361,6 +363,8 @@ class Rating implements \JsonSerializable {
          * @throws \PDOException when mySQL related errors occur
          * @throws \TypeError when variable is not the correct date type
          **/
+
+        //TODO Get with Dylan to review the query
         public static function getRatingByRatingRateeProfileId(\PDO $pdo, string $ratingRateeProfileId):?Rating {
             // sanitize the rating id before searching
             try {
@@ -395,12 +399,12 @@ class Rating implements \JsonSerializable {
              * get the Rating by rating rater profile id
              *
              * @param \PDO $pdo $pdo PDO connection object
-             * @param string $ratingId rating Id to search for
+             * @param Uuid|string $ratingId rating Id to search for
              * @return \SplFixedArray SplFixedArray
              * @throws \PDOException when mySQL related errors occur
              * @throws \TypeError when variable is not the correct date type
              **/
-            public static function getRatingByRatingRaterProfileId(\PDO $pdo, string $ratingRaterProfileId) : \SplFixedArray
+            public static function getRatingByRatingRaterProfileId(\PDO $pdo, $ratingRaterProfileId) : \SplFixedArray
             {
                 // sanitize the rating id before searching
                 try {
