@@ -213,7 +213,6 @@ class EventAttendance implements \JsonSerializable {
 		$parameters = ["eventAttendanceId" => $this-> eventAttendanceId, "eventAttendanceEventId" => $this-> eventAttendanceEventId, "eventAttendanceProfileId" => $this-> eventAttendanceProfileId, "eventAttendanceCheckIn" => $this-> eventAttendanceCheckIn, "eventAttendanceNumberAttending" => $this-> eventAttendanceNumberAttending];
 		$statement->execute($parameters);
 	}
-//TODO clean up $parameters 235
 	/**
 	 * deletes this EventAttendance from mySQL
 	 *
@@ -226,8 +225,8 @@ class EventAttendance implements \JsonSerializable {
 		$statement = $pdo->prepare($query);
 
 		// delete the variables from the place holders in the template
-		$parameters = ["eventAttendanceId" => $this->eventAttendanceId, "eventAttendanceProfileId" => $this->eventAttendanceProfileId, "eventAttendanceEventId" => $this->eventAttendanceEventId, "eventAttendanceCheckIn" => $this->eventAttendanceCheckIn, "eventAttendanceNumberAttending" => $this->eventAttendanceNumberAttending];
-		$statement->$parameters;
+		$parameters = ["eventAttendanceId" => $this->eventAttendanceId];
+		$statement->execute($parameters);
 	}
 	/**
 	 * updates this EventAttendance in mySQL
