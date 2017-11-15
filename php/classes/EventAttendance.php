@@ -216,7 +216,7 @@ class EventAttendance implements \JsonSerializable {
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holders in the template
-		$parameters = ["eventAttendanceId" => $this->eventAttendanceId,"eventAttendanceEventId" => $this->eventAttendanceEventId, "eventAttendanceProfileId" => $this->eventAttendanceProfileId,  "eventAttendanceCheckIn" => $this->eventAttendanceCheckIn, "eventAttendanceNumberAttending" => $this->eventAttendanceNumberAttending];
+		$parameters = ["eventAttendanceId" => $this-> eventAttendanceId, "eventAttendanceEventId" => $this-> eventAttendanceEventId, "eventAttendanceProfileId" => $this-> eventAttendanceProfileId, "eventAttendanceCheckIn" => $this-> eventAttendanceCheckIn, "eventAttendanceNumberAttending" => $this-> eventAttendanceNumberAttending];
 		$statement->execute($parameters);
 	}
 //TODO clean up $parameters 235
