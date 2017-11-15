@@ -97,7 +97,7 @@ class ProfileTest extends CrowdVibeTest {
 	 **/
 	public function testInsertValidProfile(): void {
 		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("profile");
+		$numRows = $this->getConnection()-> fgetRowCount("profile");
 		$profileId = generateUuidV4();
 		$profile = new Profile($profileId, $this->VALID_PROFILE_ACTIVATION_TOKEN, $this->VALID_PROFILE_BIO, $this->VALID_PROFILE_EMAIL1, $this->VALID_PROFILE_FIRST_NAME, $this->VALID_PROFILE_HASH, $this->VALID_PROFILE_IMAGE, $this->VALID_PROFILE_LAST_NAME, $this->VALID_PROFILE_SALT, $this->VALID_PROFILE_USERNAME);
 		$profile->insert($this->getPDO());

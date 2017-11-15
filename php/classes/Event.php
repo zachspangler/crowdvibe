@@ -141,21 +141,16 @@ class Event implements \JsonSerializable
      * @throws \RangeException if $nevEventId is not positive
      * @throws \TypeError if $newEventId is not an integer
      **/
-    public function setEventId(?uuid $newEventId): void
-    {
-        //if event id is null immediately return it
-        if ($newEventId === null) {
-            $this->eventId = null;
-            return;
+    public function setEventId( $newEventId): void {
+        try {
+            $uuid = self::validateUuid($newEventId);
+        } catch (\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+            $exceptionType = get_class($exception);
+            throw(new $exceptionType($exception->getMessage(), 0, $exception));
         }
+        // convert and store event id
+        $this->eventId = $uuid;
 
-        // verify if the event id is positive
-        if ($newEventId <= 0) {
-            throw (new \RangeException("event id is not positive"));
-        }
-
-        //convert and store the event id
-        $this->eventId = $newEventId;
     }
 
     /**
@@ -163,8 +158,7 @@ class Event implements \JsonSerializable
      *
      * @return uuid value of event profile id
      **/
-    public
-    function getEventProfileId(): uuid
+    public function getEventProfileId(): uuid
     {
         return ($this->eventProfileId);
     }
@@ -176,16 +170,16 @@ class Event implements \JsonSerializable
      * @throws \RangeException if $newProfileId is not positive
      * @throws \TypeError if $newProfileId is not an integer
      **/
-    public
-    function setEventProfileId(uuid $newEventProfileId): void
-    {
-        //verify the event id is positive
-        if ($newEventProfileId <= 0) {
-            throw (new \RangeException("event profile id is not positive"));
+    public function setEventProfileId($newEventProfileId): void {
+        try {
+            $uuid = self::validateUuid($newEventProfileId);
+        } catch (\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+            $exceptionType = get_class($exception);
+            throw(new $exceptionType($exception->getMessage(), 0, $exception));
         }
+        // convert and store event id
+        $this->eventProfileId = $uuid;
 
-        //convert and store the profile id
-        $this->eventProfileId = $newEventProfileId;
     }
 
     /**
