@@ -276,7 +276,7 @@ class Rating implements \JsonSerializable {
      * get the Rating by rating id
      *
      * @param \PDO $pdo $pdo PDO connection object
-     * @param string $ratingId rating Id to search for
+     * @param Uuid|string $ratingId rating Id to search for
      * @return Rating Rating or null if not found
      * @throws \PDOException when mySQL related errors occur
      * @throws \TypeError when variable is not the correct date type
@@ -316,14 +316,14 @@ class Rating implements \JsonSerializable {
      * get the Rating by rating event attendance id
      *
      * @param \PDO $pdo $pdo PDO connection object
-     * @param Uuid | string $ratingId rating Id to search for
+     * @param Uuid|string $ratingId rating Id to search for
      * @return Rating Rating or null if not found
      * @throws \PDOException when mySQL related errors occur
      * @throws \TypeError when variable is not the correct date type
      **/
 
     //TODO changed to SPL Array, review type declarations
-    public static function getRatingByRatingEventAttendanceId(\PDO $pdo, string $ratingEventAttendanceId): ?Rating {
+    public static function getRatingByRatingEventAttendanceId(\PDO $pdo, $ratingEventAttendanceId): ?Rating {
         // sanitize the rating id before searching
         try {
             $ratingEventAttendanceId = self::validateUuid($ratingEventAttendanceId);
@@ -358,14 +358,14 @@ class Rating implements \JsonSerializable {
          * get the Rating by rating ratee profile id
          *
          * @param \PDO $pdo $pdo PDO connection object
-         * @param string $ratingId rating Id to search for
+         * @param Uuid|string $ratingId rating Id to search for
          * @return Rating Rating or null if not found
          * @throws \PDOException when mySQL related errors occur
          * @throws \TypeError when variable is not the correct date type
          **/
 
         //TODO Get with Dylan to review the query
-        public static function getRatingByRatingRateeProfileId(\PDO $pdo, string $ratingRateeProfileId):?Rating {
+        public static function getRatingByRatingRateeProfileId(\PDO $pdo, $ratingRateeProfileId):?Rating {
             // sanitize the rating id before searching
             try {
                 $ratingRateeProfileId = self::validateUuid($ratingRateeProfileId);

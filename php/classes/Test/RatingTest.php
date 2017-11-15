@@ -207,6 +207,7 @@ class RatingTest extends crowdvibeTest {
      * test inserting a Rating and regrab it from mySQL
      **/
     public function testGetValidRateeProfileId() : void
+
     {
         //count number of rows and save for later
         $numRows = $this->getConnection()->getRowCount("rating");
