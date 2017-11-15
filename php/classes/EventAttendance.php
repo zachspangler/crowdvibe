@@ -162,19 +162,13 @@ class EventAttendance implements \JsonSerializable {
 	/**
 	 * mutator method for Attendance Number Attending
 	 *
-	 * @param int $newEventAttendanceCheckIn new value of Attendance Number
+	 * @param boolean $newEventAttendanceCheckIn new value of Attendance Number
 	 * @throws \InvalidArgumentException if $newEventAttendanceCheckIn is not a integer
 	 * @throws \RangeException if $newEventAttendanceCheckIn is > 1 characters
 	 * @throws \TypeError if $newEventAttendanceCheckIn is not a string
 	 **/
-	public function setEventAttendanceCheckIn(int $newEventAttendanceCheckIn): void {
-		//verify the Event content is secure
-		$newEventAttendanceCheckIn = trim($newEventAttendanceCheckIn);
-		$newEventAttendanceCheckIn = filter_var($newEventAttendanceCheckIn, FILTER_VALIDATE_INT, FILTER_FLAG_ALLOW_OCTAL);
-		if(empty($newEventAttendanceCheckIn) === true) {
-			throw(new\InvalidArgumentException(" if event attendance check in is empty"));
-		}
-		//TODO change to a boolean; Chris bloody fix this
+	public function setEventAttendanceCheckIn(boolean $newEventAttendanceCheckIn): void {
+		$this->eventAttendanceCheckIn = $newEventAttendanceCheckIn;
 	}
 
 	/**
