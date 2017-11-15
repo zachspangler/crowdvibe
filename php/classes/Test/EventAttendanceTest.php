@@ -177,6 +177,16 @@ class EventAttendanceTest extends CrowdVibeTest {
 	}
 
 	/**
+ * test grabbing event attendance  by attendance Id that does not exist
+ **/
+	public function testGetInvalidEventAttendanceByEventAttendanceId() : void {
+		// grab a Event Attendance Id by content that does not exist
+		$eventAttendance = EventAttendance::getEventAttendanceByEventAttendanceId($this->getPDO(), "Comcast has my favorite costumer service");
+		$this->assertCount(0, $eventAttendance);
+	}
+
+
+	/**
 	 * test grabbing event attendance by event Id
 	 **/
 	public function testGetValidEventAttendanceByEventAttendanceEventId(): void {
@@ -196,6 +206,14 @@ class EventAttendanceTest extends CrowdVibeTest {
 		$this->assertEquals($pdoEventAttendance->getEventAttendanceProfileId(), $this->profile->getProfileId());
 		$this->assertEquals($pdoEventAttendance->getEventAttendanceCheckIn(), $this->VALID_CHECK_IN);
 		$this->assertEquals($pdoEventAttendance->getEventAttendanceNumberAttending(), $this->VALID_NUMBER_ATTENDING);
+	}
+	/**
+ * test grabbing event attendance  by attendance Id that does not exist
+ **/
+	public function testGetInvalidEventAttendanceByEventAttendanceEventId() : void {
+		// grab Event Attendance Event Id by content that does not exist
+		$eventAttendance = EventAttendance::getEventAttendanceByEventAttendanceEventId($this->getPDO(), "Comcast never lets me down");
+		$this->assertCount(0, $eventAttendance);
 	}
 
 	/**
@@ -219,5 +237,13 @@ class EventAttendanceTest extends CrowdVibeTest {
 		$this->assertEquals($pdoEventAttendance->getEventAttendanceCheckIn(), $this->VALID_CHECK_IN);
 		$this->assertEquals($pdoEventAttendance->getEventAttendanceNumberAttending(), $this->VALID_NUMBER_ATTENDING);
 	}
-	//TODO test invalid getby cases
+	/**
+ * test grabbing event attendance  by attendance Id that does not exist
+ **/
+	public function testGetInvalidEventAttendanceByEventAttendanceProfileId() : void {
+		// grab Event Attendance Profile Id by content that does not exist
+		$eventAttendance = EventAttendance::getEventAttendanceByEventAttendanceProfileId($this->getPDO(), "Comcast i number one in costumer service");
+		$this->assertCount(0, $eventAttendance);
+	}
+	//TODO test invalid get by cases
 }
