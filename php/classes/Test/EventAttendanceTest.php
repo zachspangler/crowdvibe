@@ -3,7 +3,6 @@
 namespace Edu\Cnm\CrowdVibe\Test;
 
 use Edu\Cnm\CrowdVibe\{Profile, Event, EventAttendance};
-use Nette\Utils\DateTime;
 
 // grab the class under scrutiny
 require_once(dirname(__DIR__) . "/autoload.php");
@@ -60,16 +59,6 @@ class EventAttendanceTest extends CrowdVibeTest {
 	 * @var string $VALID_ACTIVATION
 	 */
 	protected $VALID_ACTIVATION_TOKEN;
-	/**
-	 * valid event start date to create the event object to own the test
-	 * @var DateTime $VALID_START_DATE
-	 */
-	protected $VALID_START_DATE;
-	/**
-	 * valid event end date to create the event object to own the test
-	 * @var DateTime $VALID_END_DATE
-	 */
-	protected $VALID_END_DATE;
 
 	/**
 	 * create dependent objects before running each test
@@ -83,18 +72,12 @@ class EventAttendanceTest extends CrowdVibeTest {
 		$this->VALID_HASH = hash_pbkdf2("sha512", $password, $this->VALID_SALT, 262144);
 		$this->VALID_ACTIVATION_TOKEN = bin2hex(random_bytes(16));
 		$profileId = generateUuidV4();
-		$this->VALID_START_DATE = new \DateTime();
-		$this->VALID_END_DATE = new \DateTime();
-
 		// create and insert the mocked profile
 		$this->profile = new Profile($profileId, $this->VALID_ACTIVATION_TOKEN, "For score and seven years ago", "thisis@life.com", "Donald", $this->VALID_HASH, "https://upload.wikimedia.org/", "Knuth", $this->VALID_SALT, "mustreadtaocp");
 		$this->profile->insert($this->getPDO());
-
-		// calculate the date
-
-
+		//TODO Fix date formats
 		// create the and insert the mocked event
-		$this->event = new Event(generateUuidV4(), $this->profile->getProfileId(), 20, $this->VALID_END_DATE, "Celebrate the birth of mayan time", null, "35.113281", "-106.621216", "End of the World - Mayan Style", "0.00", $this->VALID_START_DATE);
+		$this->event = new Event(generateUuidV4(), $this->profile->getProfileId(), 20, "19/11/2016 14:00:00", "Celebrate the birth of mayan time", null, "35.113281", "-106.621216", "End of the World - Mayan Style", "0.00", "19/11/2016 12:00:00");
 		$this->event->insert($this->getPDO());
 	}
 
@@ -179,23 +162,19 @@ class EventAttendanceTest extends CrowdVibeTest {
 		$eventAttendance = new EventAttendance(generateUuidV4(), $this->event->getEventId(), $this->profile->getProfileId(), $this->VALID_CHECK_IN, $this->VALID_NUMBER_ATTENDING);
 		$eventAttendance->insert($this->getPDO());
 		// grab the data from mySQL and enforce the fields match our expectations
-		$pdoEventAttendance = EventAttendance::getEventAttendanceByEventAttendanceId($this->getPDO(), $eventAttendance->getEventAttendanceEventId());
+		$results = EventAttendance::getEventAttendanceByEventAttendanceId($this->getPDO(), $eventAttendance->getEventAttendanceEventId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("eventAttendance"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\CrowdVibe\\EventAttendance", $results);
+		// grab the result from the array and validate it
+		$pdoEventAttendance = $results[0];
 		$this->assertEquals($pdoEventAttendance->getEventAttendanceEventId(), $this->event->getEventId());
 		$this->assertEquals($pdoEventAttendance->getEventAttendanceProfileId(), $this->profile->getProfileId());
 		$this->assertEquals($pdoEventAttendance->getEventAttendanceCheckIn(), $this->VALID_CHECK_IN);
 		$this->assertEquals($pdoEventAttendance->getEventAttendanceNumberAttending(), $this->VALID_NUMBER_ATTENDING);
-	}
 
-	/**
- * test grabbing event attendance  by attendance Id that does not exist
- **/
-	public function testGetInvalidEventAttendanceByEventAttendanceId() : void {
-		// grab a Event Attendance Id by content that does not exist
-		$eventAttendance = EventAttendance::getEventAttendanceByEventAttendanceId($this->getPDO(), "Comcast has my favorite costumer service");
-		$this->assertCount(0, $eventAttendance);
+		//TODO should return only 1 not an array
 	}
-
 
 	/**
 	 * test grabbing event attendance by event Id
@@ -217,14 +196,6 @@ class EventAttendanceTest extends CrowdVibeTest {
 		$this->assertEquals($pdoEventAttendance->getEventAttendanceProfileId(), $this->profile->getProfileId());
 		$this->assertEquals($pdoEventAttendance->getEventAttendanceCheckIn(), $this->VALID_CHECK_IN);
 		$this->assertEquals($pdoEventAttendance->getEventAttendanceNumberAttending(), $this->VALID_NUMBER_ATTENDING);
-	}
-	/**
- * test grabbing event attendance  by attendance Id that does not exist
- **/
-	public function testGetInvalidEventAttendanceByEventAttendanceEventId() : void {
-		// grab Event Attendance Event Id by content that does not exist
-		$eventAttendance = EventAttendance::getEventAttendanceByEventAttendanceEventId($this->getPDO(), "Comcast never lets me down");
-		$this->assertCount(0, $eventAttendance);
 	}
 
 	/**
@@ -248,12 +219,5 @@ class EventAttendanceTest extends CrowdVibeTest {
 		$this->assertEquals($pdoEventAttendance->getEventAttendanceCheckIn(), $this->VALID_CHECK_IN);
 		$this->assertEquals($pdoEventAttendance->getEventAttendanceNumberAttending(), $this->VALID_NUMBER_ATTENDING);
 	}
-	/**
- * test grabbing event attendance  by profile Id that does not exist
- **/
-	public function testGetInvalidEventAttendanceByEventAttendanceProfileId() : void {
-		// grab Event Attendance Profile Id by content that does not exist
-		$eventAttendance = EventAttendance::getEventAttendanceByEventAttendanceProfileId($this->getPDO(), "Comcast i number one in costumer service");
-		$this->assertCount(0, $eventAttendance);
-	}
+	//TODO test invalid getby cases
 }

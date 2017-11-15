@@ -14,18 +14,17 @@ use Ramsey\Uuid\Uuid;
  * @version 1.0.0
  **/
 class Event implements \JsonSerializable {
-
 	use ValidateDate;
 	use ValidateUuid;
 	/**
 	 * id for this Event; this is the primary key
-	 * @var uuid $eventId
+	 * @var Uuid $eventId
 	 **/
 	private $eventId;
 
 	/**
 	 * id of the profile that sent the event, this is foreign key
-	 * @var uuid $eventProfileId ;
+	 * @var Uuid $eventProfileId ;
 	 **/
 	private $eventProfileId;
 	/**
@@ -88,22 +87,18 @@ class Event implements \JsonSerializable {
 	 * Event constructor.
 	 * @param string|Uuid $newEventId
 	 * @param string|Uuid $newEventProfileId
-	 * @param string $newEventDetail
-	 * @param \DateTime|string $newEventStartDateTime
-	 * @param \DateTime|string $newEventEndDateTime
-	 * @param int $newEventPrice
-	 * @param float $newEventLat
 	 * @param int $newEventAttendeeLimit
-	 * @param float $newEventLong
+	 * @param string $newEventDetail
+	 * @param \DateTime|string $newEventEndDateTime
 	 * @param string|null $newEventImage
+	 * @param float $newEventLat
+	 * @param float $newEventLong
 	 * @param string $newEventName
-	 * @throws \InvalidArgumentException if data types are out of bounds (e.g., strings to long, negative integers)
-	 * @throws \RangeException if data values are out of bounds (e.g., strings too long, negative integers)
-	 * @throws \TypeError if a data type violates a data hint
-	 * @throws \Exception if some other exception occurs
+	 * @param float $newEventPrice
+	 * @param \DateTime|string $newEventStartDateTime
 	 */
 
-	public function __construct($newEventId, $newEventProfileId, ?int $newEventAttendeeLimit, $newEventEndDateTime, string $newEventDetail, ?string $newEventImage, float $newEventLat, float $newEventLong, string $newEventName, float $newEventPrice, $newEventStartDateTime) {
+	public function __construct($newEventId, $newEventProfileId, int $newEventAttendeeLimit, string $newEventDetail, $newEventEndDateTime, string $newEventImage, float $newEventLat, float $newEventLong, string $newEventName, float $newEventPrice, $newEventStartDateTime) {
 		try {
 			$this->setEventId($newEventId);
 			$this->setEventProfileId($newEventProfileId);
@@ -126,31 +121,31 @@ class Event implements \JsonSerializable {
 	/**
 	 * accessor method for event id
 	 *
-	 * @return uuid value of event id
+	 * @return Uuid value of event id
 	 **/
-
-	public function getEventId(): uuid {
+	public function getEventId(): Uuid {
 		return ($this->eventId);
 	}
+
 
 	/**
 	 * mutator method for event id
 	 *
-	 * @param uuid $newEventId new value of event id
+	 * @param Uuid|string $newEventId value of event id
 	 * @throws \RangeException if $nevEventId is not positive
-	 * @throws \TypeError if $newEventId is not an integer
+	 * @throws \TypeError if $newEventId is not a
 	 **/
 	public function setEventId($newEventId): void {
 		try {
-			$uuid = self::validateUuid($newEventId);
+			$Uuid = self::validateUuid($newEventId);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
 		// convert and store event id
-		$this->eventId = $uuid;
-
+		$this->eventId = $Uuid;
 	}
+
 
 	/**
 	 * accessor method for event profile id
@@ -185,8 +180,7 @@ class Event implements \JsonSerializable {
 	 *
 	 * @return string value of event detail
 	 **/
-	public
-	function getEventDetail(): string {
+	public function getEventDetail(): string {
 		return ($this->eventDetail);
 	}
 
@@ -198,8 +192,7 @@ class Event implements \JsonSerializable {
 	 * @throws \RangeException if $newEventDetail is > 500
 	 * @throws \TypeError if $newEventDetail is not a string
 	 **/
-	public
-	function setEventDetail(string $newEventDetail): void {
+	public function setEventDetail(string $newEventDetail): void {
 		// verify the event detail is secure
 		$newEventDetail = trim($newEventDetail);
 		$newEventDetail = filter_var($newEventDetail, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
@@ -219,8 +212,7 @@ class Event implements \JsonSerializable {
 	 *
 	 * @return string value of event name
 	 **/
-	public
-	function getEventName(): string {
+	public function getEventName(): string {
 		return ($this->eventName);
 	}
 
@@ -232,8 +224,7 @@ class Event implements \JsonSerializable {
 	 * @throws \RangeException if $newEventName is > 64 characters
 	 * @throw \TypeError if $newEventName is not a string
 	 **/
-	public
-	function setEventName(string $newEventName): void {
+	public function setEventName(string $newEventName): void {
 		//verify the event name is secure
 		$newEventName = trim($newEventName);
 		$newEventName = filter_var($newEventName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
@@ -254,8 +245,7 @@ class Event implements \JsonSerializable {
 	 *
 	 * @return string value of event image
 	 **/
-	public
-	function getEventImage() {
+	public function getEventImage() {
 		return ($this->eventImage);
 	}
 
@@ -267,8 +257,7 @@ class Event implements \JsonSerializable {
 	 * @throws \RangeException if $newEventImage is > 64 characters
 	 * @throw \TypeError if $newEventImage is not a string
 	 **/
-	public
-	function setEventImage(string $newEventImage): void {
+	public function setEventImage(string $newEventImage): void {
 		// verify the image is insecure
 		$newEventImage = trim($newEventImage);
 		$newEventImage = filter_var($newEventImage, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
@@ -288,8 +277,7 @@ class Event implements \JsonSerializable {
 	 *
 	 * @return float of event price
 	 **/
-	public
-	function getEventPrice() {
+	public function getEventPrice() {
 		return ($this->eventPrice);
 	}
 
@@ -301,8 +289,7 @@ class Event implements \JsonSerializable {
 	 * @throws \RangeException if $newEventPrice is >
 	 * @throw |TypeError if $newEventPrice is not a float
 	 **/
-	public
-	function setEventPrice(float $newEventPrice): void {
+	public function setEventPrice(float $newEventPrice): void {
 		// verify the price is insecure
 		$newEventPrice = trim($newEventPrice);
 		$newEventPrice = filter_var($newEventPrice, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
@@ -323,8 +310,7 @@ class Event implements \JsonSerializable {
 	 *
 	 * @return float value of event Latitude
 	 **/
-	public
-	function getEventLat(): float {
+	public function getEventLat(): float {
 		return ($this->eventLat);
 	}
 
@@ -336,8 +322,7 @@ class Event implements \JsonSerializable {
 	 * @throws \RangeException if $newEventLat is > 12 characters
 	 * @throws \TypeError if $newEventLat is not a float
 	 **/
-	public
-	function setEventLat(float $newEventLat): void {
+	public function setEventLat(float $newEventLat): void {
 		// verify the float will fit in the database
 		if(($newEventLat > 90) || ($newEventLat < -90)) {
 			throw (new \RangeException("latitude is too big of a number"));
@@ -351,8 +336,7 @@ class Event implements \JsonSerializable {
 	 *
 	 * @return float value for event Longitude
 	 **/
-	public
-	function getEventLong(): float {
+	public function getEventLong(): float {
 		return ($this->eventLong);
 	}
 
@@ -364,8 +348,7 @@ class Event implements \JsonSerializable {
 	 * @throws \RangeException if $newEventLong is > 12 characters
 	 * @throws \TypeError if $newEventLong is not a float
 	 **/
-	public
-	function setEventLong(float $newEventLong): void {
+	public function setEventLong(float $newEventLong): void {
 		// verify the float will fit in the database
 		if(($newEventLong > 180) || ($newEventLong < -180)) {
 			throw(new \RangeException("longitude is too large of a number"));
@@ -388,16 +371,11 @@ class Event implements \JsonSerializable {
 	 * mutator method for eventStartDateTime
 	 *
 	 * @param \DateTime $newEventStartDateTime
+	 * @throws \InvalidArgumentException if $newEventStartDateTime is not valid
+	 * @throws \RangeException if $newEventStartDateTime is a date that doesn't exist
 	 */
 
-	//TODO remove if blocks
-	public
-	function setEventStartDateTime($newEventStartDateTime = null): void {
-		//base case: if the date is null, use the current date and time
-		if($newEventStartDateTime === null) {
-			$this->eventStartDateTime = new \DateTime();
-			return;
-		}
+	public function setEventStartDateTime($newEventStartDateTime): void {
 		// store the date/time using the Validate Trait
 		try {
 			$newEventStartDateTime = self::validateDateTime($newEventStartDateTime);
@@ -405,7 +383,6 @@ class Event implements \JsonSerializable {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
-
 		$this->eventStartDateTime = $newEventStartDateTime;
 	}
 
@@ -414,8 +391,7 @@ class Event implements \JsonSerializable {
 	 *
 	 * @return \DateTime
 	 **/
-	public
-	function getEventEndDateTime(): \DateTime {
+	public function getEventEndDateTime(): \DateTime {
 		return ($this->eventEndDateTime);
 	}
 
@@ -423,18 +399,12 @@ class Event implements \JsonSerializable {
 	 * mutator method for eventEndDateTime
 	 *
 	 * @param \DateTime $newEventEndDateTime
-	 * @throws |DateTime|string\null $newEventDateTime comment date as a DateTime object or string (or null to load the current time)
-	 * @throws |InvalidArgumentException if $newEventEndDateTime is not a valid object or string
+	 * @throws |DateTime|string $newEventDateTime comment date as a DateTime object or string (or null to load the current time)
+	 * @throws |InvalidArgumentException if $newEventEndDateTime is not a valid
 	 * @throws \RangeException if $newEventEndDateTime is a date that does not exist
 	 **/
 
-	//TODO remove if blocks
-	public function setEventEndDateTime($newEventEndDateTime = null): void {
-		//base case: if the date is null, use the current date and time
-		if($newEventEndDateTime === null) {
-			$this->eventEndDateTime = new \DateTime();
-			return;
-		}
+	public function setEventEndDateTime($newEventEndDateTime): void {
 		// store the date/time using the Validate Trait
 		try {
 			$newEventEndDateTime = self::validateDateTime($newEventEndDateTime);
@@ -523,6 +493,32 @@ class Event implements \JsonSerializable {
 	}
 
 //TODO add getByStartDateTime
+
+	/**
+	 * gets an array of tweets based on its date
+	 * (this is an optional get by method and has only been added for when specific edge cases arise in capstone projects)
+	 *
+	 * @param \PDO $pdo connection object
+	 * @param \DateTime $sunriseEventStartDate beginning date to search for
+	 * @param \DateTime $sunsetEventStartDate ending date to search for
+	 * @return \SplFixedArray of events found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 * @throws \InvalidArgumentException if either sun dates are in the wrong format
+	 */
+	public static function getEventByEventStartDateTime(\PDO $pdo, \DateTime $eventStartDateTime): \SplFixedArray {
+		try {
+			$eventStartSunriseDateTime = self::validateDateTime($eventStartSunriseDateTime);
+		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			throw (new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		// query template
+		$query = "SELECT eventId, eventProfileId, eventAttendeeLimit, eventEndDateTime, eventDetail, eventImage, eventLat, eventLong, eventName, eventPrice, eventStartDateTime FROM event WHERE eventStartDateTime = :eventStartSunriseDateTime";
+		$statement = $pdo->prepare($query);
+
+
+	}
+
 	/**
 	 * gets the Event by event id
 	 *
@@ -551,7 +547,7 @@ class Event implements \JsonSerializable {
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$event = new Event($row["eventId"], $row["eventProfileId"], $row["EventAttendeeLimit"], $row["EventEndDateTime"], $row["eventDetail"], $row["eventImage"], $row["eventLat"], $row["eventLong"], $row["eventName"], $row["eventPrice"], $row["eventStartDateTime"]);
+				$event = new Event($row["eventId"], $row["eventProfileId"], $row["EventAttendeeLimit"], $row["eventDetail"], $row["EventEndDateTime"], $row["eventImage"], $row["eventLat"], $row["eventLong"], $row["eventName"], $row["eventPrice"], $row["eventStartDateTime"]);
 			}
 		} catch(\Exception $exception) {
 			// if the row could not be converted, rethrow it
@@ -566,7 +562,7 @@ class Event implements \JsonSerializable {
 	 *
 	 * @param \PDO $pdo $pdo PDO Connection object
 	 * @param Uuid|string $eventProfileId event id to search for
-	 * @return Event|null Event or null if not found
+	 * @return ?\SplFixedArray
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
@@ -588,7 +584,7 @@ class Event implements \JsonSerializable {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$event = new Event($row["eventId"], $row["eventProfileId"], $row["eventAttendeeLimit"], $row["eventEndDateTime"], $row["eventDetail"], $row["eventImage"], $row["eventLat"], $row["eventLong"], $row["eventName"], $row["eventPrice"], $row["eventStartDateTime"]);
+				$event = new Event($row["eventId"], $row["eventProfileId"], $row["eventAttendeeLimit"], $row["eventDetail"], $row["eventEndDateTime"], $row["eventImage"], $row["eventLat"], $row["eventLong"], $row["eventName"], $row["eventPrice"], $row["eventStartDateTime"]);
 				$events[$events->key()] = $event;
 				$events->next();
 			} catch(\Exception $exception) {
@@ -629,7 +625,7 @@ class Event implements \JsonSerializable {
 
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$event = new Event($row["eventId"], $row["eventProfileId"], $row ["eventAttendeeLimit"], $row["eventEndDateTime"], $row["eventDetail"], $row["eventImage"], $row["eventLat"], $row["eventLong"], $row["eventName"], $row["eventPrice"], $row["eventStartDateTime"]);
+				$event = new Event($row["eventId"], $row["eventProfileId"], $row ["eventAttendeeLimit"], $row["eventDetail"], $row["eventEndDateTime"], $row["eventImage"], $row["eventLat"], $row["eventLong"], $row["eventName"], $row["eventPrice"], $row["eventStartDateTime"]);
 				$events[$events->key()] = $event;
 				$events->next();
 
@@ -637,25 +633,12 @@ class Event implements \JsonSerializable {
 				//if the row couldn't be converted, rethrow it
 				throw (new \PDOException($exception->getMessage(), 0, $exception));
 			}
-			return ($events);
 		}
+		return ($events);
+	}
 
-//TODO check braces
-		// grab the event Name from mySQL
-//		try {
-//			$eventName = null;
-//			$statement->setFetchMode(\PDO::FETCH_ASSOC);
-//			$row = $statement->fetch();
-//			if($row !== false) {
-//				$events = new Event($row["eventId"], $row["eventProfileId"], $row["EventAttendeeLimit"], $row["EventEndDateTime"], $row["eventDetail"],
-//					$row["eventImage"], $row["eventLat"], $row["eventLong"], $row["eventName"], $row["eventPrice"], $row["eventStartDateTime"]);
-//			}
-//		} catch(\Exception $exception) {
-//			// if the row could not be converted rethrow it
-//			throw (new \PDOException($exception->getMessage(), 0, $exception));
-//		}
-//		return ($events);
-//	}
+
+
 
 
 	public function jsonSerialize() {
@@ -666,10 +649,15 @@ class Event implements \JsonSerializable {
 		//format the date so that the front end can consume it
 		$fields["eventStartDateTime"] = round(floatval($this->eventStartDateTime->format("U.u")) * 1000);
 
-		//TODO format end date
+
+		//format the date so that the front end can consume it
+		$fields["eventEndDateTime"] = round(floatval($this->eventEndDateTime->format("U.u")) * 1000);
+
 		return ($fields);
 	}
+
 }
+
 
 
 
