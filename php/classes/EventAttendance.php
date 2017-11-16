@@ -57,7 +57,7 @@ class EventAttendance implements \JsonSerializable {
 	 * @throws \Exception if some other exception occurs
 	 * @Documentation https://php.net/manual/en/language.oop5.decon.php
 	 **/
-	public function __construct($newEventAttendanceId, $newEventAttendanceProfileId, $newEventAttendanceEventId, boolean $newEventAttendanceCheckIn, int $newEventAttendanceNumberAttending) {
+	public function __construct($newEventAttendanceId, $newEventAttendanceProfileId, $newEventAttendanceEventId, bool $newEventAttendanceCheckIn, int $newEventAttendanceNumberAttending) {
 		try {
 			$this->setEventAttendanceId($newEventAttendanceId);
 			$this->setEventAttendanceEventId($newEventAttendanceProfileId);
@@ -155,7 +155,7 @@ class EventAttendance implements \JsonSerializable {
 	 *
 	 * @return boolean value of Event Attendance Check In this will be a 0 or 1 and treated as a boolean
 	 **/
-	public function getEventAttendanceCheckIn() : boolean {
+	public function getEventAttendanceCheckIn() : bool {
 		return ($this->eventAttendanceCheckIn);
 	}
 
@@ -167,7 +167,7 @@ class EventAttendance implements \JsonSerializable {
 	 * @throws \RangeException if $newEventAttendanceCheckIn is > 1 characters
 	 * @throws \TypeError if $newEventAttendanceCheckIn is not a string
 	 **/
-	public function setEventAttendanceCheckIn(boolean $newEventAttendanceCheckIn): void {
+	public function setEventAttendanceCheckIn(bool $newEventAttendanceCheckIn): void {
 		$this->eventAttendanceCheckIn = $newEventAttendanceCheckIn;
 	}
 
