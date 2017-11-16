@@ -489,7 +489,7 @@ class Event implements \JsonSerializable {
 	 **/
 	public function update(\PDO $pdo): void {
 		//create query template
-		$query = "UPDATE event SET eventId = :eventId, eventProfileId= :eventProfileId, eventAttendeeLimit= :eventAttendeeLimit, eventEndDateTime= :eventEndDateTime, eventDetail= :eventDetail, eventImage= :eventImage, eventLat= :eventLat, eventLong= :eventLong, eventName= :eventName, eventPrice= :eventPrice, eventStartDateTime= :eventStartDateTime";
+		$query = "UPDATE event SET eventId = :eventId, eventProfileId= :eventProfileId, eventAttendeeLimit= :eventAttendeeLimit,eventDetail= :eventDetail, eventEndDateTime= :eventEndDateTime, eventImage= :eventImage, eventLat= :eventLat, eventLong= :eventLong, eventName= :eventName, eventPrice= :eventPrice, eventStartDateTime= :eventStartDateTime";
 		$statement = $pdo->prepare($query);
 		// bind the member variables to the place holders in the template
 		$parameters = ["eventId" => $this->eventId->getBytes(), "eventProfileId" => $this->eventProfileId, "eventAttendeeLimit" => $this->eventAttendeeLimit,"eventDetail" => $this->eventDetail,"eventEndDateTime" =>$this->eventEndDateTime, "eventImage" => $this->eventImage, "eventLat" => $this->eventLat, "eventLong" => $this->eventLong, "eventName" => $this->eventName, "eventPrice" => $this->eventPrice, "eventStartDateTime" => $this->eventStartDateTime];
@@ -528,7 +528,7 @@ class Event implements \JsonSerializable {
 	}
 
 	//create query template
-		$query = "SELECT eventId, eventProfileId, eventAttendeeLimit, eventEndDateTime, eventDetail, eventImage, eventLat, eventLong, eventName, eventPrice, eventStartDateTime FROM event WHERE eventStartDateTime >= :eventSunriseStartDateTime AND eventStartDateTime <= :eventSunsetStartDateTime";
+		$query = "SELECT eventId, eventProfileId, eventAttendeeLimit,  eventDetail,eventEndDateTime, eventImage, eventLat, eventLong, eventName, eventPrice, eventStartDateTime FROM event WHERE eventStartDateTime >= :eventSunriseStartDateTime AND eventStartDateTime <= :eventSunsetStartDateTime";
 		$statement = $pdo->prepare($query);
 
 		//format the dates so that mySQL can use them
@@ -573,7 +573,7 @@ class Event implements \JsonSerializable {
 			throw (new \PDOException($exception->getMessage(), 0, $exception));
 		}
 		// create query template
-		$query = "SELECT eventId, eventProfileId, eventAttendeeLimit, eventEndDateTime, eventDetail, eventImage, eventLat, eventLong, eventName, eventPrice, eventStartDateTime FROM event WHERE eventId =:eventId";
+		$query = "SELECT eventId, eventProfileId, eventAttendeeLimit, eventDetail,eventEndDateTime,eventImage, eventLat, eventLong, eventName, eventPrice, eventStartDateTime FROM event WHERE eventId =:eventId";
 		$statement = $pdo->prepare($query);
 		// bind the event id to the placeholder in the template
 		$parameters = ["eventId" => $eventId->getBytes()];
@@ -611,7 +611,7 @@ class Event implements \JsonSerializable {
 		}
 
 		//create query template
-		$query = "SELECT eventId, eventProfileId, eventAttendeeLimit, eventEndDateTime, eventDetail, eventImage, eventLat, eventLong, eventName, eventPrice, eventStartDateTime FROM event WHERE eventProfileId = :eventProfileId";
+		$query = "SELECT eventId, eventProfileId, eventAttendeeLimit,eventDetail ,eventEndDateTime, eventImage, eventLat, eventLong, eventName, eventPrice, eventStartDateTime FROM event WHERE eventProfileId = :eventProfileId";
 		$statement = $pdo->prepare($query);
 		//bind the event profile id to the placeholder in the template
 		$parameters = ["eventProfileId" => $eventProfileId->getBytes()];
@@ -651,7 +651,7 @@ class Event implements \JsonSerializable {
 		}
 
 		//create query template
-		$query = "SELECT eventId, eventProfileId, eventAttendeeLimit, eventEndDateTime, eventDetail, eventImage, eventLat, eventLong, eventName, eventPrice, eventStartDateTime FROM event WHERE eventName LIKE :eventName";
+		$query = "SELECT eventId, eventProfileId, eventAttendeeLimit, eventDetail, eventEndDateTime, eventImage, eventLat, eventLong, eventName, eventPrice, eventStartDateTime FROM event WHERE eventName LIKE :eventName";
 		$statement = $pdo->prepare($query);
 		// bind the event name to the placeholder in the template
 		$parameters = ["eventName" => $eventName->getBytes()];

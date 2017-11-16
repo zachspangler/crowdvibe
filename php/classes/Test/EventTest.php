@@ -180,8 +180,8 @@ class EventTest extends CrowdVibeTest {
 		$this->assertEquals($pdoEvent->getEventProfileId(),$this->profile->getProfileId());
 		$this->assertEquals($pdoEvent->getEventAttendeeLimit(), $this->VALID_EVENTATTENDEELIMIT);
 		// format the date too seconds since the beginning of time to avoid round off error
-		$this->assertEquals($pdoEvent->getEventEndDateTime()->getTimestamp(),$this->VALID_EVENTENDDATETIME);
 		$this->assertEquals($pdoEvent->getEventDetail(), $this->VALID_EVENTDETAIL2);
+		$this->assertEquals($pdoEvent->getEventEndDateTime()->getTimestamp(),$this->VALID_EVENTENDDATETIME);
 		$this->assertEquals($pdoEvent->getEventImage(), $this->VALID_EVENTIMAGE);
 		$this->assertEquals($pdoEvent->getEventLat(), $this->VALID_EVENTLAT);
 		$this->assertEquals($pdoEvent->getEventLong(), $this->VALID_EVENTLONG);
