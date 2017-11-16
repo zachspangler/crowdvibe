@@ -172,6 +172,7 @@ class EventTest extends CrowdVibeTest {
 		$event->setEventDetail($this->VALID_EVENTDETAIL2);
 		$event->update($this->getPDO());
 
+
 		// grab the data from mySQL and enforce the fields meet our expectations
 		$pdoEvent = Event::getEventByEventId($this->getPDO(), $event->getEventId());
 		$this->assertEquals($pdoEvent->getEventId(), $eventId);
@@ -292,7 +293,7 @@ class EventTest extends CrowdVibeTest {
     public function testGetInvalidEventName (): void {
         // grab an name that does not exist
         $event = Event::getEventByEventName($this->getPDO(), "omgmynameisLuther");
-        $this->assertNull($event);
+        $this->assertEmpty($event);
     }
 	//TODO write valid test method for update. write valid and invalid test method for getEventByEventStartDate.
 	/**

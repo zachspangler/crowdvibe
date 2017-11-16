@@ -5,7 +5,6 @@ require_once(dirname(__DIR__, 2) . "/vendor/autoload.php");
 
 use Ramsey\Uuid\Uuid;
 
-//TODO add update, review insert and delete...correct style guide
 
 /**
  * An event is user created, it is allow people to join you in any activity you are participating in.
@@ -258,12 +257,13 @@ class Event implements \JsonSerializable {
 	 * @throw \TypeError if $newEventImage is not a string
 	 **/
 	public function setEventImage(?string $newEventImage): void {
+		if($newEventImage === null) {
+	$this->eventImage = null;
+	return;
+	}
 		// verify the image is insecure
 		$newEventImage = trim($newEventImage);
 		$newEventImage = filter_var($newEventImage, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($newEventImage) === true) {
-			throw (new \InvalidArgumentException("event image is empty or insecure"));
-		}
 		// verify the event image will fit in the database
 		if(strlen($newEventImage) > 64) {
 			throw (new \RangeException("event image is too long"));
@@ -488,19 +488,18 @@ class Event implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 **/
 	public function update(\PDO $pdo): void {
-		//create query template
-		$query = "UPDATE event SET eventId = :eventId, eventProfileId= :eventProfileId, eventAttendeeLimit= :eventAttendeeLimit,eventDetail= :eventDetail, eventEndDateTime= :eventEndDateTime, eventImage= :eventImage, eventLat= :eventLat, eventLong= :eventLong, eventName= :eventName, eventPrice= :eventPrice, eventStartDateTime= :eventStartDateTime";
+		// create query template
+		$query = "UPDATE event SET eventProfileId= :eventProfileId, eventAttendeeLimit= :eventAttendeeLimit,eventDetail= :eventDetail, eventEndDateTime= :eventEndDateTime, eventImage= :eventImage, eventLat= :eventLat, eventLong= :eventLong, eventName= :eventName, eventPrice= :eventPrice, eventStartDateTime= :eventStartDateTime WHERE eventId = :eventId";
 		$statement = $pdo->prepare($query);
 		$sun = $this->eventStartDateTime->format("Y-m-d H:i:s.u");
-		$night = $this->eventStartDateTime->format("Y-m-d H:i:s.u");
+		$night = $this->eventEndDateTime->format("Y-m-d H:i:s.u");
 
 		// bind the member variables to the place holders in the template
-		$parameters = ["eventId" => $this->eventId->getBytes(), "eventProfileId" => $this->eventProfileId, "eventAttendeeLimit" => $this->eventAttendeeLimit,"eventDetail" => $this->eventDetail,"eventEndDateTime" =>$this->eventEndDateTime, "eventImage" => $this->eventImage, "eventLat" => $this->eventLat, "eventLong" => $this->eventLong, "eventName" => $this->eventName, "eventPrice" => $this->eventPrice, "eventStartDateTime" => $this->eventStartDateTime];
+		$parameters = ["eventId"=>$this->eventId->getBytes(), "eventProfileId"=>$this->eventProfileId->getBytes(), "eventAttendeeLimit" => $this->eventAttendeeLimit,"eventDetail" => $this->eventDetail,"eventEndDateTime" =>$night, "eventImage" => $this->eventImage, "eventLat" => $this->eventLat, "eventLong" => $this->eventLong, "eventName" => $this->eventName, "eventPrice" => $this->eventPrice, "eventStartDateTime" =>$sun];
 		$statement->execute($parameters);
-
 	}
 
-//TODO add getByStartDateTime
+
 
 	/**
 	 * gets an array of tweets based on its date
@@ -531,7 +530,7 @@ class Event implements \JsonSerializable {
 	}
 
 	//create query template
-		$query = "SELECT eventId, eventProfileId, eventAttendeeLimit,  eventDetail,eventEndDateTime, eventImage, eventLat, eventLong, eventName, eventPrice, eventStartDateTime FROM event WHERE eventStartDateTime >= :eventSunriseStartDateTime AND eventStartDateTime <= :eventSunsetStartDateTime";
+		$query = "SELECT eventId, eventProfileId, eventAttendeeLimit,  eventDetail,eventEndDateTime, eventImage, eventLat, eventLong, eventName, eventPrice, eventStartDateTime FROM event WHERE eventStartDateTime >= :sunriseEventDate AND eventStartDateTime <= :sunsetEventDate";
 		$statement = $pdo->prepare($query);
 
 		//format the dates so that mySQL can use them
@@ -548,7 +547,7 @@ class Event implements \JsonSerializable {
 		while(($row = $statement->fetch()) !== false) {
 		try {
 
-			$event = new Event($row["eventId"], $row["eventProfileId"], $row["eventAttendeeLimit"], $row["eventEndDateTime"], $row ["eventDetail"], $row ["eventImage"], $row["eventLat"], $row["eventLong"], $row["eventName"], $row["eventPrice"], $row["eventStartDateTime"]);
+			$event = new Event($row["eventId"], $row["eventProfileId"], $row["eventAttendeeLimit"], $row ["eventDetail"], $row["eventEndDateTime"], $row ["eventImage"], $row["eventLat"], $row["eventLong"], $row["eventName"], $row["eventPrice"], $row["eventStartDateTime"]);
 			$events[$events->key()] = $event;
 			$events->next();
 
