@@ -247,10 +247,10 @@ class EventTest extends CrowdVibeTest {
         $this->assertEquals($pdoEvent->getEventId(), $eventId);
         $this->assertEquals($pdoEvent->getEventProfileId(),$this->profile->getProfileId());
         $this->assertEquals($pdoEvent->getEventAttendeeLimit(), $this->VALID_EVENTATTENDEELIMIT);
+		  $this->assertEquals($pdoEvent->getEventDetail(), $this->VALID_EVENTDETAIL);
         // format the date to seconds since the beginning of time to avoid round off error
         $this->assertEquals($pdoEvent->getEventEndDateTime()->getTimestamp(),$this->VALID_EVENTENDDATETIME);
-        $this->assertEquals($pdoEvent->getEventDetail(), $this->VALID_EVENTDETAIL);
-        $this->assertEquals($pdoEvent->getEventImage(), $this->VALID_EVENTIMAGE);
+		  $this->assertEquals($pdoEvent->getEventImage(), $this->VALID_EVENTIMAGE);
         $this->assertEquals($pdoEvent->getEventLat(), $this->VALID_EVENTLAT);
         $this->assertEquals($pdoEvent->getEventLong(), $this->VALID_EVENTLONG);
         $this->assertEquals($pdoEvent->getEventName(), $this->VALID_EVENTNAME);
@@ -296,9 +296,40 @@ class EventTest extends CrowdVibeTest {
     }
 	//TODO write valid test method for update. write valid and invalid test method for getEventByEventStartDate.
 	/**
-	 * test grabbing a Event by Event Start Date Time
+	 * test grabbing valid event by sunset and sunrise date
 	 **/
+	public function testGetValidEventBySunDate() {
+		// count the number of rows and save them for later
+		$numRows = $this->getConnection()->getRowCount("event");
 
+		//create a new Event and insert it into the database
+		$eventId = generateUuidV4();
+		$event = new Event($eventId, $this->profile->getProfileId(), $this->VALID_EVENTATTENDEELIMIT, $this->VALID_EVENTDETAIL, $this->VALID_EVENTENDDATETIME, $this->VALID_EVENTIMAGE, $this->VALID_EVENTLAT, $this->VALID_EVENTLONG, $this->VALID_EVENTNAME, $this->VALID_EVENTPRICE, $this->VALID_EVENTSTARTDATETIME);
+		$event->insert($this->getPDO());
+
+		//grab the Event from the database and see if it matches expectations
+		$results = Event::getEventByEventStartDateTime($this->getPDO(), $this->VALID_SUNRISEDATE, $this->VALID_SUNSETDATE);
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("event"));
+		$this->assertCount(1, $results);
+
+		//enforce that no other objects are bleeding into the test
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\CrowdVibe\\Event",$results);
+
+		//use the first result to make sure the inserted event meets expectation
+		$pdoEvent = $results[0];
+		$this->assertEquals($pdoEvent->getEventId(), $eventId);
+		$this->assertEquals($pdoEvent->getEventProfileId(),$this->profile->getProfileId());
+		$this->assertEquals($pdoEvent->getEventAttendeeLimit(), $this->VALID_EVENTATTENDEELIMIT);
+		$this->assertEquals($pdoEvent->getEventDetail(), $this->VALID_EVENTDETAIL);
+		// format the date to seconds since the beginning of time to avoid round off error
+		$this->assertEquals($pdoEvent->getEventEndDateTime()->getTimestamp(),$this->VALID_EVENTENDDATETIME);
+		$this->assertEquals($pdoEvent->getEventImage(), $this->VALID_EVENTIMAGE);
+		$this->assertEquals($pdoEvent->getEventLat(), $this->VALID_EVENTLAT);
+		$this->assertEquals($pdoEvent->getEventLong(), $this->VALID_EVENTLONG);
+		$this->assertEquals($pdoEvent->getEventName(), $this->VALID_EVENTNAME);
+		$this->assertEquals($pdoEvent->getEventPrice(), $this->VALID_EVENTPRICE);
+		// format the date to seconds since the beginning of time to avoid round off error
+		$this->assertEquals($pdoEvent->getEventStartDateTime()->getTimestamp(), $this->VALID_EVENTSTARTDATETIME->getTimestamp());
 
 
 
