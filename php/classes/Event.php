@@ -98,7 +98,7 @@ class Event implements \JsonSerializable {
 	 * @param \DateTime|string $newEventStartDateTime
 	 */
 
-	public function __construct($newEventId, $newEventProfileId, ?int $newEventAttendeeLimit, string $newEventDetail, $newEventEndDateTime, string $newEventImage, float $newEventLat, float $newEventLong, string $newEventName, float $newEventPrice, $newEventStartDateTime) {
+	public function __construct($newEventId, $newEventProfileId, ?int $newEventAttendeeLimit, string $newEventDetail, $newEventEndDateTime, ?string $newEventImage, float $newEventLat, float $newEventLong, string $newEventName, float $newEventPrice, $newEventStartDateTime) {
 		try {
 			$this->setEventId($newEventId);
 			$this->setEventProfileId($newEventProfileId);
@@ -245,7 +245,7 @@ class Event implements \JsonSerializable {
 	 *
 	 * @return string value of event image
 	 **/
-	public function getEventImage() {
+	public function getEventImage() : ?string {
 		return ($this->eventImage);
 	}
 
@@ -257,7 +257,7 @@ class Event implements \JsonSerializable {
 	 * @throws \RangeException if $newEventImage is > 64 characters
 	 * @throw \TypeError if $newEventImage is not a string
 	 **/
-	public function setEventImage(string $newEventImage): void {
+	public function setEventImage(?string $newEventImage): void {
 		// verify the image is insecure
 		$newEventImage = trim($newEventImage);
 		$newEventImage = filter_var($newEventImage, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);

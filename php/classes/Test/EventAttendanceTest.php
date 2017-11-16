@@ -59,7 +59,16 @@ class EventAttendanceTest extends CrowdVibeTest {
 	 * @var string $VALID_ACTIVATION
 	 */
 	protected $VALID_ACTIVATION_TOKEN;
-
+	/**
+	 * valid EVENT END DATE to create the profile object to own the test
+	 * @var \DateTime $VALID_EVENT_END_DATE
+	 */
+	protected $VALID_EVENT_END_DATE;
+	/**
+	 * valid EVENT START DATE to create the profile object to own the test
+	 * @var \DateTime $VALID_EVENT_START_DATE
+	 */
+	protected $VALID_EVENT_START_DATE;
 	/**
 	 * create dependent objects before running each test
 	 **/
@@ -76,8 +85,12 @@ class EventAttendanceTest extends CrowdVibeTest {
 		$this->profile = new Profile($profileId, $this->VALID_ACTIVATION_TOKEN, "For score and seven years ago", "thisis@life.com", "Donald", $this->VALID_HASH, "https://upload.wikimedia.org/", "Knuth", $this->VALID_SALT, "mustreadtaocp");
 		$this->profile->insert($this->getPDO());
 		//TODO Fix date formats
+
+		//reformatted dates
+		$this->VALID_EVENT_END_DATE = new \DateTime();
+		$this->VALID_EVENT_START_DATE = new \DateTime();
 		// create the and insert the mocked event
-		$this->event = new Event(generateUuidV4(), $this->profile->getProfileId(), 20, "19/11/2016 14:00:00", "Celebrate the birth of mayan time", null, "35.113281", "-106.621216", "End of the World - Mayan Style", "0.00", "19/11/2016 12:00:00");
+		$this->event = new Event(generateUuidV4(), $this->profile->getProfileId(), 20, "party at my house", $this->VALID_EVENT_END_DATE, null, "35.113281", "-106.621216", "End of the World - Mayan Style", "0.00", $this->VALID_EVENT_START_DATE);
 		$this->event->insert($this->getPDO());
 	}
 
