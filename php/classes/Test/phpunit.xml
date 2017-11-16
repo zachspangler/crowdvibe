@@ -1,10 +1,10 @@
 <phpunit>
 	<testsuites>
 		<testsuite name="Crowdvibe">
-			<file>ProfileTest.php</file>
+			<!--<file>ProfileTest.php</file>-->
 			<file>EventTest.php</file>
-			<file>RatingTest.php</file>
-			<file>EventAttendanceTest.php</file>
+			<!--<file>RatingTest.php</file>-->
+			<!--<file>EventAttendanceTest.php</file>-->
 		</testsuite>
 	</testsuites>
 	<filter>

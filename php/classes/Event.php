@@ -98,19 +98,19 @@ class Event implements \JsonSerializable {
 	 * @param \DateTime|string $newEventStartDateTime
 	 */
 
-	public function __construct($newEventId, $newEventProfileId, int $newEventAttendeeLimit, string $newEventDetail, $newEventEndDateTime, string $newEventImage, float $newEventLat, float $newEventLong, string $newEventName, float $newEventPrice, $newEventStartDateTime) {
+	public function __construct($newEventId, $newEventProfileId, ?int $newEventAttendeeLimit, string $newEventDetail, $newEventEndDateTime, string $newEventImage, float $newEventLat, float $newEventLong, string $newEventName, float $newEventPrice, $newEventStartDateTime) {
 		try {
 			$this->setEventId($newEventId);
 			$this->setEventProfileId($newEventProfileId);
+			$this->setEventAttendeeLimit($newEventAttendeeLimit);
 			$this->setEventDetail($newEventDetail);
-			$this->setEventStartDateTime($newEventStartDateTime);
 			$this->setEventEndDateTime($newEventEndDateTime);
-			$this->setEventPrice($newEventPrice);
+			$this->setEventImage($newEventImage);
 			$this->setEventLat($newEventLat);
 			$this->setEventLong($newEventLong);
-			$this->setEventImage($newEventImage);
 			$this->setEventName($newEventName);
-			$this->setEventAttendeeLimit($newEventAttendeeLimit);
+			$this->setEventPrice($newEventPrice);
+			$this->setEventStartDateTime($newEventStartDateTime);
 		} //determine what exception type was thrown
 		catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			$exceptionType = get_class($exception);
@@ -432,13 +432,12 @@ class Event implements \JsonSerializable {
 	 **/
 	public function setEventAttendeeLimit(?int $newEventAttendeeLimit): void {
 		// verify the attendance is less than <500
-		$newEventAttendeeLimit = trim($newEventAttendeeLimit);
-		$newEventAttendeeLimit = filter_var($newEventAttendeeLimit . FILTER_SANITIZE_NUMBER_INT, FILTER_FLAG_NO_ENCODE_QUOTES);
+
 		if(empty($newEventAttendeeLimit) === true) {
-			throw (new \InvalidArgumentException("event Attendance is empty or insecure"));
+			throw (new \InvalidArgumentException("event Attendee is empty or insecure"));
 		}
 		//verify the event attendance will fit in the database
-		if(strlen($newEventAttendeeLimit) > 500) {
+		if($newEventAttendeeLimit > 500) {
 			throw (new \RangeException("event attendance is too large"));
 		}
 
@@ -452,10 +451,14 @@ class Event implements \JsonSerializable {
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
 	public function insert(\PDO $pdo): void {
+
+		//formated date
+		$formattedStartDate = $this->eventStartDateTime->format("Y-m-d H:i:s.u");
+		$formattedEndDate = $this->eventEndDateTime->format("Y-m-d H:i:s.u");
 		//create query template
-		$query = "INSERT INTO event(eventId, eventProfileId, eventAttendeeLimit, eventEndDateTime, eventDetail, eventImage, eventLat, eventLong, eventName, eventPrice, eventStartDateTime) VALUES (:eventId, :eventProfileId, :eventAttendeeLimit, :eventEndDateTime, :eventDetail, :eventImage, :eventLat, :eventLong, :eventName, :eventPrice, :eventStartDateTime)";
+		$query = "INSERT INTO event(eventId, eventProfileId, eventAttendeeLimit, eventDetail, eventEndDateTime, eventImage, eventLat, eventLong, eventName, eventPrice, eventStartDateTime) VALUES (:eventId, :eventProfileId, :eventAttendeeLimit, :eventDetail, :eventEndDateTime, :eventImage, :eventLat, :eventLong, :eventName, :eventPrice, :eventStartDateTime)";
 		$statement = $pdo->prepare($query);
-		$parameters = ["eventId" => $this->eventId->getBytes(), "eventProfileId" => $this->eventProfileId, "eventAttendeeLimit" => $this->eventAttendeeLimit, "eventEndDateTime =>$this->eventEndDateTime", "eventDetail" => $this->eventDetail, "eventImage" => $this->eventImage, "eventLat" => $this->eventLat, "eventLong" => $this->eventLong, "eventName" => $this->eventName, "eventPrice" => $this->eventPrice, "eventStartDateTime" => $this->eventStartDateTime];
+		$parameters = ["eventId" => $this->eventId->getBytes(), "eventProfileId" => $this->eventProfileId->getBytes(), "eventAttendeeLimit" => $this->eventAttendeeLimit, "eventDetail" => $this->eventDetail,"eventEndDateTime" =>$formattedEndDate, "eventImage" => $this->eventImage, "eventLat" => $this->eventLat, "eventLong" => $this->eventLong, "eventName" => $this->eventName, "eventPrice" => $this->eventPrice, "eventStartDateTime" =>$formattedStartDate];
 		$statement->execute($parameters);
 	}
 
