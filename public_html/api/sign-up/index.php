@@ -9,8 +9,8 @@ use Edu\Cnm\CrowdVibe\Profile;
 /**
  * api for signing up for CrowdVibe
  *
- * @author Gkephart <GKephart@cnm.edu>
- * edited by Zach Spangler
+ * @author Zach Spangler <zaspnagler@gmail.com>
+ * @coauthor Gkephart <GKephart@cnm.edu>
  **/
 
 //verify the session, start if not active
