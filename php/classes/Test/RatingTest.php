@@ -2,7 +2,7 @@
 namespace Edu\Cnm\CrowdVibe\Test;
 
 use Edu\Cnm\CrowdVibe\{
-    EventAttendance, Profile, Event, Rating
+    Profile, Event, EventAttendance, Rating
 };
 
 // grab the class under scrutiny
