@@ -1,5 +1,5 @@
 <?php
-use Edu\Cnm\CrowdVibe\{Profile, Event, Rating};
+use Edu\Cnm\CrowdVibe\{Profile, Event, EventAttendance, Rating};
 
 // grab the class under scrutiny
 require_once(dirname(__DIR__) . "/classes/autoload.php");
@@ -38,17 +38,17 @@ $event2 = new Event($eventId2, $profile->getProfileId(),2,"Dylans barn raising p
 $event2->insert($pdo);
 
 $eventAttendanceId = generateUuidV4();
-$eventAttendance = new EventAttendance($eventAttendanceId, $event->getEventId(), $profile->getProfileId(), 1, 2);
+$eventAttendance = new EventAttendance($eventAttendanceId,  $profile->getProfileId(), $event->getEventId(),false, 2);
 $eventAttendance->insert($pdo);
 
 $eventAttendanceId1 = generateUuidV4();
-$eventAttendance1 = new EventAttendance($eventAttendanceId1, $event->getEventId(), $profile->getProfileId(), 1, 2);
+$eventAttendance1 = new EventAttendance($eventAttendanceId1,  $profile->getProfileId(), $event->getEventId(), false, 2);
 $eventAttendance1->insert($pdo);
 
 $eventAttendanceId2 = generateUuidV4();
-$eventAttendance2 = new EventAttendance($eventAttendanceId2, $event->getEventId(), $profile->getProfileId(), 1, 2);
+$eventAttendance2 = new EventAttendance($eventAttendanceId2,  $profile->getProfileId(), $event->getEventId(), true, 2);
 $eventAttendance2->insert($pdo);
 
 $eventAttendanceId3 = generateUuidV4();
-$eventAttendance3 = new EventAttendance($eventAttendanceId3, $event->getEventId(), $profile->getProfileId(), 1, 2);
+$eventAttendance3 = new EventAttendance($eventAttendanceId3, $profile->getProfileId(), $event->getEventId(),true, 2);
 $eventAttendance3->insert($pdo);

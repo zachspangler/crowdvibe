@@ -44,7 +44,7 @@ class EventAttendance implements \JsonSerializable {
 	protected $eventAttendanceNumberAttending;
 
 	/**
-	 * constructor for this Comments
+	 * constructor for this Event Attendance
 	 *
 	 * @param Uuid|string $newEventAttendanceId id of this events or null if a new events
 	 * @param Uuid|string $newEventAttendanceProfileId id of the Profile that created the event
