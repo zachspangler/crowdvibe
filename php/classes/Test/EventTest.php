@@ -72,13 +72,13 @@ class EventTest extends CrowdVibeTest {
      * the start of the event
      * @var /DateTime $VALID_EVENTSTARTDATETIME
      **/
-    protected $VALID_EVENTSTARTDATETIME;
+    protected $VALID_EVENTSTARTDATETIME=null;
 
     /**
      * the end of the event
      * @var /DateTime $VALID_EVENTENDDATETIME
      **/
-    protected $VALID_EVENTENDDATETIME;
+    protected $VALID_EVENTENDDATETIME=null;
 
     /**
      * the amount of attendees that can attend an event
@@ -146,14 +146,14 @@ class EventTest extends CrowdVibeTest {
         $this->assertEquals($pdoEvent->getEventAttendeeLimit(), $this->VALID_EVENTATTENDEELIMIT);
 		 $this->assertEquals($pdoEvent->getEventDetail(), $this->VALID_EVENTDETAIL);
         // format the date too seconds since the beginning of time to avoid round off error
-        $this->assertEquals($pdoEvent->getEventEndDateTime()->getTimestamp(),$this->VALID_EVENTENDDATETIME);
+        $this->assertEquals($pdoEvent->getEventEndDateTime(),$this->VALID_EVENTENDDATETIME);
         $this->assertEquals($pdoEvent->getEventImage(), $this->VALID_EVENTIMAGE);
         $this->assertEquals($pdoEvent->getEventLat(), $this->VALID_EVENTLAT);
         $this->assertEquals($pdoEvent->getEventLong(), $this->VALID_EVENTLONG);
         $this->assertEquals($pdoEvent->getEventName(), $this->VALID_EVENTNAME);
         $this->assertEquals($pdoEvent->getEventPrice(), $this->VALID_EVENTPRICE);
         // format the date too seconds since the beginning of time to avoid round off error
-        $this->assertEquals($pdoEvent->getEventStartDateTime()->getTimestamp(), $this->VALID_EVENTSTARTDATETIME);
+        $this->assertEquals($pdoEvent->getEventStartDateTime(), $this->VALID_EVENTSTARTDATETIME);
     }
 
 	/**
@@ -181,14 +181,14 @@ class EventTest extends CrowdVibeTest {
 		$this->assertEquals($pdoEvent->getEventAttendeeLimit(), $this->VALID_EVENTATTENDEELIMIT);
 		// format the date too seconds since the beginning of time to avoid round off error
 		$this->assertEquals($pdoEvent->getEventDetail(), $this->VALID_EVENTDETAIL2);
-		$this->assertEquals($pdoEvent->getEventEndDateTime()->getTimestamp(),$this->VALID_EVENTENDDATETIME);
+		$this->assertEquals($pdoEvent->getEventEndDateTime(),$this->VALID_EVENTENDDATETIME);
 		$this->assertEquals($pdoEvent->getEventImage(), $this->VALID_EVENTIMAGE);
 		$this->assertEquals($pdoEvent->getEventLat(), $this->VALID_EVENTLAT);
 		$this->assertEquals($pdoEvent->getEventLong(), $this->VALID_EVENTLONG);
 		$this->assertEquals($pdoEvent->getEventName(), $this->VALID_EVENTNAME);
 		$this->assertEquals($pdoEvent->getEventPrice(), $this->VALID_EVENTPRICE);
 		// format the date too seconds since the beginning of time to avoid round off error
-		$this->assertEquals($pdoEvent->getEventStartDateTime()->getTimestamp(), $this->VALID_EVENTSTARTDATETIME->getTimestamp());
+		$this->assertEquals($pdoEvent->getEventStartDateTime(), $this->VALID_EVENTSTARTDATETIME);
 	}
 
     /**
@@ -249,14 +249,14 @@ class EventTest extends CrowdVibeTest {
         $this->assertEquals($pdoEvent->getEventAttendeeLimit(), $this->VALID_EVENTATTENDEELIMIT);
 		  $this->assertEquals($pdoEvent->getEventDetail(), $this->VALID_EVENTDETAIL);
         // format the date to seconds since the beginning of time to avoid round off error
-        $this->assertEquals($pdoEvent->getEventEndDateTime()->getTimestamp(),$this->VALID_EVENTENDDATETIME);
+        $this->assertEquals($pdoEvent->getEventEndDateTime(), $this->VALID_EVENTENDDATETIME);
 		  $this->assertEquals($pdoEvent->getEventImage(), $this->VALID_EVENTIMAGE);
         $this->assertEquals($pdoEvent->getEventLat(), $this->VALID_EVENTLAT);
         $this->assertEquals($pdoEvent->getEventLong(), $this->VALID_EVENTLONG);
         $this->assertEquals($pdoEvent->getEventName(), $this->VALID_EVENTNAME);
         $this->assertEquals($pdoEvent->getEventPrice(), $this->VALID_EVENTPRICE);
         // format the date to seconds since the beginning of time to avoid round off error
-        $this->assertEquals($pdoEvent->getEventStartDateTime()->getTimestamp(), $this->VALID_EVENTSTARTDATETIME->getTimestamp());
+        $this->assertEquals($pdoEvent->getEventStartDateTime(),$this->VALID_EVENTSTARTDATETIME);
     }
 
     /**
@@ -284,7 +284,7 @@ class EventTest extends CrowdVibeTest {
         $this->assertEquals($pdoEvent->getEventProfileId(), $this->profile->getProfileId());
         $this->assertEquals($pdoEvent->getEventDetail(), $this->VALID_EVENTDETAIL);
         //format the date too seconds since the beginning of time to avoid round off error
-        $this->assertEquals($pdoEvent->getEventStartDateTime()->getTimestamp(), $this->VALID_EVENTSTARTDATETIME);
+        $this->assertEquals($pdoEvent->getEventStartDateTime(), $this->VALID_EVENTSTARTDATETIME);
     }
     /**
      * test grabbing a Event by a name that does not exist
@@ -298,7 +298,7 @@ class EventTest extends CrowdVibeTest {
 	/**
 	 * test grabbing valid event by sunset and sunrise date
 	 **/
-	public function testGetValidEventBySunDate() {
+	public function testGetValidEventBySunDate(): void {
 		// count the number of rows and save them for later
 		$numRows = $this->getConnection()->getRowCount("event");
 
@@ -322,14 +322,14 @@ class EventTest extends CrowdVibeTest {
 		$this->assertEquals($pdoEvent->getEventAttendeeLimit(), $this->VALID_EVENTATTENDEELIMIT);
 		$this->assertEquals($pdoEvent->getEventDetail(), $this->VALID_EVENTDETAIL);
 		// format the date to seconds since the beginning of time to avoid round off error
-		$this->assertEquals($pdoEvent->getEventEndDateTime()->getTimestamp(),$this->VALID_EVENTENDDATETIME);
+		$this->assertEquals($pdoEvent->getEventEndDateTime(), $this->VALID_EVENTENDDATETIME);
 		$this->assertEquals($pdoEvent->getEventImage(), $this->VALID_EVENTIMAGE);
 		$this->assertEquals($pdoEvent->getEventLat(), $this->VALID_EVENTLAT);
 		$this->assertEquals($pdoEvent->getEventLong(), $this->VALID_EVENTLONG);
 		$this->assertEquals($pdoEvent->getEventName(), $this->VALID_EVENTNAME);
 		$this->assertEquals($pdoEvent->getEventPrice(), $this->VALID_EVENTPRICE);
 		// format the date to seconds since the beginning of time to avoid round off error
-		$this->assertEquals($pdoEvent->getEventStartDateTime()->getTimestamp(), $this->VALID_EVENTSTARTDATETIME);
+		$this->assertEquals($pdoEvent->getEventStartDateTime(), $this->VALID_EVENTSTARTDATETIME);
 
 
 

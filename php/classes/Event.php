@@ -491,6 +491,9 @@ class Event implements \JsonSerializable {
 		//create query template
 		$query = "UPDATE event SET eventId = :eventId, eventProfileId= :eventProfileId, eventAttendeeLimit= :eventAttendeeLimit,eventDetail= :eventDetail, eventEndDateTime= :eventEndDateTime, eventImage= :eventImage, eventLat= :eventLat, eventLong= :eventLong, eventName= :eventName, eventPrice= :eventPrice, eventStartDateTime= :eventStartDateTime";
 		$statement = $pdo->prepare($query);
+		$sun = $this->eventStartDateTime->format("Y-m-d H:i:s.u");
+		$night = $this->eventStartDateTime->format("Y-m-d H:i:s.u");
+
 		// bind the member variables to the place holders in the template
 		$parameters = ["eventId" => $this->eventId->getBytes(), "eventProfileId" => $this->eventProfileId, "eventAttendeeLimit" => $this->eventAttendeeLimit,"eventDetail" => $this->eventDetail,"eventEndDateTime" =>$this->eventEndDateTime, "eventImage" => $this->eventImage, "eventLat" => $this->eventLat, "eventLong" => $this->eventLong, "eventName" => $this->eventName, "eventPrice" => $this->eventPrice, "eventStartDateTime" => $this->eventStartDateTime];
 		$statement->execute($parameters);
@@ -654,7 +657,7 @@ class Event implements \JsonSerializable {
 		$query = "SELECT eventId, eventProfileId, eventAttendeeLimit, eventDetail, eventEndDateTime, eventImage, eventLat, eventLong, eventName, eventPrice, eventStartDateTime FROM event WHERE eventName LIKE :eventName";
 		$statement = $pdo->prepare($query);
 		// bind the event name to the placeholder in the template
-		$parameters = ["eventName" => $eventName->getBytes()];
+		$parameters = ["eventName" => $eventName];
 		$statement->execute($parameters);
 		//build an array of events
 		$events = new \SplFixedArray($statement->rowCount());
