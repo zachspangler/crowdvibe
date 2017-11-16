@@ -309,6 +309,7 @@ class Rating implements \JsonSerializable {
                 //if the row couldn't be covert, rethrow it
                 throw(new \PDOException($exception->getMessage(), 0, $exception));
             }
+
         return ($rating);
     }
 

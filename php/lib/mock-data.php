@@ -34,7 +34,7 @@ $event = new Event($eventId, $profile->getProfileId(),100,"chris' 10th birthday"
 $event->insert($pdo);
 
 $eventId2 = generateUuidV4();
-$event2 = new Event($eventId2, $profile->getProfileId(),2,"Dylans barn raising party!", "2022-11-22 23:45:32.4426", "Amish old folks", 46.084319, -146.619781, "build my venue", 1000000, "2022-11-22 06:45:32.4426");
+$event2 = new Event($eventId2, $profile->getProfileId(),2,"Dylans barn raising party!", "2022-11-22 23:45:32.4426", "Amish old folks", 46.084319, -146.619781, "build my venue", 1, "2022-11-22 06:45:32.4426");
 $event2->insert($pdo);
 
 $eventAttendanceId = generateUuidV4();
