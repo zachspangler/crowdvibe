@@ -156,6 +156,8 @@ class EventTest extends CrowdVibeTest {
         $this->assertEquals($pdoEvent->getEventStartDateTime()->getTimestamp(), $this->VALID_EVENTSTARTDATETIME->getTimestamp());
     }
 
+
+
     /**
      * test creating a Event and then deleting it
      **/

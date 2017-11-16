@@ -506,17 +506,49 @@ class Event implements \JsonSerializable {
 	 * @throws \TypeError when variables are not the correct data type
 	 * @throws \InvalidArgumentException if either sun dates are in the wrong format
 	 */
-	public static function getEventByEventStartDateTime(\PDO $pdo, \DateTime $eventStartDateTime): \SplFixedArray {
-		try {
-			$eventStartSunriseDateTime = self::validateDateTime($eventStartSunriseDateTime);
-		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
-			throw (new \PDOException($exception->getMessage(), 0, $exception));
+	public static function getEventByEventStartDateTime(\PDO $pdo, \DateTime $eventSunriseStartDateTime, \DateTime $eventSunsetStartDateTime): \SplFixedArray {
+		//enforce both dates are present
+		if((empty ($eventSunriseStartDateTime) === true) || (empty($eventSunsetStartDateTime) === true)) {
+			throw (new \InvalidArgumentException("dates are empty of insecure"));
 		}
-		// query template
-		$query = "SELECT eventId, eventProfileId, eventAttendeeLimit, eventEndDateTime, eventDetail, eventImage, eventLat, eventLong, eventName, eventPrice, eventStartDateTime FROM event WHERE eventStartDateTime = :eventStartSunriseDateTime";
+
+		//ensure both dates are in the correct format and are secure
+		try {
+			$eventSunriseStartDateTime = self::validateDateTime($eventSunriseStartDateTime);
+			$eventSunsetStartDateTime = self::validateDateTime($eventSunsetStartDateTime);
+
+		} catch(\InvalidArgumentException | \RangeException $exception) {
+			$exceptionType = get_class($exception);
+			throw(new $exceptionType($exception->getMessage(), 0, $exception));
+	}
+
+	//create query template
+		$query = "SELECT eventId, eventProfileId, eventAttendeeLimit, eventEndDateTime, eventDetail, eventImage, eventLat, eventLong, eventName, eventPrice, eventStartDateTime FROM event WHERE eventStartDateTime >= :eventSunriseStartDateTime AND eventStartDateTime <= :eventSunsetStartDateTime";
 		$statement = $pdo->prepare($query);
 
+		//format the dates so that mySQL can use them
+		$formattedeventSunriseStartDateTime = $eventSunriseStartDateTime->format("Y-m-d H:i:s.u");
+		$formattedeventSunsetStartDateTime = $eventSunsetStartDateTime->format("Y-m-d H:i:s.u");
 
+		$parameters = ["sunriseEventDate" => $formattedeventSunriseStartDateTime, "sunsetEventDate" => $formattedeventSunsetStartDateTime];
+		$statement->execute($parameters);
+
+		//build an array of events
+		$events = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+
+		while(($row = $statement->fetch()) !== false) {
+		try {
+
+			$event = new Event($row["eventId"], $row["eventProfileId"], $row["eventAttendeeLimit"], $row["eventEndDateTime"], $row ["eventDetail"], $row ["eventImage"], $row["eventLat"], $row["eventLong"], $row["eventName"], $row["eventPrice"], $row["eventStartDateTime"]);
+			$events[$events->key()] = $event;
+			$events->next();
+
+		} catch(\Exception $exception) {
+			throw (new \PDOException($exception->getMessage(),0,$exception));
+		}
+		}
+		return($events);
 	}
 
 	/**
