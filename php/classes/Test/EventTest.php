@@ -144,16 +144,16 @@ class EventTest extends CrowdVibeTest {
         $this->assertEquals($pdoEvent->getEventId(), $eventId);
         $this->assertEquals($pdoEvent->getEventProfileId(),$this->profile->getProfileId());
         $this->assertEquals($pdoEvent->getEventAttendeeLimit(), $this->VALID_EVENTATTENDEELIMIT);
+		 $this->assertEquals($pdoEvent->getEventDetail(), $this->VALID_EVENTDETAIL);
         // format the date too seconds since the beginning of time to avoid round off error
         $this->assertEquals($pdoEvent->getEventEndDateTime()->getTimestamp(),$this->VALID_EVENTENDDATETIME);
-        $this->assertEquals($pdoEvent->getEventDetail(), $this->VALID_EVENTDETAIL);
         $this->assertEquals($pdoEvent->getEventImage(), $this->VALID_EVENTIMAGE);
         $this->assertEquals($pdoEvent->getEventLat(), $this->VALID_EVENTLAT);
         $this->assertEquals($pdoEvent->getEventLong(), $this->VALID_EVENTLONG);
         $this->assertEquals($pdoEvent->getEventName(), $this->VALID_EVENTNAME);
         $this->assertEquals($pdoEvent->getEventPrice(), $this->VALID_EVENTPRICE);
         // format the date too seconds since the beginning of time to avoid round off error
-        $this->assertEquals($pdoEvent->getEventStartDateTime()->getTimestamp(), $this->VALID_EVENTSTARTDATETIME->getTimestamp());
+        $this->assertEquals($pdoEvent->getEventStartDateTime()->getTimestamp(), $this->VALID_EVENTSTARTDATETIME);
     }
 
 	/**
@@ -165,7 +165,7 @@ class EventTest extends CrowdVibeTest {
 
 		// create a new Event and insert into mySQL
 		$eventId = generateUuidV4();
-		$event = new Event ($eventId, $this->profile->getProfileId(), $this->VALID_EVENTATTENDEELIMIT,$this->VALID_EVENTDETAIL, $this->VALID_EVENTENDDATETIME, $this->VALID_EVENTSTARTDATETIME, $this->VALID_EVENTLAT, $this->VALID_EVENTLONG);
+		$event = new Event ($eventId, $this->profile->getProfileId(), $this->VALID_EVENTATTENDEELIMIT,$this->VALID_EVENTDETAIL, $this->VALID_EVENTENDDATETIME,$this->VALID_EVENTIMAGE, $this->VALID_EVENTLAT, $this->VALID_EVENTLONG, $this->VALID_EVENTNAME, $this->VALID_EVENTPRICE, $this->VALID_EVENTSTARTDATETIME);
 		$event->insert($this->getPDO());
 
 		// edit the event and update it in mySQL
@@ -200,8 +200,8 @@ class EventTest extends CrowdVibeTest {
 
         // create a new Event and insert into mySQL
         $eventId = generateUuidV4();
-		 $event = new Event ($eventId, $this->profile->getProfileId(), $this->VALID_EVENTATTENDEELIMIT,$this->VALID_EVENTDETAIL, $this->VALID_EVENTENDDATETIME, $this->VALID_EVENTSTARTDATETIME, $this->VALID_EVENTLAT, $this->VALID_EVENTLONG);
-            $event->insert($this->getPDO());
+		 $event = new Event ($eventId, $this->profile->getProfileId(), $this->VALID_EVENTATTENDEELIMIT,$this->VALID_EVENTDETAIL, $this->VALID_EVENTENDDATETIME,$this->VALID_EVENTIMAGE, $this->VALID_EVENTLAT, $this->VALID_EVENTLONG, $this->VALID_EVENTNAME, $this->VALID_EVENTPRICE, $this->VALID_EVENTSTARTDATETIME);
+		 $event->insert($this->getPDO());
 
 
         // delete the Event from mySQL
@@ -232,7 +232,7 @@ class EventTest extends CrowdVibeTest {
 
     // create a new Event and insert to mySQL
         $eventId = generateUuidV4();
-		 $event = new Event ($eventId, $this->profile->getProfileId(), $this->VALID_EVENTATTENDEELIMIT,$this->VALID_EVENTDETAIL, $this->VALID_EVENTENDDATETIME, $this->VALID_EVENTSTARTDATETIME, $this->VALID_EVENTLAT, $this->VALID_EVENTLONG);
+		  $event = new Event ($eventId, $this->profile->getProfileId(), $this->VALID_EVENTATTENDEELIMIT,$this->VALID_EVENTDETAIL, $this->VALID_EVENTENDDATETIME,$this->VALID_EVENTIMAGE, $this->VALID_EVENTLAT, $this->VALID_EVENTLONG, $this->VALID_EVENTNAME, $this->VALID_EVENTPRICE, $this->VALID_EVENTSTARTDATETIME);
         $event->insert($this->getPDO());
 
         //grab the data from mySQL and enforce the fields match our expectations
@@ -267,7 +267,7 @@ class EventTest extends CrowdVibeTest {
         $numRows = $this->getConnection()->getRowCount("event");
         // create a new Event and insert it into mySQL
         $eventId = generateUuidV4();
-		 $event = new Event ($eventId, $this->profile->getProfileId(), $this->VALID_EVENTATTENDEELIMIT,$this->VALID_EVENTDETAIL, $this->VALID_EVENTENDDATETIME, $this->VALID_EVENTSTARTDATETIME, $this->VALID_EVENTLAT, $this->VALID_EVENTLONG);
+		  $event = new Event ($eventId, $this->profile->getProfileId(), $this->VALID_EVENTATTENDEELIMIT,$this->VALID_EVENTDETAIL, $this->VALID_EVENTENDDATETIME,$this->VALID_EVENTIMAGE, $this->VALID_EVENTLAT, $this->VALID_EVENTLONG, $this->VALID_EVENTNAME, $this->VALID_EVENTPRICE, $this->VALID_EVENTSTARTDATETIME);
         $event->insert($this->getPDO());
         // grab the data from mySQL and enforce the fields match our expectations
         $results = Event::getEventByEventName($this->getPDO(), $event->getEventName());
@@ -304,7 +304,7 @@ class EventTest extends CrowdVibeTest {
 
 		//create a new Event and insert it into the database
 		$eventId = generateUuidV4();
-		$event = new Event ($eventId, $this->profile->getProfileId(), $this->VALID_EVENTATTENDEELIMIT, $this->VALID_EVENTDETAIL, $this->VALID_EVENTENDDATETIME, $this->VALID_EVENTSTARTDATETIME, $this->VALID_EVENTLAT, $this->VALID_EVENTLONG);
+		$event = new Event ($eventId, $this->profile->getProfileId(), $this->VALID_EVENTATTENDEELIMIT,$this->VALID_EVENTDETAIL, $this->VALID_EVENTENDDATETIME,$this->VALID_EVENTIMAGE, $this->VALID_EVENTLAT, $this->VALID_EVENTLONG, $this->VALID_EVENTNAME, $this->VALID_EVENTPRICE, $this->VALID_EVENTSTARTDATETIME);
 		$event->insert($this->getPDO());
 
 		//grab the Event from the database and see if it matches expectations
