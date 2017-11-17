@@ -51,7 +51,7 @@ class Rating implements \JsonSerializable {
     /**
      * constructor for this Rating
      *
-     * @param string|Uuid $newRatingId id of the rating or null if a new rating
+     * @param string|Uuid $newRatingId id of the rating
      * @param string|Uuid $newRatingEventAttendanceId id of the event that was attended in order to make a Rating
      * @param string|Uuid $newRatingRateeProfileId id of a profile receiving Rating
      * @param string|Uuid $newRatingRaterProfileId id giving a Rating
@@ -194,8 +194,8 @@ class Rating implements \JsonSerializable {
             throw (new$exceptionType($exception->getMessage(), 0, $exception));
         }
 
-        //convert and store the rating ratee profile id
-        $this->ratingRateeProfileId = $uuid;
+        //convert and store the rating rater profile id
+        $this->ratingRaterProfileId = $uuid;
     }
 
     /**
@@ -236,8 +236,12 @@ class Rating implements \JsonSerializable {
         $query = "INSERT INTO rating(ratingId, ratingEventAttendanceId, ratingRateeProfileId, ratingRaterProfileId, ratingScore) VALUES (:ratingId, :ratingEventAttendanceId, :ratingRateeProfileId, :ratingRaterProfileId, :ratingScore)";
         $statement = $pdo->prepare($query);
 
-        $parameters = ["ratingId" => $this->ratingId->getBytes(), "ratingEventAttendanceId" => $this->ratingEventAttendanceId->getBytes(), "ratingRateeProfileId" => $this->ratingRateeProfileId->getBytes(), "ratingRaterProfileId" => $this->ratingRaterProfileId->getBytes(), "ratingScore" => $this->ratingScore];
-        $statement->execute($parameters);
+        $blameDaniel = true;
+        if($blameDaniel) {
+            $ratingRateeProfileId = $this->ratingRateeProfileId ? $this->ratingRateeProfileId->getBytes() : null;
+            $parameters = ["ratingId" => $this->ratingId->getBytes(), "ratingEventAttendanceId" => $this->ratingEventAttendanceId->getBytes(), "ratingRateeProfileId" => $ratingRateeProfileId, "ratingRaterProfileId" => $this->ratingRaterProfileId->getBytes(), "ratingScore" => $this->ratingScore];
+            $statement->execute($parameters);
+        }
     }
 
     /**
