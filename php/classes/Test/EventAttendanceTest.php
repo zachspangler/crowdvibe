@@ -156,24 +156,6 @@ class EventAttendanceTest extends CrowdVibeTest {
 	}
 
 	/**
-	 * test grabbing event attendance by event attendance Id
-	 **/
-	public function testGetValidEventAttendanceByEventAttendanceId(): void {
-		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("eventAttendance");
-		// create a new Event Attendance and insert to into mySQL
-		$eventAttendanceId = new EventAttendance(generateUuidV4(), $this->event->getEventId(), $this->profile->getProfileId(), $this->VALID_CHECK_IN, $this->VALID_NUMBER_ATTENDING);
-		$eventAttendanceId->insert($this->getPDO());
-		// grab the data from mySQL and enforce the fields match our expectations
-		$pdoEventAttendance = EventAttendance::getEventAttendanceByEventAttendanceId($this->getPDO(), $eventAttendanceId->getEventAttendanceEventId());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("eventAttendance"));
-		$this->assertEquals($pdoEventAttendance->getEventAttendanceEventId(), $this->event->getEventId());
-		$this->assertEquals($pdoEventAttendance->getEventAttendanceProfileId(), $this->profile->getProfileId());
-		$this->assertEquals($pdoEventAttendance->getEventAttendanceCheckIn(), $this->VALID_CHECK_IN);
-		$this->assertEquals($pdoEventAttendance->getEventAttendanceNumberAttending(), $this->VALID_NUMBER_ATTENDING);
-	}
-
-	/**
 	* test grabbing event attendance by attendance Id that does not exist
 	**/
  	public function testGetInvalidEventAttendanceByEventAttendanceEventAttendanceId() : void {
