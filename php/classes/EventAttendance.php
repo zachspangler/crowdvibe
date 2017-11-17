@@ -186,7 +186,7 @@ class EventAttendance implements \JsonSerializable {
 	 * @param int $newEventAttendanceNumberAttending new value of Attendance Number
 	 * @throws \InvalidArgumentException if $newEventAttendanceNumberAttending is not a string or insecure
 	 * @throws \RangeException if $newEventAttendanceNumberAttending is < 500 attendees
-	 * @throws \TypeError if $newCommentsContent is not a string
+	 * @throws \TypeError if $newEventAttendanceNumberAttending is not a string
 	 **/
 
 	public function setEventAttendanceNumberAttending(int $newEventAttendanceNumberAttending): void {
@@ -206,12 +206,12 @@ class EventAttendance implements \JsonSerializable {
 	 **/
 	public function insert(\PDO $pdo): void {
 		// create query template
-		$query = "INSERT INTO eventAttendance(eventAttendanceId, eventAttendanceEventId,eventAttendanceProfileId, eventAttendanceCheckIn, eventAttendanceNumberAttending) VALUES (:eventAttendanceId, :eventAttendanceProfileId, :eventAttendanceEventId, :eventAttendanceCheckIn, :eventAttendanceNumberAttending)";
+		$query = "INSERT INTO eventAttendance(eventAttendanceId, eventAttendanceEventId,eventAttendanceProfileId, eventAttendanceCheckIn, eventAttendanceNumberAttending) VALUES (:eventAttendanceId, :eventAttendanceEventId, :eventAttendanceProfileId, :eventAttendanceCheckIn, :eventAttendanceNumberAttending)";
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holders in the template
 		$eventAttendanceCheckIn = $this->eventAttendanceCheckIn ? 1 : 0;
-		$parameters = ["eventAttendanceId" => $this-> eventAttendanceId->getBytes(),"eventAttendanceEventId"=>$this->eventAttendanceEventId->getBytes(), "eventAttendanceProfileId" => $this-> eventAttendanceProfileId->getBytes(),"eventAttendanceCheckIn"=>$eventAttendanceCheckIn, "eventAttendanceNumberAttending" => $this-> eventAttendanceNumberAttending];
+		$parameters = ["eventAttendanceId" => $this->eventAttendanceId->getBytes(),"eventAttendanceEventId"=>$this->eventAttendanceEventId->getBytes(), "eventAttendanceProfileId" => $this-> eventAttendanceProfileId->getBytes(),"eventAttendanceCheckIn"=> $eventAttendanceCheckIn, "eventAttendanceNumberAttending" => $this-> eventAttendanceNumberAttending];
 		$statement->execute($parameters);
 	}
 	/**
@@ -249,24 +249,24 @@ class EventAttendance implements \JsonSerializable {
 	 * gets the Event Attendance by eventAttendanceId
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param string $eventAttendanceId event id to search by
+	 * @param Uuid $eventAttendanceId event id to search by
 	 * @return \SPLFixedArray SplFixedArray of eventAttendanceId
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 */
-	public static function getEventAttendanceByEventAttendanceId(\PDO $pdo, string $eventAttendanceId): EventAttendance {
-		// sanitize the tweetId before searching
+	public static function getEventAttendanceByEventAttendanceId(\PDO $pdo, Uuid $eventAttendanceId): EventAttendance {
+		// sanitize the EventAttendanceId before searching
 		try {
 			$eventAttendanceId = self::validateUuid($eventAttendanceId);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
 		// create query template
-		$query = "SELECT eventAttendanceId, eventAttendanceEventId, eventAttendanceProfileId,  EventAttendanceCheckIn, eventAttendanceNumberAttending FROM eventAttendance WHERE eventAttendanceId = :eventAttendanceId";
+		$query = "SELECT eventAttendanceId, eventAttendanceEventId, eventAttendanceProfileId,  eventAttendanceCheckIn, eventAttendanceNumberAttending FROM eventAttendance WHERE eventAttendanceId = :eventAttendanceId";
 		$statement = $pdo->prepare($query);
 
 		// bind the EventAttendanceEventId to the place holder in the template
-		$parameters = ["eventAttendanceId" => $eventAttendanceId];
+		$parameters = ["eventAttendanceId" => $eventAttendanceId->getBytes()];
 		$statement->execute($parameters);
 
 		// grab the event attendance from my SQL
@@ -275,7 +275,7 @@ class EventAttendance implements \JsonSerializable {
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				new EventAttendance($row["eventAttendanceId"], $row["eventAttendanceEventId"], $row["eventAttendanceProfileId"], $row["eventAttendanceCheckIn"], $row["eventAttendanceNumberAttending"]);
+				$eventAttendance = new EventAttendance($row["eventAttendanceId"], $row["eventAttendanceEventId"], $row["eventAttendanceProfileId"], $row["eventAttendanceCheckIn"], $row["eventAttendanceNumberAttending"]);
 			}
 		} catch(\Exception $exception) {
 			// if the row couldn't be converted, rethrow it

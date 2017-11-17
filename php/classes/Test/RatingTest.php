@@ -1,5 +1,6 @@
 <?php
 
+namespace Edu\Cnm\CrowdVibe\Test;
 use Edu\Cnm\CrowdVibe\{
     Profile, Event, EventAttendance, Rating
 };
