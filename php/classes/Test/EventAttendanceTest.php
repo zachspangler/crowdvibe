@@ -84,7 +84,6 @@ class EventAttendanceTest extends CrowdVibeTest {
 		// create and insert the mocked profile
 		$this->profile = new Profile($profileId, $this->VALID_ACTIVATION_TOKEN, "For score and seven years ago", "thisis@life.com", "Donald", $this->VALID_HASH, "https://upload.wikimedia.org/", "Knuth", $this->VALID_SALT, "mustreadtaocp");
 		$this->profile->insert($this->getPDO());
-		//TODO Fix date formats
 
 		//reformatted dates
 		$this->VALID_EVENT_END_DATE = new \DateTime();
@@ -128,13 +127,8 @@ class EventAttendanceTest extends CrowdVibeTest {
 		$eventAttendance->setEventAttendanceNumberAttending($this->VALID_NUMBER_ATTENDING2);
 		$eventAttendance->update($this->getPDO());
 		// grab the data from mySQL and enforce the fields match our expectations
-		$results = EventAttendance::getEventAttendanceByEventAttendanceId($this->getPDO(), $eventAttendance->getEventAttendanceId());
+		$pdoEventAttendance = EventAttendance::getEventAttendanceByEventAttendanceId($this->getPDO(), $eventAttendance->getEventAttendanceId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("eventAttendance"));
-		$this->assertCount(1, $results);
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Crowdvibe\\EventAttendance", $results);
-
-		// grab the result from the array and validate it
-		$pdoEventAttendance = $results[0];
 		$this->assertEquals($pdoEventAttendance->getEventAttendanceId(), $eventAttendanceId);
 		$this->assertEquals($pdoEventAttendance->getEventAttendanceEventId(), $this->event->getEventId());
 		$this->assertEquals($pdoEventAttendance->getEventAttendanceProfileId(), $this->profile->getProfileId());
