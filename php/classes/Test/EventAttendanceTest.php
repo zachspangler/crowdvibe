@@ -180,8 +180,16 @@ class EventAttendanceTest extends CrowdVibeTest {
 		$this->assertEquals($pdoEventAttendance->getEventAttendanceProfileId(), $this->profile->getProfileId());
 		$this->assertEquals($pdoEventAttendance->getEventAttendanceCheckIn(), $this->VALID_CHECK_IN);
 		$this->assertEquals($pdoEventAttendance->getEventAttendanceNumberAttending(), $this->VALID_NUMBER_ATTENDING);
+	}
 
-		//TODO should return only 1 not an array
+	/**
+	* test grabbing event attendance by attendance Id that does not exist
+	**/
+ 	public function testGetInvalidEventAttendanceByEventAttendanceEventAttendanceId() : void {
+ 		$eventAttendanceId = generateUuidV4();
+	// grab Event Attendance Event Id by content that does not exist
+	$eventAttendance = EventAttendance::getEventAttendanceByEventAttendanceEventId($this->getPDO(), $eventAttendanceId);
+	$this->assertCount(0, $eventAttendance);
 	}
 
 	/**
@@ -207,6 +215,16 @@ class EventAttendanceTest extends CrowdVibeTest {
 	}
 
 	/**
+	 * test grabbing event attendance by event Id that does not exist
+	 **/
+	public function testGetInvalidEventAttendanceByEventAttendanceEventId() : void {
+		$eventAttendanceId = generateUuidV4();
+		// grab Event Attendance Profile Id by content that does not exist
+		$eventAttendance = EventAttendance::getEventAttendanceByEventAttendanceEventId($this->getPDO(), $eventAttendanceId);
+		$this->assertCount(0, $eventAttendance);
+	}
+
+	/**
 	 * test grabbing event attendance by profile Id
 	 **/
 	public function testGetValidEventAttendanceByEventAttendanceProfileId(): void {
@@ -227,5 +245,14 @@ class EventAttendanceTest extends CrowdVibeTest {
 		$this->assertEquals($pdoEventAttendance->getEventAttendanceCheckIn(), $this->VALID_CHECK_IN);
 		$this->assertEquals($pdoEventAttendance->getEventAttendanceNumberAttending(), $this->VALID_NUMBER_ATTENDING);
 	}
-	//TODO test invalid getby cases
+
+	/**
+	* test grabbing event attendance by profile Id that does not exist
+	**/
+	public function testGetInvalidEventAttendanceByEventAttendanceProfileId() : void {
+		$eventProfileId = generateUuidV4();
+	// grab Event Attendance Profile Id by content that does not exist
+	$eventAttendance = EventAttendance::getEventAttendanceByEventAttendanceProfileId($this->getPDO(), $eventProfileId);
+	$this->assertCount(0, $eventAttendance);
+	}
 }

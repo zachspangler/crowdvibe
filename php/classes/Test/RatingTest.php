@@ -1,4 +1,5 @@
 <?php
+namespace Edu\Cnm\CrowdVibe\Test;
 
 namespace Edu\Cnm\CrowdVibe\Test;
 use Edu\Cnm\CrowdVibe\{
