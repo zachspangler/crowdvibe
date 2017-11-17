@@ -194,8 +194,8 @@ class EventAttendance implements \JsonSerializable {
 		if($newEventAttendanceNumberAttending > 500) {
 			throw(new \RangeException("event attendance is greater an maximum"));
 		}
-		// convert and store the number of people attending
-		$this->eventAttendanceNumberAttending;
+		// store the number of people attending
+		$this->eventAttendanceNumberAttending = $newEventAttendanceNumberAttending;
 	}
 
 	/**
