@@ -238,7 +238,7 @@ class EventAttendance implements \JsonSerializable {
 	 **/
 	public function update(\PDO $pdo) : void {
 		// create query template
-		$query = "UPDATE eventAttendance SET eventAttendanceId = :eventAttendanceId, eventAttendanceEventId = :eventAttentionEventId, eventAttendanceProfileId = :eventAttendanceProfileId, eventAttendanceCheckIn = :eventAttendanceCheckin, eventAttendanceNumberAttending = :eventAttendanceNumberAttending WHERE eventAttendanceId = :eventAttendanceId";
+		$query = "UPDATE eventAttendance SET eventAttendanceId = :eventAttendanceId, eventAttendanceEventId = :eventAttentionEventId, eventAttendanceProfileId = :eventAttendanceProfileId, eventAttendanceCheckIn = :eventAttendanceCheckIn, eventAttendanceNumberAttending = :eventAttendanceNumberAttending WHERE eventAttendanceId = :eventAttendanceId";
 		$statement = $pdo->prepare($query);
 		// delete the variables from the place holders in the template
 		$eventAttendanceCheckIn = $this->eventAttendanceCheckIn ? 1 : 0;
