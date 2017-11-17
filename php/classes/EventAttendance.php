@@ -47,8 +47,8 @@ class EventAttendance implements \JsonSerializable {
 	 * constructor for this Event Attendance
 	 *
 	 * @param Uuid|string $newEventAttendanceId id of this events or null if a new events
-	 * @param Uuid|string $newEventAttendanceProfileId id of the Profile that created the event
 	 * @param Uuid|string $newEventAttendanceEventId id of the Event people attend
+	 * @param Uuid|string $newEventAttendanceProfileId id of the Profile that created the event
 	 * @param bool $newEventAttendanceCheckIn how people are going to notify their attendance
 	 * @param int $newEventAttendanceNumberAttending containing actual data on the amount of people
 	 * @throws \InvalidArgumentException if data types are not valid
@@ -57,11 +57,12 @@ class EventAttendance implements \JsonSerializable {
 	 * @throws \Exception if some other exception occurs
 	 * @Documentation https://php.net/manual/en/language.oop5.decon.php
 	 **/
-	public function __construct($newEventAttendanceId, $newEventAttendanceProfileId, $newEventAttendanceEventId, bool $newEventAttendanceCheckIn, int $newEventAttendanceNumberAttending) {
+
+	public function __construct($newEventAttendanceId, $newEventAttendanceEventId, $newEventAttendanceProfileId, bool $newEventAttendanceCheckIn, int $newEventAttendanceNumberAttending) {
 		try {
 			$this->setEventAttendanceId($newEventAttendanceId);
-			$this->setEventAttendanceEventId($newEventAttendanceProfileId);
-			$this->setEventAttendanceProfileId($newEventAttendanceEventId);
+			$this->setEventAttendanceEventId($newEventAttendanceEventId);
+			$this->setEventAttendanceProfileId($newEventAttendanceProfileId);
 			$this->setEventAttendanceCheckIn($newEventAttendanceCheckIn);
 			$this->setEventAttendanceNumberAttending($newEventAttendanceNumberAttending);
 		} //determine what exception type was thrown
@@ -74,7 +75,7 @@ class EventAttendance implements \JsonSerializable {
 	/**
 	 * accessor method for eventAttendanceId
 	 *
-	 * @return Uuid|string of  eventAttendanceId
+	 * @return Uuid|string of eventAttendanceId
 	 **/
 	public function getEventAttendanceId(): Uuid {
 		return ($this->eventAttendanceId);
@@ -222,11 +223,13 @@ class EventAttendance implements \JsonSerializable {
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 */
 	public function delete(\PDO $pdo): void {
-		$query = "DELETE FROM eventAttendance WHERE :eventAttendanceId";
+		$query = "DELETE FROM eventAttendance WHERE eventAttendanceId = :eventAttendanceId";
 		$statement = $pdo->prepare($query);
 
+		var_dump($this->eventAttendanceId);
+
 		// delete the variables from the place holders in the template
-		$parameters = ["eventAttendanceId" => $this->eventAttendanceId];
+		$parameters = ["eventAttendanceId" => $this->eventAttendanceId->getBytes()];
 		$statement->execute($parameters);
 	}
 	/**
@@ -238,7 +241,7 @@ class EventAttendance implements \JsonSerializable {
 	 **/
 	public function update(\PDO $pdo) : void {
 		// create query template
-		$query = "UPDATE eventAttendance SET eventAttendanceId = :eventAttendanceId, eventAttendanceEventId = :eventAttentionEventId, eventAttendanceProfileId = :eventAttendanceProfileId, eventAttendanceCheckIn = :eventAttendanceCheckIn, eventAttendanceNumberAttending = :eventAttendanceNumberAttending WHERE eventAttendanceId = :eventAttendanceId";
+		$query = "UPDATE eventAttendance SET eventAttendanceId = :eventAttendanceId, eventAttendanceEventId = :eventAttendanceEventId, eventAttendanceProfileId = :eventAttendanceProfileId, eventAttendanceCheckIn = :eventAttendanceCheckIn, eventAttendanceNumberAttending = :eventAttendanceNumberAttending WHERE eventAttendanceId = :eventAttendanceId";
 		$statement = $pdo->prepare($query);
 		// delete the variables from the place holders in the template
 		$eventAttendanceCheckIn = $this->eventAttendanceCheckIn ? 1 : 0;
@@ -284,7 +287,7 @@ class EventAttendance implements \JsonSerializable {
 		return($eventAttendance);
 	}
 	/**
-	 * gets the Event Attendance by eventAttendanceEventId
+	 * gets the Event Attendance by EventId
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param $eventAttendanceEventId
@@ -325,7 +328,8 @@ class EventAttendance implements \JsonSerializable {
 	}
 
 	/**
-	 * gets the Event Attendance by eventAttendanceProfileId
+	 * gets the Event Attendance by ProfileId
+	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param $eventAttendanceProfileId
 	 * @return \SPLFixedArray eventAttendanceProfileId found or null if not found
