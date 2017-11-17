@@ -34,7 +34,7 @@ class EventAttendance implements \JsonSerializable {
 	protected $eventAttendanceProfileId;
 	/**
 	 * how to keep track of which users attend the event
-	 * @var boolean $attendanceCheckIn
+	 * @var bool $attendanceCheckIn
 	 */
 	protected $eventAttendanceCheckIn;
 	/**
@@ -49,7 +49,7 @@ class EventAttendance implements \JsonSerializable {
 	 * @param Uuid|string $newEventAttendanceId id of this events or null if a new events
 	 * @param Uuid|string $newEventAttendanceProfileId id of the Profile that created the event
 	 * @param Uuid|string $newEventAttendanceEventId id of the Event people attend
-	 * @param boolean $newEventAttendanceCheckIn how people are going to notify their attendance
+	 * @param bool $newEventAttendanceCheckIn how people are going to notify their attendance
 	 * @param int $newEventAttendanceNumberAttending containing actual data on the amount of people
 	 * @throws \InvalidArgumentException if data types are not valid
 	 * @throws \RangeException if data values are out of bounds (e.g., strings too long, negative integers)
@@ -153,7 +153,7 @@ class EventAttendance implements \JsonSerializable {
 	/**
 	 * accessor method for Event Attendance Check In
 	 *
-	 * @return boolean value of Event Attendance Check In this will be a 0 or 1 and treated as a boolean
+	 * @return bool value of Event Attendance Check In this will be a 0 or 1 and treated as a bool
 	 **/
 	public function getEventAttendanceCheckIn() : bool {
 		return ($this->eventAttendanceCheckIn);
@@ -162,7 +162,7 @@ class EventAttendance implements \JsonSerializable {
 	/**
 	 * mutator method for Attendance Number Attending
 	 *
-	 * @param boolean $newEventAttendanceCheckIn new value of Attendance Number
+	 * @param bool $newEventAttendanceCheckIn new value of Attendance Number
 	 * @throws \InvalidArgumentException if $newEventAttendanceCheckIn is not a integer
 	 * @throws \RangeException if $newEventAttendanceCheckIn is > 1 characters
 	 * @throws \TypeError if $newEventAttendanceCheckIn is not a string
@@ -191,7 +191,7 @@ class EventAttendance implements \JsonSerializable {
 
 	public function setEventAttendanceNumberAttending(int $newEventAttendanceNumberAttending): void {
 		//verify the Attendance number is less than 500
-		if($newEventAttendanceNumberAttending < 500) {
+		if($newEventAttendanceNumberAttending > 500) {
 			throw(new \RangeException("event attendance is greater an maximum"));
 		}
 		// convert and store the number of people attending

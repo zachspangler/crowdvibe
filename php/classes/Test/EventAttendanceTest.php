@@ -33,7 +33,7 @@ class EventAttendanceTest extends CrowdVibeTest {
 	 * Attendance Check In is a int used as a boolean to show whether or not the user attended the event
 	 * @var  $VALID_CHECK_IN
 	 **/
-	protected $VALID_CHECK_IN = 1;
+	protected $VALID_CHECK_IN = false;
 	/**
 	 * valid hash to use
 	 * @var $VALID_HASH
@@ -90,7 +90,7 @@ class EventAttendanceTest extends CrowdVibeTest {
 		$this->VALID_EVENT_END_DATE = new \DateTime();
 		$this->VALID_EVENT_START_DATE = new \DateTime();
 		// create the and insert the mocked event
-		$this->event = new Event(generateUuidV4(), $this->profile->getProfileId(), 20, "party at my house", $this->VALID_EVENT_END_DATE, null, "35.113281", "-106.621216", "End of the World - Mayan Style", "0.00", $this->VALID_EVENT_START_DATE);
+		$this->event = new Event(generateUuidV4(), $this->profile->getProfileId(), 20, "party at my house", $this->VALID_EVENT_END_DATE, null, "35.113281", "-106.621216", "End of the World - Mayan Style", 6.99, $this->VALID_EVENT_START_DATE);
 		$this->event->insert($this->getPDO());
 	}
 
