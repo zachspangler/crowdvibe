@@ -42,13 +42,29 @@ $eventAttendance = new EventAttendance($eventAttendanceId,  $profile->getProfile
 $eventAttendance->insert($pdo);
 
 $eventAttendanceId1 = generateUuidV4();
-$eventAttendance1 = new EventAttendance($eventAttendanceId1,  $profile->getProfileId(), $event->getEventId(), false, 2);
+$eventAttendance1 = new EventAttendance($eventAttendanceId1,  $profile->getProfileId(), $event->getEventId(), false, 1);
 $eventAttendance1->insert($pdo);
 
 $eventAttendanceId2 = generateUuidV4();
-$eventAttendance2 = new EventAttendance($eventAttendanceId2,  $profile->getProfileId(), $event->getEventId(), true, 2);
+$eventAttendance2 = new EventAttendance($eventAttendanceId2,  $profile->getProfileId(), $event->getEventId(), true, 5);
 $eventAttendance2->insert($pdo);
 
 $eventAttendanceId3 = generateUuidV4();
-$eventAttendance3 = new EventAttendance($eventAttendanceId3, $profile->getProfileId(), $event->getEventId(),true, 2);
+$eventAttendance3 = new EventAttendance($eventAttendanceId3, $profile->getProfileId(), $event->getEventId(),true, 3);
 $eventAttendance3->insert($pdo);
+
+$ratingId= generateUuidV4();
+$rating = new Rating($ratingId, $profile->getProfileId(), $event->getEventId(), $eventAttendance->getEventAttendanceEventId(), 4);
+$rating->insert($pdo);
+
+$ratingId1= generateUuidV4();
+$rating1 = new Rating($ratingId1, $profile->getProfileId(), $event->getEventId(), $eventAttendance->getEventAttendanceEventId(), 2);
+$rating1->insert($pdo);
+
+$ratingId2= generateUuidV4();
+$rating2 = new Rating($ratingId2, $profile->getProfileId(), $event->getEventId(), $eventAttendance->getEventAttendanceEventId(), 1);
+$rating2->insert($pdo);
+
+$ratingId3= generateUuidV4();
+$rating3 = new Rating($ratingId3, $profile->getProfileId(), $event->getEventId(), $eventAttendance->getEventAttendanceEventId(), 5);
+$rating3->insert($pdo);
