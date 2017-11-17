@@ -107,7 +107,6 @@ class EventAttendanceTest extends CrowdVibeTest {
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoEventAttendance = EventAttendance::getEventAttendanceByEventAttendanceId($this->getPDO(), $eventAttendance->getEventAttendanceId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("eventAttendance"));
-
 		$this->assertEquals($pdoEventAttendance->getEventAttendanceId(), $eventAttendanceId);
 		$this->assertEquals($pdoEventAttendance->getEventAttendanceEventId(), $this->event->getEventId());
 		$this->assertEquals($pdoEventAttendance->getEventAttendanceProfileId(), $this->profile->getProfileId());
