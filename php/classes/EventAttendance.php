@@ -210,7 +210,8 @@ class EventAttendance implements \JsonSerializable {
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holders in the template
-		$parameters = ["eventAttendanceId" => $this-> eventAttendanceId->getBytes(),"eventAttendanceEventId"=>$this->eventAttendanceEventId->getBytes(), "eventAttendanceProfileId" => $this-> eventAttendanceProfileId->getBytes(), "eventAttendanceCheckIn" =>$this->eventAttendanceCheckIn, "eventAttendanceNumberAttending" => $this-> eventAttendanceNumberAttending];
+		$eventAttendanceCheckIn = $this->eventAttendanceCheckIn ? 1 : 0;
+		$parameters = ["eventAttendanceId" => $this-> eventAttendanceId->getBytes(),"eventAttendanceEventId"=>$this->eventAttendanceEventId->getBytes(), "eventAttendanceProfileId" => $this-> eventAttendanceProfileId->getBytes(),"eventAttendanceCheckIn"=>$eventAttendanceCheckIn, "eventAttendanceNumberAttending" => $this-> eventAttendanceNumberAttending];
 		$statement->execute($parameters);
 	}
 	/**
@@ -239,9 +240,9 @@ class EventAttendance implements \JsonSerializable {
 		// create query template
 		$query = "UPDATE eventAttendance SET eventAttendanceId = :eventAttendanceId, eventAttendanceEventId = :eventAttentionEventId, eventAttendanceProfileId = :eventAttendanceProfileId, eventAttendanceCheckIn = :eventAttendanceCheckin, eventAttendanceNumberAttending = :eventAttendanceNumberAttending WHERE eventAttendanceId = :eventAttendanceId";
 		$statement = $pdo->prepare($query);
-
 		// delete the variables from the place holders in the template
-		$parameters = ["eventAttendanceId" => $this->eventAttendanceId, "eventAttendanceEventId"=> $this->eventAttendanceEventId, "eventAttendanceProfileId" => $this->eventAttendanceProfileId,  "eventAttendanceCheckIn" => $this->eventAttendanceCheckIn, "eventAttendanceNumberAttending" => $this->eventAttendanceNumberAttending];
+		$eventAttendanceCheckIn = $this->eventAttendanceCheckIn ? 1 : 0;
+		$parameters = ["eventAttendanceId" => $this->eventAttendanceId, "eventAttendanceEventId"=> $this->eventAttendanceEventId, "eventAttendanceProfileId" => $this->eventAttendanceProfileId,  "eventAttendanceCheckIn" => $eventAttendanceCheckIn, "eventAttendanceNumberAttending" => $this->eventAttendanceNumberAttending];
 		$statement->execute($parameters);
 	}
 	/**
