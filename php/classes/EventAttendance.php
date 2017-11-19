@@ -226,7 +226,7 @@ class EventAttendance implements \JsonSerializable {
 		$query = "DELETE FROM eventAttendance WHERE eventAttendanceId = :eventAttendanceId";
 		$statement = $pdo->prepare($query);
 
-		var_dump($this->eventAttendanceId);
+		var_export($this->eventAttendanceId);
 
 		// delete the variables from the place holders in the template
 		$parameters = ["eventAttendanceId" => $this->eventAttendanceId->getBytes()];
