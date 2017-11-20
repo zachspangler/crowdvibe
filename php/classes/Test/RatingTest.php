@@ -59,7 +59,7 @@ class RatingTest extends crowdvibeTest {
      * score of the Rating
      * @var int $VALID_RATINGS_SCORE2
      **/
-    protected $VALID_RATING_SCORE2 = 7;
+    protected $VALID_RATING_SCORE2 = 5;
 
 
 
@@ -110,12 +110,12 @@ class RatingTest extends crowdvibeTest {
 
         //create a new Rating and insert into mySQL
 		  $ratingId = generateUuidV4();
-        $rating = new Rating($ratingId,$this->eventAttendance->getEventAttendanceId(), $this->ratee->getProfileId(), $this->rater->getProfileId(),4);
+        $rating = new Rating($ratingId,$this->eventAttendance->getEventAttendanceId(), $this->ratee->getProfileId(), $this->rater->getProfileId(),$this->VALID_RATING_SCORE);
         $rating->insert($this->getPDO());
 
         // grab the data from mySQL and enforce the fields match our expectations
 
-        $pdoRating = Rating::getRatingByRatingId($this->getPDO(), $rating->getRatingId());
+        $pdoRating = Rating::getRatingByRatingId($this->getPDO(), $ratingId);
         $this->assertEquals($numRows + 1,$this->getConnection()->getRowCount("rating"));
         $this->assertEquals($pdoRating->getRatingId(),$ratingId);
         $this->assertEquals($pdoRating->getRatingEventAttendanceId(), $this->eventAttendance->getEventAttendanceId());
@@ -132,12 +132,12 @@ class RatingTest extends crowdvibeTest {
         $numRows = $this->getConnection()->getRowCount("rating");
 
         //create a new Rating and insert into mySQL
-        $rating = new Rating(generateUuidV4(),$this->eventAttendance->getEventAttendanceId(), $this->ratee->getProfileId(), $this->rater->getProfileId(),70);
+        $rating = new Rating(generateUuidV4(),$this->eventAttendance->getEventAttendanceId(), $this->ratee->getProfileId(), $this->rater->getProfileId(),$this->VALID_RATING_SCORE2);
         $rating->insert($this->getPDO());
 
         //edit the Rating and update it in mySQL
-        $rating->setRatingScore($this->VALID_RATING_SCORE2);
-        $rating->insert($this->getPDO());
+        $rating->setRatingScore($this->VALID_RATING_SCORE);
+        $rating->update($this->getPDO());
 
         // grab the data from mySQL and enforce the fields match our expectations
 
@@ -158,7 +158,7 @@ class RatingTest extends crowdvibeTest {
         $numRows = $this->getConnection()->getRowCount("rating");
 
         //create a new Rating and insert into mySQL
-        $rating = new Rating(generateUuidV4(),$this->eventAttendance->getEventAttendanceId(), $this->ratee->getProfileId(), $this->rater->getProfileId(),70);
+        $rating = new Rating(generateUuidV4(),$this->eventAttendance->getEventAttendanceId(), $this->ratee->getProfileId(), $this->rater->getProfileId(),$this->VALID_RATING_SCORE);
         $rating->insert($this->getPDO());
 
         //delete the Rating from mySQL
@@ -180,7 +180,7 @@ class RatingTest extends crowdvibeTest {
 
         //create a new Rating and insert into mySQL
         $ratingId = generateUuidV4();
-        $rating = new Rating($ratingId, $this->eventAttendance->getEventAttendanceId(), $this->ratee->getProfileId(), $this->rater->getProfileId(), 70);
+        $rating = new Rating($ratingId, $this->eventAttendance->getEventAttendanceId(), $this->ratee->getProfileId(), $this->rater->getProfileId(), $this->VALID_RATING_SCORE);
         $rating->insert($this->getPDO());
 
         // grab the data from mySQL and enforce the fields match our expectations
@@ -219,7 +219,7 @@ class RatingTest extends crowdvibeTest {
         $numRows = $this->getConnection()->getRowCount("rating");
 
         //create a new Rating and insert into mySQL
-        $rating = new Rating(generateUuidV4(), $this->eventAttendance->getEventAttendanceId(), $this->ratee->getProfileId(), $this->rater->getProfileId(), 70);
+        $rating = new Rating(generateUuidV4(), $this->eventAttendance->getEventAttendanceId(), $this->ratee->getProfileId(), $this->rater->getProfileId(), $this->VALID_RATING_SCORE2);
         $rating->insert($this->getPDO());
 
         // grab the data from mySQL and enforce the fields match our expectations
@@ -257,11 +257,12 @@ class RatingTest extends crowdvibeTest {
         $numRows = $this->getConnection()->getRowCount("rating");
 
         //create a new Rating and insert into mySQL
-        $rating = new Rating(generateUuidV4(), $this->eventAttendance->getEventAttendanceId(), $this->ratee->getProfileId(), $this->rater->getProfileId(), 70);
+		  $ratingId = generateUuidV4();
+        $rating = new Rating($ratingId, $this->eventAttendance->getEventAttendanceId(), $this->ratee->getProfileId(), $this->rater->getProfileId(), $this->VALID_RATING_SCORE);
         $rating->insert($this->getPDO());
 
         // grab the data from mySQL and enforce the fields match our expectations
-        $results = Rating::getRatingByRatingRaterProfileId($this->getPDO(), $rating->getRatingId());
+        $results = Rating::getRatingByRatingRaterProfileId($this->getPDO(), $this->rater->getProfileId());
         $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("rating"));
         $this->assertCount(1, $results);
         $this->assertContainsOnlyInstancesOf("Edu\\Cnm\\CrowdVibe\\Rating", $results);
@@ -282,7 +283,7 @@ class RatingTest extends crowdvibeTest {
      **/
     public function testGetInvalidRatingByRaterProfileId() : void {
         // grab a profile id that exceeds the maximum allowable profile id
-        $rating = Rating::getRatingByRaterProfileId($this->getPDO(), generateUuidV4());
+        $rating = Rating::getRatingByRatingRaterProfileId($this->getPDO(), generateUuidV4());
         $this->assertCount(0, $rating);
     }
 

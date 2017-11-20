@@ -174,7 +174,7 @@ class Rating implements \JsonSerializable {
      **/
     public function getRatingRaterProfileId(): Uuid
     {
-        return ($this->ratingRateeProfileId);
+        return ($this->ratingRaterProfileId);
     }
 
     /**
@@ -269,7 +269,7 @@ class Rating implements \JsonSerializable {
     public function update(\PDO $pdo): void {
 
         // create query template
-        $query = "INSERT INTO rating(ratingId, ratingEventAttendanceId, ratingRateeProfileId, ratingRaterProfileId, ratingScore) VALUES (:ratingId, :ratingEventAttendanceId, :ratingRateeProfileId, :ratingRaterProfileId, :ratingScore)";
+        $query = "UPDATE rating SET ratingEventAttendanceId = :ratingEventAttendanceId, ratingRateeProfileId = :ratingRateeProfileId, ratingRaterProfileId =:ratingRaterProfileId, ratingScore = :ratingScore WHERE ratingId = :ratingId";
         $statement = $pdo->prepare($query);
 
         $parameters = ["ratingId" => $this->ratingId->getBytes(), "ratingEventAttendanceId" => $this->ratingEventAttendanceId->getBytes(), "ratingRateeProfileId" => $this->ratingRateeProfileId->getBytes(), "ratingRaterProfileId" => $this->ratingRaterProfileId->getBytes(), "ratingScore" => $this->ratingScore];
@@ -304,9 +304,10 @@ class Rating implements \JsonSerializable {
         // grab the rating from mySQL
             try {
                 $rating = null;
-                $statement->fetch();
+                $statement->setFetchMode(\PDO::FETCH_ASSOC);
                 $row = $statement->fetch();
                 if($row !== false) {
+
                     $rating = new Rating($row["ratingId"], $row["ratingEventAttendanceId"], $row["ratingRateeProfileId"], $row["ratingRaterProfileId"], $row["ratingScore"]);
                 }
             } catch (\Exception $exception) {
@@ -322,13 +323,12 @@ class Rating implements \JsonSerializable {
      *
      * @param \PDO $pdo $pdo PDO connection object
      * @param Uuid|string $ratingId rating Id to search for
-     * @return Rating Rating or null if not found
-     * @throws \PDOException when mySQL related errors occur
+     * @return \SplFixedArray of ratings found
+     * @throws \PDOException when mySQL related errors
      * @throws \TypeError when variable is not the correct date type
      **/
 
-    //TODO changed to SPL Array, review type declarations
-    public static function getRatingByRatingEventAttendanceId(\PDO $pdo, $ratingEventAttendanceId): ?Rating {
+    public static function getRatingByRatingEventAttendanceId(\PDO $pdo, $ratingEventAttendanceId): \SplFixedArray {
         // sanitize the rating id before searching
         try {
             $ratingEventAttendanceId = self::validateUuid($ratingEventAttendanceId);
@@ -345,8 +345,8 @@ class Rating implements \JsonSerializable {
         $statement->execute($parameters);
 
         // build an array
-        $rating = new \SplFixedArray($statement->rowCount());
-        $statement->setFetchMode(\PDO :: FETCH_ASSOC);
+        $ratings = new \SplFixedArray($statement->rowCount());
+        $statement->setFetchMode(\PDO ::FETCH_ASSOC);
         while (($row = $statement->fetch()) !== false) {
             try {
                 $rating = new Rating($row["ratingId"], $row["ratingEventAttendanceId"], $row["ratingRateeProfileId"], $row["ratingRaterProfileId"], $row["ratingScore"]);
@@ -410,7 +410,7 @@ class Rating implements \JsonSerializable {
              * @throws \PDOException when mySQL related errors occur
              * @throws \TypeError when variable is not the correct date type
              **/
-            public static function getRatingByRatingRaterProfileId(\PDO $pdo, $ratingRaterProfileId) : \SplFixedArray
+            public static function getRatingByRatingRaterProfileId(\PDO $pdo, string $ratingRaterProfileId) : \SplFixedArray
             {
                 // sanitize the rating id before searching
                 try {
@@ -419,8 +419,8 @@ class Rating implements \JsonSerializable {
                     throw (new \PDOException($exception->getMessage(), 0, $exception));
                 }
 
-                // create query template
-                $query = "SELECT ratingId, ratingEventAttendanceId, ratingRateeProfileId, ratingRateeProfileId, ratingScore FROM rating WHERE ratingRaterProfileId = :ratingRaterProfileId";
+					// create query template
+                $query = "SELECT ratingId, ratingEventAttendanceId, ratingRateeProfileId, ratingRaterProfileId, ratingScore FROM rating WHERE ratingRaterProfileId = :ratingRaterProfileId";
                 $statement = $pdo->prepare($query);
 
                 // bind the rating id to the place holder in the template
@@ -429,9 +429,10 @@ class Rating implements \JsonSerializable {
 
                 // build an array of ratings
                 $ratings = new \SplFixedArray($statement->rowCount());
+                $statement->setFetchMode(\PDO::FETCH_ASSOC);
                 while (($row = $statement->fetch()) !== false) {
                     try {
-                        $rating = new Rating($row["ratingId"], $row["ratingEventAttendanceId"], $row["ratingRateeProfileId"], $row["ratingRaterProfileId"], $row["ratingScore"]);
+							  $rating = new Rating($row["ratingId"], $row["ratingEventAttendanceId"], $row["ratingRateeProfileId"], $row["ratingRaterProfileId"], $row["ratingScore"]);
                         $ratings[$ratings->key()] = $rating;
                         $ratings->next();
                     } catch (\Exception $exception) {
