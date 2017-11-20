@@ -82,9 +82,8 @@ class Rating implements \JsonSerializable {
      *
      * @return Uuid value of rating id
      **/
-    public function getRatingId(): Uuid
-    {
-        Return ($this->ratingId);
+    public function getRatingId(): Uuid {
+        return ($this->ratingId);
     }
 
     /**

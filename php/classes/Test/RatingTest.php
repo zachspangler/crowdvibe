@@ -70,29 +70,34 @@ class RatingTest extends crowdvibeTest {
         //run the default setUp() method first
         parent::setUp();
         $password = "abc123";
+
         $eventEndDateTime = new \DateTime();
-        $eventEndDateTime->sub(new \DateInterval("p5h"));
+        $eventEndDateTime->add(new \DateInterval("P10D"));
+
         $eventStartDateTime = new \DateTime();
-        $eventStartDateTime->add(new \ DateInterval("p5h"));
+        $eventStartDateTime->sub(new \ DateInterval("P10D"));
+
+        $profileActivationToken = bin2hex(random_bytes(16));
+
         $SALT = bin2hex(random_bytes(32));
         $HASH = hash_pbkdf2("sha512", $password, $SALT, 262144);
-        ;
+
         //create and insert a Rater to own the test Rating
-        $this->rater = new Profile(generateUuidV4(), null, "i'm hugry", "breez@hometime.com", "Cheech", $HASH, null, "Maren", $SALT, "@sohigh");
+        $this->rater = new Profile(generateUuidV4(), $profileActivationToken, "i'm hugry", "breez@hometime.com", "Cheech", $HASH, "big time", "Maren", $SALT, "@sohigh");
         $this->rater->insert($this->getPDO());
 
         //create and insert a Ratee to own the test Rating
-        $this->ratee = new Profile(generateUuidV4(),null, "I like eggs", "getsome@me.com", "tommy", $HASH, null, "chong", $SALT,"@smoke");
+        $this->ratee = new Profile(generateUuidV4(),$profileActivationToken, "I like eggs", "getsome@me.com", "tommy", $HASH, "little time", "chong", $SALT,"@smoke");
         $this->ratee->insert($this->getPDO());
 
         //create and insert a Event to own the test Rating
-        $this->event = new Event(generateUuidV4(), $this->rater->getProfileId(), "chris' 10th birthday", $eventStartDateTime, $eventStartDateTime, "5", "35.084319", "-106.619781", null, "big boy pants!");
+        $this->event = new Event(generateUuidV4(), $this->rater->getProfileId(), 50, "howdy", $eventEndDateTime, "lets do it","35.084319", "-106.619781", "big boy pants!", 5, $eventStartDateTime);
 
         $this->event->insert($this->getPDO());
 
         //create and insert event attendance to be able to rate
         $this->eventAttendance = new eventAttendance(generateUuidV4(), $this->event->getEventId(),$this->rater->getProfileId(), "2", "15");
-
+        $this->eventAttendance->insert($this->getPDO());
 
     }
 
@@ -104,15 +109,15 @@ class RatingTest extends crowdvibeTest {
         $numRows = $this->getConnection()->getRowCount("rating");
 
         //create a new Rating and insert into mySQL
-        $rating = new Rating(generateUuidV4(),$this->eventAttendance->getEventAttendanceId(), $this->ratee->getProfileId(), $this->rater->getProfileId(),70);
+		  $ratingId = generateUuidV4();
+        $rating = new Rating($ratingId,$this->eventAttendance->getEventAttendanceId(), $this->ratee->getProfileId(), $this->rater->getProfileId(),4);
         $rating->insert($this->getPDO());
 
         // grab the data from mySQL and enforce the fields match our expectations
 
-        $pdoRating= Rating::getRatingByRatingId($this->getPDO(), $rating->getRatingId());
-        // CHECK ABOVE
+        $pdoRating = Rating::getRatingByRatingId($this->getPDO(), $rating->getRatingId());
         $this->assertEquals($numRows + 1,$this->getConnection()->getRowCount("rating"));
-        $this->assertEquals($pdoRating->getRatingId(),$rating-> getRatingId());
+        $this->assertEquals($pdoRating->getRatingId(),$ratingId);
         $this->assertEquals($pdoRating->getRatingEventAttendanceId(), $this->eventAttendance->getEventAttendanceId());
         $this->assertEquals($pdoRating->getRatingRateeProfileId(),$rating->getRatingRateeProfileId());
         $this->assertEquals($pdoRating->getRatingRaterProfileId(),$rating->getRatingRaterProfileId());
