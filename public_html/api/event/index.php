@@ -88,12 +88,13 @@ try {
 			}
 		}
 
-	}
-} else if ($method === "PUT" || $method === "POST") {
+	} else if ($method === "PUT" || $method === "POST") {
 
-	// enforce the user is signed in
-	if (empty($_SESSION["profile"])===true) {
-		throw (new \InvalidArgumentException("you must be logged in to post events", 401));
+	}
+
+	//enforce the user is signed in and only trying to edit their own profile
+	if(empty($_SESSION["profile"]) === true) {
+		throw(new \InvalidArgumentException("you must be logged in to post events", 401));
 	}
 
 	verifyXsrf();
@@ -101,28 +102,110 @@ try {
 	$requestObject = json_decode($requestContent);
 
 	//make sure event detail is available (required field)
-	if (empty($requestObject->eventDetail) === true) {
-		throw (new InvalidArgumentException("No content for Event.", 405));
-	}
-
-	//make sure event date is accurate
-	if (empty($requestObject->eventStartDateTime) === true) {
-		$requestObject->eventStartDateTime = date("y-m-d H:i:s");
-	}
-
-	// make sure event image is available (optional field)
-
-
-	// make sure the event Price is available (required field)
-	if(empty($requestObject->eventPrice) === true) {
-		$requestObject->eventPrice = floatval(0);
+	if(empty($requestObject->eventDetail) === true) {
+		throw (new \InvalidArgumentException("No detail listed for event.", 405));
 	}
 
 	//make sure event name is available (required field)
-	if (empty($requestObject->eventName) === true) {
-		throw (new InvalidArgumentException("No content for Name.", 405));
+	if(empty($requestObject->eventName) === true) {
+		throw (new \InvalidArgumentException("No name listed for the event", 405));
 	}
+
+	// make sure there is a valid date for event (required field)
+	if(empty($requestObject->eventStartDateTime) === true) {
+		$requestObject->eventStartDateTime = date("y-m-d H:i:s");
+	}
+
+	// make sure event Lat is available (required field)
+	// TODO: finish this
+	if (empty($requestObject->eventLat) === true) {
+
+	}
+
+	// make sure event Long is available (required field)
+	if(empty($requestObject->eventLong) === true) {
+
+	}
+
+	//perform the actual put or post
+	if($method === "PUT") {
+
+		//retrieve the method to update
+		$event = Event::getEventByEventId($pdo, $id);
+		if($event === null) {
+			throw (new RuntimeException("Event does not exist.", 404));
+		}
+
+		// enforce the end user has a Jwt token
+		// validateJwtHeader();
+
+		//enforce the user is signed in and only trying to edit their own tweet
+		if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId()->toString() !== $event->getEventProfileId())ProfileId()->toString()) {
+			throw(new \InvalidArgumentException("You are not allowed to edit this event", 403));
+		}
+
+		// update all attributes
+		//$event->setEventStartDateTime($requestObject->eventStartDateTime);
+		$event->setEventDetail($requestObject->eventDetail);
+		$event->update($pdo);
+
+		// update reply
+		$reply->message = "Event updated OK";
+	} else if($method === "POST") {
+
+
+		// enforce that the user is signed in
+		if(empty($_SESSION["profile"]) === true) {
+			throw(new \InvalidArgumentException("you must be logged in to post events", 403));
+		}
+		//enforce the end user has a JWT token
+		validateJwtHeader();
+
+		// create a new Event an insert it into the database
+		// TODO: come back and finish this as well.
+		$event = new Event(generateUuidV4(), $_SESSION["profile"]->getProfileId(), $requestObject->eventAttendeeLimit,)
+
+	}
+
+	if($method === "DELETE") {
+
+		// enforce that the end user has a XSRF token
+		verifyXsrf();
+
+		// retrieve the event to be deleted
+		$event = Event::getEventByEventId($pdo, $id);
+		if($event === null) {
+			throw (new RuntimeException("Event does not exist.", 404));
+		}
+
+		//enforce the end user has a JWT token
+		//validateJwtHeader();
+
+		//enforce the user is signed in and only trying to edit their own tweet
+		if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId()->toString() !== $event->getEventProfileId()->toString()) {
+			throw(new \InvalidArgumentException("You are not allowed to delete this event", 403));
+		}
+
+		// delete event
+		$event->delete($pdo);
+		// update reply
+		$reply->message = "Event deleted OK";
+	} else {
+		throw (new InvalidArgumentException("Invalid HTTP Method request", 418));
+	}
+
+} catch(\Exception | \TypeError $exception) {
+	$reply->status = $exception->getCode();
+	$reply->message = $exception->getMessage();
 }
+
+header("Content-type: application/json");
+if($reply->data === null) {
+	unset($reply->data);
+}
+
+// encode and return reply to front end caller
+echo json_encode($reply);
 
 
 
