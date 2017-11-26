@@ -5,7 +5,7 @@ require_once dirname(__DIR__, 3) . "/php/lib/xsrf.php";
 require_once dirname(__DIR__, 3) . "/php/lib/uuid.php";
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
-use Edu\Cnm\DataDesign\{
+use Edu\Cnm\Crowdvibe\{
 	Rating,
 	// we only use the profile, event, and event attendance class for testing purposes
 	Profile, Event, EventAttendance
@@ -35,6 +35,15 @@ try {
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 
 	//sanitize input
-	$id = filter_input(INPUT_GET, "id", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$ratingRaterId = filter_input(INPUT_GET,)
+	$ratingId = filter_input(INPUT_GET, "ratingId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$ratingEventAttendanceId = filter_input(INPUT_GET, "ratingEventAttendacnceId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$ratingRateeProfileId = filter_input( INPUT_GET, "ratingRateeProfileId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$ratingRaterProfileId = filter_input(INPUT_GET, "ratingRaterProfileId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$ratingScore = filter_input(INPUT_GET, "ratingScore", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+
+	//make sure the id is calid for methods that require it
+	if(($method === "DELETE" || $method === "PUT") && (empty($ratingId) === true)){
+		throw(new InvalidArgumentException("ratingId cannot be empty or negative", 405));
+	}
+
 }
