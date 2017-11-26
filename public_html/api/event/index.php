@@ -53,6 +53,21 @@ try {
 if ($method === "GET") {
 	//set XSRF cookie
 	setXsrfCookie();
+
+	//get a specific event or all events and update it
+	if(empty($id)===false) {
+		$event =Event::getEventByEventId($pdo, $id);
+		if($event !== null) {
+			$reply->data = $event;
+		}
+	} else if (empty($eventProfileId)===false) {
+
+		// if the user is logged in and grabs all the events based on users logged on
+		$event = Event::getEventByEventProfileId($pdo, $_SESSION["profile"]->getProfileId())->toArray();
+		if($event !==null) {
+			$reply->data = $event;
+		}
+	}
 	}
 }
 
