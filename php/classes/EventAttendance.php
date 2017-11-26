@@ -105,7 +105,7 @@ class EventAttendance implements \JsonSerializable {
 	 * @return Uuid | string value of Attendance Event id
 	 **/
 	public function getEventAttendanceEventId(): Uuid {
-		return ($this->eventAttendanceId);
+		return ($this->eventAttendanceEventId);
 	}
 
 	/**
@@ -226,7 +226,7 @@ class EventAttendance implements \JsonSerializable {
 		$query = "DELETE FROM eventAttendance WHERE eventAttendanceId = :eventAttendanceId";
 		$statement = $pdo->prepare($query);
 
-		var_export($this->eventAttendanceId);
+
 
 		// delete the variables from the place holders in the template
 		$parameters = ["eventAttendanceId" => $this->eventAttendanceId->getBytes()];
@@ -257,7 +257,7 @@ class EventAttendance implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 */
-	public static function getEventAttendanceByEventAttendanceId(\PDO $pdo, Uuid $eventAttendanceId): EventAttendance {
+	public static function getEventAttendanceByEventAttendanceId(\PDO $pdo, string $eventAttendanceId): EventAttendance {
 		// sanitize the EventAttendanceId before searching
 		try {
 			$eventAttendanceId = self::validateUuid($eventAttendanceId);
@@ -278,6 +278,7 @@ class EventAttendance implements \JsonSerializable {
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
+
 				$eventAttendance = new EventAttendance($row["eventAttendanceId"], $row["eventAttendanceEventId"], $row["eventAttendanceProfileId"], $row["eventAttendanceCheckIn"], $row["eventAttendanceNumberAttending"]);
 			}
 		} catch(\Exception $exception) {
@@ -303,28 +304,28 @@ class EventAttendance implements \JsonSerializable {
 		}
 
 		// create query template
-		$query = "SELECT eventAttendanceId, eventAttendanceEventId, eventAttendanceProfileId,  EventAttendanceCheckIn, eventAttendanceNumberAttending FROM eventAttendance WHERE eventAttendanceEventId = :eventAttendanceEventId";
+		$query = "SELECT eventAttendanceId, eventAttendanceEventId, eventAttendanceProfileId,  eventAttendanceCheckIn, eventAttendanceNumberAttending FROM eventAttendance WHERE eventAttendanceEventId = :eventAttendanceEventId";
 		$statement = $pdo->prepare($query);
 
 		// bind the EventAttendanceEventId to the place holder in the template
-		$eventAttendanceEventId = "$eventAttendanceEventId";
-		$parameters = ["eventAttendanceEventId" => $eventAttendanceEventId];
+		$parameters = ["eventAttendanceEventId" => $eventAttendanceEventId->getBytes()];
 		$statement->execute($parameters);
 
 		// build and array of EventAttendanceEventId
-		$eventAttendanceEventIds = new \SplFixedArray($statement->rowCount());
+		$eventAttendances = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$eventAttendanceEventId = new $eventAttendanceEventIds($row["eventAttendanceId"], $row["eventAttendanceEventId"], $row["eventAttendanceProfileId"], $row["eventAttendanceCheckIn"], $row["eventAttendanceNumberAttending"]);
-				$eventAttendanceEventIds[$eventAttendanceEventIds->key()] = $eventAttendanceEventId;
-				$eventAttendanceEventIds->next();
+
+				$eventAttendance = new EventAttendance($row["eventAttendanceId"], $row["eventAttendanceEventId"], $row["eventAttendanceProfileId"], $row["eventAttendanceCheckIn"], $row["eventAttendanceNumberAttending"]);
+				$eventAttendances[$eventAttendances->key()] = $eventAttendance;
+				$eventAttendances->next();
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-		return ($eventAttendanceEventIds);
+		return ($eventAttendances);
 	}
 
 	/**
@@ -344,34 +345,35 @@ class EventAttendance implements \JsonSerializable {
 		}
 
 		// create query template
-		$query = "SELECT eventAttendanceId, eventAttendanceEventId, eventAttendanceProfileId,  EventAttendanceCheckIn, eventAttendanceNumberAttending FROM eventAttendance WHERE eventAttendanceProfileId = :eventAttendanceProfileId";
+		$query = "SELECT eventAttendanceId, eventAttendanceEventId, eventAttendanceProfileId,  eventAttendanceCheckIn, eventAttendanceNumberAttending FROM eventAttendance WHERE eventAttendanceProfileId = :eventAttendanceProfileId";
 		$statement = $pdo->prepare($query);
 
-		// bind the EventAttendanceEventId to the place holder in the template
-		$eventAttendanceProfileId = "$eventAttendanceProfileId";
-		$parameters = ["eventAttendanceProfileId" => $eventAttendanceProfileId];
+		// bind the EventAttendanceProfileId to the place holder in the template
+		$parameters = ["eventAttendanceProfileId" => $eventAttendanceProfileId->getBytes()];
 		$statement->execute($parameters);
 
-		// build and array of EventAttendanceEventId
-		$eventAttendanceProfileIds = new \SplFixedArray($statement->rowCount());
+		// build and array of EventAttendanceProfileId
+		$eventAttendances = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$eventAttendanceProfileId = new $eventAttendanceProfileIds($row["eventAttendanceId"], $row["eventAttendanceEventId"], $row["eventAttendanceProfileId"], $row["eventAttendanceCheckIn"], $row["eventAttendanceNumberAttending"]);
-				$eventAttendanceProfileIds[$eventAttendanceProfileIds->key()] = $eventAttendanceProfileId;
-				$eventAttendanceProfileIds->next();
+				$eventAttendance = new EventAttendance($row["eventAttendanceId"], $row["eventAttendanceEventId"], $row["eventAttendanceProfileId"], $row["eventAttendanceCheckIn"], $row["eventAttendanceNumberAttending"]);
+				$eventAttendances[$eventAttendances->key()] = $eventAttendance;
+				$eventAttendances->next();
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-		return ($eventAttendanceProfileIds);
+		return ($eventAttendances);
 	}
+
 	/**
 	 * formats the state variables for JSON serialization
 	 *
 	 * @return array resulting state variables to serialize
 	 **/
+
 	public function jsonSerialize() {
 		$fields = get_object_vars($this);
 		$fields["eventAttendanceId"] = $this->eventAttendanceId;
