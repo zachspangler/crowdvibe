@@ -41,7 +41,7 @@ try {
 	$ratingRaterProfileId = filter_input(INPUT_GET, "ratingRaterProfileId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$ratingScore = filter_input(INPUT_GET, "ratingScore", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
-	//make sure the id is calid for methods that require it
+	//make sure the id is valid for methods that require it
 	if(($method === "DELETE" || $method === "PUT") && (empty($ratingId) === true)){
 		throw(new InvalidArgumentException("ratingId cannot be empty or negative", 405));
 	}
