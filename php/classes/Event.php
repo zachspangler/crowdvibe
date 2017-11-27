@@ -676,6 +676,36 @@ class Event implements \JsonSerializable {
 		return ($events);
 	}
 
+	/**
+	 * gets all Events
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @return \SplFixedArray SplFixedArray of Events found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getAllEvents(\PDO $pdo) : \SplFixedArray {
+		// create query template
+		$query = "SELECT eventId, eventProfileId, eventAttendeeLimit, eventDetail, eventEndDateTime, eventImage, eventLong, eventName, eventPrice, eventStartDateTime FROM event";
+		$statement = $pdo->prepare($query);
+		$statement->execute();
+
+		// build an array of events
+		$events = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch())!== false) {
+			try {
+				$event = new Event($row ["eventId"], $row ["eventProfileId"], $row["eventAttendeeLimit"], $row["eventDetail"], $row["eventEndDateTime"], $row["eventImage"], $row["eventLat"], $row["eventLong"], $row["eventName"], $row["eventPrice"], $row["eventStartDateTime"]);
+				$events[$events->key()] = $event;
+				$events->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw (new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($events);
+	}
+
 
 
 

@@ -2,6 +2,9 @@
 require_once dirname(__DIR__, 3) . "/php/classes/autoload.php";
 require_once dirname(__DIR__, 3) . "/php/lib/xsrf.php";
 require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
+require_once dirname(__DIR__, 3) . "/php/lib/uuid.php";
+require_once dirname(__DIR__, 3) . "/php/lib/jwt.php";
+require_once dirname(__DIR__, 3) . "/php/lib/uuid.php";
 
 use Edu\Cnm\Crowdvibe\{
 	Event,
@@ -25,7 +28,6 @@ if(session_status() !==PHP_SESSION_ACTIVE) {
 $reply = new stdClass();
 $reply->status = 200;
 $reply->data = null;
-
 try {
 	// grab the mySQL connection
 	$pdo = connectionToEncryptedMySQL("/etc/apache2/capstone-mysql/crowdvibe.ini");
@@ -88,86 +90,86 @@ try {
 			}
 		}
 
-	} else if ($method === "PUT" || $method === "POST") {
+	} else if($method === "PUT" || $method === "POST") {
 
-	}
-
-	//enforce the user is signed in and only trying to edit their own profile
-	if(empty($_SESSION["profile"]) === true) {
-		throw(new \InvalidArgumentException("you must be logged in to post events", 401));
-	}
-
-	verifyXsrf();
-	$requestContent = file_get_contents("php://input");
-	$requestObject = json_decode($requestContent);
-
-	//make sure event detail is available (required field)
-	if(empty($requestObject->eventDetail) === true) {
-		throw (new \InvalidArgumentException("No detail listed for event.", 405));
-	}
-
-	//make sure event name is available (required field)
-	if(empty($requestObject->eventName) === true) {
-		throw (new \InvalidArgumentException("No name listed for the event", 405));
-	}
-
-	// make sure there is a valid date for event (required field)
-	if(empty($requestObject->eventStartDateTime) === true) {
-		$requestObject->eventStartDateTime = date("y-m-d H:i:s");
-	}
-
-	// make sure event Lat is available (required field)
-	// TODO: finish this
-	if (empty($requestObject->eventLat) === true) {
-
-	}
-
-	// make sure event Long is available (required field)
-	if(empty($requestObject->eventLong) === true) {
-
-	}
-
-	//perform the actual put or post
-	if($method === "PUT") {
-
-		//retrieve the method to update
-		$event = Event::getEventByEventId($pdo, $id);
-		if($event === null) {
-			throw (new RuntimeException("Event does not exist.", 404));
-		}
-
-		// enforce the end user has a Jwt token
-		// validateJwtHeader();
-
-		//enforce the user is signed in and only trying to edit their own tweet
-		if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId()->toString() !== $event->getEventProfileId())ProfileId()->toString()) {
-			throw(new \InvalidArgumentException("You are not allowed to edit this event", 403));
-		}
-
-		// update all attributes
-		//$event->setEventStartDateTime($requestObject->eventStartDateTime);
-		$event->setEventDetail($requestObject->eventDetail);
-		$event->update($pdo);
-
-		// update reply
-		$reply->message = "Event updated OK";
-	} else if($method === "POST") {
-
-
-		// enforce that the user is signed in
+		//enforce the user is signed in and only trying to edit their own profile
 		if(empty($_SESSION["profile"]) === true) {
-			throw(new \InvalidArgumentException("you must be logged in to post events", 403));
+			throw(new \InvalidArgumentException("you must be logged in to post events", 401));
 		}
-		//enforce the end user has a JWT token
-		validateJwtHeader();
 
-		// create a new Event an insert it into the database
-		// TODO: come back and finish this as well.
-		$event = new Event(generateUuidV4(), $_SESSION["profile"]->getProfileId(), $requestObject->eventAttendeeLimit,)
+		verifyXsrf();
+		$requestContent = file_get_contents("php://input");
+		$requestObject = json_decode($requestContent);
 
-	}
+		//make sure event detail is available (required field)
+		if(empty($requestObject->eventDetail) === true) {
+			throw (new \InvalidArgumentException("No detail listed for event.", 405));
+		}
 
-	if($method === "DELETE") {
+		//make sure event name is available (required field)
+		if(empty($requestObject->eventName) === true) {
+			throw (new \InvalidArgumentException("No name listed for the event", 405));
+		}
+
+		// make sure there is a valid date for event (required field)
+		if(empty($requestObject->eventStartDateTime) === true) {
+			$requestObject->eventStartDateTime = date("Y-m-d H:i:s.u");
+		}
+
+		// make sure event Lat is available (required field)
+		// TODO: finish this
+		if(empty($requestObject->eventLat) === true) {
+			throw (new InvalidArgumentException("Invalid Latitude", 405));
+		}
+
+		// make sure event Long is available (required field)
+		if(empty($requestObject->eventLong) === true) {
+			throw (new InvalidArgumentException("Invalid Longitude", 405));
+		}
+
+		//perform the actual put or post
+		if($method === "PUT") {
+
+			//retrieve the method to update
+			$event = Event::getEventByEventId($pdo, $id);
+			if($event === null) {
+				throw (new RuntimeException("Event does not exist.", 404));
+			}
+
+			// enforce the end user has a Jwt token
+			// validateJwtHeader();
+
+			//enforce the user is signed in and only trying to edit their own event
+			if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId()->toString() !== $event->getEventProfileId()->toString()) {
+				throw(new \InvalidArgumentException("You are not allowed to edit this event", 403));
+			}
+
+			// update all attributes
+			//$event->setEventStartDateTime($requestObject->eventStartDateTime);
+			$event->setEventDetail($requestObject->eventDetail);
+			$event->update($pdo);
+
+			// update reply
+			$reply->message = "Event updated OK";
+		} else if ($method === "POST") {
+			// enforce that the user is signed in
+			if(empty($_SESSION["profile"]) === true) {
+				throw(new \InvalidArgumentException("you must be logged in to post events", 403));
+			}
+			//enforce the end user has a JWT token
+			validateJwtHeader();
+
+			// create a new Event an insert it into the database
+			// TODO: come back and finish this as well.
+			$event = new Event(generateUuidV4(), $_SESSION["profile"]->getProfileId(), $requestObject->eventAttendeeLimit, $requestObject->eventDetail, $requestObject->eventEndDateTime, $requestObject->eventImage, $requestObject->eventLat, $requestObject->eventLong, $requestObject->eventName, $requestObject->eventPrice, $requestObject->eventStartDateTime);
+			$event->insert($pdo);
+
+			// update reply
+			$reply->message="Event updated OK";
+
+			}
+
+	} else if($method === "DELETE") {
 
 		// enforce that the end user has a XSRF token
 		verifyXsrf();
@@ -186,6 +188,7 @@ try {
 			throw(new \InvalidArgumentException("You are not allowed to delete this event", 403));
 		}
 
+
 		// delete event
 		$event->delete($pdo);
 		// update reply
@@ -193,7 +196,6 @@ try {
 	} else {
 		throw (new InvalidArgumentException("Invalid HTTP Method request", 418));
 	}
-
 } catch(\Exception | \TypeError $exception) {
 	$reply->status = $exception->getCode();
 	$reply->message = $exception->getMessage();
