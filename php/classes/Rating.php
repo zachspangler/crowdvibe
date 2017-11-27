@@ -380,7 +380,7 @@ class Rating implements \JsonSerializable {
             }
 
             // create query template
-            $query = "SELECT eventAttendanceId, eventAttendanceEventId, eventAttendanceProfileId, eventAttendanceCheckIn, eventAttendanceNumberAttending FROM eventAttendance WHERE eventAttendanceCheckIn=1 AND eventAttendanceProfileId = :profileId";
+            $query = "SELECT AVG(ratingScore) AS avgRatingScore FROM rating WHERE ratingRateeProfileId = :profileId";
             $statement = $pdo->prepare($query);
 
             // bind the rating id to the place holder in the template

@@ -45,5 +45,66 @@ try {
 	if(($method === "DELETE" || $method === "PUT") && (empty($ratingId) === true)){
 		throw(new InvalidArgumentException("ratingId cannot be empty or negative", 405));
 	}
-
 }
+
+else if($method === "PUT" || $method === "POST") {
+
+	// enforce the user has a XSRF token
+	verifyXsrf();
+
+	//  Retrieves the JSON package that the front end sent, and stores it in $requestContent. Here we are using file_get_contents("php://input") to get the request from the front end. file_get_contents() is a PHP function that reads a file into a string. The argument for the function, here, is "php://input". This is a read only stream that allows raw data to be read from the front end request which is, in this case, a JSON package.
+	$requestContent = file_get_contents("php://input");
+
+	// This Line Then decodes the JSON package and stores that result in $requestObject
+	$requestObject = json_decode($requestContent);
+
+
+	//make sure tweet content is available (required field)
+	if(empty($requestObject->ratingScore) === true) {
+		throw(new \InvalidArgumentException ("No score for Rating.", 405));
+	}
+
+	//  make sure profileId is available
+	if(empty($requestObject->tweetProfileId) === true) {
+		throw(new \InvalidArgumentException ("No Profile ID.", 405));
+	}
+
+	//perform the actual post
+	if($method === "POST") {
+
+		// enforce the user is signed in
+		if(empty($_SESSION["profile"]) === true) {
+			throw(new \InvalidArgumentException("you must be logged in to post tweets", 403));
+		}
+
+		// create new rating and insert into the database
+		$rating = new rating(generateUuidV4(), $_SESSION["profile"]->getProfileId, $requestObject->ratingScore, null);
+		$ratingScore->insert($pdo);
+
+		// update reply
+		$reply->message = "Tweet created OK";
+	}
+
+
+// update the $reply->status $reply->message
+} catch(\Exception | \TypeError $exception) {
+	$reply->status = $exception->getCode();
+	$reply->message = $exception->getMessage();
+}
+
+header("Content-type: application/json");
+if($reply->data === null) {
+	unset($reply->data);
+}
+
+// encode and return reply to front end caller
+echo json_encode($reply);
+
+// finally - JSON encodes the $reply object and sends it back to the front end.
+
+<IfModule mod_rewrite.c>
+RewriteEngine on
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteRule ^/?([\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12})?$ ?profileId=$1&%{QUERY_STRING}
+</IfModule>
