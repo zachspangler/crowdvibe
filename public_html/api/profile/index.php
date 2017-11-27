@@ -37,7 +37,7 @@ try {
 	$profileEmail = filter_input(INPUT_GET, "profileEmail", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$profileFirstName = filter_input(INPUT_GET, "profileFirstName", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$profileLastName = filter_input(INPUT_GET, "profileLastName", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$profileUserName = filter_input(INPUT_GET, "profileUserName", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$profileUsername = filter_input(INPUT_GET, "profileUsername", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
 // make sure the id is valid for methods that require it
 	if(($method === "DELETE" || $method === "PUT") && (empty($id) === true || $id < 0)) {
@@ -48,8 +48,107 @@ try {
 		setXsrfCookie();
 		// gets a profile by content
 		if(empty($id) === false) {
-			$profile = Profile::getProfileByProfileId($pdo, $id);
+			$profile = Profile::getProfileByProfileId($pdo, $profileId);
 			// gets profile by profile id
 			if($profile !== null) {
-			$reply->data = $profile;
+				$reply->data = $profile;
+			}
+		} else if(empty($profileEmail) === false) {
+			$profile = Profile::getProfileByProfileEmail($pdo, $profileEmail);
+			if($profile !== null) {
+				$reply->data = $profile;
+			}
+		} else if(empty($profileUsername) === false) {
+			$profile = Profile::getProfileByProfileUserName($pdo, $profileUsername);
+			if($profile !== null) {
+				$reply->data = $profile;
+			}
+		} else if(empty($profileUsername) === false) {
+			$profile = Profile::getProfileByProfileName($pdo, $profileUsername);
+			if($profile !== null) {
+				$reply->data = $profile;
+			}
 		}
+	} else if ($method === "PUT") {
+		//enforce that the XSRF token is in the header
+		verifyXsrf();
+
+		//enforce the user is signed in and only trying and only trying to edit their profile
+		if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId()->toString() !== $profileId) {
+			throw(new \InvalidArgumentException("You are not allowed to access this profile", 403));
+		}
+
+		//decode the response from the front end
+		$requestContent = file_get_contents("php://input");
+		$requestObject = json_decode($requestContent);
+
+		//retrieve the profile to be updated
+		$profile = Profile::getProfileByProfileId($pdo, $profileId);
+		if($profile === null) {
+			throw(new \RuntimeException("Profile does not exist", 404));
+		}
+
+		//profile Bio
+		if(empty($requestObject->profileBio) === true) {
+			throw(new \InvalidArgumentException("No profile bio present", 405));
+		}
+
+		//profile Email
+		if(empty($requestObject->profileEmail) === true) {
+			throw(new \InvalidArgumentException("No profile email present", 405));
+		}
+
+		//profile First Name
+		if(empty($requestObject->profileFirstName) === true) {
+			throw(new \InvalidArgumentException("No first name present", 405));
+		}
+
+		//profile Last Name
+		if(empty($requestObject->profileLastName) === true) {
+			throw(new \InvalidArgumentException("No last name present", 405));
+		}
+
+		//profile Username
+		if(empty($requestObject->profileUsername) === true) {
+			throw(new \InvalidArgumentException("No profile username present", 405));
+		}
+
+		$profile->setProfileBio($requestObject->profileBio);
+		$profile->setProfileEmail($requestObject->profileEmail);
+		$profile->setProfileFirstName($requestObject->profileFirstName);
+		$profile->setProfileLastName($requestObject->profileLastName);
+		$profile->setProfileUsername($requestObject->profileUsername);
+		$profile->update($pdo);
+
+		// update reply
+		$reply->message = "Profile information updated";
+
+	} else if ($method === "DELETE") {
+		//Verify XRSF token
+		verifyXsrf();
+		//enforce the end user has a JWT token
+		//validateJwtHeader();
+		$profile = Profile::getProfileByProfileId($pdo, $profileId);
+		if($profile === null) {
+			throw (new \RuntimeException("Profile does not exist"));
+		}
+		//enforce the user is signed in and only trying to edit their own profile
+		if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId()->toString() !== $profile->getProfileId()) {
+			throw(new \InvalidArgumentException("You are not allowed to access this profile", 403));
+		}
+		//delete the post from the database
+		$profile->delete($pdo);
+		$reply->message = "Profile Deleted";
+	} else {
+		throw (new \InvalidArgumentException(("Invalid HTTP request"), 400));
+	}
+} catch (\Exception | \TypeError $exception) {
+	$reply->status = $exception->getCode();
+	$reply->message = $exception->getMessage();
+}
+header("Content-type: application/json");
+if($reply->data === null) {
+	unset($reply->data);
+}
+// encode and return reply to front end caller
+echo json_encode($reply);
