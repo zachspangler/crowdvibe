@@ -6,7 +6,7 @@ require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
 use Edu\Cnm\Crowdvibe\Profile;
 
 /**
- * api for handling sign-in
+ * api for handling sign-in to our application
  *
  * @author Zach Spangler
  */
