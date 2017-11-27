@@ -7,7 +7,7 @@ use Edu\Cnm\Crowdvibe\{
 	EventAttendance
 };
 /**
- * API for EventAttendance
+ * API for event-attendance
  *
  * @author Christian Owens <cowens17@cnm.edu>
  */
@@ -41,7 +41,7 @@ try {
 			//set XSRF cookie
 			setXsrfCookie();
 
-			//get a specific eventAttendance or all EventAttendance and update reply
+			//get a specific eventAttendance or all event-attendance and update reply
 			if(empty($eventAttendanceId) === false) {
 				$eventAttendanceId = EventAttendance::getEventAttendanceByEventAttendanceId($pdo, $id);
 				if($eventAttendanceId !== null) {

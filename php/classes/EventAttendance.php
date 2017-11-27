@@ -216,7 +216,7 @@ class EventAttendance implements \JsonSerializable {
 		$statement->execute($parameters);
 	}
 	/**
-	 * deletes this EventAttendance from mySQL
+	 * deletes this event-attendance from mySQL
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySQL related errors occur
@@ -233,7 +233,7 @@ class EventAttendance implements \JsonSerializable {
 		$statement->execute($parameters);
 	}
 	/**
-	 * updates this EventAttendance in mySQL
+	 * updates this event-attendance in mySQL
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySQL related errors occur

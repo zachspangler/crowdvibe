@@ -31,7 +31,7 @@ try {
 	// determine which HTTP method was used
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 	// sanitize input
-	$profileId = filter_input(INPUT_GET, "profileId", FILTER_VALIDATE_INT);
+	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
 	$profileActivationToken = filter_input(INPUT_GET, "profileActivationToken", FILTER_SANITIZE_STRING);
 	$profileBio = filter_input(INPUT_GET, "profileBio", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$profileEmail = filter_input(INPUT_GET, "profileEmail", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
@@ -48,7 +48,7 @@ try {
 		setXsrfCookie();
 		// gets a profile by content
 		if(empty($id) === false) {
-			$profile = Profile::getProfileByProfileId($pdo, $profileId);
+			$profile = Profile::getProfileByProfileId($pdo, $id);
 			// gets profile by profile id
 			if($profile !== null) {
 				$reply->data = $profile;
@@ -74,7 +74,7 @@ try {
 		verifyXsrf();
 
 		//enforce the user is signed in and only trying and only trying to edit their profile
-		if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId()->toString() !== $profileId) {
+		if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId()->toString() !== $id) {
 			throw(new \InvalidArgumentException("You are not allowed to access this profile", 403));
 		}
 
@@ -83,7 +83,7 @@ try {
 		$requestObject = json_decode($requestContent);
 
 		//retrieve the profile to be updated
-		$profile = Profile::getProfileByProfileId($pdo, $profileId);
+		$profile = Profile::getProfileByProfileId($pdo, $id);
 		if($profile === null) {
 			throw(new \RuntimeException("Profile does not exist", 404));
 		}
@@ -128,7 +128,7 @@ try {
 		verifyXsrf();
 		//enforce the end user has a JWT token
 		//validateJwtHeader();
-		$profile = Profile::getProfileByProfileId($pdo, $profileId);
+		$profile = Profile::getProfileByProfileId($pdo, $id);
 		if($profile === null) {
 			throw (new \RuntimeException("Profile does not exist"));
 		}
