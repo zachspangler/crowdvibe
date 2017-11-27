@@ -59,14 +59,19 @@ else if($method === "PUT" || $method === "POST") {
 	$requestObject = json_decode($requestContent);
 
 
-	//make sure tweet content is available (required field)
+	//make sure rating score is available (required field)
 	if(empty($requestObject->ratingScore) === true) {
 		throw(new \InvalidArgumentException ("No score for Rating.", 405));
 	}
 
-	//  make sure profileId is available
-	if(empty($requestObject->tweetProfileId) === true) {
+	//  make sure rating ratee profile id is available
+	if(empty($requestObject->ratingRateeProfileId) === true) {
 		throw(new \InvalidArgumentException ("No Profile ID.", 405));
+	}
+
+	// make sure rating event attendance id is available
+	if(empty($requestObject->ratingEventAttendanceId) === true) {
+		throw (new \InvalidArgumentException("No Event Attendance Id.", 405));
 	}
 
 	//perform the actual post
@@ -78,11 +83,11 @@ else if($method === "PUT" || $method === "POST") {
 		}
 
 		// create new rating and insert into the database
-		$rating = new rating(generateUuidV4(), $_SESSION["profile"]->getProfileId, $requestObject->ratingScore, null);
+		$rating = new Rating(generateUuidV4(), $requestObject->ratingEventAttendanceId, $requestObject->ratingRateeProfileId, $_SESSION["profile"]->getProfileId, $requestObject->ratingScore);
 		$ratingScore->insert($pdo);
 
 		// update reply
-		$reply->message = "Tweet created OK";
+		$reply->message = "Rating was submitted successfully.";
 	}
 
 
