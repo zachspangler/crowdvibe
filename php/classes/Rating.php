@@ -380,12 +380,13 @@ class Rating implements \JsonSerializable {
             }
 
             // create query template
-            SELECT eventAttendanceId, eventAttendanceEventId, eventAttendanceProfileId, eventAttendanceCheckIn, eventAttendanceNumberAttending FROM eventAttendance WHERE eventAttendanceCheckIn=1 AND eventAttendanceProfileId = :profileId;
+            $query = "SELECT eventAttendanceId, eventAttendanceEventId, eventAttendanceProfileId, eventAttendanceCheckIn, eventAttendanceNumberAttending FROM eventAttendance WHERE eventAttendanceCheckIn=1 AND eventAttendanceProfileId = :profileId";
             $statement = $pdo->prepare($query);
 
             // bind the rating id to the place holder in the template
             $parameters = ["profileId" => $profileId->getBytes()];
             $statement->execute($parameters);
+
             // grab the rating from mySQL
             try {
                 $rating = null;
