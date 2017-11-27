@@ -3,7 +3,7 @@ require_once dirname(__DIR__, 3) . "/php/classes/autoload.php";
 require_once dirname(__DIR__, 3) . "/php/lib/xsrf.php";
 require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
 
-use Edu\Cnm\Crowdvibe\{
+use Edu\Cnm\CrowdVibe\{
 	EventAttendance
 };
 /**
@@ -37,38 +37,7 @@ try {
 	if(($method === "GET" || $method === "PUT") && (empty($id) === true || $eventAttendanceId < 0)) {
 		throw(new InvalidArgumentException("id cannot be empty or negative", 405));
 // handle GET request - if eventAttendanceId is present, that eventAttendance is returned, otherwise all eventAttendance are returned
-		if($method === "GET") {
-			//set XSRF cookie
-			setXsrfCookie();
 
-			//get a specific eventAttendance or all event-attendance and update reply
-			if(empty($eventAttendanceId) === false) {
-				$eventAttendanceId = EventAttendance::getEventAttendanceByEventAttendanceId($pdo, $id);
-				if($eventAttendanceId !== null) {
-					$reply->data = $eventAttendanceId;
-				}
-			} else if(empty($eventAttendanceEventId) === false) {
-				$eventAttendanceEventId = EventAttendance::getEventAttendanceByEventAttendanceEventId($pdo, $eventAttendanceEventId)->toArray();
-				if($eventAttendanceEventId !== null) {
-					$reply->data = $eventAttendanceEventId;
-				}
-			} else if(empty($eventAttendanceProfileId) === false) {
-				$eventAttendanceProfileId = EventAttendance::getEventAttendanceByEventAttendanceProfileId($pdo, $eventAttendanceProfileId)->toArray();
-				if($eventAttendanceProfileId !== null) {
-					$reply->data = $eventAttendanceProfileId;
-				}
-			} else {
-				$eventAttendanceCheckIn = EventAttendance::getAllEventAttendanceCheckIn($pdo)->toArray();
-				if($eventAttendanceCheckIn !== null) {
-					$reply->data = $eventAttendanceCheckIn;
-				}
-			}}
-		else {
-				$eventAttendanceNumberAttending = EventAttendance::getAllEventAttendanceNumberAttending($pdo)->toArray();
-				if($eventAttendanceNumberAttending !== null) {
-					$reply->data = $eventAttendanceNumberAttending;
-				}
-			}
 
 		} else if($method === "PUT" || $method === "POST") {
 
@@ -79,7 +48,6 @@ try {
 			// Retrieves the JSON package that the front end sent, and stores it in $requestContent. Here we are using file_get_contents("php://input") to get the request from the front end. file_get_contents() is a PHP function that reads a file into a string. The argument for the function, here, is "php://input". This is a read only stream that allows raw data to be read from the front end request which is, in this case, a JSON package.
 			$requestObject = json_decode($requestContent);
 			// This Line Then decodes the JSON package and stores that result in $requestObject
-
 
 			//  make sure profileId is available
 			if(empty($requestObject->eventAttendanceProfileId) === true) {
@@ -97,7 +65,7 @@ try {
 			if($method === "PUT") {
 
 				// retrieve the event to update
-				$eventAttendanceEventId = Event::getEventByEventId($pdo, $id);
+				$eventAttendanceEventId = $eventAttendanceId::getEventByEventId($pdo, $id);
 				if($eventAttendanceEventId === null) {
 					throw(new RuntimeException("Event does not exist", 404));
 				}
@@ -165,4 +133,3 @@ if($reply->data === null) {
 
 // encode and return reply to front end caller
 echo json_encode($reply);
-}
