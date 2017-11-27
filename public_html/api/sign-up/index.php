@@ -26,6 +26,7 @@ $reply->data = null;
 try {
 	//grab the mySQL connection
 	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/crowdvibe.ini");
+
 	//determine which HTTP method was used
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 	if($method === "POST") {
@@ -106,7 +107,7 @@ EOF;
 		 * attach recipients to the message
 		 * notice this is an array that can include or omit the recipient's name
 		 * use the recipient's real name where possible;
-		 * this reduces the probability of the email is marked as spam
+		 * this reduces the probability willsterof the email is marked as spam
 		 */
 		//define who the recipient is
 		$recipients = [$requestObject->profileEmail];
