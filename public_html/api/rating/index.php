@@ -45,7 +45,7 @@ try {
 	if(($method === "DELETE" || $method === "PUT") && (empty($ratingId) === true)){
 		throw(new InvalidArgumentException("ratingId cannot be empty or negative", 405));
 	}
-}
+
 
 else if($method === "PUT" || $method === "POST") {
 
@@ -89,6 +89,7 @@ else if($method === "PUT" || $method === "POST") {
 		// update reply
 		$reply->message = "Rating was submitted successfully.";
 	}
+}
 
 
 // update the $reply->status $reply->message
