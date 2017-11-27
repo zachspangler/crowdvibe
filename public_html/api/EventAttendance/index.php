@@ -41,7 +41,7 @@ try {
 			//set XSRF cookie
 			setXsrfCookie();
 
-			//get a specific eventAttendance or all eventAttendance and update reply
+			//get a specific eventAttendance or all EventAttendance and update reply
 			if(empty($eventAttendanceId) === false) {
 				$eventAttendanceId = EventAttendance::getEventAttendanceByEventAttendanceId($pdo, $id);
 				if($eventAttendanceId !== null) {
@@ -62,7 +62,7 @@ try {
 				if($eventAttendanceCheckIn !== null) {
 					$reply->data = $eventAttendanceCheckIn;
 				}
-			}
+			}}
 		else {
 				$eventAttendanceNumberAttending = EventAttendance::getAllEventAttendanceNumberAttending($pdo)->toArray();
 				if($eventAttendanceNumberAttending !== null) {
