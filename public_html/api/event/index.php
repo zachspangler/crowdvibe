@@ -126,6 +126,16 @@ try {
 			throw (new InvalidArgumentException("Invalid Longitude", 405));
 		}
 
+		// make sure event Price is available (required field)
+		if(empty($requestObject->eventPrice) === true) {
+			throw (new InvalidArgumentException("Invalid Price", 405));
+		}
+
+		// make sure event Image is available (optional field)
+		if (empty($requestObject->eventImage) === true) {
+			throw (new InvalidArgumentException("No image available", 405));
+		}
+
 		//perform the actual put or post
 		if($method === "PUT") {
 
