@@ -371,20 +371,20 @@ class Rating implements \JsonSerializable {
          **/
 
         //TODO Get with Dylan to review the query
-        public static function getRatingByRatingRateeProfileId(\PDO $pdo, $ratingRateeProfileId):?Rating {
+        public static function getRatingByRatingRateeProfileId(\PDO $pdo, $profileId):?Rating {
             // sanitize the rating id before searching
             try {
-                $ratingRateeProfileId = self::validateUuid($ratingRateeProfileId);
+                $profileId = self::validateUuid($profileId);
             } catch (\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
                 throw (new \PDOException($exception->getMessage(), 0, $exception));
             }
 
             // create query template
-            $query = "SELECT ratingId, ratingEventAttendanceId, ratingRateeProfileId, ratingRateeProfileId, ratingScore FROM rating WHERE ratingRateeProfileId = :ratingRateeProfileId";
+            SELECT eventAttendanceId, eventAttendanceEventId, eventAttendanceProfileId, eventAttendanceCheckIn, eventAttendanceNumberAttending FROM eventAttendance WHERE eventAttendanceCheckIn=1 AND eventAttendanceProfileId = :profileId;
             $statement = $pdo->prepare($query);
 
             // bind the rating id to the place holder in the template
-            $parameters = ["ratingRateeProfileId" => $ratingRateeProfileId->getBytes()];
+            $parameters = ["profileId" => $profileId->getBytes()];
             $statement->execute($parameters);
             // grab the rating from mySQL
             try {
