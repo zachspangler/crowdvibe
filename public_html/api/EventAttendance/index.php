@@ -108,7 +108,7 @@ try {
 				}
 
 				// update all attributes
-				$eventAttendanceId->setEventAttendanceNumberAttending($requestObject->tweetContent);
+				$eventAttendanceId->setEventAttendanceNumberAttending($requestObject->EventAttendanceNumberAttending);
 				$eventAttendanceId->update($pdo);
 
 				// update reply
