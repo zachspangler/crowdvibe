@@ -8,7 +8,7 @@ require_once dirname(__DIR__, 3) . "/php/lib/uuid.php";
 
 
 use Edu\Cnm\CrowdVibe\ValidateDate;
-use Edu\Cnm\Crowdvibe\{
+use Edu\Cnm\CrowdVibe\{
 	Event,
 	// we only use Profile for testing purposes
 	Profile
@@ -84,7 +84,7 @@ try {
 				$reply->data->$events;
 			}
 		} else if(empty($eventStartDateTime) === false) {
-			$events = Event::getEventByEventStartDateTime($pdo,\DateTime, \DateTime);
+			$events = Event::getEventByEventStartDateTime($pdo, \DateTime, \DateTime);
 		} else {
 			$events = Event::getAllEvents($pdo)->toArray();
 			if($events === null) {
@@ -179,8 +179,7 @@ try {
 
 			// update reply
 			$reply->message="Event updated OK";
-
-			}
+		}
 
 	} else if($method === "DELETE") {
 
