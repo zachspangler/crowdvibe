@@ -117,7 +117,6 @@ try {
 		}
 
 		// make sure event Lat is available (required field)
-		// TODO: finish this
 		if(empty($requestObject->eventLat) === true) {
 			throw (new InvalidArgumentException("Invalid Latitude", 405));
 		}
@@ -160,7 +159,6 @@ try {
 			validateJwtHeader();
 
 			// create a new Event an insert it into the database
-			// TODO: come back and finish this as well.
 			$event = new Event(generateUuidV4(), $_SESSION["profile"]->getProfileId(), $requestObject->eventAttendeeLimit, $requestObject->eventDetail, $requestObject->eventEndDateTime, $requestObject->eventImage, $requestObject->eventLat, $requestObject->eventLong, $requestObject->eventName, $requestObject->eventPrice, $requestObject->eventStartDateTime);
 			$event->insert($pdo);
 
