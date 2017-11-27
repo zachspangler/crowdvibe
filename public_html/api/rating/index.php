@@ -79,7 +79,7 @@ else if($method === "PUT" || $method === "POST") {
 
 		// enforce the user is signed in
 		if(empty($_SESSION["profile"]) === true) {
-			throw(new \InvalidArgumentException("you must be logged in to post tweets", 403));
+			throw(new \InvalidArgumentException("you must be logged in to make a rating", 403));
 		}
 
 		// create new rating and insert into the database
@@ -107,9 +107,3 @@ echo json_encode($reply);
 
 // finally - JSON encodes the $reply object and sends it back to the front end.
 
-<IfModule mod_rewrite.c>
-RewriteEngine on
-	RewriteCond %{REQUEST_FILENAME} !-f
-	RewriteCond %{REQUEST_FILENAME} !-d
-	RewriteRule ^/?([\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12})?$ ?profileId=$1&%{QUERY_STRING}
-</IfModule>

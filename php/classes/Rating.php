@@ -370,7 +370,7 @@ class Rating implements \JsonSerializable {
          * @throws \TypeError when variable is not the correct date type
          **/
 
-        //TODO Get with Dylan to review the query
+
         public static function getRatingByRatingRateeProfileId(\PDO $pdo, $profileId):?Rating {
             // sanitize the rating id before searching
             try {
@@ -389,18 +389,60 @@ class Rating implements \JsonSerializable {
 
             // grab the rating from mySQL
             try {
-                $rating = null;
+                $ratingAvg = null;
                 $statement->fetch();
                 $row = $statement->fetch();
                 if($row !== false) {
-                    $rating = new Rating($row["ratingId"], $row["ratingEventAttendanceId"], $row["ratingRateeProfileId"], $row["ratingRaterProfileId"], $row["ratingScore"]);
+                    $ratingAvg = $row["avgRatingScore"];
                 }
             } catch (\Exception $exception) {
                 //if the row couldn't be covert, rethrow it
                 throw(new \PDOException($exception->getMessage(), 0, $exception));
             }
-            return ($rating);
+            return ($ratingAvg);
         }
+
+	/**
+	 * get the Rating by rating event id
+	 *
+	 * @param \PDO $pdo $pdo PDO connection object
+	 * @param Uuid|string $eventId rating Id to search for
+	 * @return Rating Rating or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variable is not the correct date type
+	 **/
+
+
+	public static function getRatingByEventId(\PDO $pdo, $eventId):?Rating {
+		// sanitize the event id before searching
+		try {
+			$eventId = self::validateUuid($eventId);
+		} catch (\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			throw (new \PDOException($exception->getMessage(), 0, $exception));
+		}
+
+		// create query template
+		$query = "SELECT AVG(ratingScore) AS avgRatingScore FROM rating INNER JOIN eventAttendance ON eventAttendance.eventAttendanceId = rating.ratingEventAttendanceId WHERE eventAttendanceCheckIn = 1 AND eventAttendanceEventId = :eventId";
+		$statement = $pdo->prepare($query);
+
+		// bind the rating id to the place holder in the template
+		$parameters = ["eventId" => $eventId->getBytes()];
+		$statement->execute($parameters);
+
+		// grab the rating from mySQL
+		try {
+			$ratingAvg = null;
+			$statement->fetch();
+			$row = $statement->fetch();
+			if($row !== false) {
+				$ratingAvg = $row["avgRatingScore"];
+			}
+		} catch (\Exception $exception) {
+			//if the row couldn't be covert, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return ($ratingAvg);
+	}
 
             /**
              * get the Rating by rating rater profile id

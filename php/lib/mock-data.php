@@ -62,9 +62,12 @@ $rating1 = new Rating($ratingId1, $eventAttendance->getEventAttendanceEventId(),
 $rating1->insert($pdo);
 
 $ratingId2= generateUuidV4();
-$rating2 = new Rating($ratingId2, $eventAttendance->getEventAttendanceEventId(),$profile2->getProfileId(), $profile2->getProfileId(), 1);
+$rating2 = new Rating($ratingId2, $eventAttendance->getEventAttendanceEventId(),$profile2->getProfileId(), $profile->getProfileId(), 1);
 $rating2->insert($pdo);
 
 $ratingId3= generateUuidV4();
-$rating3 = new Rating($ratingId3, $eventAttendance3->getEventAttendanceEventId(), $profile2->getProfileId(), $profile2->getProfileId(), 5);
+$rating3 = new Rating($ratingId3, $eventAttendance3->getEventAttendanceEventId(), $profile2->getProfileId(), $profile->getProfileId(), 5);
 $rating3->insert($pdo);
+
+var_dump($event->getEventId()->toString());
+var_dump($event2->getEventId()->toString());
