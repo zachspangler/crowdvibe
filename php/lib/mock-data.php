@@ -68,6 +68,3 @@ $rating2->insert($pdo);
 $ratingId3= generateUuidV4();
 $rating3 = new Rating($ratingId3, $eventAttendance3->getEventAttendanceEventId(), $profile2->getProfileId(), $profile->getProfileId(), 5);
 $rating3->insert($pdo);
-
-var_dump($event->getEventId()->toString());
-var_dump($event2->getEventId()->toString());
