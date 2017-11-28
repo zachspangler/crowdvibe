@@ -12,7 +12,7 @@ use Edu\Cnm\CrowdVibe\Profile;
 /**
  * api for handling sign-in to our application
  *
- * @author Zach Spangler
+ * @author Zach Spangler <zaspangler@gmail.com>
  */
 
 // prepare an empty reply

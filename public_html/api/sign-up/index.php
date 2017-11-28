@@ -11,7 +11,7 @@ use Edu\Cnm\CrowdVibe\Profile;
 /**
  * api for signing up for CrowdVibe
  *
- * @author Zach Spangler <zaspnagler@gmail.com>
+ * @author Zach Spangler <zaspangler@gmail.com>
  * @coauthor Gkephart <GKephart@cnm.edu>
  **/
 

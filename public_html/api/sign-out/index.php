@@ -13,7 +13,7 @@ use Edu\Cnm\CrowdVibe\ {
 /**
  * api for signing out of our application
  *
- * @author Zach Spangler
+ * @author Zach Spangler <zaspangler@gmail.com>
  * @version 1.0
  */
 //verify the xsrf challenge

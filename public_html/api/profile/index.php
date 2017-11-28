@@ -13,7 +13,7 @@ use Edu\Cnm\CrowdVibe\ {
 /**
  * API for Profile
  *
- * @author Zach Spangler
+ * @author Zach Spangler <zaspangler@gmail.com>
  * @version 1.0
  */
 
