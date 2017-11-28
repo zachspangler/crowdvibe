@@ -695,7 +695,7 @@ class Event implements \JsonSerializable {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch())!== false) {
 			try {
-				$event = new Event($row ["eventId"], $row ["eventProfileId"], $row["eventAttendeeLimit"], $row["eventDetail"], $row["eventEndDateTime"], $row["eventImage"], $row["eventLat"], $row["eventLong"], $row["eventName"], $row["eventPrice"], $row["eventStartDateTime"]);
+				$event = new Event($row ["eventId"], $row ["eventProfileId"], $row ["eventAttendeeLimit"], $row["eventDetail"], $row ["eventEndDateTime"], $row ["eventImage"], $row ["eventLat"], $row ["eventLong"], $row ["eventName"], $row ["eventPrice"], $row ["eventStartDateTime"]);
 				$events[$events->key()] = $event;
 				$events->next();
 			} catch(\Exception $exception) {
