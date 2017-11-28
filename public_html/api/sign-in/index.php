@@ -39,9 +39,6 @@ try {
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
 
-		var_dump($requestContent);
-		var_dump($requestObject);
-
 		// check to make sure the password and email field is not empty
 		if(empty($requestObject->profileEmail) === true) {
 			throw(new \InvalidArgumentException("Incorrect email address", 400));
@@ -66,8 +63,6 @@ try {
 		// hash the password given to make sure it matches
 		$profileHash = hash_pbkdf2("sha512", $profilePassword, $profile->getProfileSalt(), 262144);
 		// verify the hash is correct
-
-		var_dump($profileHash);
 
 		if($profileHash !== $profile->getProfileHash()) {
 			throw(new \InvalidArgumentException("Email or password is incorrect"));

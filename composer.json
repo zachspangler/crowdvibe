@@ -1,7 +1,9 @@
 {
   "require": {
     "apigen/apigen": "dev-master",
+    "cloudinary/cloudinary_php": "dev-master",
     "phpdocumentor/reflection-docblock": "@stable",
+    "lcobucci/jwt": "3.2",
     "phpunit/dbunit": "@stable",
     "phpunit/phpunit": "@stable",
     "ramsey/uuid": "@stable",

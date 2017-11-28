@@ -136,12 +136,13 @@ try {
 			throw (new \RuntimeException("Profile does not exist"));
 		}
 		//enforce the user is signed in and only trying to edit their own profile
-		if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId()->toString() !== $profile->getProfileId()) {
-			throw(new \InvalidArgumentException("You are not allowed to access this profile", 403));
+		if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId()->toString() !== $profile->getProfileId()->toString()) {
+			throw(new \InvalidArgumentException("You are not allowed to access this profile", 400));
 		}
 		//delete the profile from the database
 		$profile->delete($pdo);
 		$reply->message = "Profile Deleted";
+
 	} else {
 		throw (new \InvalidArgumentException(("Invalid HTTP request"), 400));
 	}
