@@ -4,14 +4,15 @@
 		<meta charset="utf-8"/>
 		<meta http-equiv="X-UA-Compatible" content="ie=edge"/>
 		<meta name="viewport" content="width = device-width, initial-scale = 1, shrink-to-fit = no"/>
-		<meta name="author" content="Luther, Zach, Chris, Matt"/>
-		<meta name="description" content="This project is to complete."/>
+		<meta name="author" content="Chris, Luther, Matt, Zach"/>
+		<meta name="description" content="CrowdVibe, is a social platform allowing people to connect through near live event posting."/>
 
 		<!-- Bootstrap CSS -->
 
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous"/>
 
-		<!-- Custom CSS -->
+		<!-- CrowdVibe CSS -->
+
 
 		<!-- jQuery, Popper.js, Bootstrap JS -->
 
@@ -25,8 +26,15 @@
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/additional-methods.min.js"></script>
 
-		<!-- Custom Javascript -->
+		<!-- CrowdVibe Javascript -->
 
-		<title>Albuquerque Report It</title>
+		<!--Google Fonts -->
+
+		<!-- CrowdVibe Favicon -->
+
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+		<title>CrowdVibe</title>
 	</head>
 	<body>
