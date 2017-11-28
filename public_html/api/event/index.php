@@ -7,7 +7,7 @@ require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 
 use Edu\Cnm\CrowdVibe\ValidateDate;
-use Edu\Cnm\CrowdVibe\{
+use Edu\Cnm\CrowdVibe\ {
 	Event,
 	// we only use Profile for testing purposes
 	Profile
@@ -31,7 +31,7 @@ $reply->status = 200;
 $reply->data = null;
 try {
 	// grab the mySQL connection
-	$pdo = connectionToEncryptedMySQL("/etc/apache2/capstone-mysql/crowdvibe.ini");
+	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/crowdvibe.ini");
 
 	// mock a logged on user by forcing the session. This is only for testing purposes and should not be in the live code
 
