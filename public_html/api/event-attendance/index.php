@@ -1,11 +1,10 @@
 <?php
+require_once dirname(__DIR__,3) . "/vendor/autoload.php";
 require_once dirname(__DIR__, 3) . "/php/classes/autoload.php";
 require_once dirname(__DIR__, 3) . "/php/lib/xsrf.php";
 require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
 
-use Edu\Cnm\CrowdVibe\{
-	EventAttendance
-};
+use Edu\Cnm\CrowdVibe\EventAttendance;
 /**
  * API for event-attendance
  *
@@ -22,7 +21,7 @@ $reply->data = null;
 
 try {
 	// grab the mySQL connection
-	$pdo = connectionToEncryptedMySQL("/etc/apache2/capstone-mysql/ddctwitter.ini");
+	$pdo = connectionToEncryptedMySQL("/etc/apache2/capstone-mysql/crowdvibe.ini");
 	//determine which HTTP method was used
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 
@@ -34,11 +33,31 @@ try {
 	$eventAttendanceNumberAttending = filter_input(INPUT_GET, "eventAttendanceNumberAttending",FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
 	//make sure the id is valid for methods that require it
-	if(($method === "GET" || $method === "PUT") && (empty($id) === true || $eventAttendanceId < 0)) {
+	if(($method === "GET" || $method === "PUT") && (empty($id) === true || $eventAttendanceId < 0)){
 		throw(new InvalidArgumentException("id cannot be empty or negative", 405));
+	}
 // handle GET request - if eventAttendanceId is present, that eventAttendance is returned, otherwise all eventAttendance are returned
+		if($method === "GET") {
+			//set XSRF cookie
+			setXsrfCookie();
 
-
+			//get a specific event
+			if(empty($eventAttendanceId) === false) {
+				$eventAttendanceId = EventAttendance::getEventAttendanceByEventAttendanceId($pdo, $id);
+				if($eventAttendanceId !== null) {
+					$reply->data = $eventAttendanceId;
+				}
+			} else if(empty($eventAttendanceProfileId) === false) {
+				$eventAttendanceId = EventAttendance::getEventAttendanceByEventAttendanceProfileId($pdo, $eventAttendanceProfileId);
+				if($eventAttendanceProfileId !== null) {
+					$reply->data = $eventAttendanceProfileId;
+				}
+			} else if(empty($eventAttendanceEventId) === false) {
+				$eventAttendanceEventId = EventAttendance::getEventAttendanceByEventAttendanceEventId($pdo, $eventAttendanceEventId);
+				if($eventAttendanceEventId !== null) {
+					$reply->data = $eventAttendanceEventId;
+				}
+			}
 		} else if($method === "PUT" || $method === "POST") {
 
 			//enforce that the user has an XSRF token
@@ -61,6 +80,7 @@ try {
 			if(empty($requestObject->eventAttendanceNumberAttending) === true) {
 				throw(new \InvalidArgumentException ("No number attending for this event.", 405));
 			}
+
 			//perform the actual put or post
 			if($method === "PUT") {
 
@@ -71,7 +91,7 @@ try {
 				}
 
 				//enforce the user is signed in and only trying to edit their own events
-				if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId() !== $eventAttendanceEventId->getEventAttendanceProfileId()) {
+				if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId() !== $eventAttendanceEventId->getEventAttendanceEventId) {
 					throw(new \InvalidArgumentException("You are not allowed to edit this event", 403));
 				}
 
@@ -90,8 +110,8 @@ try {
 				}
 
 				// create new event and insert into the database
-				$eventAttendanceId = new eventAttendanceEventId(generateUuidV4(), $_SESSION["profile"]->getProfileId(), $requestObject->eventAttendanceNumberAttending, null);
-				$eventAttendanceId->insert($pdo);
+				$eventAttendanceId = new \Edu\Cnm\CrowdVibe\Event(generateUuidV4(), $_SESSION["profile"]->getProfileId(), $requestObject->eventAttendanceNumberAttending, null);
+				$eventAttendanceId->insert ($pdo);
 
 				// update reply
 				$reply->message = "Event created OK";
