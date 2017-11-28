@@ -83,7 +83,7 @@ try {
 		//insert the profile into the database
 		$profile->insert($pdo);
 		//compose the email message to send with the activation token
-		$messageSubject = "One more step before you can start Vibing, just confirm your account";
+		$messageSubject = "One more step before you can start Vibing, just confirm your account through your email.";
 
 		//building the activation link that can travel to another server and still work. This is the link that will be clicked to confirm the account.
 		//make sure URL is /public_html/api/activation/$activation
@@ -146,7 +146,7 @@ EOF;
 			throw(new RuntimeException("unable to send email",400));
 		}
 		// update reply
-		$reply->message = "Thank you for creating a Crowbvibe profile. Now you can start vibing";
+		$reply->message = "Thank you for creating a Crowbvibe profile. One more step before you can start Vibing. We have sent you an email to confirm your account, please open the email and click the link to confirm.";
 	} else {
 		throw (new InvalidArgumentException("invalid http request",418));
 	}
