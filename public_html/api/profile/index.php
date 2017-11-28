@@ -132,8 +132,6 @@ try {
 		//validateJwtHeader();
 		$profile = Profile::getProfileByProfileId($pdo, $id);
 
-		var_dump($profile);
-
 		if($profile === null) {
 			throw (new \RuntimeException("Profile does not exist"));
 		}
