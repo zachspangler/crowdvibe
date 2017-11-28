@@ -133,7 +133,6 @@ try {
 		$profile = Profile::getProfileByProfileId($pdo, $id);
 
 		var_dump($profile);
-		var_dump($_SESSION);
 
 		if($profile === null) {
 			throw (new \RuntimeException("Profile does not exist"));
