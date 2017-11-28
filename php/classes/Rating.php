@@ -371,7 +371,7 @@ class Rating implements \JsonSerializable {
          **/
 
 
-        public static function getRatingByProfileId(\PDO $pdo, $profileId):?Rating {
+        public static function getRatingByProfileId(\PDO $pdo, $profileId):?float {
             // sanitize the rating id before searching
             try {
                 $profileId = self::validateUuid($profileId);
@@ -413,7 +413,7 @@ class Rating implements \JsonSerializable {
 	 **/
 
 
-	public static function getRatingByEventId(\PDO $pdo, $eventId):?Rating {
+	public static function getRatingByEventId(\PDO $pdo, $eventId):?float {
 		// sanitize the event id before searching
 		try {
 			$eventId = self::validateUuid($eventId);
@@ -432,7 +432,7 @@ class Rating implements \JsonSerializable {
 		// grab the rating from mySQL
 		try {
 			$ratingAvg = null;
-			$statement->fetch();
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
 				$ratingAvg = $row["avgRatingScore"];
