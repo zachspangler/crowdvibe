@@ -45,7 +45,7 @@ try {
 		}
 
 		//profile username is a required field
-		if(empty($requestObject->profileUsername) === true) {
+		if(empty($requestObject->profileUserName) === true) {
 			throw(new \InvalidArgumentException ("No profile username is present", 405));
 		}
 
@@ -79,7 +79,7 @@ try {
 		$profileId = generateUuidV4();
 
 		//create the profile object and prepare to insert into the database
-		$profile = new Profile($profileId, $profileActivationToken, $requestObject->profileBio, $requestObject->profileEmail, $requestObject->profileFirstName, $profileHash, $profileImage, $requestObject->profilLastName, $profileSalt, $requestObject->profileUserName);
+		$profile = new Profile($profileId, $profileActivationToken, $requestObject->profileBio, $requestObject->profileEmail, $requestObject->profileFirstName, $profileHash, $profileImage, $requestObject->profileLastName, $profileSalt, $requestObject->profileUserName);
 		//insert the profile into the database
 		$profile->insert($pdo);
 		//compose the email message to send with the activation token

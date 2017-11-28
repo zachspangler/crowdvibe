@@ -24,22 +24,27 @@ try {
 		session_start();
 	}
 	// grab MySQL statement
-	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/crowbvibe.ini");
+	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/crowdvibe.ini");
 
 	// determine which HTTP method is being used
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 
 	// if method is POST, handle the sign in logic
 	if($method === "POST") {
+
 		// make sure XSRF token is valid
 		verifyXsrf();
+
 		// process the request content and decode the json object into a php object
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
 
+		var_dump($requestContent);
+		var_dump($requestObject);
+
 		// check to make sure the password and email field is not empty
 		if(empty($requestObject->profileEmail) === true) {
-			throw(new \InvalidArgumentException("Incorrect email address", 401));
+			throw(new \InvalidArgumentException("Incorrect email address", 400));
 		} else {
 			$profileEmail = filter_var($requestObject->profileEmail, FILTER_SANITIZE_EMAIL);
 		}
@@ -52,7 +57,7 @@ try {
 		// grab the profile from the database by the email provided
 		$profile = Profile::getProfileByProfileEmail($pdo, $profileEmail);
 		if(empty($profile) === true) {
-			throw(new \InvalidArgumentException("Invalid Email", 401));
+			throw(new \InvalidArgumentException("Email does not exist", 401));
 		}
 		// if the profile activation is not null, throw an error
 		if($profile->getProfileActivationToken() !== null) {
@@ -61,6 +66,9 @@ try {
 		// hash the password given to make sure it matches
 		$profileHash = hash_pbkdf2("sha512", $profilePassword, $profile->getProfileSalt(), 262144);
 		// verify the hash is correct
+
+		var_dump($profileHash);
+
 		if($profileHash !== $profile->getProfileHash()) {
 			throw(new \InvalidArgumentException("Email or password is incorrect"));
 		}

@@ -27,17 +27,18 @@ $reply->status = 200;
 $reply->data = null;
 try {
 	// grab the MySQL connection
-	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/crowbvibe.ini");
+	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/crowdvibe.ini");
+
 	// determine which HTTP method was used
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 	// sanitize input
-	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
+	$id = filter_input(INPUT_GET, "id", FILTER_SANITIZE_STRING);
 	$profileActivationToken = filter_input(INPUT_GET, "profileActivationToken", FILTER_SANITIZE_STRING);
 	$profileBio = filter_input(INPUT_GET, "profileBio", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$profileEmail = filter_input(INPUT_GET, "profileEmail", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$profileFirstName = filter_input(INPUT_GET, "profileFirstName", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$profileLastName = filter_input(INPUT_GET, "profileLastName", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$profileUsername = filter_input(INPUT_GET, "profileUsername", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$profileUserName = filter_input(INPUT_GET, "profileUserName", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
 // make sure the id is valid for methods that require it
 	if(($method === "DELETE" || $method === "PUT") && (empty($id) === true || $id < 0)) {
@@ -46,7 +47,7 @@ try {
 	if($method === "GET") {
 		// set XSRF cookie
 		setXsrfCookie();
-		// gets a profile by content
+		// gets a profile by cid
 		if(empty($id) === false) {
 			$profile = Profile::getProfileByProfileId($pdo, $id);
 			// gets profile by profile id
@@ -58,13 +59,13 @@ try {
 			if($profile !== null) {
 				$reply->data = $profile;
 			}
-		} else if(empty($profileUsername) === false) {
-			$profile = Profile::getProfileByProfileUserName($pdo, $profileUsername);
+		} else if(empty($profileUserName) === false) {
+			$profile = Profile::getProfileByProfileUserName($pdo, $profileUserName);
 			if($profile !== null) {
 				$reply->data = $profile;
 			}
-		} else if(empty($profileUsername) === false) {
-			$profile = Profile::getProfileByProfileName($pdo, $profileUsername);
+		} else if(empty($profileUserName) === false) {
+			$profile = Profile::getProfileByProfileName($pdo, $profileUserName);
 			if($profile !== null) {
 				$reply->data = $profile;
 			}
@@ -108,8 +109,8 @@ try {
 			throw(new \InvalidArgumentException("No last name present", 405));
 		}
 
-		//profile Username
-		if(empty($requestObject->profileUsername) === true) {
+		//profile UserName
+		if(empty($requestObject->profileUserName) === true) {
 			throw(new \InvalidArgumentException("No profile username present", 405));
 		}
 
@@ -117,16 +118,17 @@ try {
 		$profile->setProfileEmail($requestObject->profileEmail);
 		$profile->setProfileFirstName($requestObject->profileFirstName);
 		$profile->setProfileLastName($requestObject->profileLastName);
-		$profile->setProfileUsername($requestObject->profileUsername);
+		$profile->setProfileUserName($requestObject->profileUserName);
 		$profile->update($pdo);
 
 		// update reply
 		$reply->message = "Profile information updated";
 
 	} else if ($method === "DELETE") {
+
 		//Verify XRSF token
 		verifyXsrf();
-		//enforce the end user has a JWT token
+
 		//validateJwtHeader();
 		$profile = Profile::getProfileByProfileId($pdo, $id);
 		if($profile === null) {
@@ -136,7 +138,7 @@ try {
 		if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId()->toString() !== $profile->getProfileId()) {
 			throw(new \InvalidArgumentException("You are not allowed to access this profile", 403));
 		}
-		//delete the post from the database
+		//delete the profile from the database
 		$profile->delete($pdo);
 		$reply->message = "Profile Deleted";
 	} else {
