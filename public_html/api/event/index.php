@@ -4,7 +4,6 @@ require_once dirname(__DIR__, 3) . "/php/lib/xsrf.php";
 require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
 require_once dirname(__DIR__, 3) . "/php/lib/uuid.php";
 require_once dirname(__DIR__, 3) . "/php/lib/jwt.php";
-require_once dirname(__DIR__, 3) . "/php/lib/uuid.php";
 
 
 use Edu\Cnm\CrowdVibe\ValidateDate;
@@ -44,13 +43,13 @@ try {
 	$eventProfileId = filter_input(INPUT_GET, "eventProfileId", FILTER_VALIDATE_INT);
 	$eventAttendeeLimit = filter_input(INPUT_GET, "eventAttendeeLimit", FILTER_VALIDATE_INT);
 	$eventDetail = filter_input(INPUT_GET, "eventDetail", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$eventEndDateTime = filter_input(INPUT_GET, "eventEndDateTime", self::validateDate);
+	$eventEndDateTime = filter_input(INPUT_GET, "eventSunset", FILTER_VALIDATE_INT);
 	$eventImage = filter_input(INPUT_GET, "eventImage", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$eventLat = filter_input(INPUT_GET, "eventLat", FILTER_VALIDATE_FLOAT);
 	$eventLong = filter_input(INPUT_GET, "eventLong", FILTER_VALIDATE_FLOAT);
 	$eventName = filter_input(INPUT_GET, "eventName", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$eventPrice = filter_input(INPUT_GET, "eventPrice", FILTER_VALIDATE_FLOAT);
-	$eventStartDateTime = filter_input(INPUT_GET, "eventStartDateTime", self::validateDate);
+	$eventStartDateTime = filter_input(INPUT_GET, "eventSunrise", FILTER_VALIDATE_INT);
 
 	//make sure the id is valid for methods that require it
 	if(($method === "DELETE" || $method === "PUT") && (empty($id) === true)) {
@@ -84,7 +83,7 @@ try {
 				$reply->data->$events;
 			}
 		} else if(empty($eventStartDateTime) === false) {
-			$events = Event::getEventByEventStartDateTime($pdo, \DateTime, \DateTime);
+			$events = Event::getEventByEventStartDateTime($pdo, $eventStartDateTime,  $eventEndDateTime);
 		} else {
 			$events = Event::getAllEvents($pdo)->toArray();
 			if($events === null) {
