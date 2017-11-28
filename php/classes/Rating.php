@@ -371,7 +371,7 @@ class Rating implements \JsonSerializable {
          **/
 
 
-        public static function getRatingByRatingRateeProfileId(\PDO $pdo, $profileId):?Rating {
+        public static function getRatingByProfileId(\PDO $pdo, $profileId):?Rating {
             // sanitize the rating id before searching
             try {
                 $profileId = self::validateUuid($profileId);
