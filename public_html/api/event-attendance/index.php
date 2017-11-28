@@ -2,6 +2,7 @@
 require_once dirname(__DIR__,3) . "/vendor/autoload.php";
 require_once dirname(__DIR__, 3) . "/php/classes/autoload.php";
 require_once dirname(__DIR__, 3) . "/php/lib/xsrf.php";
+require_once(dirname(__DIR__, 3) . "/php/lib/uuid.php");
 require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 use Edu\Cnm\CrowdVibe\EventAttendance;
@@ -33,7 +34,7 @@ try {
 	$eventAttendanceNumberAttending = filter_input(INPUT_GET, "eventAttendanceNumberAttending",FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
 	//make sure the id is valid for methods that require it
-	if(($method === "GET" || $method === "PUT") && (empty($id) === true || $eventAttendanceId < 0)){
+	if(($method === "GET" || $method === "PUT") && (empty($eventAttendanceId) === true || $eventAttendanceId < 0)){
 		throw(new InvalidArgumentException("id cannot be empty or negative", 405));
 	}
 // handle GET request - if eventAttendanceId is present, that eventAttendance is returned, otherwise all eventAttendance are returned
@@ -43,7 +44,7 @@ try {
 
 			//get a specific event
 			if(empty($eventAttendanceId) === false) {
-				$eventAttendanceId = EventAttendance::getEventAttendanceByEventAttendanceId($pdo, $id);
+				$eventAttendanceId = EventAttendance::getEventAttendanceByEventAttendanceId($pdo, $eventAttendanceId);
 				if($eventAttendanceId !== null) {
 					$reply->data = $eventAttendanceId;
 				}
@@ -81,28 +82,7 @@ try {
 				throw(new \InvalidArgumentException ("No number attending for this event.", 405));
 			}
 
-			//perform the actual put or post
-			if($method === "PUT") {
-
-				// retrieve the event to update
-				$eventAttendanceEventId = $eventAttendanceId::getEventByEventId($pdo, $id);
-				if($eventAttendanceEventId === null) {
-					throw(new RuntimeException("Event does not exist", 404));
-				}
-
-				//enforce the user is signed in and only trying to edit their own events
-				if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId() !== $eventAttendanceEventId->getEventAttendanceEventId) {
-					throw(new \InvalidArgumentException("You are not allowed to edit this event", 403));
-				}
-
-				// update all attributes
-				$eventAttendanceId->setEventAttendanceNumberAttending($requestObject->EventAttendanceNumberAttending);
-				$eventAttendanceId->update($pdo);
-
-				// update reply
-				$reply->message = "Event Updated";
-
-			} else if($method === "POST") {
+else if($method === "POST") {
 
 				// enforce the user is signed in
 				if(empty($_SESSION["profile"]) === true) {
@@ -123,7 +103,7 @@ try {
 			verifyXsrf();
 
 			// retrieve the event to be deleted
-			$eventAttendanceId = EventAttendance::getEventAttendanceByEventAttendanceId($pdo, $id);
+			$eventAttendanceId = EventAttendance::getEventAttendanceByEventAttendanceId($pdo, $eventAttendanceId);
 			if($eventAttendanceId === null) {
 				throw(new RuntimeException("Event does not exist", 404));
 			}
