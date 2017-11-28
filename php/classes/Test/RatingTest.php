@@ -312,14 +312,12 @@ class RatingTest extends crowdvibeTest {
 		 $rating3->insert($this->getPDO());
 
 			 // grab the data from mySQL and enforce the fields match our expectations
-		 $rateeAvg = Rating::getRatingByProfileId($this->getPDO(),
-			 $profile->getProfileId());
+		 $rateeAvg = Rating::getRatingByProfileId($this->getPDO(), $profile->getProfileId());
 
 		 $this->assertEquals($rateeAvg,3, null, 6);
 
 		 // grab the ata from mySQL and enforce the fields match our expectations
-		 $eventAvg = Rating::getRatingByEventId($this->getPDO(),
-			 $event->getEventId());
+		 $eventAvg = Rating::getRatingByEventId($this->getPDO(), $event->getEventId());
 
 		 $this->assertEquals($eventAvg, 3, null, 6);
 

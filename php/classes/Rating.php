@@ -390,7 +390,7 @@ class Rating implements \JsonSerializable {
             // grab the rating from mySQL
             try {
                 $ratingAvg = null;
-                $statement->fetch();
+                $statement->setFetchMode(\PDO::FETCH_ASSOC);
                 $row = $statement->fetch();
                 if($row !== false) {
                     $ratingAvg = $row["avgRatingScore"];
