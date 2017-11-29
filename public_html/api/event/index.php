@@ -44,13 +44,13 @@ try {
 	$eventProfileId = filter_input(INPUT_GET, "eventProfileId", FILTER_VALIDATE_INT);
 	$eventAttendeeLimit = filter_input(INPUT_GET, "eventAttendeeLimit", FILTER_VALIDATE_INT);
 	$eventDetail = filter_input(INPUT_GET, "eventDetail", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$eventEndDateTime = filter_input(INPUT_GET, "eventSunset", FILTER_VALIDATE_INT);
+	$eventEndDateTime = filter_input(INPUT_GET, "eventEndDateTime", FILTER_VALIDATE_INT);
 	$eventImage = filter_input(INPUT_GET, "eventImage", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$eventLat = filter_input(INPUT_GET, "eventLat", FILTER_VALIDATE_FLOAT);
 	$eventLong = filter_input(INPUT_GET, "eventLong", FILTER_VALIDATE_FLOAT);
 	$eventName = filter_input(INPUT_GET, "eventName", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$eventPrice = filter_input(INPUT_GET, "eventPrice", FILTER_VALIDATE_FLOAT);
-	$eventStartDateTime = filter_input(INPUT_GET, "eventSunrise", FILTER_VALIDATE_INT);
+	$eventStartDateTime = filter_input(INPUT_GET, "eventStartDateTime", FILTER_VALIDATE_INT);
 
 	if(empty($eventStartDateTime) === false && empty($eventEndDateTime) === false) {
 		$eventStartDateTime= \DateTime::createFromFormat("U", $eventStartDateTime / 1000);
