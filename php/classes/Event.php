@@ -427,14 +427,14 @@ class Event implements \JsonSerializable {
 	/**
 	 * mutator method for eventAttendeeLimit
 	 *
-	 * @param int $newEventAttendeeLimit new value of event Attendee
+	 * @param null|int $newEventAttendeeLimit new value of event Attendee
 	 * @throws \RangeException if $newEventAttendeeLimit is not positive
 	 **/
 	public function setEventAttendeeLimit(?int $newEventAttendeeLimit): void {
 		// verify the attendance is less than <500
 
 		if(empty($newEventAttendeeLimit) === true) {
-			throw (new \InvalidArgumentException("event Attendee is empty or insecure"));
+			$newEventAttendeeLimit= null;
 		}
 		//verify the event attendance will fit in the database
 		if($newEventAttendeeLimit > 500) {

@@ -1,4 +1,5 @@
 <?php
+require_once dirname(__DIR__, 3) . "/vendor/autoload.php";
 require_once dirname(__DIR__, 3) . "/php/classes/autoload.php";
 require_once dirname(__DIR__, 3) . "/php/lib/xsrf.php";
 require_once dirname(__DIR__, 3) . "/php/lib/uuid.php";
@@ -51,6 +52,11 @@ try {
 	$eventPrice = filter_input(INPUT_GET, "eventPrice", FILTER_VALIDATE_FLOAT);
 	$eventStartDateTime = filter_input(INPUT_GET, "eventSunrise", FILTER_VALIDATE_INT);
 
+	if(empty($eventStartDateTime) === false && empty($eventEndDateTime) === false) {
+		$eventStartDateTime= \DateTime::createFromFormat("U", $eventStartDateTime / 1000);
+		$eventEndDateTime = \DateTime::createFromFormat("U", $eventEndDateTime / 1000);
+	}
+
 	//make sure the id is valid for methods that require it
 	if(($method === "DELETE" || $method === "PUT") && (empty($id) === true)) {
 		throw(new InvalidArgumentException("id cannot be empty or negative", 402));
@@ -102,12 +108,18 @@ try {
 		}
 
 		verifyXsrf();
+
+		//$requestContent = file_get_contents("php://input");
+		//$requestObject = json_decode($requestContent);
 		$requestContent = file_get_contents("php://input");
+		// Retrieves the JSON package that the front end sent, and stores it in $requestContent. Here we are using file_get_contents("php://input") to get the request from the front end. file_get_contents() is a PHP function that reads a file into a string. The argument for the function, here, is "php://input". This is a read only stream that allows raw data to be read from the front end request which is, in this case, a JSON package.
 		$requestObject = json_decode($requestContent);
+		// This Line Then decodes the JSON package and stores that result in $requestObject
+
 
 		//make sure event detail is available (required field)
 		if(empty($requestObject->eventDetail) === true) {
-			throw (new \InvalidArgumentException("No detail listed for event.", 405));
+			throw (new \InvalidArgumentException("No detail listed for event.". $requestObject->eventDetail, 405));
 		}
 
 		//make sure event name is available (required field)
@@ -171,7 +183,6 @@ try {
 			}
 			//enforce the end user has a JWT token
 			validateJwtHeader();
-
 			// create a new Event an insert it into the database
 			$event = new Event(generateUuidV4(), $_SESSION["profile"]->getProfileId(), $requestObject->eventAttendeeLimit, $requestObject->eventDetail, $requestObject->eventEndDateTime, $requestObject->eventImage, $requestObject->eventLat, $requestObject->eventLong, $requestObject->eventName, $requestObject->eventPrice, $requestObject->eventStartDateTime);
 			$event->insert($pdo);
