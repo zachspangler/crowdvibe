@@ -2,7 +2,9 @@
 
 namespace Edu\Cnm\CrowdVibe\Test;
 
-use Edu\Cnm\CrowdVibe\{Profile, Event, EventAttendance};
+use Edu\Cnm\CrowdVibe\{
+	Profile, Event, EventAttendance, Rating
+};
 
 // grab the class under scrutiny
 require_once(dirname(__DIR__) . "/autoload.php");
@@ -225,14 +227,31 @@ class EventAttendanceTest extends CrowdVibeTest {
 		$this->assertEquals($pdoEventAttendance->getEventAttendanceCheckIn(), $this->VALID_CHECK_IN);
 		$this->assertEquals($pdoEventAttendance->getEventAttendanceNumberAttending(), $this->VALID_NUMBER_ATTENDING);
 	}
-
 	/**
-	* test grabbing event attendance by profile Id that does not exist
-	**/
-	public function testGetInvalidEventAttendanceByEventAttendanceProfileId() : void {
-		$eventProfileId = generateUuidV4();
-	// grab Event Attendance Profile Id by content that does not exist
-	$eventAttendance = EventAttendance::getEventAttendanceByEventAttendanceProfileId($this->getPDO(), $eventProfileId);
-	$this->assertCount(0, $eventAttendance);
+	 * test inserting a Profile and regrabbing it from mySQL
+	 **/
+	public function testGetRatingByRatingEventAttendanceId(): void {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("rating");
+		$rating = generateUuidV4();
+		$rating = new rating($rating, $this->ratingId, $this->ratingEventAttendanceId, $this->ratingRateeProfileId, $this->ratingRaterProfileId, $this->ratingScore);
+		$rating->insert($this->getPDO());
+		// grab the data from mySQL and enforce the fields match our expectations
+		$pdoRating = Profile::getProfileByProfileId($this->getPDO(), $rating->getRatingId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("rating"));
+		$this->assertEquals($pdoRating->getRatingId(), $rating);
+		$this->assertEquals($pdoRating->getRatingEventAttendanceId(), $this->rating);
+		$this->assertEquals($pdoRating->getRatingRateeProfileId(), $this->VALID_PROFILE_BIO);
+		$this->assertEquals($pdoRating->getRatingRaterProfileId(), $this->VALID_PROFILE_EMAIL1);
+		$this->assertEquals($pdoRating->getRatingScore(), $this->VALID_PROFILE_FIRST_NAME);
+	/**
+	 * test grabbing a Profile that does not exist
+	 **/
+	public function testGetInvalidProfileByProfileId(): void {
+		// grab a profile id that exceeds the maximum allowable profile id
+		$fakeProfileId = generateUuidV4();
+		$profile = Profile::getProfileByProfileId($this->getPDO(), $fakeProfileId);
+		$this->assertNull($profile);
+		}
 	}
 }
