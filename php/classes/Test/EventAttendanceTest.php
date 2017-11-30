@@ -71,6 +71,7 @@ class EventAttendanceTest extends CrowdVibeTest {
 	 * @var \DateTime $VALID_EVENT_START_DATE
 	 */
 	protected $VALID_EVENT_START_DATE;
+
 	/**
 	 * create dependent objects before running each test
 	 **/
@@ -158,13 +159,13 @@ class EventAttendanceTest extends CrowdVibeTest {
 	}
 
 	/**
-	* test grabbing event attendance by attendance Id that does not exist
-	**/
- 	public function testGetInvalidEventAttendanceByEventAttendanceEventAttendanceId() : void {
- 		$eventAttendanceId = generateUuidV4();
-	// grab Event Attendance Event Id by content that does not exist
-	$eventAttendance = EventAttendance::getEventAttendanceByEventAttendanceEventId($this->getPDO(), $eventAttendanceId);
-	$this->assertCount(0, $eventAttendance);
+	 * test grabbing event attendance by attendance Id that does not exist
+	 **/
+	public function testGetInvalidEventAttendanceByEventAttendanceEventAttendanceId(): void {
+		$eventAttendanceId = generateUuidV4();
+		// grab Event Attendance Event Id by content that does not exist
+		$eventAttendance = EventAttendance::getEventAttendanceByEventAttendanceEventId($this->getPDO(), $eventAttendanceId);
+		$this->assertCount(0, $eventAttendance);
 	}
 
 	/**
@@ -178,8 +179,8 @@ class EventAttendanceTest extends CrowdVibeTest {
 		$eventAttendance = new EventAttendance($eventAttendanceId, $this->event->getEventId(), $this->profile->getProfileId(), $this->VALID_CHECK_IN, $this->VALID_NUMBER_ATTENDING);
 		$eventAttendance->insert($this->getPDO());
 		// grab the data from mySQL and enforce the fields match our expectations
-		$results = EventAttendance::getEventAttendanceByEventAttendanceEventId($this->getPDO(),$this->event->getEventId());
-		$this->assertEquals($numRows +1, $this->getConnection()->getRowCount("eventAttendance"));
+		$results = EventAttendance::getEventAttendanceByEventAttendanceEventId($this->getPDO(), $this->event->getEventId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("eventAttendance"));
 		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\CrowdVibe\\event-attendance", $results);
 
 		// grab the result from the array and validate it
@@ -195,7 +196,7 @@ class EventAttendanceTest extends CrowdVibeTest {
 	/**
 	 * test grabbing event attendance by event Id that does not exist
 	 **/
-	public function testGetInvalidEventAttendanceByEventAttendanceEventId() : void {
+	public function testGetInvalidEventAttendanceByEventAttendanceEventId(): void {
 		$eventAttendanceId = generateUuidV4();
 		// grab Event Attendance Profile Id by content that does not exist
 		$eventAttendance = EventAttendance::getEventAttendanceByEventAttendanceEventId($this->getPDO(), $eventAttendanceId);
@@ -209,49 +210,34 @@ class EventAttendanceTest extends CrowdVibeTest {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("eventAttendance");
 		// create a new Event Attendance and insert to into mySQL
-		$eventAttendanceId = generateUuidV4();
-		$eventAttendance = new eventAttendance($eventAttendanceId, $this->event->getEventId(), $this->profile->getProfileId(), $this->VALID_CHECK_IN, $this->VALID_NUMBER_ATTENDING);
-		$eventAttendance->insert($this->getPDO());
 
+
+		//
+		$eventAttendanceId = generateUuidV4();
+		$eventAttendance = new eventAttendance($eventAttendanceId, $this->event->getEventId(), $this->profile->getProfileId(), 1, $this->VALID_NUMBER_ATTENDING);
+		$eventAttendance->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
 		$results = EventAttendance::getEventAttendanceByEventAttendanceProfileId($this->getPDO(), $eventAttendance->getEventAttendanceProfileId()
-		);
+		); //TODO test is expecting an array method returns an object
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("eventAttendance"));
 		$this->assertCount = $results;
 		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\CrowdVibe\\event-attendance", $results);
 		// grab the result from the array and validate it
 		$pdoEventAttendance = $results [0];
-		$this->assertEquals($pdoEventAttendance->getEventAttendanceEventId(), $this->event->getEventId());
+$this->assertEquals($pdoEventAttendance->getEventAttendanceEventId(), $this->event->getEventId());
 		$this->assertEquals($pdoEventAttendance->getEventAttendanceProfileId(), $this->profile->getProfileId());
 		$this->assertEquals($pdoEventAttendance->getEventAttendanceCheckIn(), $this->VALID_CHECK_IN);
 		$this->assertEquals($pdoEventAttendance->getEventAttendanceNumberAttending(), $this->VALID_NUMBER_ATTENDING);
 	}
 	/**
-	 * test inserting a Profile and regrabbing it from mySQL
+	 * test grabbing a Event that does not exist
+	 *
 	 **/
-	public function testGetRatingByRatingEventAttendanceId(): void {
-		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("rating");
-		$rating = generateUuidV4();
-		$rating = new rating($rating, $this->ratingId, $this->ratingEventAttendanceId, $this->ratingRateeProfileId, $this->ratingRaterProfileId, $this->ratingScore);
-		$rating->insert($this->getPDO());
-		// grab the data from mySQL and enforce the fields match our expectations
-		$pdoRating = Profile::getProfileByProfileId($this->getPDO(), $rating->getRatingId());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("rating"));
-		$this->assertEquals($pdoRating->getRatingId(), $rating);
-		$this->assertEquals($pdoRating->getRatingEventAttendanceId(), $this->rating);
-		$this->assertEquals($pdoRating->getRatingRateeProfileId(), $this->VALID_PROFILE_BIO);
-		$this->assertEquals($pdoRating->getRatingRaterProfileId(), $this->VALID_PROFILE_EMAIL1);
-		$this->assertEquals($pdoRating->getRatingScore(), $this->VALID_PROFILE_FIRST_NAME);
-	/**
-	 * test grabbing a Profile that does not exist
-	 **/
-	public function testGetInvalidProfileByProfileId(): void {
-		// grab a profile id that exceeds the maximum allowable profile id
-		$fakeProfileId = generateUuidV4();
-		$profile = Profile::getProfileByProfileId($this->getPDO(), $fakeProfileId);
-		$this->assertNull($profile);
-		}
+	public function testGetInvalidEventAttendanceByEventAttendanceId(): void {
+		// grab an event id that exceeds the maximum allowable event id
+		$fakeEventId = generateUuidV4();
+		$event = Profile::getProfileByProfileId($this->getPDO(), $fakeEventId);
+		$this->assertNull($event);
 	}
 }
