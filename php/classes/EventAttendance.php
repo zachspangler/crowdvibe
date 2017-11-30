@@ -385,20 +385,20 @@ class EventAttendance implements \JsonSerializable {
 		$statement->execute($parameters);
 		// grab the rating from mySQL
 		try {
-			$rating = null;
+			$eventAttendance = null;
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$rating = new Rating($row["ratingId"], $row["ratingEventAttendanceId"], $row["ratingRateeProfileId"], $row["ratingRaterProfileId"], $row["ratingScore"]);
+
+
+				$eventAttendance = new EventAttendance($row["eventAttendanceId"], $row["eventAttendanceEventId"], $row["eventAttendanceProfileId"], $row["eventAttendanceCheckIn"], $row["eventAttendanceNumberAttending"]);
 			}
 		} catch(\Exception $exception) {
 			// if the row couldn't be converted, rethrow it
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
-		return ($rating);
+		return ($eventAttendance);
 	}
-
-
 
 /**
  * formats the state variables for JSON serialization

@@ -216,19 +216,14 @@ class EventAttendanceTest extends CrowdVibeTest {
 		$eventAttendanceId = generateUuidV4();
 		$eventAttendance = new eventAttendance($eventAttendanceId, $this->event->getEventId(), $this->profile->getProfileId(), 1, $this->VALID_NUMBER_ATTENDING);
 		$eventAttendance->insert($this->getPDO());
-
-		// grab the data from mySQL and enforce the fields match our expectations
-		$results = EventAttendance::getEventAttendanceByEventAttendanceProfileId($this->getPDO(), $eventAttendance->getEventAttendanceProfileId()
-		); //TODO test is expecting an array method returns an object
+		$pdoEventAttendance = EventAttendance::getEventAttendanceByEventAttendanceId($this->getPDO(), $eventAttendance->getEventAttendanceId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("eventAttendance"));
-		$this->assertCount = $results;
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\CrowdVibe\\event-attendance", $results);
-		// grab the result from the array and validate it
-		$pdoEventAttendance = $results [0];
-$this->assertEquals($pdoEventAttendance->getEventAttendanceEventId(), $this->event->getEventId());
+		$this->assertEquals($pdoEventAttendance->getEventAttendanceId(), $eventAttendanceId);
+		$this->assertNotNull($pdoEventAttendance->getEventAttendanceEventId(), $this->event->getEventId());
 		$this->assertEquals($pdoEventAttendance->getEventAttendanceProfileId(), $this->profile->getProfileId());
-		$this->assertEquals($pdoEventAttendance->getEventAttendanceCheckIn(), $this->VALID_CHECK_IN);
+		$this->assertNotNull($pdoEventAttendance->getEventAttendanceCheckIn(), $this->VALID_CHECK_IN);
 		$this->assertEquals($pdoEventAttendance->getEventAttendanceNumberAttending(), $this->VALID_NUMBER_ATTENDING);
+
 	}
 	/**
 	 * test grabbing a Event that does not exist

@@ -37,12 +37,12 @@ try {
 	if(($method === "GET" || $method === "PUT") && (empty($eventAttendanceId) === true || $eventAttendanceId < 0)){
 		throw(new InvalidArgumentException("id cannot be empty or negative", 405));
 	}
-// handle GET request - if eventAttendanceId is present, that eventAttendance is returned, otherwise all eventAttendance are returned
+// handle GET request - if eventAttendanceId is present, that the event attendance is returned, otherwise all event attendances are returned
 		if($method === "GET") {
 			//set XSRF cookie
 			setXsrfCookie();
 
-			//get a specific event
+			//get a specific events attendance
 			if(empty($eventAttendanceId) === false) {
 				$eventAttendanceId = EventAttendance::getEventAttendanceByEventAttendanceId($pdo, $eventAttendanceId);
 				if($eventAttendanceId !== null) {
@@ -69,7 +69,7 @@ try {
 			$requestObject = json_decode($requestContent);
 			// This Line Then decodes the JSON package and stores that result in $requestObject
 
-			//  make sure profileId is available
+			//  make sure eventAttendanceProfileId is available
 			if(empty($requestObject->eventAttendanceProfileId) === true) {
 				throw(new \InvalidArgumentException ("No Profile ID.", 405));
 			}
