@@ -34,7 +34,7 @@ try {
 	$eventAttendanceNumberAttending = filter_input(INPUT_GET, "eventAttendanceNumberAttending",FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
 	//make sure the id is valid for methods that require it
-	if(($method === "GET" || $method === "PUT") && (empty($eventAttendanceId) === true || $eventAttendanceId < 0)){
+	if(($method === "PUT") && (empty($eventAttendanceId) === true || $eventAttendanceId < 0)){
 		throw(new InvalidArgumentException("id cannot be empty or negative", 405));
 	}
 // handle GET request - if eventAttendanceId is present, that the event attendance is returned, otherwise all event attendances are returned
@@ -44,19 +44,19 @@ try {
 
 			//get a specific events attendance
 			if(empty($eventAttendanceId) === false) {
-				$eventAttendanceId = EventAttendance::getEventAttendanceByEventAttendanceId($pdo, $eventAttendanceId);
+				$eventAttendanceId = EventAttendance::getEventAttendanceByEventAttendanceId($pdo, $eventAttendanceId)->toArray();
 				if($eventAttendanceId !== null) {
-					$reply->data = $eventAttendanceId;
+					$reply->data = $eventAttendance;
 				}
 			} else if(empty($eventAttendanceProfileId) === false) {
-				$eventAttendanceId = EventAttendance::getEventAttendanceByEventAttendanceProfileId($pdo, $eventAttendanceProfileId);
+				$eventAttendanceId = EventAttendance::getEventAttendanceByEventAttendanceProfileId($pdo, $_SESSION["profile"]->getProfileId())->toArray();
 				if($eventAttendanceProfileId !== null) {
-					$reply->data = $eventAttendanceProfileId;
+					$reply->data = $eventAttendance;
 				}
 			} else if(empty($eventAttendanceEventId) === false) {
 				$eventAttendanceEventId = EventAttendance::getEventAttendanceByEventAttendanceEventId($pdo, $eventAttendanceEventId);
 				if($eventAttendanceEventId !== null) {
-					$reply->data = $eventAttendanceEventId;
+					$reply->data = $eventAttendance;
 				}
 			}
 		} else if($method === "PUT" || $method === "POST") {
