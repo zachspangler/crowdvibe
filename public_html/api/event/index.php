@@ -101,7 +101,7 @@ try {
 						$applicationCohorts[$i],
 						[
 							Event::getEventByEventStartDateTime($pdo, $events[$i]->getEventByEventStartDateTime()),
-							Rating::getRatingByEventId(($pdo, $events[$i]->getRatingId)
+							Rating::getRatingByEventId(($pdo), $events[$i]->getRatingId)
 						]
 					);
 				}
