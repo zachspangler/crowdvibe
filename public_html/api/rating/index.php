@@ -46,8 +46,7 @@ try {
 		throw(new InvalidArgumentException("ratingId cannot be empty or negative", 405));
 	}
 
-
-else if($method === "PUT" || $method === "POST") {
+	if($method === "PUT" || $method === "POST") {
 
 	// enforce the user has a XSRF token
 	verifyXsrf();

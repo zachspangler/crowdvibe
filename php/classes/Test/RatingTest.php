@@ -86,7 +86,7 @@ class RatingTest extends crowdvibeTest {
         $this->rater = new Profile(generateUuidV4(), $profileActivationToken, "i'm hugry", "breez@hometime.com", "Cheech", $HASH, "big time", "Maren", $SALT, "@sohigh");
         $this->rater->insert($this->getPDO());
 
-        //create and insert a Ratee to own the test Rating
+        //create and insert a Ratee to be receive Rating
         $this->ratee = new Profile(generateUuidV4(),$profileActivationToken, "I like eggs", "getsome@me.com", "tommy", $HASH, "little time", "chong", $SALT,"@smoke");
         $this->ratee->insert($this->getPDO());
 
