@@ -5,3 +5,51 @@
 	background-size: cover;
 	height: 100%;
 }
+
+.rating-person {
+	background-image: url("./image/crowd-people.jpg");
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	height: 100%;
+}
+
+.lines {
+	margin: 0 auto;
+	width: 90px;
+	height: 25px;
+	text-align: center;
+	font-size: 10px;
+}
+
+.lines>div {
+	background-color: darkmagenta;
+	height: 100%;
+	width: 10px;
+	display: inline-block;
+}
+
+
+h6 {
+	text-align: center;
+}
+
+.lines>.rectangle1 {
+	height: 5px;
+}
+
+.lines>.rectangle2 {
+	height: 10px;
+}
+
+.lines>.rectangle3 {
+	height: 15px;
+}
+
+.lines>.rectangle4 {
+	height: 20px;
+}
+
+.lines>.rectangle5 {
+	height: 25px;
+}

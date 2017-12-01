@@ -19,7 +19,9 @@
 		<script src="https://use.fontawesome.com/46c6e23a21.js"></script>
 		<link rel="stylesheet" href="font-awesome-animation.min.css">
 
+		<link rel="stylesheet" href="./styles.css">
 		<!-- CrowdVibe CSS -->
+<!--		<script src="./styles.css"></script>-->
 
 
 		<!-- jQuery, Popper.js, Bootstrap JS -->
@@ -82,34 +84,97 @@
 				</div>
 			</nav>
 		</header>
-		<main class=" bg-light">
-			<div class="container py-3">
+		<main class="rating-person">
+			<div class="container py-4">
 				<div class="row">
-					<div class="col-md-5 align-content-center">
+					<div class="col-md-6
+					 align-content-center">
 						<div class="card">
-							<img class="card-img-top" src="/static-ui/images/linux-logo-small.jpeg" alt="Card image cap" height="300">
+							<img class="card-img-top" src="./image/lazy-allison.jpg" alt="Card image cap" height="400">
 							<div class="card-body">
 								<h4 class="card-title">Allison Mopsqueezer</h4>
 								<h6 class="card-subtitle mb-2 text-muted">Bio</h6>
 								<p class="card-text">
-									Shut the shizzle up a check out this sizzle augue hendrerit accumsizzle. Yo for sure est. Vivamizzle maurizzle mah nizzle, viverra uhuh ... yih!, facilisizzle id, ultrices shiznit, erat. Break yo neck, yall ante sure gangsta we gonna chung faucibizzle break yo neck, yall luctizzle et check out this posuere cubilia Phat; Donizzle dolizzle. Integer uhuh ... yih!. Gangster pharetra blandizzle ghetto. Phat rutrizzle aliquizzle its fo rizzle. Sizzle gangsta. I saw beyonces tizzles and my pizzle went crizzle sem nulla, venenatis nizzle, scelerisque boom shackalack, boom shackalack izzle, funky fresh.
+									I party Hard!Shut the shizzle up a check out this sizzle augue hendrerit accumsizzle. Yo for sure est. Vivamizzle maurizzle mah nizzle, viverra uhuh ... yih!, facilisizzle id, ultrices shiznit, erat. Break yo neck, yall ante sure gangsta we gonna chung faucibizzle break yo neck, yall luctizzle et check out this posuere cubilia Phat; Donizzle dolizzle. Integer uhuh ... yih!. Gangster pharetra blandizzle ghetto. Phat rutrizzle aliquizzle its fo rizzle. Sizzle gangsta. I saw beyonces tizzles and my pizzle went crizzle sem nulla, venenatis nizzle, scelerisque boom shackalack, boom shackalack izzle, funky fresh.
 								</p>
 								<h6 class="card-subtitle mb-2 text-muted">Encounters</h6>
 								<p class="card-text">ABQ Shuffleboard Shakedown</p>
-								<span class="icon-stack icon-4x">
-								 <i class="icon-sign-blank icon-stack-base" style="color:#ddd"></i>
-								 <i class="icon-signal-1"></i>
-								 <i class="icon-signal-2"></i>
-								 <i class="icon-signal-3"></i>
-								 <i class="icon-signal-4 icon-light"></i>
-								 <i class="icon-signal-5 icon-light"></i>
-							  </span>
-								<a href="#!" class="btn btn-primary">Rate Allison</a>
+								<p class="card-text">Red Rover in the Park</p>
+								<p class="card-text">Bernalillo Knitting Meet-Up</p>
+								<h6 class="card-subtitle mb-2 text-muted">Rating</h6>
+								<div class="lines">
+									<div class="rectangle1"></div>
+									<div class="rectangle2"></div>
+									<div class="rectangle3"></div>
+									<div class="rectangle4"></div>
+									<div class="rectangle5"></div>
+								</div>
+								<div class="dropdown">
+									<button class="btn btn-secondary dropdown-toggle"
+											  type="button" id="dropdownMenu1" data-toggle="dropdown"
+											  aria-haspopup="true" aria-expanded="false">
+										Rate Me
+									</button>
+									<div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+										<a class="dropdown-item" href="#!">
+											<div class="lines">
+												<div class="rectangle1"></div>
+												<div class="rectangle2"></div>
+												<div class="rectangle3"></div>
+												<div class="rectangle4"></div>
+												<div class="rectangle5"></div>
+											</div>
+										</a>
+									</div>
+								</div>
 							</div>
+						</div>
+					</div>
+					<div class="col-md-5 float-right">
+						<div class="card event">
+							<img class="card-img-top" src="https://dl.dropboxusercontent.com/s/9ojadnxp8n2b7oq/bar.jpg?dl=0"
+								  alt="Card image cap">
+							<div class="card-body text-center">
+								<img class="rounded-circle"
+									  src="https://dl.dropboxusercontent.com/s/s05h8qapt3p00kn/face.jpg?dl=0"
+									  height="100" width="100">
+								<p class="card-text">
+									<small class="text-muted">Hosted By: Zach</small>
+								</p>
+								<p class="card-text mb-1">
+								<p class="fa fa-star" aria-hidden="true"><i class="fa fa-star-half" aria-hidden="true"></i></p>
+								<h4 class="card-title">Happy Hour</h4>
+								<p class="card-text">Some co-workers are getting together for a drink, we would love to meet
+									some new people in town.</p>
+								<p class="card-text my-1">
+									<small class="text-muted">Price:</small>
+									Free
+								</p>
+								<p class="card-text my-1">
+									<small class="text-muted">Attending:</small>
+									5
+								</p>
+								<p class="card-text my-1">
+									<small class="text-muted">Start Time:</small>
+									6:00pm
+								</p>
+								<p class="card-text my-1">
+									<small class="text-muted">End Time:</small>
+									8:00pm
+								</p>
+							</div>
+							<a href="#">
+								<div class="card-footer">
+									<small class="text-muted align-content-center"><i class="fa fa-users" aria-hidden="true"></i>
+										Attend Event
+									</small>
+								</div>
+							</a>
 						</div>
 					</div>
 				</div>
 			</div>
+
 		</main>
 
 
