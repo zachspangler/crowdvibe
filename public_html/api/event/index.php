@@ -7,6 +7,7 @@ require_once dirname(__DIR__, 3) . "/php/lib/jwt.php";
 require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 
+
 use Edu\Cnm\CrowdVibe\ValidateDate;
 use Edu\Cnm\CrowdVibe\ {
 	Event,
@@ -88,24 +89,18 @@ try {
 			if($events !== null) {
 				$reply->data->$events;
 			}
-		} else if(empty($eventStartDateTime) === false) {
+		} else if(empty($eventStartDateTime && $eventEndDateTime) === false) {
 			$events = Event::getEventByEventStartDateTime($pdo, $eventStartDateTime,  $eventEndDateTime);
+
+			if($events !== null) {
+				$storage = new
+			}
 		} else {
 			$events = Event::getAllEvents($pdo)->toArray();
 			if($events === null) {
 				echo "shit didn't work";
 			}
 			if($events !== null) {
-				for($i = 0; $i < count($events); $i++){
-					$storage->attach(
-						$events[$i],
-						[
-							Event::getEventByEventStartDateTime($pdo, $events[$i]->getEventByEventStartDateTime()),
-							Rating::getRatingByEventId(($pdo), $events[$i]->getRatingId)
-						]
-					);
-				}
-				$reply->data = $storage;
 				$reply->data = $events;
 			}
 		}
