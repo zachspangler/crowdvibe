@@ -11,7 +11,7 @@ use Edu\Cnm\CrowdVibe\ValidateDate;
 use Edu\Cnm\CrowdVibe\ {
 	Event,
 	// we only use Profile for testing purposes
-	Profile
+	Profile, Rating
 };
 
 /**
@@ -96,6 +96,16 @@ try {
 				echo "shit didn't work";
 			}
 			if($events !== null) {
+				for($i = 0; $i < count($events); $i++){
+					$storage->attach(
+						$applicationCohorts[$i],
+						[
+							Event::getEventByEventStartDateTime($pdo, $events[$i]->getEventByEventStartDateTime()),
+							Rating::getRatingByEventId(($pdo, $events[$i]->getRatingId)
+						]
+					);
+				}
+				$reply->data = $storage;
 				$reply->data = $events;
 			}
 		}
