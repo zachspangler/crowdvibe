@@ -98,7 +98,7 @@ try {
 			if($events !== null) {
 				for($i = 0; $i < count($events); $i++){
 					$storage->attach(
-						$applicationCohorts[$i],
+						$events[$i],
 						[
 							Event::getEventByEventStartDateTime($pdo, $events[$i]->getEventByEventStartDateTime()),
 							Rating::getRatingByEventId(($pdo), $events[$i]->getRatingId)
