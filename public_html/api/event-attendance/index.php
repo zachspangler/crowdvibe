@@ -82,7 +82,7 @@ try {
 				//retrieve the method to update
 				$event = EventAttendance::getEventAttendanceByEventAttendanceId($pdo, $id);
 				if($event === null) {
-					throw (new RuntimeException("Event does not exist, cannot attend.", 404));
+					throw (new RuntimeException("Event does not exist cannot attend.", 404));
 				}
 
 				//enforce the user is signed in and only trying to edit their own event
