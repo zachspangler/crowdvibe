@@ -126,7 +126,7 @@ try {
 
 		//make sure event detail is available (required field)
 		if(empty($requestObject->eventDetail) === true) {
-			throw (new \InvalidArgumentException("No detail listed for event.". $requestObject->eventDetail, 405));
+			throw (new \InvalidArgumentException("No detail listed for event.", 405));
 		}
 
 		//make sure event name is available (required field)
