@@ -44,87 +44,90 @@ try {
 
 			//get a specific events attendance
 			if(empty($eventAttendanceId) === false) {
-				$eventAttendanceId = EventAttendance::getEventAttendanceByEventAttendanceId($pdo, $eventAttendanceId);
-				if($eventAttendanceId !== null) {
-					$reply->data = $eventAttendanceId;
+				$eventAttendance = EventAttendance::getEventAttendanceByEventAttendanceId($pdo, $eventAttendanceId);
+				if($eventAttendance !== null) {
+					$reply->data = $eventAttendance;
 				}
 			} else if(empty($eventAttendanceProfileId) === false) {
-				$eventAttendanceId = EventAttendance::getEventAttendanceByEventAttendanceProfileId($pdo, $eventAttendanceProfileId);
-				if($eventAttendanceProfileId !== null) {
-					$reply->data = $eventAttendanceProfileId;
+				$eventAttendance = EventAttendance::getEventAttendanceByEventAttendanceProfileId($pdo, $eventAttendanceProfileId);
+				if($eventAttendance !== null) {
+					$reply->data = $eventAttendance;
 				}
 			} else if(empty($eventAttendanceEventId) === false) {
-				$eventAttendanceEventId = EventAttendance::getEventAttendanceByEventAttendanceEventId($pdo, $eventAttendanceEventId);
-				if($eventAttendanceEventId !== null) {
-					$reply->data = $eventAttendanceEventId;
+				$eventAttendance = EventAttendance::getEventAttendanceByEventAttendanceEventId($pdo, $eventAttendanceEventId);
+				if($eventAttendance !== null) {
+					$reply->data = $eventAttendance;
+
+				} else if($method === "PUT" || $method === "POST") {
+
+					//enforce that the user has an XSRF token
+					verifyXsrf();
+
+					$requestContent = file_get_contents("php://input");
+					// Retrieves the JSON package that the front end sent, and stores it in $requestContent. Here we are using file_get_contents("php://input") to get the request from the front end. file_get_contents() is a PHP function that reads a file into a string. The argument for the function, here, is "php://input". This is a read only stream that allows raw data to be read from the front end request which is, in this case, a JSON package.
+					$requestObject = json_decode($requestContent);
+					// This Line Then decodes the JSON package and stores that result in $requestObject
+
+					//  make sure eventAttendanceProfileId is available
+					if(empty($requestObject->eventAttendanceProfileId) === true) {
+						throw(new \InvalidArgumentException ("No Profile ID.", 405));
+					}
+					//make sure eventAttendanceCheckIn is available (required field)
+					if(empty($requestObject->eventAttendanceCheckIn) === true) {
+						throw(new \InvalidArgumentException ("No check in for this event.", 405));
+					}
+					//make sure eventAttendanceNumberAttending is available (required field)
+					if(empty($requestObject->eventAttendanceNumberAttending) === true) {
+						throw(new \InvalidArgumentException ("No number attending for this event.", 405));
+					} else if($method === "POST") {
+
+						// enforce the user is signed in
+						if(empty($_SESSION["profile"]) === true) {
+							throw(new \InvalidArgumentException("you must be logged in to host events", 403));
+						}
+
+						// create new event and insert into the database
+						$eventAttendanceId = new \Edu\Cnm\CrowdVibe\Event(generateUuidV4(), $_SESSION["profile"]->getProfileId(), $requestObject->eventAttendanceNumberAttending, null);
+						$eventAttendanceId->insert($pdo);
+
+						// update reply
+						$reply->message = "Event created OK";
+					}
+
+				} else if($method === "DELETE") {
+
+					//enforce that the end user has a XSRF token.
+					verifyXsrf();
+
+					// retrieve the event to be deleted
+					$eventAttendanceId = EventAttendance::getEventAttendanceByEventAttendanceId($pdo, $eventAttendanceId);
+					if($eventAttendanceId === null) {
+						throw(new RuntimeException("Event does not exist", 404));
+					}
+
+					//enforce the user is signed in and only trying to edit their own event
+					if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId() !== $eventAttendanceProfileId->getEventAttendanceProfileId()) {
+						throw(new \InvalidArgumentException("You are not allowed to delete this event", 403));
+					}
+
+					// delete event
+					$eventAttendanceId->delete($pdo);
+					// update reply
+					$reply->message = "Event deleted OK";
+				} else {
+					throw (new InvalidArgumentException("Invalid HTTP method request"));
+
 				}
+
 			}
-		} else if($method === "PUT" || $method === "POST") {
-
-			//enforce that the user has an XSRF token
-			verifyXsrf();
-
-			$requestContent = file_get_contents("php://input");
-			// Retrieves the JSON package that the front end sent, and stores it in $requestContent. Here we are using file_get_contents("php://input") to get the request from the front end. file_get_contents() is a PHP function that reads a file into a string. The argument for the function, here, is "php://input". This is a read only stream that allows raw data to be read from the front end request which is, in this case, a JSON package.
-			$requestObject = json_decode($requestContent);
-			// This Line Then decodes the JSON package and stores that result in $requestObject
-
-			//  make sure eventAttendanceProfileId is available
-			if(empty($requestObject->eventAttendanceProfileId) === true) {
-				throw(new \InvalidArgumentException ("No Profile ID.", 405));
-			}
-			//make sure eventAttendanceCheckIn is available (required field)
-			if(empty($requestObject->eventAttendanceCheckIn) === true) {
-				throw(new \InvalidArgumentException ("No check in for this event.", 405));
-			}
-			//make sure eventAttendanceNumberAttending is available (required field)
-			if(empty($requestObject->eventAttendanceNumberAttending) === true) {
-				throw(new \InvalidArgumentException ("No number attending for this event.", 405));
-			}
-
-else if($method === "POST") {
-
-				// enforce the user is signed in
-				if(empty($_SESSION["profile"]) === true) {
-					throw(new \InvalidArgumentException("you must be logged in to host events", 403));
-				}
-
-				// create new event and insert into the database
-				$eventAttendanceId = new \Edu\Cnm\CrowdVibe\Event(generateUuidV4(), $_SESSION["profile"]->getProfileId(), $requestObject->eventAttendanceNumberAttending, null);
-				$eventAttendanceId->insert ($pdo);
-
-				// update reply
-				$reply->message = "Event created OK";
-			}
-
-		} else if($method === "DELETE") {
-
-			//enforce that the end user has a XSRF token.
-			verifyXsrf();
-
-			// retrieve the event to be deleted
-			$eventAttendanceId = EventAttendance::getEventAttendanceByEventAttendanceId($pdo, $eventAttendanceId);
-			if($eventAttendanceId === null) {
-				throw(new RuntimeException("Event does not exist", 404));
-			}
-
-			//enforce the user is signed in and only trying to edit their own event
-			if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId() !== $eventAttendanceProfileId->getEventAttendanceProfileId()) {
-				throw(new \InvalidArgumentException("You are not allowed to delete this event", 403));
-			}
-
-			// delete event
-			$eventAttendanceId->delete($pdo);
-			// update reply
-			$reply->message = "Event deleted OK";
-		} else {
-			throw (new InvalidArgumentException("Invalid HTTP method request"));
-		}
-// update the $reply->status $reply->message
-	} catch(\Exception | \TypeError $exception) {
-		$reply->status = $exception->getCode();
-		$reply->message = $exception->getMessage();
 	}
+}
+	// update the $reply->status $reply->message
+		catch
+			(\Exception | \TypeError $exception) {
+				$reply->status = $exception->getCode();
+				$reply->message = $exception->getMessage();
+			}
 
 header("Content-type: application/json");
 if($reply->data === null) {
