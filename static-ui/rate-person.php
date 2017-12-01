@@ -12,7 +12,7 @@ require_once ("head-utils.php");?>
 		<div class="row">
 			<div class="col-md-5 align-content-center">
 				<div class="card">
-					<img class="card-img-top" src="/images/pathToYourImage.png" alt="Card image cap">
+					<img class="card-img-top" src="/epic/images/lazy-allison.jpg" alt="Card image cap">
 					<div class="card-body">
 						<h4 class="card-title">Allison Mopsqueezer</h4>
 						<h6 class="card-subtitle mb-2 text-muted">Bio</h6>
