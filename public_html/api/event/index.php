@@ -6,13 +6,10 @@ require_once dirname(__DIR__, 3) . "/php/lib/uuid.php";
 require_once dirname(__DIR__, 3) . "/php/lib/jwt.php";
 require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
 
-
-
-use Edu\Cnm\CrowdVibe\ValidateDate;
 use Edu\Cnm\CrowdVibe\ {
 	Event,
 	// we only use Profile for testing purposes
-	Profile, Rating
+	Profile, Rating, JsonObjectStorage
 };
 
 /**
@@ -93,7 +90,12 @@ try {
 			$events = Event::getEventByEventStartDateTime($pdo, $eventStartDateTime,  $eventEndDateTime);
 
 			if($events !== null) {
-				$storage = new
+				$storage = new JsonObjectStorage();
+				foreach($events as $event) {
+					$eventAvg = Rating::getRatingByEventId($pdo, $event->getEventId);
+					$storage->attach($event, $eventAvg);
+				}
+				$reply->data=$storage;
 			}
 		} else {
 			$events = Event::getAllEvents($pdo)->toArray();
