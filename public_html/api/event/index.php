@@ -51,8 +51,8 @@ try {
 	$eventStartDateTime = filter_input(INPUT_GET, "eventStartDateTime", FILTER_VALIDATE_INT);
 
 	if(empty($eventStartDateTime) === false && empty($eventEndDateTime) === false) {
-		$eventStartDateTime= \DateTime::createFromFormat("U", $eventStartDateTime / 1000);
-		$eventEndDateTime = \DateTime::createFromFormat("U", $eventEndDateTime / 1000);
+		$eventEndDateTime= date("Y-m-d H:i:s", $eventEndDateTime/1000);
+		$eventStartDateTime= date("Y-m-d H:i:s", $eventStartDateTime/1000);
 	}
 
 	//make sure the id is valid for methods that require it
@@ -84,10 +84,12 @@ try {
 			// grabs the event by event Name
 			$events = Event::getEventByEventName($pdo, $eventName)->toArray();
 			if($events !== null) {
-				$reply->data->$events;
+				$reply->data = $events;
 			}
 		} else if(empty($eventStartDateTime && $eventEndDateTime) === false) {
 			$events = Event::getEventByEventStartDateTime($pdo, $eventStartDateTime,  $eventEndDateTime);
+
+
 
 			if($events !== null) {
 				$storage = new JsonObjectStorage();
@@ -97,7 +99,7 @@ try {
 				}
 				$reply->data=$storage;
 			}
-		} else {
+		} /* else {
 			$events = Event::getAllEvents($pdo)->toArray();
 			if($events === null) {
 				echo "shit didn't work";
@@ -105,7 +107,7 @@ try {
 			if($events !== null) {
 				$reply->data = $events;
 			}
-		}
+		} */
 
 	} else if($method === "PUT" || $method === "POST") {
 
@@ -136,6 +138,7 @@ try {
 
 		// make sure there is a valid date for event (required field)
 		if(empty($requestObject->eventStartDateTime) === true) {
+			// TODO throw an exception
 			$requestObject->eventStartDateTime = date("Y-m-d H:i:s.u");
 		}
 
@@ -169,7 +172,13 @@ try {
 			}
 
 			// enforce the end user has a Jwt token
-			// validateJwtHeader();
+			//validateJwtHeader();
+
+			$secondsEnd = $requestObject->eventEndDateTime;
+			$formattedEndDate= date("Y-m-d H:i:s", $secondsEnd/1000);
+
+			$secondsStart = $requestObject->eventStartDateTime;
+			$formattedStartDate= date("Y-m-d H:i:s", $secondsStart/1000);
 
 			//enforce the user is signed in and only trying to edit their own event
 			if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId()->toString() !== $event->getEventProfileId()->toString()) {
@@ -178,7 +187,15 @@ try {
 
 			// update all attributes
 			//$event->setEventStartDateTime($requestObject->eventStartDateTime);
+			$event->setEventAttendeeLimit($requestObject->eventAttendeeLimit);
 			$event->setEventDetail($requestObject->eventDetail);
+			$event->setEventEndDateTime($formattedEndDate);
+			$event->setEventImage($requestObject->eventImage);
+			$event->setEventLat($requestObject->eventLat);
+			$event->setEventLong($requestObject->eventLong);
+			$event->setEventName($requestObject->eventName);
+			$event->setEventPrice($requestObject->eventPrice);
+			$event->setEventStartDateTime($formattedStartDate);
 			$event->update($pdo);
 
 			// update reply
@@ -190,12 +207,19 @@ try {
 			}
 			//enforce the end user has a JWT token
 			validateJwtHeader();
+
+			$secondsEnd = $requestObject->eventEndDateTime;
+			$formattedEndDate= date("Y-m-d H:i:s", $secondsEnd/1000);
+
+			$secondsStart = $requestObject->eventStartDateTime;
+			$formattedStartDate= date("Y-m-d H:i:s", $secondsStart/1000);
+
 			// create a new Event an insert it into the database
-			$event = new Event(generateUuidV4(), $_SESSION["profile"]->getProfileId(), $requestObject->eventAttendeeLimit, $requestObject->eventDetail, $requestObject->eventEndDateTime, $requestObject->eventImage, $requestObject->eventLat, $requestObject->eventLong, $requestObject->eventName, $requestObject->eventPrice, $requestObject->eventStartDateTime);
+			$event = new Event(generateUuidV4(), $_SESSION["profile"]->getProfileId(), $requestObject->eventAttendeeLimit, $requestObject->eventDetail, $formattedEndDate, $requestObject->eventImage, $requestObject->eventLat, $requestObject->eventLong, $requestObject->eventName, $requestObject->eventPrice, $formattedStartDate);
 			$event->insert($pdo);
 
 			// update reply
-			$reply->message="Event updated OK";
+			$reply->message="Event created OK";
 		}
 
 	} else if($method === "DELETE") {

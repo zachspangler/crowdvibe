@@ -363,16 +363,17 @@ class Event implements \JsonSerializable {
 	 *
 	 * @return \DateTime
 	 */
-	public function getEventStartDateTime(): \DateTime {
+	public function getEventStartDateTime(): string {
 		return ($this->eventStartDateTime);
 	}
 
 	/**
 	 * mutator method for eventStartDateTime
 	 *
-	 * @param \DateTime $newEventStartDateTime
-	 * @throws \InvalidArgumentException if $newEventStartDateTime is not valid
-	 * @throws \RangeException if $newEventStartDateTime is a date that doesn't exist
+	 * @param string $newEventStartDateTime
+	 * @throws |DateTime|string $newStartDateTime comment date as a DateTime object or string (or null to load the current time)
+	 * @throws |InvalidArgumentException if $newEventStartDateTime is not a valid
+	 * @throws \RangeException if $newEventStartDateTime is a date that does not exist
 	 */
 
 	public function setEventStartDateTime($newEventStartDateTime): void {
@@ -389,16 +390,16 @@ class Event implements \JsonSerializable {
 	/**
 	 * accessor method to eventEndDateTime
 	 *
-	 * @return \DateTime
+	 * @return string
 	 **/
-	public function getEventEndDateTime(): \DateTime {
+	public function getEventEndDateTime(): string {
 		return ($this->eventEndDateTime);
 	}
 
 	/**
 	 * mutator method for eventEndDateTime
 	 *
-	 * @param \DateTime $newEventEndDateTime
+	 * @param string $newEventEndDateTime
 	 * @throws |DateTime|string $newEventDateTime comment date as a DateTime object or string (or null to load the current time)
 	 * @throws |InvalidArgumentException if $newEventEndDateTime is not a valid
 	 * @throws \RangeException if $newEventEndDateTime is a date that does not exist
@@ -506,14 +507,14 @@ class Event implements \JsonSerializable {
 	 * (this is an optional get by method and has only been added for when specific edge cases arise in capstone projects)
 	 *
 	 * @param \PDO $pdo connection object
-	 * @param \DateTime $sunriseEventStartDate beginning date to search for
-	 * @param \DateTime $sunsetEventStartDate ending date to search for
+	 * @param string $sunriseEventStartDate beginning date to search for
+	 * @param string $sunsetEventStartDate ending date to search for
 	 * @return \SplFixedArray of events found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 * @throws \InvalidArgumentException if either sun dates are in the wrong format
 	 */
-	public static function getEventByEventStartDateTime(\PDO $pdo, \DateTime $eventSunriseStartDateTime, \DateTime $eventSunsetStartDateTime): \SplFixedArray {
+	public static function getEventByEventStartDateTime(\PDO $pdo, string $eventSunriseStartDateTime, string $eventSunsetStartDateTime): \SplFixedArray {
 		//enforce both dates are present
 		if((empty ($eventSunriseStartDateTime) === true) || (empty($eventSunsetStartDateTime) === true)) {
 			throw (new \InvalidArgumentException("dates are empty of insecure"));
@@ -686,7 +687,7 @@ class Event implements \JsonSerializable {
 	 **/
 	public static function getAllEvents(\PDO $pdo) : \SplFixedArray {
 		// create query template
-		$query = "SELECT eventId, eventProfileId, eventAttendeeLimit, eventDetail, eventEndDateTime, eventImage, eventLong, eventName, eventPrice, eventStartDateTime FROM event";
+		$query = "SELECT eventId, eventProfileId, eventAttendeeLimit, eventDetail, eventEndDateTime, eventImage, eventLat, eventLong, eventName, eventPrice, eventStartDateTime FROM event";
 		$statement = $pdo->prepare($query);
 		$statement->execute();
 
