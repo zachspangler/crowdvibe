@@ -1,4 +1,3 @@
-
 <?php
 namespace Edu\Cnm\DdcAaaa;
 require_once("autoload.php");
