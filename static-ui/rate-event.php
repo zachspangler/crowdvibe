@@ -174,7 +174,7 @@
 															<img class="card-img-top rounded-circle" src="./image/look-lady.jpg" alt="Card image cap" height="200">
 														</div>
 														<div class="card-body bg-dark text-white">
-															<h6 class="card-title">Allison Mopsqueezer</h6>
+															<h6 class="card-title">Hellen Entitled</h6>
 															<p class="card-subtitle mb-2 text-muted">Rating</p>
 															<div class="text-center">
 																<i class="fa fa-thermometer-three-quarters fa-2x m-4 text-warning" aria-hidden="true"></i>
@@ -260,12 +260,12 @@
 											</div>
 											<div class="col-md-6">
 												<div class="card border-0">
-													<img class="card-img-top rounded-circle bg-transparent" src="./image/look-lady.jpg" alt="Card image cap" height="200">
+													<img class="card-img-top rounded-circle bg-transparent" src="./image/funny-man.jpg" alt="Card image cap" height="200">
 													<div class="card-body bg-dark text-white">
-														<h6 class="card-title">Allison Mopsqueezer</h6>
+														<h6 class="card-title">Charles McChuckles</h6>
 														<p class="card-subtitle mb-2 text-muted">Rating</p>
 														<div class="text-center">
-															<i class="fa fa-thermometer-quarter fa-2x m-4 text-success" aria-hidden="true"></i>
+															<i class="fa fa-thermometer-quarter fa-2x m-4 text-primary" aria-hidden="true"></i>
 														</div>
 														<button class="btn btn-secondary dropdown-toggle"
 																  type="button" id="dropdownMenu1" data-toggle="dropdown"
@@ -292,12 +292,12 @@
 										<div class="row">
 											<div class="col-md-6">
 												<div class="card border-0">
-													<img class="card-img-top rounded-circle bg-transparent" src="./image/look-lady.jpg" alt="Card image cap" height="200">
+													<img class="card-img-top rounded-circle bg-transparent" src="./image/wise-guy.jpg" alt="Card image cap" height="200">
 													<div class="card-body bg-dark text-white">
-														<h6 class="card-title">Allison Mopsqueezer</h6>
+														<h6 class="card-title">Paul</h6>
 														<p class="card-subtitle mb-2 text-muted">Rating</p>
 														<div class="text-center">
-															<i class="fa fa-thermometer-quarter fa-2x m-4 text-success" aria-hidden="true"></i>
+															<i class="fa fa-thermometer-three-quarters fa-2x m-4 text-warning" aria-hidden="true"></i>
 														</div>
 														<button class="btn btn-secondary dropdown-toggle"
 																  type="button" id="dropdownMenu1" data-toggle="dropdown"
@@ -320,12 +320,12 @@
 											</div>
 											<div class="col-md-6">
 												<div class="card border-0">
-													<img class="card-img-top rounded-circle bg-transparent" src="./image/look-lady.jpg" alt="Card image cap" height="200">
+													<img class="card-img-top rounded-circle bg-transparent" src="./image/happy-happy.jpg" alt="Card image cap" height="200">
 													<div class="card-body bg-dark text-white">
-														<h6 class="card-title">Allison Mopsqueezer</h6>
+														<h6 class="card-title">Kathy Power</h6>
 														<p class="card-subtitle mb-2 text-muted">Rating</p>
 														<div class="text-center">
-															<i class="fa fa-thermometer-quarter fa-2x m-4 text-success" aria-hidden="true"></i>
+															<i class="fa fa-thermometer-half fa-2x m-4 text-success" aria-hidden="true"></i>
 														</div>
 														<button class="btn btn-secondary dropdown-toggle"
 																  type="button" id="dropdownMenu1" data-toggle="dropdown"
