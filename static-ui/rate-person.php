@@ -55,6 +55,7 @@
 		<title>CrowdVibe</title>
 	</head>
 	<body>
+		<!--start of page, header/navbar -->
 		<header>
 			<nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
 				<a class="navbar-brand" href="#">Crowd<i class="fa fa-wifi text-danger" aria-hidden="true"></i>ibe</a>
@@ -84,6 +85,8 @@
 				</div>
 			</nav>
 		</header>
+
+		<!-- return search page -->
 		<main class="rating-person">
 			<div class="container py-4">
 				<div class="row">
@@ -94,7 +97,7 @@
 								<h3 class="card-title">Allison Mopsqueezer</h3>
 								<h4 class="card-subtitle mb-2 text-muted">Rating</h4>
 								<div class="text-center">
-									<i class="fa fa-thermometer-quarter fa-3x m-4 text-success" aria-hidden="true"></i>
+									<i class="fa fa-thermometer-quarter fa-3x m-4 text-primary" aria-hidden="true"></i>
 								</div>
 								<h4 class="card-subtitle mb-2 text-muted">Bio</h4>
 								<p class="card-text">
