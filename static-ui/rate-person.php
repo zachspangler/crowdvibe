@@ -57,7 +57,7 @@
 	<body>
 		<header>
 			<nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
-				<a class="navbar-brand" href="#">CrowdVibe</a>
+				<a class="navbar-brand" href="#">Crowd<i class="fa fa-wifi text-danger" aria-hidden="true"></i>ibe</a>
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
 						  aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
@@ -93,6 +93,10 @@
 							<img class="card-img-top" src="./image/lazy-allison.jpg" alt="Card image cap" height="400">
 							<div class="card-body">
 								<h4 class="card-title">Allison Mopsqueezer</h4>
+								<h6 class="card-subtitle mb-2 text-muted">Rating</h6>
+								<div class="text-center">
+									<i class="fa fa-thermometer-quarter fa-3x m-4 text-success" aria-hidden="true"></i>
+								</div>
 								<h6 class="card-subtitle mb-2 text-muted">Bio</h6>
 								<p class="card-text">
 									I party Hard!Shut the shizzle up a check out this sizzle augue hendrerit accumsizzle. Yo for sure est. Vivamizzle maurizzle mah nizzle, viverra uhuh ... yih!, facilisizzle id, ultrices shiznit, erat. Break yo neck, yall ante sure gangsta we gonna chung faucibizzle break yo neck, yall luctizzle et check out this posuere cubilia Phat; Donizzle dolizzle. Integer uhuh ... yih!. Gangster pharetra blandizzle ghetto. Phat rutrizzle aliquizzle its fo rizzle. Sizzle gangsta. I saw beyonces tizzles and my pizzle went crizzle sem nulla, venenatis nizzle, scelerisque boom shackalack, boom shackalack izzle, funky fresh.
@@ -101,14 +105,6 @@
 								<p class="card-text">ABQ Shuffleboard Shakedown</p>
 								<p class="card-text">Red Rover in the Park</p>
 								<p class="card-text">Bernalillo Knitting Meet-Up</p>
-								<h6 class="card-subtitle mb-2 text-muted">Rating</h6>
-								<div class="lines">
-									<div class="rectangle1"></div>
-									<div class="rectangle2"></div>
-									<div class="rectangle3"></div>
-									<div class="rectangle4"></div>
-									<div class="rectangle5"></div>
-								</div>
 								<div class="dropdown">
 									<button class="btn btn-secondary dropdown-toggle"
 											  type="button" id="dropdownMenu1" data-toggle="dropdown"
@@ -118,11 +114,11 @@
 									<div class="dropdown-menu" aria-labelledby="dropdownMenu1">
 										<a class="dropdown-item" href="#!">
 											<div class="lines">
-												<div class="rectangle1"></div>
-												<div class="rectangle2"></div>
-												<div class="rectangle3"></div>
-												<div class="rectangle4"></div>
-												<div class="rectangle5"></div>
+												<i class="fa fa-thermometer-empty fa-2x text-secondary" aria-hidden="true"></i>
+												<i class="fa fa-thermometer-quarter fa-2x text-primary" aria-hidden="true"></i>
+												<i class="fa fa-thermometer-half fa-2x text-success" aria-hidden="true"></i>
+												<i class="fa fa-thermometer-three-quarters fa-2x text-warning" aria-hidden="true"></i>
+												<i class="fa fa-thermometer-full fa-2x text-danger" aria-hidden="true"></i>
 											</div>
 										</a>
 									</div>
@@ -132,6 +128,7 @@
 					</div>
 					<div class="col-md-5 float-right">
 						<div class="card event">
+							<h3><i class="fa fa-wifi text-danger" aria-hidden="true"></i>ibing now</h3>
 							<img class="card-img-top" src="https://dl.dropboxusercontent.com/s/9ojadnxp8n2b7oq/bar.jpg?dl=0"
 								  alt="Card image cap">
 							<div class="card-body text-center">
@@ -141,9 +138,13 @@
 								<p class="card-text">
 									<small class="text-muted">Hosted By: Zach</small>
 								</p>
-								<p class="card-text mb-1">
-								<p class="fa fa-star" aria-hidden="true"><i class="fa fa-star-half" aria-hidden="true"></i></p>
+								<div class="text-center">
+									<i class="fa fa-thermometer-three-quarters fa-2x m-2 text-warning" aria-hidden="true"></i>
+								</div>
 								<h4 class="card-title">Happy Hour</h4>
+								<div class="text-center">
+									<i class="fa fa-thermometer-full fa-2x m-2 text-danger" aria-hidden="true"></i>
+								</div>
 								<p class="card-text">Some co-workers are getting together for a drink, we would love to meet
 									some new people in town.</p>
 								<p class="card-text my-1">
