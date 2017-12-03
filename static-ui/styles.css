@@ -7,7 +7,7 @@
 }
 
 .rating-person {
-	background-image: url("./image/crowd-people.jpg");
+	background-image: url("./image/crowd.jpeg");
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -16,7 +16,7 @@
 
 
 
-h6 {
+h4 {
 	text-align: center;
 }
 
