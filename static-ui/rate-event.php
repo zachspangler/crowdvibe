@@ -164,12 +164,12 @@
 					<div class="col-md-6">
 						<div class="container">
 							<div class="row">
-								<div class="col-md-12">
+								<div class="col-md-12 mt-2">
 									<h3 class="bg-transparent text-white text-center">Who Attended</h3>
 									<div class="container mb-2">
 										<div class="row">
 											<div class="col-md-6">
-													<div class="card">
+													<div class="card border-0">
 														<div class="top-picture">
 															<img class="card-img-top rounded-circle" src="./image/look-lady.jpg" alt="Card image cap" height="200">
 														</div>
@@ -199,7 +199,7 @@
 													</div>
 											</div>
 											<div class="col-md-6">
-												<div class="card">
+												<div class="card border-0">
 													<img class="card-img-top rounded-circle bg-transparent" src="./image/look-lady.jpg" alt="Card image cap" height="200">
 													<div class="card-body bg-dark text-white">
 														<h6 class="card-title">Allison Mopsqueezer</h6>
@@ -231,7 +231,7 @@
 									<div class="container mb-2">
 										<div class="row">
 											<div class="col-md-6">
-												<div class="card">
+												<div class="card border-0">
 													<img class="card-img-top rounded-circle bg-transparent" src="./image/look-lady.jpg" alt="Card image cap" height="200">
 													<div class="card-body bg-dark text-white">
 														<h6 class="card-title">Allison Mopsqueezer</h6>
@@ -259,7 +259,7 @@
 												</div>
 											</div>
 											<div class="col-md-6">
-												<div class="card">
+												<div class="card border-0">
 													<img class="card-img-top rounded-circle bg-transparent" src="./image/look-lady.jpg" alt="Card image cap" height="200">
 													<div class="card-body bg-dark text-white">
 														<h6 class="card-title">Allison Mopsqueezer</h6>
@@ -291,7 +291,7 @@
 									<div class="container mb-2">
 										<div class="row">
 											<div class="col-md-6">
-												<div class="card">
+												<div class="card border-0">
 													<img class="card-img-top rounded-circle bg-transparent" src="./image/look-lady.jpg" alt="Card image cap" height="200">
 													<div class="card-body bg-dark text-white">
 														<h6 class="card-title">Allison Mopsqueezer</h6>
@@ -319,7 +319,7 @@
 												</div>
 											</div>
 											<div class="col-md-6">
-												<div class="card">
+												<div class="card border-0">
 													<img class="card-img-top rounded-circle bg-transparent" src="./image/look-lady.jpg" alt="Card image cap" height="200">
 													<div class="card-body bg-dark text-white">
 														<h6 class="card-title">Allison Mopsqueezer</h6>
