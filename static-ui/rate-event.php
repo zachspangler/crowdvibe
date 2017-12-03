@@ -200,12 +200,12 @@
 											</div>
 											<div class="col-md-6">
 												<div class="card border-0">
-													<img class="card-img-top rounded-circle bg-transparent" src="./image/look-lady.jpg" alt="Card image cap" height="200">
+													<img class="card-img-top rounded-circle bg-transparent" src="./image/grrr-man.jpg" alt="Card image cap" height="200">
 													<div class="card-body bg-dark text-white">
-														<h6 class="card-title">Allison Mopsqueezer</h6>
+														<h6 class="card-title">Mean Gene</h6>
 														<p class="card-subtitle mb-2 text-muted">Rating</p>
 														<div class="text-center">
-															<i class="fa fa-thermometer-quarter fa-2x m-4 text-success" aria-hidden="true"></i>
+															<i class="fa fa-thermometer-full fa-2x m-4 text-danger" aria-hidden="true"></i>
 														</div>
 														<button class="btn btn-secondary dropdown-toggle"
 																  type="button" id="dropdownMenu1" data-toggle="dropdown"
@@ -232,12 +232,12 @@
 										<div class="row">
 											<div class="col-md-6">
 												<div class="card border-0">
-													<img class="card-img-top rounded-circle bg-transparent" src="./image/look-lady.jpg" alt="Card image cap" height="200">
+													<img class="card-img-top rounded-circle bg-transparent" src="./image/paint-man.jpg" alt="Card image cap" height="200">
 													<div class="card-body bg-dark text-white">
-														<h6 class="card-title">Allison Mopsqueezer</h6>
+														<h6 class="card-title">Tommy 2Face</h6>
 														<p class="card-subtitle mb-2 text-muted">Rating</p>
 														<div class="text-center">
-															<i class="fa fa-thermometer-quarter fa-2x m-4 text-success" aria-hidden="true"></i>
+															<i class="fa fa-thermometer-empty fa-2x m-4 text-secondary" aria-hidden="true"></i>
 														</div>
 														<button class="btn btn-secondary dropdown-toggle"
 																  type="button" id="dropdownMenu1" data-toggle="dropdown"
