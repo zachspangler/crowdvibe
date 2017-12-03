@@ -8,12 +8,12 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 	</head>
 	<body>
-		<div class="card" style="width: 25rem;">
+		<div class="card bg-dark mb-3" style="width: 25rem;">
 			<img class="card-img-top" src="https://comps.canstockphoto.com/group-of-friends-at-karaoke-party-picture_csp4326671.jpg" alt="Card image cap">
 			<div class="form-group row">
 				<label for="example-text-input" class="col-2 col-form-label">Event</label>
 				<div class="col-10">
-					<input class="form-control" type="text" value="Artisanal kale" id="example-text-input">
+					<input class="form-control" type="text" value="Meet up at the wine festival" id="example-text-input">
 				</div>
 			</div>
 			<div class="form-group">
@@ -21,15 +21,15 @@
 				<textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
 			</div>
 			<div class="form-group row">
-				<label for="example-email-input" class="col-2 col-form-label">Attendee Limit</label>
+				<label for="example-attending-input" class="col-2 col-form-label">Attendee Limit</label>
 				<div class="col-10">
-					<input class="form-control" type="email" value="420" id="example-email-input">
+					<input class="form-control" type="email" value="150" id="example-email-input">
 				</div>
 			</div>
 			<div class="form-group row">
 				<label for="example-url-input" class="col-2 col-form-label">Start</label>
 				<div class="col-10">
-					<input class="form-control" type="url" value="4:20pm" id="example-url-input">
+					<input class="form-control" type="url" value="12:30pm" id="example-url-input">
 				</div>
 			</div>
 			<div class="form-group row">
