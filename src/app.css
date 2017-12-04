@@ -1,0 +1,33 @@
+/****************
+* Create Event
+*****************/
+body {
+	margin-top: 20px; background-color: #eeeeee
+}
+.social-event {
+.glyphicon,
+}
+.social-event {
+.fa,
+}
+.social-event {
+[class^=icon-']
+}
+.social-event {
+[class*='icon-']
+}
+{
+	font-weight: bold;
+	color: #999999;
+}
+
+.social-event a,
+.social-event a: hover,
+.social-event a:active,
+.social-event a: focus; {
+	text-decoration: none;
+}
+
+/****************
+*
+*****************/
