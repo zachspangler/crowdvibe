@@ -27,51 +27,57 @@ try {
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 
 	//sanitize input
-	$eventAttendanceId = filter_input(INPUT_GET, "eventAttendanceId", FILTER_SANITIZE_STRING,FILTER_FLAG_NO_ENCODE_QUOTES);
+	$id = filter_input(INPUT_GET, "id", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$eventAttendanceEventId = filter_input(INPUT_GET, "eventAttendanceEventId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$eventAttendanceProfileId = filter_input(INPUT_GET, "eventAttendanceProfileId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$eventAttendanceCheckIn = filter_input(INPUT_GET, "eventAttendanceCheckIn", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$eventAttendanceNumberAttending = filter_input(INPUT_GET, "eventAttendanceNumberAttending",FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$eventAttendanceNumberAttending = filter_input(INPUT_GET, "eventAttendanceNumberAttending", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
 	//make sure the id is valid for methods that require it
-	if(($method === "PUT") && (empty($eventAttendanceId) === true || $eventAttendanceId < 0)){
-		throw(new InvalidArgumentException("id cannot be empty or negative", 405));
+	if(($method === "DELETE" || $method === "PUT") && (empty($id) === true)) {
+		throw(new InvalidArgumentException("id cannot be empty or negative", 402));
 	}
-// handle GET request - if eventAttendanceId is present, that the event attendance is returned, otherwise all event attendances are returned
-		if($method === "GET") {
-			//set XSRF cookie
-			setXsrfCookie();
+// handle GET request - if id is present, that the event attendance is returned, otherwise all event attendances are returned
+	if($method === "GET") {
+		//set XSRF cookie
+		setXsrfCookie();
 
-			//get a specific events attendance
-			if(empty($eventAttendanceId) === false) {
-				$eventAttendanceId = EventAttendance::getEventAttendanceByEventAttendanceId($pdo, $eventAttendanceId)->toArray();
-				if($eventAttendanceId !== null) {
-					$reply->data = $eventAttendance;
-				}
-			} else if(empty($eventAttendanceProfileId) === false) {
-				$eventAttendanceId = EventAttendance::getEventAttendanceByEventAttendanceProfileId($pdo, $_SESSION["profile"]->getProfileId())->toArray();
-				if($eventAttendanceProfileId !== null) {
-					$reply->data = $eventAttendance;
-				}
-			} else if(empty($eventAttendanceEventId) === false) {
-				$eventAttendanceEventId = EventAttendance::getEventAttendanceByEventAttendanceEventId($pdo, $eventAttendanceEventId);
-				if($eventAttendanceEventId !== null) {
-					$reply->data = $eventAttendance;
-				}
+		//get a specific events attendance
+		if(empty($id) === false) {
+			$eventAttendance = EventAttendance::getEventAttendanceByEventAttendanceId($pdo, $id);
+			if($eventAttendance !== null) {
+				$reply->data = $eventAttendance;
 			}
-		} else if($method === "PUT" || $method === "POST") {
+		} else if(empty($eventAttendanceProfileId) === false) {
+			$eventAttendances = EventAttendance::getEventAttendanceByEventAttendanceProfileId($pdo, $_SESSION["profile"]->getProfileId())->toArray();
+			if($eventAttendanceProfileId !== null) {
+				$reply->data = $eventAttendanceProfileId;
+			}
+		} else if(empty($eventAttendanceEventId) === false) {
+			$eventAttendances = EventAttendance::getEventAttendanceByEventAttendanceEventId($pdo, $eventAttendanceEventId)->toArray();
+			if($eventAttendances !== null) {
+				$reply->data = $eventAttendances;
+			}
+		} else if(empty($eventAttendanceCheckIn) === false) {
+		$eventAttendance = EventAttendance::getEventAttendanceByEventAttendanceCheckIn($pdo, $eventAttendanceCheckIn);
+		if($eventAttendance !== null) {
+			$reply->data = $eventAttendance;
+		}
+	}
+} else if($method === "PUT" || $method === "POST") {
 
 			//enforce that the user has an XSRF token
 			verifyXsrf();
 
 			$requestContent = file_get_contents("php://input");
 			// Retrieves the JSON package that the front end sent, and stores it in $requestContent. Here we are using file_get_contents("php://input") to get the request from the front end. file_get_contents() is a PHP function that reads a file into a string. The argument for the function, here, is "php://input". This is a read only stream that allows raw data to be read from the front end request which is, in this case, a JSON package.
+
 			$requestObject = json_decode($requestContent);
 			// This Line Then decodes the JSON package and stores that result in $requestObject
 
 			//make sure eventAttendanceCheckIn is available (required field)
-			if(empty($requestObject->eventAttendanceCheckIn) === true) {
-				throw(new \InvalidArgumentException ("No check in for this event.", 405));
+			if($requestObject->eventAttendanceCheckIn !== 0 && $requestObject->eventAttendanceCheckIn !== 1 ) {
+				throw(new \InvalidArgumentException ("No check in for this event.", 408));
 			}
 			//make sure eventAttendanceNumberAttending is available (required field)
 			if(empty($requestObject->eventAttendanceNumberAttending) === true) {
@@ -80,8 +86,8 @@ try {
 			if($method === "PUT") {
 
 				//retrieve the method to update
-				$event = EventAttendance::getEventAttendanceByEventAttendanceId($pdo, $id);
-				if($event === null) {
+				$eventAttendance = EventAttendance::getEventAttendanceByEventAttendanceId($pdo, $id);
+				if($eventAttendance === null) {
 					throw (new RuntimeException("Event does not exist cannot attend.", 404));
 				}
 
@@ -93,7 +99,7 @@ try {
 				// update all attributes
 				$eventAttendance->setEventAttendanceCheckIn($requestObject->eventAttendanceCheckIn);
 				$eventAttendance->setEventAttendanceNumberAttending($requestObject->eventAttendanceNumberAttending);
-				$event->update($pdo);
+				$eventAttendance->update($pdo);
 
 				// update reply
 				$reply->message = "Event Attendance has been updated";
@@ -105,8 +111,8 @@ try {
 				}
 
 				// create new event and insert into the database
-				$eventAttendanceId = new EventAttendance(generateUuidV4(), $requestObject->eventAttendanceEventId, $_SESSION["profile"]->getProfileId(), $requestObject->eventAttendanceCheckIn, $requestObject->eventAttendanceNumberAttending);
-				$eventAttendanceId->insert ($pdo);
+				$id = new EventAttendance(generateUuidV4(), $requestObject->eventAttendanceEventId, $_SESSION["profile"]->getProfileId(), $requestObject->eventAttendanceCheckIn, $requestObject->eventAttendanceNumberAttending);
+				$id->insert ($pdo);
 
 				// update reply
 				$reply->message = "You are now attending the event";
