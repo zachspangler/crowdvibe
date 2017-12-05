@@ -20,6 +20,7 @@ $HASH = hash_pbkdf2("sha512", $password, $SALT, 262144);
 
 $profile = new Profile(generateUuidV4(),bin2hex(random_bytes(16)), "hope to figure this out3", "willy1@buller.com", "Willy", $HASH, "imageofimages3", "William", $SALT, "willster");
 $profile->insert($pdo);
+echo "first profile";
 var_dump($profile->getProfileId()->toString());
 
 $password2 = "woo shit";
@@ -28,6 +29,7 @@ $HASH = hash_pbkdf2("sha512", $password, $SALT, 262144);
 
 $profile2 = new Profile(generateUuidV4(),bin2hex(random_bytes(16)), "I'm a big nancy boy", "cantstopme@hotstuff.com", "Chauncy", $HASH, "afullmoon", "lostashell", $SALT, "thelovedoctor");
 $profile2->insert($pdo);
+echo "second profile";
 var_dump($profile2->getProfileId()->toString());
 
 $password3 = "geewiz";
@@ -37,6 +39,8 @@ $HASH = hash_pbkdf2("sha512", $password, $SALT, 262144);
 $profile3 = new Profile(generateUuidV4(), bin2hex(random_bytes(16)), "George Likes butterflies",
 	"getsome@hotornot.com", "Manny", $HASH, "hootyhoo", "Momoney", $SALT, "Mr.Lictenstein");
 $profile3->insert($pdo);
+echo "third profile";
+var_dump($profile3->getProfileId()->toString());
 
 
 
@@ -57,11 +61,13 @@ var_dump($event2->getEventId()->toString());
 $eventAttendanceId = generateUuidV4();
 $eventAttendance = new EventAttendance($eventAttendanceId, $event->getEventId(),$profile->getProfileId(), true, 2);
 $eventAttendance->insert($pdo);
+
 var_dump($eventAttendance->getEventAttendanceId()->toString());
 
 $eventAttendanceId1 = generateUuidV4();
-$eventAttendance1 = new EventAttendance($eventAttendanceId1, $event->getEventId(),$profile2->getProfileId(),  true, 1);
+$eventAttendance1 = new EventAttendance($eventAttendanceId1, $event2->getEventId(),$profile2->getProfileId(),  true, 1);
 $eventAttendance1->insert($pdo);
+echo "incorrect Event Attendance";
 var_dump($eventAttendance1->getEventAttendanceId()->toString());
 
 $eventAttendanceId2 = generateUuidV4();
