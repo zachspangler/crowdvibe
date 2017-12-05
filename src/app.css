@@ -29,5 +29,33 @@ body {
 }
 
 /****************
-*
+*Rate-person
 *****************/
+.rating-person {
+	background-image: url("./image/crowd.jpeg");
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	height: 100%;
+}
+
+/****************
+*Rate-event
+*****************/
+.rating-event {
+	background-image: url("./image/crowd.jpeg");
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	height: 100%;
+}
+
+/****************
+*generic for rate-person and rate-event
+*****************/
+h4 {
+	text-align: center;
+}
+.card {
+	background-color: transparent;
+}
