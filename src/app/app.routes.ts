@@ -4,7 +4,7 @@ import {RouterModule, Routes} from "@angular/router";
 //import all needed Interceptors
 import {APP_BASE_HREF} from "@angular/common";
 import {HTTP_INTERCEPTORS} from "@angular/common/http";
-import {DeepDiveInterceptor} from "./services/deep.dive.intercepters";
+import {DeepDiveInterceptor} from "./services/deep.dive.interceptor";
 
 // import all components
 import {SplashComponent} from "./components/splash.component";

@@ -27,7 +27,7 @@ module.exports = webpackMerge(commonConfig, {
 		}),
 		new webpack.LoaderOptionsPlugin({
 			htmlLoader: {
-				minimize: false // workaround for ng5
+				minimize: false // workaround for ng2
 			}
 		})
 	]
