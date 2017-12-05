@@ -382,7 +382,7 @@ class EventAttendance implements \JsonSerializable {
 			throw (new \PDOException($exception->getMessage(), 0, $exception));
 		}
 		// create query template
-		$query = "SELECT eventAttendanceId, eventAttendanceEventId, eventAttendanceProfileId, eventAttendanceCheckIn, eventAttendanceNumberAttending FROM EventAttendance WHERE eventAttendanceCheckIn=1 AND eventAttendanceProfileId = :profileId";
+		$query = "SELECT eventAttendanceId, eventAttendanceEventId, eventAttendanceProfileId, eventAttendanceCheckIn, eventAttendanceNumberAttending FROM eventAttendance WHERE eventAttendanceCheckIn=1 AND eventAttendanceProfileId = :profileId";
 		$statement = $pdo->prepare($query);
 		// bind the rating id to the place holder in the template
 		$parameters = ["profileId" => $profileId->getBytes()];

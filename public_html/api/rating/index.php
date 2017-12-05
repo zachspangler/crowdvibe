@@ -6,7 +6,7 @@ require_once dirname(__DIR__, 3) . "/php/lib/uuid.php";
 require_once dirname(__DIR__, 3) . "/php/lib/jwt.php";
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
-use Edu\Cnm\Crowdvibe\{
+use Edu\Cnm\CrowdVibe\{
 	Rating,
 	// we only use the profile, event, and event attendance class for testing purposes
 	Profile, Event, EventAttendance
@@ -31,6 +31,8 @@ $reply->data = null;
 try {
 	//grab the mySQL connection
 	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/crowdvibe.ini");
+
+	$_SESSION["profile"] = Profile::getProfileByProfileId($pdo, "0206568d-2585-492b-b54c-739d1baff19f");
 
 	//determine which HTTP method was used
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
@@ -64,7 +66,7 @@ try {
 		}
 
 		// make sure rating event is available
-		if($requestObject->ratingEvent !== 0 || $requestObject->ratingEvent !== 1) {
+		if($requestObject->ratingEvent !== 0 && $requestObject->ratingEvent !== 1) {
 			throw (new \InvalidArgumentException("Incorrect rating event.", 405));
 		}
 
@@ -72,9 +74,9 @@ try {
 
 
 		// enforce the user is signed in
-//		if(empty($_SESSION["profile"]) === true) {
-//			throw(new \InvalidArgumentException("you must be logged in to make a rating", 403));
-//		}
+	if(empty($_SESSION["profile"]) === true) {
+		throw(new \InvalidArgumentException("you must be logged in to make a rating", 403));
+		}
 
 		//validateJwtHeader();
 
@@ -89,7 +91,7 @@ try {
 		// check if user has common event attendance
 		if($requestObject->ratingEvent === 0) {
 			$raterEventAttendance = EventAttendance::getEventAttendanceByEventAttendanceCheckIn($pdo, $_SESSION["profile"]->getProfileId()->toString());
-			$rateeEventAttendance = EventAttendance::getEventAttendanceByEventAttendanceCheckIn($pdo, $requestObject->rateeProfileId());
+			$rateeEventAttendance = EventAttendance::getEventAttendanceByEventAttendanceCheckIn($pdo, $requestObject->ratingRateeProfileId);
 
 			if(($raterEventAttendance === null || $rateeEventAttendance === null) && ($raterEventAttendance->getEventAttendanceEventId() !== $rateeEventAttendance->getEventAttendanceEventId() )) {
 				throw(new \InvalidArgumentException("you did not have events in common"));
@@ -99,7 +101,7 @@ try {
 		//
 
 		// create new rating and insert into the database
-		$rating = new Rating(generateUuidV4(), $requestObject->ratingEventAttendanceId, $requestObject->ratingRateeProfileId, $_SESSION["profile"]->getProfileId, $requestObject->ratingScore);
+		$rating = new Rating(generateUuidV4(), $requestObject->ratingEventAttendanceId, $requestObject->ratingRateeProfileId, $_SESSION["profile"]->getProfileId(), $requestObject->ratingScore);
 		$rating->insert($pdo);
 
 		// update reply
