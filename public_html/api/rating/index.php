@@ -32,7 +32,7 @@ try {
 	//grab the mySQL connection
 	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/crowdvibe.ini");
 
-	$_SESSION["profile"] = Profile::getProfileByProfileId($pdo, "0206568d-2585-492b-b54c-739d1baff19f");
+	$_SESSION["profile"] = Profile::getProfileByProfileId($pdo, "8803c2aa-0d92-44de-bc2a-f9a5a1c9a2c6");
 
 	//determine which HTTP method was used
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
@@ -83,6 +83,7 @@ try {
 		// check if user is rating profile or event
 		if($requestObject->ratingEvent === 1) {
 			$eventAttendance = EventAttendance::getEventAttendanceByEventAttendanceCheckIn($pdo, $_SESSION["profile"]->getProfileId()->toString());
+			var_dump($eventAttendance);
 			if($eventAttendance === null) {
 				throw(new \InvalidArgumentException("cannot rate event you didn't attend"));
 			}

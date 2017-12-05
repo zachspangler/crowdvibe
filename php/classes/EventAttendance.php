@@ -392,6 +392,7 @@ class EventAttendance implements \JsonSerializable {
 			$eventAttendance = null;
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
+			var_dump($row);
 			if($row !== false) {
 
 
@@ -404,7 +405,32 @@ class EventAttendance implements \JsonSerializable {
 		return ($eventAttendance);
 	}
 
-/**
+	public static function shouldBloodyRateBloodyEvent(\PDO $pdo, $eventId, $profileId) : bool {
+		try {
+			$eventId = self::validateUuid($eventId);
+			$profileId = self::validateUuid($profileId);
+		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			throw (new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		// create query template
+		$query = "SELECT COUNT(eventAttendanceId) AS numEventAttendances FROM eventAttendance WHERE eventAttendanceCheckIn = 1 AND eventAttendanceEventId = :eventId AND eventAttendanceProfileId = :profileId";
+		$statement = $pdo->prepare($query);
+		// bind the rating id to the place holder in the template
+		$parameters = ["eventId" => $eventId->getBytes(), "profileId" => $profileId->getBytes()];
+		$statement->execute($parameters);
+		// grab the rating from mySQL
+		try {
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			$numEventAttendances = $row["numEventAttendances"] ?? 0;
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return($numEventAttendances > 0);
+	}
+
+		/**
  * formats the state variables for JSON serialization
  *
  * @return array resulting state variables to serialize
