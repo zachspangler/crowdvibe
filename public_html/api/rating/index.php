@@ -34,19 +34,8 @@ try {
 	//determine which HTTP method was used
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 
-	//sanitize input
-	$ratingId = filter_input(INPUT_GET, "ratingId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$ratingEventAttendanceId = filter_input(INPUT_GET, "ratingEventAttendacnceId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$ratingRateeProfileId = filter_input( INPUT_GET, "ratingRateeProfileId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$ratingRaterProfileId = filter_input(INPUT_GET, "ratingRaterProfileId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$ratingScore = filter_input(INPUT_GET, "ratingScore", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
-	//make sure the id is valid for methods that require it
-	if(($method === "DELETE" || $method === "PUT") && (empty($ratingId) === true)){
-		throw(new InvalidArgumentException("ratingId cannot be empty or negative", 405));
-	}
-
-	if($method === "PUT" || $method === "POST") {
+	if($method === "POST") {
 
 	// enforce the user has a XSRF token
 	verifyXsrf();
@@ -74,20 +63,25 @@ try {
 	}
 
 	//perform the actual post
-	if($method === "POST") {
+
 
 		// enforce the user is signed in
 		if(empty($_SESSION["profile"]) === true) {
 			throw(new \InvalidArgumentException("you must be logged in to make a rating", 403));
 		}
 
+		validateJwtHeader();
+
+	// validate user attended event
+		$eventAttendance =
+
 		// create new rating and insert into the database
 		$rating = new Rating(generateUuidV4(), $requestObject->ratingEventAttendanceId, $requestObject->ratingRateeProfileId, $_SESSION["profile"]->getProfileId, $requestObject->ratingScore);
-		$ratingScore->insert($pdo);
+		$rating->insert($pdo);
 
 		// update reply
 		$reply->message = "Rating was submitted successfully.";
-	}
+
 }
 
 

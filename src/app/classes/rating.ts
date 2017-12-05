@@ -3,6 +3,7 @@ export class Rating {
 					public ratingEventAttendanceId: string,
 					public ratingRateeProfileId: string,
 					public ratingRaterProfileId: string,
+					public ratingEvent: boolean,
 					public ratingScore: number
 	) {}
 }
