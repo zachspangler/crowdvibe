@@ -2,7 +2,8 @@ import {Component} from "@angular/core";
 
 
 @Component({
-	templateUrl: "./templates/navbar.html"
+	selector: "main-nav",
+	templateUrl: "./templates/main-nav.html"
 })
 
 export class NavbarComponent {}

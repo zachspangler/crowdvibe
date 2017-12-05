@@ -1,17 +1,53 @@
-	<div class="col-md-offset-3 col-md-6 col-xs-12">
-		<div class="social-event">
-			<form>
-				<ul class="list-inline" id="createPost">
-					<li class=active><a href='#'>Add Event</a></li>
-					<li class='active'><a href='#'>Add Photo</a></li>
-				</ul>
-				<textarea class="form-control" placeholder="What's your event about?"></textarea>
-				<ul class='list-inline post-actions'>
-					<li><a href="#"><span class="glyphicon glyphicon-camera"></span></a></li>
-					<li><a href="#" class='glyphicon glyphicon-user'></a></li>
-					<li><a href="#" class='glyphicon glyphicon-map-marker'></a></li>
-					<li class='pull-right'><a href="#" class='btn btn-dark btn-xs'>Post</a></li>
-				</ul>
-			</form>
+	<!-- Create Event Modal -->
+	<div class="modal fade" id="createEvent" tabindex="-1" role="dialog" aria-labelledby="createEventLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="createEventLabel">Create Event</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body social-event">
+					<form>
+						<div class="form-group">
+							<label for="event-name" class="col-form-label">Event Name:</label>
+							<input type="text" class="form-control" id="event-name">
+						</div>
+						<div class="form-group">
+							<label for="event-detail" class="col-form-label">Event Detail:</label>
+							<input type="text" class="form-control" id="event-detail">
+						</div>
+						<div class="form-group">
+							<label for="price" class="col-form-label">Event Price:</label>
+							<input type="number" class="form-control" id="price">
+						</div>
+						<div class="form-group">
+							<label for="image" class="col-form-label">Image:</label>
+							<input type="image" class="form-control" id="image">
+						</div>
+						<div class="form-group">
+							<label for="address" class="col-form-label">Address:</label>
+							<textarea type="text" class="form-control" id="address"></textarea>
+						</div>
+						<div class="form-group">
+							<label for="start-time" class="col-form-label">Start Time:</label>
+							<input type="datetime-local" class="form-control" id="start-time">
+						</div>
+						<div class="form-group">
+							<label for="end-time" class="col-form-label">End Time:</label>
+							<input type="datetime-local" class="form-control" id="end-time">
+						</div>
+						<div class="form-group">
+							<label for="attendee-limit" class="col-form-label">Event Attendee Limit:</label>
+							<input type="number" class="form-control" id="attendee-limit">
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary">Create Event</button>
+				</div>
+			</div>
 		</div>
 	</div>

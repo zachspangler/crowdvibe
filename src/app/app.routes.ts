@@ -8,12 +8,14 @@ import {DeepDiveInterceptor} from "./services/deep.dive.interceptor";
 
 // import all components
 import {SplashComponent} from "./components/splash.component";
+import {AttendingEventComponent} from "./components/attending.event.component";
 import {CreateEventComponent} from "./components/create.event.component";
 import {EditEventComponent} from "./components/edit.event.component";
 import {EditProfileComponent} from "./components/edit.profile.component";
 import {HomeComponent} from "./components/home.component";
 import {LandingPageComponent} from "./components/landing.page.component";
-import {NavbarComponent} from "./components/navbar.component";
+import {NavbarComponent} from "./components/main.nav.component";
+import {LoginNavComponent} from "./components/login.nav.component";
 import {RateEventComponent} from "./components/rate.event.component";
 import {RateProfileComponent} from "./components/rate.profile.component";
 import {SignInComponent} from "./components/sign.in.component";
@@ -37,11 +39,13 @@ import {SignUpService} from "./services/sign.up.service";
 //an array of the components that will be passed off to the module
 export const allAppComponents = [
 	SplashComponent,
+	AttendingEventComponent,
 	CreateEventComponent,
 	EditEventComponent,
 	EditProfileComponent,
 	HomeComponent,
 	LandingPageComponent,
+	LoginNavComponent,
 	NavbarComponent,
 	RateEventComponent,
 	RateProfileComponent,
@@ -52,7 +56,6 @@ export const allAppComponents = [
 
 //an array of routes that will be passed of to the module
 export const routes: Routes = [
-	{path: "", component: SplashComponent},
 	{path: "create-event", component: CreateEventComponent},
 	{path: "edit-event", component: EditEventComponent},
 	{path: "edit-profile", component: EditProfileComponent},
