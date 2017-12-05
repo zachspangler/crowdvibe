@@ -8,21 +8,30 @@ import {DeepDiveInterceptor} from "./services/deep.dive.intercepters";
 
 // import all components
 import {SplashComponent} from "./components/splash.component";
-import {CreateEvent, CreateEventComponent} from "./components/create.event.component";
-import {EditEvent, EditEventComponent} from "./components/edit.event.component";
-import {EditProfile, EditProfileComponent} from "./components/edit.profile.component";
-import {Home, HomeComponent} from "./components/home.component";
-import {LandingPage, LandingPageComponent} from "./components/landing.page.component";
-import {Navbar, NavbarComponent} from "./components/navbar.component";
-import {RateEvent, RateEventComponent} from "./components/rate.event.component";
-import {RateProfile, RateProfileComponent} from "./components/rate.profile.component";
+import {CreateEventComponent} from "./components/create.event.component";
+import {EditEventComponent} from "./components/edit.event.component";
+import {EditProfileComponent} from "./components/edit.profile.component";
+import {HomeComponent} from "./components/home.component";
+import {LandingPageComponent} from "./components/landing.page.component";
+import {NavbarComponent} from "./components/navbar.component";
+import {RateEventComponent} from "./components/rate.event.component";
+import {RateProfileComponent} from "./components/rate.profile.component";
 import {SignInComponent} from "./components/sign.in.component";
 import {SignUpComponent} from "./components/sign.up.component";
 import {SignOutComponent} from "./components/sign.out.component";
 
 
 // import services
-
+import {AuthService} from "./services/auth.service";
+import {CookieService} from "ng2-cookies";
+import {JwtHelperService} from "@auth0/angular-jwt";
+import {EventAttendanceService} from "./services/event.attendance.service";
+import {EventService} from "./services/event.service";
+import {ProfileService} from "./services/profile.service";
+import {RatingService} from "./services/rating.service";
+import {SessionService} from "./services/session.service";
+import {SignInService} from "./services/sign.in.service";
+import {SignUpService} from "./services/sign.up.service";
 
 
 //an array of the components that will be passed off to the module
@@ -58,9 +67,7 @@ export const routes: Routes = [
 ];
 
 // an array of services that will be passed off to the module
-const services : any[] = [
-
-];
+const services : any[] = [AuthService,CookieService,JwtHelperService,EventAttendanceService,EventService,ProfileService,RatingService,SessionService,SignInService,SignUpService];
 
 // an array of misc providers
 export const providers: any[] = [
@@ -68,6 +75,6 @@ export const providers: any[] = [
 	{provide: HTTP_INTERCEPTORS, useClass: DeepDiveInterceptor, multi: true},
 ];
 
-export const appRoutingProviders: any[] = [providers, services ];
+export const appRoutingProviders: any[] = [providers, services];
 
 export const routing = RouterModule.forRoot(routes);
