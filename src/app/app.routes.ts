@@ -16,8 +16,8 @@ import {HomeComponent} from "./components/home.component";
 import {LandingPageComponent} from "./components/landing.page.component";
 import {NavbarComponent} from "./components/main.nav.component";
 import {LoginNavComponent} from "./components/login.nav.component";
-import {RateEventComponent} from "./components/rate.event.component";
-import {RateProfileComponent} from "./components/rate.profile.component";
+import {EventComponent} from "./components/event.component";
+import {ProfileComponent} from "./components/profile.component";
 import {SignInComponent} from "./components/sign.in.component";
 import {SignUpComponent} from "./components/sign.up.component";
 import {SignOutComponent} from "./components/sign.out.component";
@@ -47,8 +47,8 @@ export const allAppComponents = [
 	LandingPageComponent,
 	LoginNavComponent,
 	NavbarComponent,
-	RateEventComponent,
-	RateProfileComponent,
+	EventComponent,
+	ProfileComponent,
 	SignInComponent,
 	SignUpComponent,
 	SignOutComponent,
@@ -56,16 +56,10 @@ export const allAppComponents = [
 
 //an array of routes that will be passed of to the module
 export const routes: Routes = [
-	{path: "create-event", component: CreateEventComponent},
-	{path: "edit-event", component: EditEventComponent},
-	{path: "edit-profile", component: EditProfileComponent},
 	{path: "home", component: HomeComponent},
 	{path: "", component: LandingPageComponent},
-	{path: "navbar", component: NavbarComponent},
-	{path: "rate-event", component: RateEventComponent},
-	{path: "rate-profile", component: RateProfileComponent},
-	{path: "sign-in", component: SignInComponent},
-	{path: "sign-up", component: SignUpComponent},
+	{path: "event", component: EventComponent},
+	{path: "profile", component: ProfileComponent},
 	{path: "sign-out", component: SignOutComponent},
 ];
 

@@ -89,8 +89,6 @@ try {
 		} else if(empty($eventStartDateTime && $eventEndDateTime) === false) {
 			$events = Event::getEventByEventStartDateTime($pdo, $eventStartDateTime,  $eventEndDateTime);
 
-
-
 			if($events !== null) {
 				$storage = new JsonObjectStorage();
 				foreach($events as $event) {
