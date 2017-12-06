@@ -392,7 +392,7 @@ class EventAttendance implements \JsonSerializable {
 			$eventAttendance = null;
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
-			var_dump($row);
+
 			if($row !== false) {
 
 

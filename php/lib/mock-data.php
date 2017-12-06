@@ -61,7 +61,7 @@ var_dump($event2->getEventId()->toString());
 $eventAttendanceId = generateUuidV4();
 $eventAttendance = new EventAttendance($eventAttendanceId, $event->getEventId(),$profile->getProfileId(), true, 2);
 $eventAttendance->insert($pdo);
-
+echo "event Attendance";
 var_dump($eventAttendance->getEventAttendanceId()->toString());
 
 $eventAttendanceId1 = generateUuidV4();

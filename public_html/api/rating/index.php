@@ -6,6 +6,7 @@ require_once dirname(__DIR__, 3) . "/php/lib/uuid.php";
 require_once dirname(__DIR__, 3) . "/php/lib/jwt.php";
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
+use Ramsey\Uuid;
 use Edu\Cnm\CrowdVibe\{
 	Rating,
 	// we only use the profile, event, and event attendance class for testing purposes
@@ -32,7 +33,7 @@ try {
 	//grab the mySQL connection
 	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/crowdvibe.ini");
 
-	$_SESSION["profile"] = Profile::getProfileByProfileId($pdo, "8803c2aa-0d92-44de-bc2a-f9a5a1c9a2c6");
+	$_SESSION["profile"] = Profile::getProfileByProfileId($pdo, "ba426113-7511-46f8-8ad6-981cbfa05c5f");
 
 	//determine which HTTP method was used
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
@@ -74,47 +75,48 @@ try {
 
 
 		// enforce the user is signed in
-	if(empty($_SESSION["profile"]) === true) {
-		throw(new \InvalidArgumentException("you must be logged in to make a rating", 403));
+		if(empty($_SESSION["profile"]) === true) {
+			throw(new \InvalidArgumentException("you must be logged in to make a rating", 403));
 		}
 
 		//validateJwtHeader();
 
 		// check if user is rating profile or event
 		if($requestObject->ratingEvent === 1) {
-			$eventAttendance = EventAttendance::getEventAttendanceByEventAttendanceCheckIn($pdo, $_SESSION["profile"]->getProfileId()->toString());
-			var_dump($eventAttendance);
-			if($eventAttendance === null) {
-				throw(new \InvalidArgumentException("cannot rate event you didn't attend"));
+			$eventAttendance = EventAttendance::shouldBloodyRateBloodyEvent($pdo, $requestObject->ratingEventAttendanceId, $_SESSION["profile"]->getProfileId());
+
+			if($eventAttendance === false) {
+				throw(new \InvalidArgumentException("cannot rate event you didn't attend", 405));
 			}
 		}
 
 		// check if user has common event attendance
 		if($requestObject->ratingEvent === 0) {
-			$raterEventAttendance = EventAttendance::getEventAttendanceByEventAttendanceCheckIn($pdo, $_SESSION["profile"]->getProfileId()->toString());
-			$rateeEventAttendance = EventAttendance::getEventAttendanceByEventAttendanceCheckIn($pdo, $requestObject->ratingRateeProfileId);
+			$rater = EventAttendance::shouldBloodyRateBloodyEvent($pdo, $requestObject->ratingEventAttendanceId, $_SESSION["profile"]->getProfileId());
 
-			if(($raterEventAttendance === null || $rateeEventAttendance === null) && ($raterEventAttendance->getEventAttendanceEventId() !== $rateeEventAttendance->getEventAttendanceEventId() )) {
-				throw(new \InvalidArgumentException("you did not have events in common"));
+			$ratee = EventAttendance::shouldBloodyRateBloodyEvent($pdo, $requestObject->ratingEventAttendanceId, $requestObject->ratingRateeProfileId);
+
+			if($rater === false || $ratee === false) {
+				throw (new \InvalidArgumentException("cannot rate this person", 405));
 			}
 		}
 
-		//
+			// create new rating and insert into the database
+			$rating = new Rating(generateUuidV4(), $requestObject->ratingEventAttendanceId, $requestObject->ratingRateeProfileId, $_SESSION["profile"]->getProfileId(), $requestObject->ratingScore);
+			$rating->insert($pdo);
 
-		// create new rating and insert into the database
-		$rating = new Rating(generateUuidV4(), $requestObject->ratingEventAttendanceId, $requestObject->ratingRateeProfileId, $_SESSION["profile"]->getProfileId(), $requestObject->ratingScore);
-		$rating->insert($pdo);
 
-		// update reply
-		$reply->message = "Rating was submitted successfully.";
+			// update reply
+			$reply->message = "Rating was submitted successfully.";
 
-	}else {
-		throw (new \InvalidArgumentException("Attempting to brew coffee with a teapot", 418));
-	}
+
+		} else {
+			throw (new \InvalidArgumentException("Attempting to brew coffee with a teapot", 418));
+		}
 
 
 // update the $reply->status $reply->message
-} catch(\Exception | \TypeError $exception) {
+	} catch(\Exception | \TypeError $exception) {
 	$reply->status = $exception->getCode();
 	$reply->message = $exception->getMessage();
 }
