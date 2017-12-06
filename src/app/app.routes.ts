@@ -1,5 +1,6 @@
 //import needed @angularDependencies
 import {RouterModule, Routes} from "@angular/router";
+import {FileSelectDirective} from "n2-file-upload";
 
 //import all needed Interceptors
 import {APP_BASE_HREF} from "@angular/common";
