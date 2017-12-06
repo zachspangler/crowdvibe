@@ -12,18 +12,18 @@
 				<form #signInForm="ngForm" class="form-horizontal" name="signInForm" id="signinForm" novalidate
 						(ngSubmit)="signIn();">
 					<div class="form-group">
-						<label for="signin-email" class="col-form-label">Email:</label>
-						<input type="email" name="signin-email" id="signin-email" required [(ngModel)]=signin.profileEmail #profileEmail="ngModel" class="form-control input-sm">
+						<label for="profileEmail" class="col-form-label">Email:</label>
+						<input type="email" name="profileEmail" id="profileEmail" required [(ngModel)]=signin.profileEmail #profileEmail="ngModel" class="form-control input-sm">
 					</div>
 					<div class="form-group">
-						<label for="signin-password" class="col-form-label">Password:</label>
-						<input type="password" id="signin-password" name="signin-password" required [(ngModel)]="signin.profilePassword" #profilePassword="ngModel" class="form-control input-sm">
+						<label for="profilePassword" class="col-form-label">Password:</label>
+						<input type="password" id="profilePassword" name="profilePassword" required [(ngModel)]="signin.profilePassword" #profilePassword="ngModel" class="form-control input-sm">
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+						<button type="submit" id="submit" [disabled]="signInForm.invalid" class="btn btn-info">Login</button>
 					</div>
 				</form>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-				<button type="submit" id="submit" [disabled]="signInForm.invalid" class="btn btn-info">Login</button>
 			</div>
 			<div *ngIf="status !== null" class="alert alert-dismissible" [ngClass]="status.type" role="alert">
 				<button type="button" class="close" aria-label="Close" (click)="status = null;"><span aria-hidden="true">&times;</span></button>

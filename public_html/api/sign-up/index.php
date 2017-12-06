@@ -65,7 +65,7 @@ try {
 		}
 		//verify that the confirm password is present
 		if(empty($requestObject->profilePasswordConfirm) === true) {
-			throw(new \InvalidArgumentException ("Must input valid password", 405));
+			throw(new \InvalidArgumentException ("Must input valid password Confirm", 405));
 		}
 		//make sure the password and confirm password match
 		if($requestObject->profilePassword !== $requestObject->profilePasswordConfirm) {

@@ -9,7 +9,7 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				<form class="form-horizontal" #signUpForm="ngForm" name="signUpForm" id="signUpForm" [formGroup]="signUpForm" novalidate (ngSubmit)="createSignUp();">
+				<form class="form-horizontal" name="signUpForm" id="signUpForm" [formGroup]="signUpForm" novalidate (ngSubmit)="createSignUp();">
 					<!-- First Name -->
 					<div class="form-group">
 						<label for="profileFirstName" class="col-form-label">First Name:</label>
@@ -34,13 +34,13 @@
 
 					<!-- Username -->
 					<div class="form-group">
-						<label for="profileUsername" class="col-form-label">User Name:</label>
-						<input type="text" class="form-control" id="profileUsername" formControlName="profileUsername">
+						<label for="profileUserName" class="col-form-label">User Name:</label>
+						<input type="text" class="form-control" id="profileUserName" formControlName="profileUserName">
 					</div>
 							<!-- Angular Validation -->
-					<div class="alert alert-danger" *ngIf="signUpForm.controls.profileUsername?.invalid && signUpForm.controls.profileUsername?.touched">
-						<p *ngIf="signUpForm.controls.profileUsername?.errors.maxlength">Username is too long</p>
-						<p *ngIf="signUpForm.controls.profileUsername?.errors.required">Username is required</p>
+					<div class="alert alert-danger" *ngIf="signUpForm.controls.profileUserName?.invalid && signUpForm.controls.profileUserName?.touched">
+						<p *ngIf="signUpForm.controls.profileUserName?.errors.maxlength">Username is too long</p>
+						<p *ngIf="signUpForm.controls.profileUserName?.errors.required">Username is required</p>
 					</div>
 
 					<!-- Email -->
@@ -67,32 +67,33 @@
 
 					<!-- Password -->
 					<div class="form-group">
-						<label for="password" class="col-form-label">Password:</label>
-						<input type="password" class="form-control" id="password" formControlName="password" >
+						<label for="profilePassword" class="col-form-label">Password:</label>
+						<input type="password" class="form-control" id="profilePassword" formControlName="profilePassword" >
 					</div>
 							<!-- Angular Validation -->
-					<div class="alert alert-danger" *ngIf="signUpForm.controls.password?.invalid && signUpForm.controls.password?.touched">
-						<p *ngIf="signUpForm.controls.password?.errors.maxlength">Password is too long</p>
-						<p *ngIf="signUpForm.controls.password?.errors.required">Password required</p>
+					<div class="alert alert-danger" *ngIf="signUpForm.controls.profilePassword?.invalid && signUpForm.controls.profilePassword?.touched">
+						<p *ngIf="signUpForm.controls.profilePassword?.errors.maxlength">Password is too long</p>
+						<p *ngIf="signUpForm.controls.profilePassword?.errors.required">Password required</p>
 					</div>
 
 					<!-- Confirm Password -->
 					<div class="form-group">
-						<label for="confirm-password" class="col-form-label">Confirm Password:</label>
-						<input type="password" class="form-control" id="confirm-password">
+						<label for="profilePasswordConfirm" class="col-form-label">Confirm Password:</label>
+						<input type="password" class="form-control" id="profilePasswordConfirm" formControlName="profilePasswordConfirm">
 					</div>
 							<!-- Angular Validation -->
-					<div class="alert alert-danger" *ngIf="signUpForm.controls.passwordConfirm?.invalid && signUpForm.controls.passwordConfirm?.touched">
-						<p *ngIf="signUpForm.controls.passwordConfirm?.errors.maxlength">Password is too long</p>
-						<p *ngIf="signUpForm.controls.passwordConfirm?.errors.required">Password required</p>
-						<!--<p *ngIf="signUpForm.controls.password !== signUpForm.controls.confirmPassword">Passwords do not match</p>-->
+					<div class="alert alert-danger" *ngIf="signUpForm.controls.profilePasswordConfirm?.invalid && signUpForm.controls.profilePasswordConfirm?.touched">
+						<p *ngIf="signUpForm.controls.profilePasswordConfirm?.errors.maxlength">Password is too long</p>
+						<p *ngIf="signUpForm.controls.profilePasswordConfirm?.errors.required">Password required</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+						<button type="submit" id="submit" name="signUp" class="btn btn-info">Sign Up</button>
 					</div>
 				</form>
 			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-				<button type="submit" id="submit" name="signUp" class="btn btn-info">Sign Up</button>
-			</div>
+
 			<div *ngIf="status !== null" class="alert alert-dismissible" [ngClass]="status.type" role="alert">
 				<button type="button" class="close" aria-label="Close" (click)="status = null;"><span
 					aria-hidden="true">&times;</span></button>

@@ -22,7 +22,7 @@ export class SignUpComponent implements OnInit {
 
 	signUpForm: FormGroup;
 
-	signUp: SignUp = new SignUp(null, null, null, null, null, null, null, null);
+	// signUp: SignUp = new SignUp(null, null, null, null, null, null, null, null);
 	status: Status = null;
 
 	constructor(private formBuilder: FormBuilder, private router: Router, private signUpService: SignUpService) {
@@ -35,16 +35,16 @@ export class SignUpComponent implements OnInit {
 			profileEmail: ["", [Validators.maxLength(128), Validators.required]],
 			profileFirstName: ["", [Validators.maxLength(32), Validators.required]],
 			profileLastName: ["", [Validators.maxLength(32), Validators.required]],
-			profileUsername: ["", [Validators.maxLength(32), Validators.required]],
-			profileImage: ["https://static.pexels.com/photos/242616/pexels-photo-242616.jpeg", [Validators.maxLength(255), Validators.required]],
-			password: ["", [Validators.maxLength(48), Validators.required]],
-			passwordConfirm: ["", [Validators.maxLength(48), Validators.required]]
+			profileUserName: ["", [Validators.maxLength(32), Validators.required]],
+			profileImage: ["", [Validators.maxLength(255)]],
+			profilePassword: ["", [Validators.maxLength(48), Validators.required]],
+			profilePasswordConfirm: ["", [Validators.maxLength(48), Validators.required]]
 		});
 	}
 
 	createSignUp(): void {
 
-		let signUp = new SignUp(this.signUpForm.value.profileBio, this.signUpForm.value.profileEmail, this.signUpForm.value.profileFirstName, this.signUpForm.value.password, this.signUpForm.value.passwordConfirm, this.signUpForm.value.profileImage, this.signUpForm.value.profileLastName, this.signUpForm.value.profileUserName);
+		let signUp = new SignUp(this.signUpForm.value.profileBio, this.signUpForm.value.profileEmail, this.signUpForm.value.profileFirstName, this.signUpForm.value.profileLastName, this.signUpForm.value.profileImage, this.signUpForm.value.profilePassword, this.signUpForm.value.profilePasswordConfirm, this.signUpForm.value.profileUserName);
 
 		this.signUpService.createProfile(signUp)
 			.subscribe(status => {
@@ -57,6 +57,11 @@ export class SignUpComponent implements OnInit {
 					}, 500);
 					this.router.navigate([""]);
 				}
+				// // //Reset Form
+				// // if(this.signUpForm.valid) {
+				// // 	console.log("Thanks for signing up, just one more step before you can start Vibing.");
+				// // 	this.signUpForm.reset();
+				// }
 			});
 	}
 }

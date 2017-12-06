@@ -1,10 +1,13 @@
 <?php
+
 require_once dirname(__DIR__,3 ) .  "/php/lib/xsrf.php";
 require_once dirname(__DIR__,3 ) .  "/php/lib/jwt.php";
 use Edu\Cnm\CrowdVibe;
+
 $reply = new stdClass();
 $reply->status = 200;
 $reply->data = null;
+
 try {
 	//verify the HTTP method being used
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
