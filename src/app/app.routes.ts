@@ -1,6 +1,5 @@
 //import needed @angularDependencies
 import {RouterModule, Routes} from "@angular/router";
-import {FileSelectDirective} from "n2-file-upload";
 
 //import all needed Interceptors
 import {APP_BASE_HREF} from "@angular/common";
@@ -22,6 +21,7 @@ import {ProfileComponent} from "./components/profile.component";
 import {SignInComponent} from "./components/sign.in.component";
 import {SignUpComponent} from "./components/sign.up.component";
 import {SignOutComponent} from "./components/sign.out.component";
+import {FileSelectDirective} from "n2-file-upload";
 
 
 // import services
@@ -53,6 +53,7 @@ export const allAppComponents = [
 	SignInComponent,
 	SignUpComponent,
 	SignOutComponent,
+	FileSelectDirective
 ];
 
 //an array of routes that will be passed of to the module
