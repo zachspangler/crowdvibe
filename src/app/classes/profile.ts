@@ -1,5 +1,5 @@
 export class Profile {
-	constructor(public id: string,
+	constructor(public profileId: string,
 					public profileActivationToken: string,
 					public profileBio: string,
 					public profileEmail: string,

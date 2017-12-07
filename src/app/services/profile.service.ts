@@ -13,7 +13,7 @@ export class ProfileService {
 	}
 
 	//define the API endpoint
-	private profileUrl = "api/profile/";
+	private profileUrl : string = "api/profile/";
 
 	//reach out to the profile  API and delete the profile in question
 	deleteProfile(id: number): Observable<Status> {
@@ -21,8 +21,8 @@ export class ProfileService {
 	}
 
 	// call to the Profile API and edit the profile in question
-	editProfile(id: any, profile: Profile): Observable<Status> {
-		return (this.http.put<Status>(this.profileUrl / id, profile));
+	editProfile(profile: Profile): Observable<Status> {
+		return (this.http.put<Status>(this.profileUrl + profile.profileId, profile))
 	}
 
 	// call to the Profile API and get a Profile object by its id

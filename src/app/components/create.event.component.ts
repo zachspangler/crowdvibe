@@ -15,10 +15,10 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 export class CreateEventComponent implements OnInit {
 
 	createEventForm: FormGroup;
-
+	event: Event = new Event(null, null, null, null, null, null, null, null, null ,null);
 	status: Status = null;
 
-	constructor(private formBuilder: FormBuilder, private router: Router, private eventService: eventService) {
+	constructor(private formBuilder: FormBuilder, private router: Router, private eventService: EventService) {
 		console.log("Event Constructed")
 	}
 
@@ -35,9 +35,9 @@ export class CreateEventComponent implements OnInit {
 		});
 	}
 
-	createSignUp(): void {
+	createEvent(): void {
 
-		let createEvent = new CreateEvent(this.createEventForm.value.eventAddress, this.createEventForm.value.eventAttendeeLimit, this.createEventForm.value.eventDetail, this.createEventForm.value.eventEndDateTime, this.createEventForm.value.eventImage, this.createEventForm.value.eventName, this.createEventForm.value.eventPrice, this.createEventForm.value.eventStartDateTime);
+		let createEvent = new CreateEvent(null, null, this.createEventForm.value.eventAddress, this.createEventForm.value.eventAttendeeLimit, this.createEventForm.value.eventDetail, this.createEventForm.value.eventEndDateTime, this.createEventForm.value.eventImage, this.createEventForm.value.eventName, this.createEventForm.value.eventPrice, this.createEventForm.value.eventStartDateTime);
 
 		this.eventService.createEvent(createEvent)
 			.subscribe(status => {
