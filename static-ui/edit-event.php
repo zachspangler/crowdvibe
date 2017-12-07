@@ -49,7 +49,7 @@
 				<div class="col-10">
 					<input class="form-control" type="number" value="10$" id="example-number-input">
 					<div>
-						<button type="submit" class="btn btn-primary">Finish</button>
+						<button type="submit" class="btn btn-dark">Finish</button>
 					</div>
 				</div>
 			</div>

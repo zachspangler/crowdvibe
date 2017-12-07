@@ -31,12 +31,12 @@ export class SignInComponent {
 
 			if(status.status === 200) {
 
-				this.router.navigate(["/home"]);
 				//location.reload(true);
 				this.signInForm.reset();
-				setTimeout(function(){$("#login").modal('hide');},1000);
+				setTimeout(function(){$("#login").modal('hide');},250);
+				this.router.navigate(["home"]);
 			} else {
-				console.log("failed login")
+				console.log("failed login");
 			}
 		});
 	}
