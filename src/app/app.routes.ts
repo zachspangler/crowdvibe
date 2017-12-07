@@ -58,7 +58,7 @@ export const allAppComponents = [
 export const routes: Routes = [
 	{path: "home", component: HomeComponent},
 	{path: "", component: LandingPageComponent},
-	{path: "event", component: EventComponent},
+	{path: "event/:id", component: EventComponent},
 	{path: "profile", component: ProfileComponent},
 	{path: "sign-out", component: SignOutComponent},
 ];

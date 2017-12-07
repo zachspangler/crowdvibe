@@ -20,7 +20,11 @@ export class EventService {
 	}
 
 	// call out to the event API and edit the event in question
+<<<<<<< Updated upstream
 	editEvent(event: Event) : Observable<Status> {
+=======
+	editEvent(event : Event) : Observable<Status> {
+>>>>>>> Stashed changes
 		return (this.http.put<Status>(this.eventURL + event.eventId, event));
 	}
 
