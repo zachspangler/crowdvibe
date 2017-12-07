@@ -29,11 +29,11 @@ export class CreateEventComponent implements OnInit {
 			eventAddress: ["", [Validators.maxLength(255), Validators.required]],
 			eventAttendeeLimit: ["", [Validators.maxLength(5), Validators.required]],
 			eventDetail: ["", [Validators.maxLength(500), Validators.required]],
-			eventEndDateTime: ["", [Validators.maxLength(6), Validators.required]],
+			eventEndDateTime: ["", [Validators.maxLength(32), Validators.required]],
 			eventImage: ["", [Validators.maxLength(255), Validators.required]],
 			eventName: ["", [Validators.maxLength(64), Validators.required]],
 			eventPrice: ["", [Validators.maxLength(7), Validators.required]],
-			eventStartDateTime: ["", [Validators.maxLength(6), Validators.required]]
+			eventStartDateTime: ["", [Validators.maxLength(32), Validators.required]]
 		});
 	}
 
@@ -54,6 +54,4 @@ export class CreateEventComponent implements OnInit {
 				}
 			});
 	}
-
-
 }
