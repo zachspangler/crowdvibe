@@ -1,4 +1,4 @@
-import {Component} from "@angular/core";
+import {Component, Onit} from "@angular/core";
 
 import {Router} from "@angular/router";
 import {Observables} from "rxjs/Observables";
@@ -14,4 +14,4 @@ declare var $: any;
 	templateUrl: "./templates/event.html"
 })
 
-export class EventComponent {}
+export class EventComponent implements onInit {}
