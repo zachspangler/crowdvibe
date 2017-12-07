@@ -29,8 +29,8 @@ export class EventComponent implements OnInit{
 
 		getEventAttendanceByEventId() : void {
 			let eventId : string = this.route.snapshot.params["eventId"];
-			this.eventAttendanceService.getEvent(eventId)
-				.subscribe(event =>this.event = event);
+			this.eventAttendanceService.getEventAttendanceByEventId(eventId)
+				.subscribe(eventAttendance =>this.eventAttendance = eventAttendance);
 		}
 
 
