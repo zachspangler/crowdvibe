@@ -21,7 +21,7 @@ export class EventAttendanceService {
 	getEventAttendanceByCompositeKey(eventAttendanceProfileId : number, eventAttendanceEventId : number) : Observable <EventAttendance> {
 return (this.http.get<EventAttendance>(this.eventAttendanceUrl+ "?eventAttendanceProfileId=" + eventAttendanceProfileId + "&eventAttendanceEventId=" + eventAttendanceEventId))
 	}
-	getEventAttendanceByEventId (eventAttendanceEventId : number) : Observable<EventAttendance[]>{
+	getEventAttendanceByEventId (eventAttendanceEventId : string) : Observable<EventAttendance[]>{
 		return(this.http.get<EventAttendance[]>(this.eventAttendanceUrl + eventAttendanceEventId))
 	}
 

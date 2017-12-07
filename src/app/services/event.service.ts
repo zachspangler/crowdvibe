@@ -20,11 +20,8 @@ export class EventService {
 	}
 
 	// call out to the event API and edit the event in question
-<<<<<<< Updated upstream
-	editEvent(event: Event) : Observable<Status> {
-=======
+
 	editEvent(event : Event) : Observable<Status> {
->>>>>>> Stashed changes
 		return (this.http.put<Status>(this.eventURL + event.eventId, event));
 	}
 
@@ -34,7 +31,7 @@ export class EventService {
 	}
 
 	// call to the tweet API and get a tweet object based on its Id
-	getEvent(id : number) : Observable<Event> {
+	getEvent(id : string) : Observable<Event> {
 		return (this.http.get<Event>(this.eventURL + id));
 	}
 
