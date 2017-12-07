@@ -21,7 +21,7 @@ export class EventService {
 
 	// call out to the event API and edit the event in question
 	editEvent(event : Event) : Observable<Status> {
-		return (this.http.put<Status>(this.eventURL + event.eventId, event));
+		return (this.http.put<Status>(this.eventURL + event.id, event));
 	}
 
 	// call to event API and create the event in question
