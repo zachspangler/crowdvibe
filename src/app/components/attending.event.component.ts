@@ -1,10 +1,13 @@
-import {Component} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 import {Router} from "@angular/router";
 import {Status} from "../classes/status";
 import {EventAttendanceService} from "../services/event.attendance.service";
 import {EventAttendance} from "../classes/eventAttendance";
 import {setTimeout} from "timers";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+
+//declare $ for jquery
+declare let $: any;
 
 @Component({
 	selector: "attending-eventAttendance",
@@ -20,14 +23,14 @@ export class EventAttendanceComponent {
 		console.log("Attendance Recorded")
 	}
 
-	gOnInit(): void{
+	ngOnInit(): void{
 		this.createEventAttendanceForm = this.formBuilder.group({
-			eventAttendanceCheckIn: ["",[Validators.maxLength(500), Validators.required]]
+			eventAttendanceNumberAttending: ["",[Validators.maxLength(500), Validators.required]]
 		});
 	}
 	createEventAttendance(): void{
 
-		let createEventAttendance = CreateEventAttendance(null,null,null, this.createEventAttendanceForm.value.eventAttendanceCheckIn, this.createEventAttendanceForm.value.eventAttendanceNumberAttending);
+		let createEventAttendance = new EventAttendance(null,null,null, 0, this.createEventAttendanceForm.value.eventAttendanceNumberAttending);
 
 		this.eventAttendanceService.createEventAttendance(createEventAttendance)
 			.subscribe(status=>{
