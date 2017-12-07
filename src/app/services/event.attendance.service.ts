@@ -14,8 +14,16 @@ export class EventAttendanceService {
 	private eventAttendanceUrl = "/api/eventAttendance";
 
 	// call the API and create a new event attendance
-	createEventAttendance(eventAttendance : eventAttendance) : observable<status>{
-		return(this.http.post<status>(this.eventAttendanceUrl, eventAttendance));
+	createEventAttendance(eventAttendance : EventAttendance) : Observable<Status>{
+		return(this.http.post<Status>(this.eventAttendanceUrl, eventAttendance));
 	}
+//grabs event attendance based on its composite key
+	getEventAttendanceByCompositeKey(eventAttendanceProfileId : number, eventAttendanceEventId : number) : Observable <EventAttendance> {
+return (this.http.get<EventAttendance>(this.eventAttendanceUrl+ "?eventAttendanceProfileId=" + eventAttendanceProfileId + "&eventAttendanceEventId=" + eventAttendanceEventId))
+	}
+	getEventAttendanceByEventId (eventAttendanceEventId : number) : Observable<EventAttendance[]>{
+		return(this.http.get<EventAttendance[]>(this.eventAttendanceUrl + eventAttendanceEventId))
+	}
+
 
 }
