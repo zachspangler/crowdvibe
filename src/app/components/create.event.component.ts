@@ -6,6 +6,8 @@ import {Event} from "../classes/event";
 import {setTimeout} from "timers";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
+//declare $ for jquery
+declare let $: any;
 
 @Component({
 	selector: "create-event",
@@ -37,7 +39,7 @@ export class CreateEventComponent implements OnInit {
 
 	createEvent(): void {
 
-		let createEvent = new CreateEvent(null, null, this.createEventForm.value.eventAddress, this.createEventForm.value.eventAttendeeLimit, this.createEventForm.value.eventDetail, this.createEventForm.value.eventEndDateTime, this.createEventForm.value.eventImage, this.createEventForm.value.eventName, this.createEventForm.value.eventPrice, this.createEventForm.value.eventStartDateTime);
+		let createEvent = new Event(null, null, this.createEventForm.value.eventAddress, this.createEventForm.value.eventAttendeeLimit, this.createEventForm.value.eventDetail, this.createEventForm.value.eventEndDateTime, this.createEventForm.value.eventImage, this.createEventForm.value.eventName, this.createEventForm.value.eventPrice, this.createEventForm.value.eventStartDateTime);
 
 		this.eventService.createEvent(createEvent)
 			.subscribe(status => {

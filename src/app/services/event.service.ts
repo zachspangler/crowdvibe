@@ -40,12 +40,12 @@ export class EventService {
 	}
 
 	// call to the event API and get an event based on its name
-	getEventByEventName(eventName : String) : Observable<Event[]> {
+	getEventByEventName(eventName : string) : Observable<Event[]> {
 		return (this.http.get<Event[]>(this.eventURL + eventName));
 	}
 
 	// call to the event API and get an event based on eventStartDateTime
-	getEventByEventStartDateTime(eventStartDateTime : String) : Observable<Event[]> {
+	getEventByEventStartDateTime(eventStartDateTime : string) : Observable<Event[]> {
 		return (this.http.get<Event[]>(this.eventURL + eventStartDateTime));
 	}
 
