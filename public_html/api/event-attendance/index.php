@@ -5,7 +5,7 @@ require_once dirname(__DIR__, 3) . "/php/lib/xsrf.php";
 require_once(dirname(__DIR__, 3) . "/php/lib/uuid.php");
 require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
 
-use Edu\Cnm\CrowdVibe\EventAttendance;
+use Edu\Cnm\CrowdVibe\{EventAttendance, JsonObjectStorage, Profile, Rating};
 /**
  * API for event-attendance
  *
@@ -56,7 +56,13 @@ try {
 		} else if(empty($eventAttendanceEventId) === false) {
 			$eventAttendances = EventAttendance::getEventAttendanceByEventAttendanceEventId($pdo, $eventAttendanceEventId)->toArray();
 			if($eventAttendances !== null) {
-				$reply->data = $eventAttendances;
+			    $storage = new JsonObjectStorage();
+                foreach ($eventAttendances as $eventAttendance) {
+                    $profile = Profile::getProfileByProfileId($pdo, $eventAttendance->getEventAttendanceProfileId());
+                    $rating = Rating::getRatingByProfileId($pdo, $eventAttendance->getEventAttendanceProfileId());
+                    $storage->attach($profile, $rating);
+			    }
+				$reply->data = $storage;
 			}
 		} else if(empty($eventAttendanceCheckIn) === false) {
 		$eventAttendance = EventAttendance::getEventAttendanceByEventAttendanceCheckIn($pdo, $eventAttendanceCheckIn);
@@ -89,7 +95,7 @@ try {
 				$eventAttendance = EventAttendance::getEventAttendanceByEventAttendanceId($pdo, $id);
 				if($eventAttendance === null) {
 					throw (new RuntimeException("Event does not exist cannot attend.", 404));
-				}
+				};
 
 				//enforce the user is signed in and only trying to edit their own event
 				if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId()->toString() !== $eventAttendance->getEventAttendanceProfileId()->toString()) {
