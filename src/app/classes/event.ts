@@ -1,6 +1,6 @@
 export class Event {
 	constructor(
-					public eventId: string,
+					public id: string,
 					public eventProfileId: string,
 					public eventAddress: string,
 					public eventAttendeeLimit: number,
