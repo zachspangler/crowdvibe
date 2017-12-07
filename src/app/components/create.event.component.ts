@@ -1,4 +1,10 @@
-import {Component} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
+import {Router} from "@angular/router";
+import {Status} from "../classes/status";
+import {EventService} from "../services/event.service";
+import {Event} from "../classes/event";
+import {setTimeout} from "timers";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 
 @Component({
@@ -6,4 +12,46 @@ import {Component} from "@angular/core";
 	templateUrl: "./templates/create-event.html"
 })
 
-export class CreateEventComponent {}
+export class CreateEventComponent implements OnInit {
+
+	createEventForm: FormGroup;
+
+	status: Status = null;
+
+	constructor(private formBuilder: FormBuilder, private router: Router, private eventService: eventService) {
+		console.log("Event Constructed")
+	}
+
+	ngOnInit(): void {
+		this.createEventForm = this.formBuilder.group({
+			eventAddress: ["", [Validators.maxLength(255), Validators.required]],
+			eventAttendeeLimit: ["", [Validators.maxLength(5), Validators.required]],
+			eventDetail: ["", [Validators.maxLength(500), Validators.required]],
+			eventEndDateTime: ["", [Validators.maxLength(6), Validators.required]],
+			eventImage: ["", [Validators.maxLength(255), Validators.required]],
+			eventName: ["", [Validators.maxLength(64), Validators.required]],
+			eventPrice: ["", [Validators.maxLength(7), Validators.required]],
+			eventStartDateTime: ["", [Validators.maxLength(6), Validators.required]]
+		});
+	}
+
+	createSignUp(): void {
+
+		let createEvent = new CreateEvent(this.createEventForm.value.eventAddress, this.createEventForm.value.eventAttendeeLimit, this.createEventForm.value.eventDetail, this.createEventForm.value.eventEndDateTime, this.createEventForm.value.eventImage, this.createEventForm.value.eventName, this.createEventForm.value.eventPrice, this.createEventForm.value.eventStartDateTime);
+
+		this.eventService.createEvent(createEvent)
+			.subscribe(status => {
+				this.status = status;
+
+				if(this.status.status === 200) {
+					alert(status.message);
+					setTimeout(function() {
+						$("#createEvent").modal('hide');
+					}, 500);
+					this.router.navigate(["home"]);
+				}
+			});
+	}
+
+
+}
