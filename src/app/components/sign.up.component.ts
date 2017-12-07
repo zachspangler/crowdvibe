@@ -42,6 +42,7 @@ export class SignUpComponent implements OnInit {
 		});
 	}
 
+
 	createSignUp(): void {
 
 		let signUp = new SignUp(this.signUpForm.value.profileBio, this.signUpForm.value.profileEmail, this.signUpForm.value.profileFirstName, this.signUpForm.value.profileLastName, this.signUpForm.value.profileImage, this.signUpForm.value.profilePassword, this.signUpForm.value.profilePasswordConfirm, this.signUpForm.value.profileUserName);
