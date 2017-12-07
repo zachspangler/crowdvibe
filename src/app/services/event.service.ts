@@ -21,7 +21,7 @@ export class EventService {
 
 	// call out to the event API and edit the event in question
 	editEvent(event : Event) : Observable<Status> {
-		return (this.http.put<Status>(this.eventURL + event.id, event));
+		return (this.http.put<Status>(this.eventURL + event.eventId, event));
 	}
 
 	// call to event API and create the event in question
@@ -32,7 +32,26 @@ export class EventService {
 	// call to the tweet API and get a tweet object based on its Id
 	getEvent(id : number) : Observable<Event> {
 		return (this.http.get<Event>(this.eventURL + id));
+	}
 
+	// call to the event API and get an event based on profile id
+	getEventByEventProfileId (eventProfileId : number) : Observable<Event[]> {
+		return (this.http.get<Event[]>(this.eventURL + eventProfileId));
+	}
+
+	// call to the event API and get an event based on its name
+	getEventByEventName(eventName : String) : Observable<Event[]> {
+		return (this.http.get<Event[]>(this.eventURL + eventName));
+	}
+
+	// call to the event API and get an event based on eventStartDateTime
+	getEventByEventStartDateTime(eventStartDateTime : String) : Observable<Event[]> {
+		return (this.http.get<Event[]>(this.eventURL + eventStartDateTime));
+	}
+
+	// call to the event API and get an array of all events in the database
+	getAllEvents () : Observable<Event[]> {
+		return (this.http.get<Event[]>(this.eventURL));
 	}
 }
 
