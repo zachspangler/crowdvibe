@@ -16,9 +16,9 @@ import {EventAttendance} from "../classes/eventAttendance";
 export class EventComponent implements OnInit{
 
 		event: Event = new Event(null, null, null, null, null, null, null, null, null, null);
-		eventAttendance : EventAttendance[] = [];
+		eventAttendances : EventAttendance[] = [];
 
-		constructor(private formBuilder: FormBuilder, private eventService: EventService, private eventAttendanceService : EventAttendanceService, private profileService : ProfileService, route: ActivatedRoute) {}
+		constructor(private formBuilder: FormBuilder, private eventService: EventService, private eventAttendanceService : EventAttendanceService, private profileService : ProfileService, private route: ActivatedRoute) {}
 
 
 		getEventByEventId() : void {
@@ -30,7 +30,10 @@ export class EventComponent implements OnInit{
 		getEventAttendanceByEventId() : void {
 			let eventId : string = this.route.snapshot.params["eventId"];
 			this.eventAttendanceService.getEventAttendanceByEventId(eventId)
-				.subscribe(eventAttendance =>this.eventAttendance = eventAttendance);
+				.subscribe(eventAttendances =>{
+					this.eventAttendances = eventAttendances
+
+				});
 		}
 
 
