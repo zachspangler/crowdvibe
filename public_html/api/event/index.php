@@ -4,6 +4,7 @@ require_once dirname(__DIR__, 3) . "/php/classes/autoload.php";
 require_once dirname(__DIR__, 3) . "/php/lib/xsrf.php";
 require_once dirname(__DIR__, 3) . "/php/lib/uuid.php";
 require_once dirname(__DIR__, 3) . "/php/lib/jwt.php";
+require_once dirname(__DIR__, 3) . "/php/lib/geocode.php";
 require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 use Edu\Cnm\CrowdVibe\ {
@@ -49,6 +50,7 @@ try {
 	$eventName = filter_input(INPUT_GET, "eventName", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$eventPrice = filter_input(INPUT_GET, "eventPrice", FILTER_VALIDATE_FLOAT);
 	$eventStartDateTime = filter_input(INPUT_GET, "eventStartDateTime", FILTER_VALIDATE_INT);
+
 
 	if(empty($eventStartDateTime) === false && empty($eventEndDateTime) === false) {
 		$eventEndDateTime= date("Y-m-d H:i:s", $eventEndDateTime/1000);
@@ -97,16 +99,11 @@ try {
 				}
 				$reply->data=$storage;
 			}
-		} /* else {
-			$events = Event::getAllEvents($pdo)->toArray();
-			if($events === null) {
-				echo "shit didn't work";
-			}
-			if($events !== null) {
-				$reply->data = $events;
-			}
-		} */
 
+
+		}
+
+		//* latlong *\\
 	} else if($method === "PUT" || $method === "POST") {
 
 		//enforce the user is signed in and only trying to edit their own profile
@@ -160,6 +157,8 @@ try {
 			throw (new InvalidArgumentException("No image available", 405));
 		}
 
+		$point = getLatLongByAddress($requestObject->eventAddress);
+
 		//perform the actual put or post
 		if($method === "PUT") {
 
@@ -189,8 +188,8 @@ try {
 			$event->setEventDetail($requestObject->eventDetail);
 			$event->setEventEndDateTime($formattedEndDate);
 			$event->setEventImage($requestObject->eventImage);
-			$event->setEventLat($requestObject->eventLat);
-			$event->setEventLong($requestObject->eventLong);
+			$event->setEventLat($requestObject->point);
+			$event->setEventLong($requestObject->point);
 			$event->setEventName($requestObject->eventName);
 			$event->setEventPrice($requestObject->eventPrice);
 			$event->setEventStartDateTime($formattedStartDate);
@@ -213,7 +212,7 @@ try {
 			$formattedStartDate= date("Y-m-d H:i:s", $secondsStart/1000);
 
 			// create a new Event an insert it into the database
-			$event = new Event(generateUuidV4(), $_SESSION["profile"]->getProfileId(), $requestObject->eventAttendeeLimit, $requestObject->eventDetail, $formattedEndDate, $requestObject->eventImage, $requestObject->eventLat, $requestObject->eventLong, $requestObject->eventName, $requestObject->eventPrice, $formattedStartDate);
+			$event = new Event(generateUuidV4(), $_SESSION["profile"]->getProfileId(), $requestObject->eventAttendeeLimit, $requestObject->eventDetail, $formattedEndDate, $requestObject->eventImage, $point->Lat, $point->Long, $requestObject->eventName, $requestObject->eventPrice, $formattedStartDate);
 			$event->insert($pdo);
 
 			// update reply
