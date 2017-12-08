@@ -7,6 +7,7 @@ import {ProfileService} from "../services/profile.service";
 import {Status} from "../classes/status";
 import {FormBuilder} from "@angular/forms";
 import {EventAttendance} from "../classes/eventAttendance";
+import {AttendanceProfiles} from "../classes/attendanceProfiles";
 
 
 @Component({
@@ -16,7 +17,7 @@ import {EventAttendance} from "../classes/eventAttendance";
 export class EventComponent implements OnInit{
 
 		event: Event = new Event(null, null, null, null, null, null, null, null, null, null);
-		eventAttendances : EventAttendance[] = [];
+		attendanceProfiles : AttendanceProfiles[] = [];
 
 		constructor(private formBuilder: FormBuilder, private eventService: EventService, private eventAttendanceService : EventAttendanceService, private profileService : ProfileService, private route: ActivatedRoute) {}
 
@@ -29,18 +30,18 @@ export class EventComponent implements OnInit{
 
 		getEventAttendanceByEventId() : void {
 			let eventId : string = this.route.snapshot.params["eventId"];
-			this.eventAttendanceService.getEventAttendanceByEventId(eventId)
+			this.eventAttendanceService.getEventAttendanceByProfileId(eventId)
 				.subscribe(eventAttendances =>{
-					this.eventAttendances = eventAttendances
+					this.attendanceProfiles = eventAttendances
 
 				});
 		}
 
 
 
-
 		ngOnInit() : void {
 			this.getEventByEventId();
+			this.getEventAttendanceByEventId();
 }
 
 }

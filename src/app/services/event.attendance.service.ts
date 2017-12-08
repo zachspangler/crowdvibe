@@ -28,8 +28,8 @@ return (this.http.get<EventAttendance>(this.eventAttendanceUrl+ "?eventAttendanc
 		return(this.http.get<EventAttendance[]>(this.eventAttendanceUrl + eventAttendanceEventId))
 	}
 
-	getAttendanceProfilesByProfileId (attendanceProfilesId : string) : Observable<AttendanceProfiles[]>{
-	    return(this.http.get<AttendanceProfiles[]>(this.attendanceProfilesUrl + attendanceProfilesId))
+	getEventAttendanceByProfileId (attendanceProfilesId : string) : Observable<AttendanceProfiles[]>{
+	    return(this.http.get<AttendanceProfiles[]>(this.eventAttendanceUrl + "?eventAttendanceProfileId=" + attendanceProfilesId))
     }
 
 
