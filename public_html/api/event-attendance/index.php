@@ -61,7 +61,18 @@ try {
                     $profile = Profile::getProfileByProfileId($pdo, $eventAttendance->getEventAttendanceProfileId());
                     $rating = Rating::getRatingByProfileId($pdo, $eventAttendance->getEventAttendanceProfileId());
                     //create an std object like the example I showed you
-                    //$profiles[] = the created object
+                    $profile = ( object) [
+                        "profileId" => $profile->getProfileId(),
+                        "profileActivationToken" => $profile->getProfileActivationToken(),
+                        "profileBio" => $profile->getProfileBio(),
+                        "profileEmail" => $profile->getProfileEmail(),
+                        "profileFirstName" => $profile->getProfileFirstName(),
+                        "profileImage" => $profile->getProfileImage(),
+                        "profileLastName" => $profile->getProfileLastName(),
+                        "profileUserName" => $profile->getProfileUserName(),
+                        "rating" => $rating->getRatingScore(),
+                    ];
+                    $profiles[] = Profile::getProfileByProfileId($pdo, $eventAttendance->getEventAttendanceProfileId());
 
 			    }
 				$reply->data = $profiles;
