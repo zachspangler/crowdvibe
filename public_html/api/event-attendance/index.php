@@ -71,7 +71,7 @@ try {
                         "profileUserName" => $profile->getProfileUserName(),
                         "rating" => $rating->getRatingScore(),
                     ];
-                    $profiles[] = Profile::getProfileByProfileId($pdo, $eventAttendance->getEventAttendanceProfileId());
+                    $profiles[] = $profile;
 
 			    }
 				$reply->data = $profiles;
