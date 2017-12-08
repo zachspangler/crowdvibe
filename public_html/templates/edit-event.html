@@ -9,7 +9,7 @@
 				</button>
 			</div>
 			<div class="modal-body social-event">
-				<form>
+				<form (ngSubmit)= "onEditEvent(f)" #f="ngForm">
 					<div class="form-group">
 						<label for="event-name" class="col-form-label">Event Name:</label>
 						<input type="text" class="form-control" id="event-name">
@@ -46,7 +46,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-primary">Edit Event</button>
+				<button type="submit" class="btn btn-primary">Edit Event</button>
 			</div>
 		</div>
 	</div>

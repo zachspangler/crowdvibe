@@ -61,6 +61,7 @@ export const routes: Routes = [
 	{path: "event/:eventId", component: EventComponent},
 	{path: "profile", component: ProfileComponent},
 	{path: "sign-out", component: SignOutComponent},
+	{path: "edit-event", component: EditEventComponent},
 ];
 
 // an array of services that will be passed off to the module
