@@ -1,4 +1,4 @@
-export class attendanceProfiles {
+export class AttendanceProfiles {
     constructor(public profileId: string,
                 public profileActivationToken: string,
                 public profileBio: string,
