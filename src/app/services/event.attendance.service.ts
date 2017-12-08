@@ -12,7 +12,7 @@ export class EventAttendanceService {
 	}
 
 	//define rhe API endpoint
-	private eventAttendanceUrl = "/api/eventAttendance";
+	private eventAttendanceUrl = "/api/eventAttendance/";
 
 	// call the API and create a new event attendance
 	createEventAttendance(eventAttendance : EventAttendance) : Observable<Status>{
