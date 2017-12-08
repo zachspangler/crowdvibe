@@ -1,22 +1,29 @@
 <!-- Modal -->
-<div class="modal fade" id="attendingConfirmation" tabindex="-1" role="dialog"
-	  aria-labelledby="attendingConfirmationLabel" aria-hidden="true">
+<div class="modal" id="login" tabindex="-1" role="dialog" aria-labelledby="loginLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="attendingConfirmationLabel">Are You Sure?</h5>
+				<h5 class="modal-title" id="loginLabel">Login</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
 			<div class="modal-body">
-				<p>Please confirm you are planning on attending (event name goes here)</p>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">No Way</button>
-					<button type="button" class="btn btn-primary popover-test" title="Attendance Confirmed"
-							  data-content="You are now attending (event name goes here).">Confirm
-					</button>
-				</div>
+				<form #signInForm="ngForm" class="form-horizontal" name="signInForm" id="signinForm" novalidate
+						(ngSubmit)="eventAttendanceNumberAttending();">
+					<div class="form-group">
+						<label for="profileEmail" class="col-form-label">Email:</label>
+						<input type="email" name="profileEmail" id="profileEmail" required [(ngModel)]=eventAttendance.eventAttendanceNumberAttending #eventAttendanceNumberAttending="ngModel" class="form-control input-sm">
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+						<button type="submit" id="submit" [disabled]="eventAttendance.eventAttendanceNumberAttending" class="btn btn-info">Login</button>
+					</div>
+				</form>
+			</div>
+			<div *ngIf="status !== null" class="alert alert-dismissible" [ngClass]="status.status" role="alert">
+				<button type="button" class="close" aria-label="Close" (click)="status = null;"><span aria-hidden="true">&times;</span></button>
+				{{ status.message }}
 			</div>
 		</div>
 	</div>
