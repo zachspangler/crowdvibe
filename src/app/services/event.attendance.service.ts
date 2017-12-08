@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Status} from "../classes/status";
 import {EventAttendance} from "../classes/eventAttendance";
 import {Observable} from "rxjs/Observable";
+import {AttendanceProfiles} from "../classes/attendanceProfiles";
 
 @Injectable ()
 export class EventAttendanceService {
