@@ -56,13 +56,15 @@ try {
 		} else if(empty($eventAttendanceEventId) === false) {
 			$eventAttendances = EventAttendance::getEventAttendanceByEventAttendanceEventId($pdo, $eventAttendanceEventId)->toArray();
 			if($eventAttendances !== null) {
-			    $storage = new JsonObjectStorage();
+			    $profiles = [];
                 foreach ($eventAttendances as $eventAttendance) {
                     $profile = Profile::getProfileByProfileId($pdo, $eventAttendance->getEventAttendanceProfileId());
                     $rating = Rating::getRatingByProfileId($pdo, $eventAttendance->getEventAttendanceProfileId());
-                    $storage->attach($profile, $rating);
+                    //create an std object like the example I showed you
+                    //$profiles[] = the created object
+
 			    }
-				$reply->data = $storage;
+				$reply->data = $profiles;
 			}
 		} else if(empty($eventAttendanceCheckIn) === false) {
 		$eventAttendance = EventAttendance::getEventAttendanceByEventAttendanceCheckIn($pdo, $eventAttendanceCheckIn);
