@@ -63,7 +63,6 @@ try {
                     //create an std object like the example I showed you
                     $profile = ( object) [
                         "profileId" => $profile->getProfileId(),
-                        "profileActivationToken" => $profile->getProfileActivationToken(),
                         "profileBio" => $profile->getProfileBio(),
                         "profileEmail" => $profile->getProfileEmail(),
                         "profileFirstName" => $profile->getProfileFirstName(),
