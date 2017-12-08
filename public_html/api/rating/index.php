@@ -43,27 +43,27 @@ try {
         setXsrfCookie();
         // gets a profile by cid
         if(empty($id) === false) {
-            $profile = Profile::getProfileByProfileId($pdo, $id);
+            $rating = Rating::getRatingByRatingId($pdo, $id);
             // gets profile by profile id
-            if($profile !== null) {
-                $reply->data = $profile;
+            if($rating !== null) {
+                $reply->data = $rating;
             }
-        } else if(empty($profileEmail) === false) {
-            $profile = Profile::getProfileByProfileEmail($pdo, $profileEmail);
-            if($profile !== null) {
-                $reply->data = $profile;
+        } else if(empty($ratingEventAttendance) === false) {
+            $rating = Rating::getRatingByRatingEventAttendanceId($pdo, $ratingEventAttendanceId);
+            if($rating !== null) {
+                $reply->data = $rating;
             }
-        } else if(empty($profileUserName) === false) {
-            $profile = Profile::getProfileByProfileUserName($pdo, $profileUserName);
-            if($profile !== null) {
-                $reply->data = $profile;
+        } else if(empty($ratingRateeProfileId) === false) {
+            $rating = Rating::getRatingByRatingRaterProfileId($pdo, $ratingRateeProfileId);
+            if($rating !== null) {
+                $reply->data = $rating;
             }
-        } else if(empty($profileName) === false) {
-            $profile = Profile::getProfileByProfileName($pdo, $profileName);
-            if($profile !== null) {
-                $reply->data = $profile;
+        } else if(empty($ratingEventId) === false) {
+            $rating = Rating::getRatingByEventId($pdo, $ratingEventId);
+            if($rating !== null) {
+                $reply->data = $rating;
             }
-        }
+        } else if(empty($ratingRaterProfileId))
     } else if($method === "POST") {
 
 		// enforce the user has a XSRF token
