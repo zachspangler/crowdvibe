@@ -59,7 +59,7 @@ export const routes: Routes = [
 	{path: "home", component: HomeComponent},
 	{path: "", component: LandingPageComponent},
 	{path: "event/:eventId", component: EventComponent},
-	{path: "profile", component: ProfileComponent},
+	{path: "profile/:id", component: ProfileComponent},
 	{path: "sign-out", component: SignOutComponent},
 	{path: "edit-event", component: EditEventComponent},
 ];
