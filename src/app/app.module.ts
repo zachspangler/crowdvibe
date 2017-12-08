@@ -6,6 +6,7 @@ import {AppComponent} from "./app.component";
 import {allAppComponents, appRoutingProviders, routing} from "./app.routes";
 import {JwtModule} from "@auth0/angular-jwt";
 import {Status} from "./classes/status";
+import { NgDatepickerModule } from 'ng2-datepicker';
 
 
 const moduleDeclarations = [AppComponent];
@@ -24,7 +25,7 @@ const JwtHelper = JwtModule.forRoot({
 });
 
 @NgModule({
-	imports:      [BrowserModule, HttpClientModule, JwtHelper,ReactiveFormsModule, FormsModule, routing],
+	imports:      [BrowserModule, HttpClientModule, JwtHelper,ReactiveFormsModule, FormsModule, routing, NgDatepickerModule],
 	declarations: [...moduleDeclarations, ...allAppComponents],
 	bootstrap:    [AppComponent],
 	providers:    [appRoutingProviders]
