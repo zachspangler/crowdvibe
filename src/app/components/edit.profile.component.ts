@@ -39,7 +39,6 @@ export class EditProfileComponent implements OnInit {
 			profileUserName: ["", [Validators.maxLength(32), Validators.required]],
 			profileImage: ["", [Validators.maxLength(255)]],
 			profilePassword: ["", [Validators.maxLength(48), Validators.required]],
-			profilePasswordConfirm: ["", [Validators.maxLength(48), Validators.required]]
 		});
 
 		this.applyFormChanges();

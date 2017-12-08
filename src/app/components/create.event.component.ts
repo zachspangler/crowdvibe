@@ -2,9 +2,11 @@ import {Component, OnInit} from "@angular/core";
 import {Router} from "@angular/router";
 import {Status} from "../classes/status";
 import {EventService} from "../services/event.service";
+import {BrowserModule } from '@angular/platform-browser';
+import {NgDatepickerModule, DatepickerOptions  } from 'ng2-datepicker';
 import {Event} from "../classes/event";
 import {setTimeout} from "timers";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators, NgForm} from "@angular/forms";
 
 //declare $ for jquery
 declare let $: any;
@@ -12,6 +14,15 @@ declare let $: any;
 @Component({
 	selector: "create-event",
 	templateUrl: "./templates/create-event.html"
+})
+
+@NgForm({
+	imports: [
+		BrowserModule,
+		NgDatepickerModule
+	],
+	declarations: [ CreateEventComponent ],
+	exports: [ CreateEventComponent ]
 })
 
 export class CreateEventComponent implements OnInit {

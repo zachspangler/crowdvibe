@@ -8,7 +8,7 @@ import {DeepDiveInterceptor} from "./services/deep.dive.interceptor";
 
 // import all components
 import {SplashComponent} from "./components/splash.component";
-import {AttendingEventComponent} from "./components/attending.event.component";
+import {EventAttendanceComponent} from "./components/attending.event.component";
 import {CreateEventComponent} from "./components/create.event.component";
 import {EditEventComponent} from "./components/edit.event.component";
 import {EditProfileComponent} from "./components/edit.profile.component";
@@ -39,7 +39,7 @@ import {SignUpService} from "./services/sign.up.service";
 //an array of the components that will be passed off to the module
 export const allAppComponents = [
 	SplashComponent,
-	AttendingEventComponent,
+	EventAttendanceComponent,
 	CreateEventComponent,
 	EditEventComponent,
 	EditProfileComponent,

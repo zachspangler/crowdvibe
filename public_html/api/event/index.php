@@ -133,19 +133,10 @@ try {
 
 		// make sure there is a valid date for event (required field)
 		if(empty($requestObject->eventStartDateTime) === true) {
-			// TODO throw an exception
-			$requestObject->eventStartDateTime = date("Y-m-d H:i:s.u");
-		}
-
-		// make sure event Lat is available (required field)
-		if(empty($requestObject->eventLat) === true) {
-			throw (new InvalidArgumentException("Invalid Latitude", 405));
-		}
-
-		// make sure event Long is available (required field)
-		if(empty($requestObject->eventLong) === true) {
-			throw (new InvalidArgumentException("Invalid Longitude", 405));
-		}
+			throw (new \InvalidArgumentException("No event start date", 405));
+			} else {
+				$requestObject->eventStartDateTime = date("Y-m-d H:i:s.u");
+				}
 
 		// make sure event Price is available (required field)
 		if(empty($requestObject->eventPrice) === true) {
@@ -188,8 +179,8 @@ try {
 			$event->setEventDetail($requestObject->eventDetail);
 			$event->setEventEndDateTime($formattedEndDate);
 			$event->setEventImage($requestObject->eventImage);
-			$event->setEventLat($requestObject->point);
-			$event->setEventLong($requestObject->point);
+			$event->setEventLat($point->lat);
+			$event->setEventLong($point->long);
 			$event->setEventName($requestObject->eventName);
 			$event->setEventPrice($requestObject->eventPrice);
 			$event->setEventStartDateTime($formattedStartDate);
@@ -198,12 +189,12 @@ try {
 			// update reply
 			$reply->message = "Event updated OK";
 		} else if ($method === "POST") {
-			// enforce that the user is signed in
+			 //enforce that the user is signed in
 			if(empty($_SESSION["profile"]) === true) {
 				throw(new \InvalidArgumentException("you must be logged in to post events", 403));
 			}
 			//enforce the end user has a JWT token
-			validateJwtHeader();
+			//validateJwtHeader();
 
 			$secondsEnd = $requestObject->eventEndDateTime;
 			$formattedEndDate= date("Y-m-d H:i:s", $secondsEnd/1000);
@@ -212,7 +203,7 @@ try {
 			$formattedStartDate= date("Y-m-d H:i:s", $secondsStart/1000);
 
 			// create a new Event an insert it into the database
-			$event = new Event(generateUuidV4(), $_SESSION["profile"]->getProfileId(), $requestObject->eventAttendeeLimit, $requestObject->eventDetail, $formattedEndDate, $requestObject->eventImage, $point->Lat, $point->Long, $requestObject->eventName, $requestObject->eventPrice, $formattedStartDate);
+			$event = new Event(generateUuidV4(), $_SESSION["profile"]->getProfileId(), $requestObject->eventAttendeeLimit, $requestObject->eventDetail, $formattedEndDate, $requestObject->eventImage, $point->lat, $point->long, $requestObject->eventName, $requestObject->eventPrice, $formattedStartDate);
 			$event->insert($pdo);
 
 			// update reply

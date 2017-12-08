@@ -17,10 +17,12 @@ export class EventAttendanceService {
 	createEventAttendance(eventAttendance : EventAttendance) : Observable<Status>{
 		return(this.http.post<Status>(this.eventAttendanceUrl, eventAttendance));
 	}
+
 //grabs event attendance based on its composite key
 	getEventAttendanceByCompositeKey(eventAttendanceProfileId : number, eventAttendanceEventId : number) : Observable <EventAttendance> {
 return (this.http.get<EventAttendance>(this.eventAttendanceUrl+ "?eventAttendanceProfileId=" + eventAttendanceProfileId + "&eventAttendanceEventId=" + eventAttendanceEventId))
 	}
+
 	getEventAttendanceByEventId (eventAttendanceEventId : string) : Observable<EventAttendance[]>{
 		return(this.http.get<EventAttendance[]>(this.eventAttendanceUrl + eventAttendanceEventId))
 	}

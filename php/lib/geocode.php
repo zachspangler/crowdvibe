@@ -1,4 +1,5 @@
 <?php
+
 /**
  * function to get latitude and longitude by address
  *
@@ -11,9 +12,11 @@ function getLatLongByAddress ($address) : \stdClass {
 		throw(new \InvalidArgumentException("address content is empty or insecure"));
 	}
 	$address = filter_var($address, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+
 	$url = 'https://maps.googleapis.com/maps/api/geocode/json';
 	$config = readConfig("/etc/apache2/capstone-mysql/crowdvibe.ini");
 	$api = $config["google"];
+
 	$json = file_get_contents($url . '?address=' . urlencode($address) . '&key=' . $api);
 	$jsonObject = json_decode($json);
 	$lat = $jsonObject->results[0]->geometry->location->lat;
@@ -21,5 +24,6 @@ function getLatLongByAddress ($address) : \stdClass {
 	$reply = new stdClass();
 	$reply->lat = $lat;
 	$reply->long = $long;
+
 	return $reply;
 }

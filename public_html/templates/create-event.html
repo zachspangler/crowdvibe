@@ -68,7 +68,7 @@
 						<!-- Event Start Time -->
 						<div class="form-group">
 							<label for="eventStartDateTime" class="col-form-label">Event Start Time:</label>
-							<input type="datetime-local" class="form-control" id="eventStartDateTime" formControlName="eventStartDateTime" >
+							<input class="form-control" id="eventStartDateTime" formControlName="eventStartDateTime" [(ngForm)]="date" >
 						</div>
 						<!-- Angular Validation -->
 						<div class="alert alert-danger" *ngIf="createEventForm.controls.eventStartDateTime?.invalid && createEventForm.controls.profilePassword?.touched">
@@ -79,7 +79,7 @@
 						<!-- Event End Date -->
 						<div class="form-group">
 							<label for="eventEndDateTime" class="col-form-label">Event End Date:</label>
-							<input type="datetime-local" class="form-control" id="eventEndDateTime" formControlName="eventEndDateTime">
+							<input class="form-control" id="eventEndDateTime" formControlName="eventEndDateTime" [(ngForm)]="date">
 						</div>
 						<!-- Angular Validation -->
 						<div class="alert alert-danger" *ngIf="createEventForm.controls.eventEndDateTime?.invalid && createEventForm.controls.eventEndDateTime?.touched">
@@ -98,11 +98,10 @@
 						 </div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-							<button type="submit" id="submit" name="signUp" class="btn btn-info">Sign Up</button>
+							<button type="submit" id="submit" name="signUp" class="btn btn-info">Create Event</button>
 						</div>
 					</form>
 				</div>
-
 				<div *ngIf="status !== null" class="alert alert-dismissible" [ngClass]="status.type" role="alert">
 					<button type="button" class="close" aria-label="Close" (click)="status = null;"><span
 						aria-hidden="true">&times;</span></button>
