@@ -38,8 +38,33 @@ try {
 	//determine which HTTP method was used
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 
-
-	if($method === "POST") {
+    if($method === "GET") {
+        // set XSRF cookie
+        setXsrfCookie();
+        // gets a profile by cid
+        if(empty($id) === false) {
+            $profile = Profile::getProfileByProfileId($pdo, $id);
+            // gets profile by profile id
+            if($profile !== null) {
+                $reply->data = $profile;
+            }
+        } else if(empty($profileEmail) === false) {
+            $profile = Profile::getProfileByProfileEmail($pdo, $profileEmail);
+            if($profile !== null) {
+                $reply->data = $profile;
+            }
+        } else if(empty($profileUserName) === false) {
+            $profile = Profile::getProfileByProfileUserName($pdo, $profileUserName);
+            if($profile !== null) {
+                $reply->data = $profile;
+            }
+        } else if(empty($profileName) === false) {
+            $profile = Profile::getProfileByProfileName($pdo, $profileName);
+            if($profile !== null) {
+                $reply->data = $profile;
+            }
+        }
+    } else if($method === "POST") {
 
 		// enforce the user has a XSRF token
 		verifyXsrf();

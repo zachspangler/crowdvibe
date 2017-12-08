@@ -11,31 +11,31 @@ export class RatingService {
 	constructor(protected http: HttpClient) {
 
 	}
+
+
+	//define the API endpoint
+	private ratingUrl = "api/rating";
+
+	//call to the Rating API and get a rating object by its Id
+	getRating(id: string): Observable<Rating> {
+		return (this.http.get<Rating>(this.ratingUrl + id));
+	}
+
+	//call to the API to grab an array of ratings based on the user input
+	getRatingByRatingEventAttendanceId(ratingEventAttendanceId: string):
+	Observable<Rating[]> {
+		return (this.http.get<Rating[]>(this.ratingUrl + "?ratingEventAttendanceId=" + ratingEventAttendanceId));
+	}
+
+	//call to the API to grab an array of ratings based on the user input
+	getRatingByRatingRateeProfileId(ratingRateeProfileId: string):
+	Observable<Rating[]> {
+		return (this.http.get<Rating[]>(this.ratingUrl + "?ratingRateeProfileId=" + ratingRateeProfileId));
+	}
+
+	//call to the API to grab an array of ratings based on the user input
+	getRatingByRatingEventId(ratingEventId: string):
+	Observable<Rating[]> {
+		return (this.http.get<Rating[]>(this.ratingUrl + "?ratingEventId=" + ratingEventId));
+	}
 }
-//
-// 	//define the API endpoint
-// 	private ratingUrl = "api/rating";
-//
-// 	//call to the Rating API and get a rating object by its Id
-// 	getRating(id: string): Observable<Status> {
-// 		return (this.http.get<Rating>(this.ratingUrl + id));
-// 	}
-//
-// 	//call to the API to grab an array of ratings based on the user input
-// 	getRatingByRatingEventAttendanceId(ratingEventAttendanceId: string):
-// 	Observable<Rating[]> {
-// 		return (this.http.get<Rating[]>(this.ratingUrl + "?ratingEventAttendanceId=" + ratingEventAttendanceId));
-// 	}
-//
-// 	//call to the API to grab an array of ratings based on the user input
-// 	getRatingByRatingRateeProfileId(ratingRateeProfileId: string):
-// 	Observable<Rating[]> {
-// 		return (this.http.get<Rating[]>(this.ratingUrl + "?ratingRateeProfileId=" + ratingRateeProfileId));
-// 	}
-//
-// 	//call to the API to grab an array of ratings based on the user input
-// 	getRatingByRatingEventId(ratingEventId: string):
-// 	Observable<Rating[]> {
-// 		return (this.http.get<Rating[]>(this.ratingUrl + "?ratingEventId=" + ratingEventId));
-// 	}
-// }
