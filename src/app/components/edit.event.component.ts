@@ -2,8 +2,8 @@ import {Component, OnInit} from "@angular/core";
 import {NgForm} from "@angular/forms";
 
 @Component({
-	templateUrl: "./templates/edit-event.html"
-
+	templateUrl: "./templates/edit-event.html",
+	selector: "edit-event"
 })
 
 export class EditEventComponent implements OnInit {
