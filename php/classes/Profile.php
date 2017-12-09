@@ -623,7 +623,7 @@ class Profile implements \JsonSerializable {
 	 * gets the Profile by First an/or Last Name
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param string $profileName is the search term that includes profile first namd and last name
+	 * @param string $profileName is the search term that includes profile first name and last name
 	 * @return \SplFixedArray SplFixedArray of Profiles found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
