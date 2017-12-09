@@ -13,7 +13,7 @@
 					</div>
 					<h4 class="card-subtitle mb-2 text-muted">Bio</h4>
 					<p class="card-text">
-						I party Hard!Shut the shizzle up a check out this sizzle augue hendrerit accumsizzle. Yo for sure est. Vivamizzle maurizzle mah nizzle, viverra uhuh ... yih!, facilisizzle id, ultrices shiznit, erat. Break yo neck, yall ante sure gangsta we gonna chung faucibizzle break yo neck, yall luctizzle et check out this posuere cubilia Phat; Donizzle dolizzle. Integer uhuh ... yih!. Gangster pharetra blandizzle ghetto. Phat rutrizzle aliquizzle its fo rizzle. Sizzle gangsta. I saw beyonces tizzles and my pizzle went crizzle sem nulla, venenatis nizzle, scelerisque boom shackalack, boom shackalack izzle, funky fresh.
+						{{profile.profileBio}}
 					</p>
 					<h4 class="card-subtitle mb-2 text-muted">Encounters</h4>
 					<p class="card-text">ABQ Shuffleboard Shakedown</p>
@@ -55,12 +55,11 @@
 					<div class="text-center">
 						<i class="fa fa-thermometer-three-quarters fa-2x m-2 text-warning" aria-hidden="true"></i>
 					</div>
-					<h4 class="card-title">Happy Hour</h4>
+					<h4 class="card-title">{{event.eventName}}</h4>
 					<div class="text-center">
 						<i class="fa fa-thermometer-full fa-2x m-2 text-danger" aria-hidden="true"></i>
 					</div>
-					<p class="card-text">Some co-workers are getting together for a drink, we would love to meet
-						some new people in town.</p>
+					<p class="card-text">{{event.eventDetail}}</p>
 					<p class="card-text my-1">
 						<small class="text-muted">@:</small>
 						D Rinkers Pub
@@ -70,19 +69,19 @@
 					<p class="card-text my-1">89933</p>
 					<p class="card-text my-1">
 						<small class="text-muted">Starts:</small>
-						6:00pm
+						{{event.eventStartDateTime}}
 					</p>
 					<p class="card-text my-1">
 						<small class="text-muted">Ends:</small>
-						2:00am
+						{{event.eventEndDateTime}}
 					</p>
 					<p class="card-text my-1">
 						<small class="text-muted">Price:</small>
-						Free
+						{{event.eventPrice}}
 					</p>
 					<p class="card-text my-1">
 						<small class="text-muted">Attending:</small>
-						57
+						{{eventAttendance.eventAttendanceNumberAttending}}
 					</p>
 				</div>
 				<a href="#">
