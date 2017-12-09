@@ -4,9 +4,9 @@
 	<div class="row">
 		<div class="col-md-6 align-content-center">
 			<div class="card">
-				<img class="card-img-top" src="../../../image/lazy-allison.jpg" alt="Card image cap" height="400">
+				<img class="card-img-top" src= {{profile.profileImage}} alt="Card image cap" height="400">
 				<div class="card-body bg-dark text-white">
-					<h3 class="card-title">{{profile.profileFirstName}} {{profile.profileLastName}}</h3>
+					<h3 class="card-title">{{profile.profileUserName}}</h3>
 					<h4 class="card-subtitle mb-2 text-muted">Rating</h4>
 					<div class="text-center">
 						<i class="fa fa-thermometer-quarter fa-3x m-4 text-primary" aria-hidden="true"></i>
@@ -50,7 +50,7 @@
 						  src="https://dl.dropboxusercontent.com/s/s05h8qapt3p00kn/face.jpg?dl=0"
 						  height="100" width="100">
 					<p class="card-text">
-						<small class="text-muted">Hosted By: Zach</small>
+						<small class="text-muted">Hosted By: {{profile.profileUserName}}</small>
 					</p>
 					<div class="text-center">
 						<i class="fa fa-thermometer-three-quarters fa-2x m-2 text-warning" aria-hidden="true"></i>
