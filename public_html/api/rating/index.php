@@ -54,7 +54,7 @@ try {
                 $reply->data = $rating;
             }
         } else if(empty($ratingRateeProfileId) === false) {
-            $rating = Rating::getRatingByRatingRaterProfileId($pdo, $ratingRateeProfileId);
+            $rating = Rating::getRatingByProfileId($pdo, $ratingRateeProfileId);
             if($rating !== null) {
                 $reply->data = $rating;
             }
