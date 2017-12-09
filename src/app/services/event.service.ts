@@ -30,7 +30,7 @@ export class EventService {
 		return(this.http.post<Status>(this.eventURL, event));
 	}
 
-	// call to the tweet API and get a tweet object based on its Id
+	// call to the event API and get an event object based on its Id
 	getEvent(id : string) : Observable<Event> {
 		return (this.http.get<Event>(this.eventURL + id));
 	}
