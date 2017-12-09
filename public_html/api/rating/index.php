@@ -41,7 +41,7 @@ try {
     if($method === "GET") {
         // set XSRF cookie
         setXsrfCookie();
-        // gets a profile by cid
+        // gets a profile by id
         if(empty($id) === false) {
             $rating = Rating::getRatingByRatingId($pdo, $id);
             // gets profile by profile id
