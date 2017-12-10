@@ -16,14 +16,14 @@ declare let $: any;
 	templateUrl: "./templates/create-event.html"
 })
 
-@NgForm({
-	imports: [
-		BrowserModule,
-		NgDatepickerModule
-	],
-	declarations: [ CreateEventComponent ],
-	exports: [ CreateEventComponent ]
-})
+// @NgForm({
+// 	imports: [
+// 		BrowserModule,
+// 		NgDatepickerModule
+// 	],
+// 	declarations: [ CreateEventComponent ],
+// 	exports: [ CreateEventComponent ]
+// })
 
 export class CreateEventComponent implements OnInit {
 

@@ -65,11 +65,11 @@
 							<p *ngIf="createEventForm.controls.eventAddress?.errors.required">Address required</p>
 						</div>
 
-						<!-- Event Start Time -->
-						<div class="form-group">
-							<label for="eventStartDateTime" class="col-form-label">Event Start Time:</label>
-							<input class="form-control" id="eventStartDateTime" formControlName="eventStartDateTime" [(ngForm)]="date" >
-						</div>
+						<!--&lt;!&ndash; Event Start Time &ndash;&gt;-->
+						<!--<div class="form-group">-->
+							<!--<label for="eventStartDateTime" class="col-form-label">Event Start Time:</label>-->
+							<!--<input class="form-control" id="eventStartDateTime" formControlName="eventStartDateTime" [(ngForm)]="date" >-->
+						<!--</div>-->
 						<!-- Angular Validation -->
 						<div class="alert alert-danger" *ngIf="createEventForm.controls.eventStartDateTime?.invalid && createEventForm.controls.profilePassword?.touched">
 							<p *ngIf="createEventForm.controls.eventStartDateTime?.errors.maxlength">Start Date is too long</p>
@@ -77,10 +77,10 @@
 						</div>
 
 						<!-- Event End Date -->
-						<div class="form-group">
-							<label for="eventEndDateTime" class="col-form-label">Event End Date:</label>
-							<input class="form-control" id="eventEndDateTime" formControlName="eventEndDateTime" [(ngForm)]="date">
-						</div>
+						<!--<div class="form-group">-->
+							<!--<label for="eventEndDateTime" class="col-form-label">Event End Date:</label>-->
+							<!--<input class="form-control" id="eventEndDateTime" formControlName="eventEndDateTime" [(ngForm)]="date">-->
+						<!--</div>-->
 						<!-- Angular Validation -->
 						<div class="alert alert-danger" *ngIf="createEventForm.controls.eventEndDateTime?.invalid && createEventForm.controls.eventEndDateTime?.touched">
 							<p *ngIf="createEventForm.controls.eventEndDateTime?.errors.maxlength">End Date is too long</p>
@@ -88,6 +88,7 @@
 						</div>
 
 						<!-- Event Attendee Limit -->
+						<form>
 						 <div class="form-group">
 							<label for="eventAttendeeLimit" class="col-form-label">Event Attendee Limit:</label>
 							<input type="number" class="form-control" id="eventAttendeeLimit" formControlName="eventAttendeeLimit">
