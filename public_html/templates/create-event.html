@@ -1,86 +1,84 @@
-<!-- Create Event Modal -->
-<div class="modal fade" id="createEvent" tabindex="-1" role="dialog" aria-labelledby="createEventLabel"
-	  aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="createEventLabel">Create Event</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<form class="form-horizontal" name="createEventForm" id="createEventForm" [formGroup]="createEventForm"
-						novalidate (ngSubmit)="createEvent();">
-					<!-- Event Name -->
-					<div class="form-group">
-						<label for="eventName" class="col-form-label">Event Name:</label>
-						<input type="text" class="form-control" id="eventName" formControlName="eventName" required
-								 [(ngModel)]=event.eventName #eventName="ngModel" maxlength="64">
-					</div>
+<!--&lt;!&ndash; Create Event Modal &ndash;&gt;-->
+<!--&lt;!&ndash; <div class="modal fade" id="createEvent" tabindex="-1" role="dialog" aria-labelledby="createEventLabel"-->
+	  <!--aria-hidden="true">-->
+	<!--<div class="modal-dialog" role="document">-->
+		<!--<div class="modal-content">-->
+			<!--<div class="modal-header">-->
+				<!--<h5 class="modal-title" id="createEventLabel">Create Event</h5>-->
+				<!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+					<!--<span aria-hidden="true">&times;</span>-->
+				<!--</button>-->
+			<!--</div>-->
+			<!--<div class="modal-body">-->
+				<!--<form class="form-horizontal" name="createEventForm" id="createEventForm" [formGroup]="createEventForm"-->
+					<!--<div class="form-group">-->
+						<!--<label for="eventName" class="col-form-label">Event Name:</label>-->
+						<!--<input type="text" class="form-control" id="eventName" formControlName="eventName" required-->
+								 <!--[(ngModel)]=event.eventName #eventName="ngModel" maxlength="64">-->
+					<!--</div>-->
 
-					<!-- Event Detail -->
-					<div class="form-group">
-						<label for="eventDetail" class="col-form-label">Event Detail::</label>
-						<input type="text" class="form-control" id="eventDetail" formControlName="eventDetail" required
-								 [(ngModel)]=event.eventDetail #evenDetail="ngModel" maxlength="500">
-					</div>
+					<!--&lt;!&ndash; Event Detail &ndash;&gt;-->
+<!--&lt;!&ndash;<div class="form-group">-->
+    <!--<label for="eventDetail" class="col-form-label">Event Detail::</label>-->
+    <!--<input type="text" class="form-control" id="eventDetail" formControlName="eventDetail" required-->
+             <!--[(ngModel)]=event.eventDetail #evenDetail="ngModel" maxlength="500">-->
+<!--</div>-->
 
-					<!-- Event Price -->
-					<div class="form-group">
-						<label for="eventPrice" class="col-form-label">Event Price:</label>
-						<input type="number" min="0" max="10,000" step="0.01" class="form-control" id="eventPrice"
-								 formControlName="eventPrice" required [(ngModel)]=event.eventPrice #evenPrice="ngModel"
-								 maxlength="7">
-					</div>
+<!--&lt;!&ndash; Event Price &ndash;&gt;-->
+				<!--&lt;!&ndash;	<div class="form-group">-->
+						<!--<label for="eventPrice" class="col-form-label">Event Price:</label>-->
+						<!--<input type="number" min="0" max="10,000" step="0.01" class="form-control" id="eventPrice"-->
+								 <!--formControlName="eventPrice" required [(ngModel)]=event.eventPrice #evenPrice="ngModel"-->
+								 <!--maxlength="7">-->
+					<!--</div>-->
 
-					<!-- Event Image -->
-					<div class="form-group">
-						<label for="eventImage" class="col-form-label">Event Image:</label>
-						<input type="text" class="form-control" id="eventImage" formControlName="eventImage" required
-								 [(ngModel)]=event.eventImage #evenImage="ngModel" maxlength="255">
-					</div>
+					<!--&lt;!&ndash; Event Image &ndash;&gt;-->
+					<!--<div class="form-group">-->
+						<!--<label for="eventImage" class="col-form-label">Event Image:</label>-->
+						<!--<input type="text" class="form-control" id="eventImage" formControlName="eventImage" required-->
+								 <!--[(ngModel)]=event.eventImage #evenImage="ngModel" maxlength="255">-->
+					<!--</div>-->
 
-					<!-- Event Address -->
-					<div class="form-group">
-						<label for="eventAddress" class="col-form-label">Address:</label>
-						<input type="text" class="form-control" id="eventAddress" formControlName="eventAddress" required
-								 [(ngModel)]=event.eventAddress #evenAddress="ngModel" maxlength="255">
-					</div>
+					<!--&lt;!&ndash; Event Address &ndash;&gt;-->
+					<!--<div class="form-group">-->
+						<!--<label for="eventAddress" class="col-form-label">Address:</label>-->
+						<!--<input type="text" class="form-control" id="eventAddress" formControlName="eventAddress" required-->
+								 <!--[(ngModel)]=event.eventAddress #evenAddress="ngModel" maxlength="255">-->
+					<!--</div>-->
 
-					<!-- Event Start Time -->
-					<div class="form-group">
-						<label for="eventStartDateTime" class="col-form-label">Event Start Time:</label>
-						<input class="form-control" id="eventStartDateTime" formControlName="eventStartDateTime" required
-								 [(ngForm)]="startDate" #evenAttendeeLimit=ngModel">
-					</div>
+					<!--&lt;!&ndash; Event Start Time &ndash;&gt;-->
+					<!--<div class="form-group">-->
+						<!--<label for="eventStartDateTime" class="col-form-label">Event Start Time:</label>-->
+						<!--<input class="form-control" id="eventStartDateTime" formControlName="eventStartDateTime" required-->
+								 <!--[(ngForm)]="startDate" #evenAttendeeLimit=ngModel">-->
+					<!--</div>-->
 
-					<!-- Event End Date -->
-					<div class="form-group">
-						<label for="eventEndDateTime" class="col-form-label">Event End Date:</label>
-						<input class="form-control" id="eventEndDateTime" formControlName="eventEndDateTime" required
-								 [(ngForm)]="endDate" #evenAttendeeLimit=ngModel">
-					</div>
+					<!--&lt;!&ndash; Event End Date &ndash;&gt;-->
+					<!--<div class="form-group">-->
+						<!--<label for="eventEndDateTime" class="col-form-label">Event End Date:</label>-->
+						<!--<input class="form-control" id="eventEndDateTime" formControlName="eventEndDateTime" required-->
+								 <!--[(ngForm)]="endDate" #evenAttendeeLimit=ngModel">-->
+					<!--</div>-->
 
-					<!-- Event Attendee Limit -->
-					<div class="form-group">
-						<label for="eventAttendeeLimit" class="col-form-label">Event Attendee Limit:</label>
-						<input type="number" class="form-control" id="eventAttendeeLimit" formControlName="eventAttendeeLimit"
-								 required [(ngModel)]=event.eventAttendeeLimit #evenAttendeeLimit=ngModel" maxlength="32">
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-						<button type="submit" id="submit" [disabled]="createEventForm.invalid" class="btn btn-info">Create
-							Event
-						</button>
-					</div>
-				</form>
-			</div>
-			<div *ngIf="status !== null" class="alert alert-dismissible" [ngClass]="status.type" role="alert">
-				<button type="button" class="close" aria-label="Close" (click)="status = null;"><span aria-hidden="true">&times;</span>
-				</button>
-				{{ status.message }}
-			</div>
-		</div>
-	</div>
-</div>
+					<!--&lt;!&ndash; Event Attendee Limit &ndash;&gt;-->
+					<!--<div class="form-group">-->
+						<!--<label for="eventAttendeeLimit" class="col-form-label">Event Attendee Limit:</label>-->
+						<!--<input type="number" class="form-control" id="eventAttendeeLimit" formControlName="eventAttendeeLimit"-->
+								 <!--required [(ngModel)]=event.eventAttendeeLimit #evenAttendeeLimit=ngModel" maxlength="32">-->
+					<!--</div>-->
+					<!--<div class="modal-footer">-->
+						<!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+						<!--<button type="submit" id="submit" [disabled]="createEventForm.invalid" class="btn btn-info">Create-->
+							<!--Event-->
+						<!--</button>-->
+					<!--</div>-->
+				<!--</form>-->
+			<!--</div>-->
+			<!--<div *ngIf="status !== null" class="alert alert-dismissible" [ngClass]="status.type" role="alert">-->
+				<!--<button type="button" class="close" aria-label="Close" (click)="status = null;"><span aria-hidden="true">&times;</span>-->
+				<!--</button>-->
+				<!--{{ status.message }}-->
+			<!--</div>-->
+		<!--</div>-->
+	<!--</div>-->
+<!--</div> &ndash;&gt;-->
