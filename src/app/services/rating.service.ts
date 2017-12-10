@@ -28,14 +28,14 @@ export class RatingService {
 	}
 
 	//call to the API to grab an array of ratings based on the user input
-	getRatingByRatingRateeProfileId(ratingRateeProfileId: number):
-	Observable<Rating[]> {
-		return (this.http.get<Rating[]>(this.ratingUrl + "?ratingRateeProfileId=" + ratingRateeProfileId));
+	getRatingByRatingRateeProfileId(ratingRateeProfileId: string):
+	Observable<number> {
+		return (this.http.get<number>(this.ratingUrl + "?ratingRateeProfileId=" + ratingRateeProfileId));
 	}
 
 	//call to the API to grab an array of ratings based on the user input
-	getRatingByRatingEventId(ratingEventId: number):
-	Observable<Rating[]> {
-		return (this.http.get<Rating[]>(this.ratingUrl + "?ratingEventId=" + ratingEventId));
+	getRatingByRatingEventId(ratingEventId: string):
+	Observable<number> {
+		return (this.http.get<number>(this.ratingUrl + "?ratingEventId=" + ratingEventId));
 	}
 }
