@@ -3,7 +3,7 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="editProfileLabel">Sign Up</h5>
+				<h5 class="modal-title" id="editProfileLabel">Edit Your Profile</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -16,9 +16,9 @@
 						<input type="text" class="form-control" id="profileFirstName" formControlName="profileFirstName">
 					</div>
 					<!-- Angular Validation -->
-					<div class="alert alert-danger" *ngIf="signUpForm.controls.profileFirstName?.invalid && signUpForm.controls.profileFirstName?.touched">
-						<p *ngIf="signUpForm.controls.profileFirstName?.errors.maxlength">First Name is too long</p>
-						<p *ngIf="signUpForm.controls.profileFirstName?.errors.required">First Name is required</p>
+					<div class="alert alert-danger" *ngIf="editProfileForm.controls.profileFirstName?.invalid && editProfileForm.controls.profileFirstName?.touched">
+						<p *ngIf="editProfileForm.controls.profileFirstName?.errors.maxlength">First Name is too long</p>
+						<p *ngIf="editProfileForm.controls.profileFirstName?.errors.required">First Name is required</p>
 					</div>
 
 					<!-- Last Name -->
@@ -27,9 +27,9 @@
 						<input type="text" class="form-control" id="profileLastName" formControlName="profileLastName">
 					</div>
 					<!-- Angular Validation -->
-					<div class="alert alert-danger" *ngIf="signUpForm.controls.profileLastName?.invalid && signUpForm.controls.profileLastName?.touched">
-						<p *ngIf="signUpForm.controls.profileLastName?.errors.maxlength">Last Name is too long</p>
-						<p *ngIf="signUpForm.controls.profileLastName?.errors.required">Last Name is required</p>
+					<div class="alert alert-danger" *ngIf="editProfileForm.controls.profileLastName?.invalid && editProfileForm.controls.profileLastName?.touched">
+						<p *ngIf="editProfileForm.controls.profileLastName?.errors.maxlength">Last Name is too long</p>
+						<p *ngIf="editProfileForm.controls.profileLastName?.errors.required">Last Name is required</p>
 					</div>
 
 					<!-- Username -->
@@ -38,20 +38,20 @@
 						<input type="text" class="form-control" id="profileUserName" formControlName="profileUserName">
 					</div>
 					<!-- Angular Validation -->
-					<div class="alert alert-danger" *ngIf="signUpForm.controls.profileUserName?.invalid && signUpForm.controls.profileUserName?.touched">
-						<p *ngIf="signUpForm.controls.profileUserName?.errors.maxlength">Username is too long</p>
-						<p *ngIf="signUpForm.controls.profileUserName?.errors.required">Username is required</p>
+					<div class="alert alert-danger" *ngIf="editProfileForm.controls.profileUserName?.invalid && editProfileForm.controls.profileUserName?.touched">
+						<p *ngIf="editProfileForm.controls.profileUserName?.errors.maxlength">Username is too long</p>
+						<p *ngIf="editProfileForm.controls.profileUserName?.errors.required">Username is required</p>
 					</div>
 
-					<!-- Username -->
+					<!-- Profile Image -->
 					<div class="form-group">
-						<label for="profileImage" class="col-form-label">User Name:</label>
-						<input type="image" class="form-control" id="profileImage" formControlName="profileImage">
+						<label for="profileImage" class="col-form-label">Profile Image:</label>
+						<input type="text" class="form-control" id="profileImage" formControlName="profileImage">
 					</div>
 					<!-- Angular Validation -->
-					<div class="alert alert-danger" *ngIf="signUpForm.controls.profileImage?.invalid && signUpForm.controls.profileImage?.touched">
-						<p *ngIf="signUpForm.controls.profileUserName?.errors.maxlength">Username is too long</p>
-						<p *ngIf="signUpForm.controls.profileUserName?.errors.required">Username is required</p>
+					<div class="alert alert-danger" *ngIf="editProfileForm.controls.profileImage?.invalid && editProfileForm.controls.profileImage?.touched">
+						<p *ngIf="editProfileForm.controls.profileUserName?.errors.maxlength">Username is too long</p>
+						<p *ngIf="editProfileForm.controls.profileUserName?.errors.required">Username is required</p>
 					</div>
 
 					<!-- Email -->
@@ -60,9 +60,9 @@
 						<input type="email" class="form-control" id="profileEmail" formControlName="profileEmail">
 					</div>
 					<!-- Angular Validation -->
-					<div class="alert alert-danger" *ngIf="signUpForm.controls.profileEmail?.invalid && signUpForm.controls.profileEmail?.touched">
-						<p *ngIf="signUpForm.controls.profileEmail?.errors.maxlength">Email is too long</p>
-						<p *ngIf="signUpForm.controls.profileEmail?.errors.required">Email is required</p>
+					<div class="alert alert-danger" *ngIf="editProfileForm.controls.profileEmail?.invalid && editProfileForm.controls.profileEmail?.touched">
+						<p *ngIf="editProfileForm.controls.profileEmail?.errors.maxlength">Email is too long</p>
+						<p *ngIf="editProfileForm.controls.profileEmail?.errors.required">Email is required</p>
 					</div>
 
 					<!-- Bio -->
@@ -71,9 +71,9 @@
 						<textarea type="text" class="form-control" id="profileBio" formControlName="profileBio"></textarea>
 					</div>
 					<!-- Angular Validation -->
-					<div class="alert alert-danger" *ngIf="signUpForm.controls.profileBio?.invalid && signUpForm.controls.profileBio?.touched">
-						<p *ngIf="signUpForm.controls.profileBio?.errors.maxlength">Bio is too long</p>
-						<p *ngIf="signUpForm.controls.profileBio?.errors.required">Bio required</p>
+					<div class="alert alert-danger" *ngIf="editProfileForm.controls.profileBio?.invalid && editProfileForm.controls.profileBio?.touched">
+						<p *ngIf="editProfileForm.controls.profileBio?.errors.maxlength">Bio is too long</p>
+						<p *ngIf="editProfileForm.controls.profileBio?.errors.required">Bio required</p>
 					</div>
 
 					<!-- Password -->
@@ -82,18 +82,16 @@
 						<input type="password" class="form-control" id="profilePassword" formControlName="profilePassword" >
 					</div>
 					<!-- Angular Validation -->
-					<div class="alert alert-danger" *ngIf="signUpForm.controls.profilePassword?.invalid && signUpForm.controls.profilePassword?.touched">
-						<p *ngIf="signUpForm.controls.profilePassword?.errors.maxlength">Password is too long</p>
-						<p *ngIf="signUpForm.controls.profilePassword?.errors.required">Password required</p>
+					<div class="alert alert-danger" *ngIf="editProfileForm.controls.profilePassword?.invalid && editProfileForm.controls.profilePassword?.touched">
+						<p *ngIf="editProfileForm.controls.profilePassword?.errors.maxlength">Password is too long</p>
+						<p *ngIf="editProfileForm.controls.profilePassword?.errors.required">Password required</p>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-
 						<button type="submit" id="submit" name="signUp" class="btn btn-info">Save Changes</button>
 					</div>
 				</form>
 			</div>
-
 			<div *ngIf="status !== null" class="alert alert-dismissible" [ngClass]="status.type" role="alert">
 				<button type="button" class="close" aria-label="Close" (click)="status = null;"><span
 					aria-hidden="true">&times;</span></button>

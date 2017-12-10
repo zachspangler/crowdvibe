@@ -3,10 +3,14 @@ import {Router} from "@angular/router";
 import {Status} from "../classes/status";
 import {EventService} from "../services/event.service";
 import {BrowserModule } from '@angular/platform-browser';
-import {NgDatepickerModule, DatepickerOptions  } from 'ng2-datepicker';
+import {DatepickerOptions} from 'ng2-datepicker';
+import * as enLocale from 'date-fns/locale/en';
+import * as frLocale from 'date-fns/locale/fr';
+import {getTime} from 'date-fns';
 import {Event} from "../classes/event";
 import {setTimeout} from "timers";
-import {FormBuilder, FormGroup, Validators, NgForm} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {IMyDpOptions} from 'mydatepicker';
 
 //declare $ for jquery
 declare let $: any;
@@ -16,18 +20,13 @@ declare let $: any;
 	templateUrl: "./templates/create-event.html"
 })
 
-// @NgForm({
-// 	imports: [
-// 		BrowserModule,
-// 		NgDatepickerModule
-// 	],
-// 	declarations: [ CreateEventComponent ],
-// 	exports: [ CreateEventComponent ]
-// })
-
 export class CreateEventComponent implements OnInit {
-
 	createEventForm: FormGroup;
+	startDate: Date;
+	endDate: Date;
+	options: DatepickerOptions = {
+		locale: enLocale
+	};
 	event: Event = new Event(null, null, null, null, null, null, null, null, null ,null);
 	status: Status = null;
 
@@ -50,7 +49,9 @@ export class CreateEventComponent implements OnInit {
 
 	createEvent(): void {
 
-		let createEvent = new Event(null, null, this.createEventForm.value.eventAddress, this.createEventForm.value.eventAttendeeLimit, this.createEventForm.value.eventDetail, this.createEventForm.value.eventEndDateTime, this.createEventForm.value.eventImage, this.createEventForm.value.eventName, this.createEventForm.value.eventPrice, this.createEventForm.value.eventStartDateTime);
+		console.log(this.startDate);
+
+		let createEvent = new Event(null, null, this.createEventForm.value.eventAddress, this.createEventForm.value.eventAttendeeLimit, this.createEventForm.value.eventDetail, this.createEventForm.value.endDate, this.createEventForm.value.eventImage, this.createEventForm.value.eventName, this.createEventForm.value.eventPrice, this.createEventForm.value.startDate);
 
 		this.eventService.createEvent(createEvent)
 			.subscribe(status => {
@@ -64,5 +65,21 @@ export class CreateEventComponent implements OnInit {
 					this.router.navigate(["home"]);
 				}
 			});
+	}
+
+	setDate(): void {
+		// Set today date using the patchValue function
+		let date = new Date();
+		this.myForm.patchValue({myDate: {
+			date: {
+				year: date.getFullYear(),
+				month: date.getMonth() + 1,
+				day: date.getDate()}
+		}});
+	}
+
+	clearDate(): void {
+		// Clear the date using the patchValue function
+		this.myForm.patchValue({myDate: null});
 	}
 }

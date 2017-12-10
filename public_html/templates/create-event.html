@@ -1,113 +1,86 @@
-	<!-- Create Event Modal -->
-	<div class="modal fade" id="createEvent" tabindex="-1" role="dialog" aria-labelledby="createEventLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="createEventLabel">Create Event</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<form class="form-horizontal" name="createEventForm" id="createEventForm" [formGroup]="createEventForm" novalidate (ngSubmit)="createEvent();">
-						<!-- Event Name -->
-						<div class="form-group">
-							<label for="eventName" class="col-form-label">Event Name:</label>
-							<input type="text" class="form-control" id="eventName" formControlName="eventName">
-						</div>
-						<!-- Angular Validation -->
-						<div class="alert alert-danger" *ngIf="createEventForm.controls.eventName?.invalid && createEventForm.controls.eventName?.touched">
-							<p *ngIf="createEventForm.controls.eventName?.errors.maxlength">Event Name is too long</p>
-							<p *ngIf="createEventForm.controls.eventName?.errors.required">Event Name is required</p>
-						</div>
+<!-- Create Event Modal -->
+<div class="modal fade" id="createEvent" tabindex="-1" role="dialog" aria-labelledby="createEventLabel"
+	  aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="createEventLabel">Create Event</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal" name="createEventForm" id="createEventForm" [formGroup]="createEventForm"
+						novalidate (ngSubmit)="createEvent();">
+					<!-- Event Name -->
+					<div class="form-group">
+						<label for="eventName" class="col-form-label">Event Name:</label>
+						<input type="text" class="form-control" id="eventName" formControlName="eventName" required
+								 [(ngModel)]=event.eventName #eventName="ngModel" maxlength="64">
+					</div>
 
-						<!-- Last Name -->
-						<div class="form-group">
-							<label for="eventDetail" class="col-form-label">Event Detail::</label>
-							<input type="text" class="form-control" id="eventDetail" formControlName="eventDetail">
-						</div>
-						<!-- Angular Validation -->
-						<div class="alert alert-danger" *ngIf="createEventForm.controls.eventDetail?.invalid && createEventForm.controls.eventDetail?.touched">
-							<p *ngIf="createEventForm.controls.eventDetail?.errors.maxlength">Event Detail is too long</p>
-							<p *ngIf="createEventForm.controls.eventDetail?.errors.required">Event Detail is required</p>
-						</div>
+					<!-- Event Detail -->
+					<div class="form-group">
+						<label for="eventDetail" class="col-form-label">Event Detail::</label>
+						<input type="text" class="form-control" id="eventDetail" formControlName="eventDetail" required
+								 [(ngModel)]=event.eventDetail #evenDetail="ngModel" maxlength="500">
+					</div>
 
-						<!-- Event Price -->
-						<div class="form-group">
-							<label for="eventPrice" class="col-form-label">Event Price:</label>
-							<input type="number" min="0" max="10,000" step="0.01" class="form-control" id="eventPrice" formControlName="eventPrice">
-						</div>
-						<!-- Angular Validation -->
-						<div class="alert alert-danger" *ngIf="createEventForm.controls.eventPrice?.invalid && createEventForm.controls.eventPrice?.touched">
-							<p *ngIf="createEventForm.controls.eventPrice?.errors.maxlength">Event Price is too long</p>
-							<p *ngIf="createEventForm.controls.eventPrice?.errors.required">Event Price is required</p>
-						</div>
+					<!-- Event Price -->
+					<div class="form-group">
+						<label for="eventPrice" class="col-form-label">Event Price:</label>
+						<input type="number" min="0" max="10,000" step="0.01" class="form-control" id="eventPrice"
+								 formControlName="eventPrice" required [(ngModel)]=event.eventPrice #evenPrice="ngModel"
+								 maxlength="7">
+					</div>
 
-						<!-- Event Image -->
-						<div class="form-group">
-							<label for="eventImage" class="col-form-label">Event Image:</label>
-							<input type="text" class="form-control" id="eventImage" formControlName="eventImage">
-						</div>
-						<!-- Angular Validation -->
-						<div class="alert alert-danger" *ngIf="createEventForm.controls.eventImage?.invalid && createEventForm.controls.eventImage?.touched">
-							<p *ngIf="createEventForm.controls.eventImage?.errors.maxlength">Event Image is too long</p>
-							<p *ngIf="createEventForm.controls.eventImage?.errors.required">Event Image is required</p>
-						</div>
+					<!-- Event Image -->
+					<div class="form-group">
+						<label for="eventImage" class="col-form-label">Event Image:</label>
+						<input type="text" class="form-control" id="eventImage" formControlName="eventImage" required
+								 [(ngModel)]=event.eventImage #evenImage="ngModel" maxlength="255">
+					</div>
 
-						<!-- Event Address -->
-						<div class="form-group">
-							<label for="eventAddress" class="col-form-label">Address:</label>
-							<input type="text" class="form-control" id="eventAddress" formControlName="eventAddress">
-						</div>
-						<!-- Angular Validation -->
-						<div class="alert alert-danger" *ngIf="createEventForm.controls.eventAddress?.invalid && createEventForm.controls.eventAddress?.touched">
-							<p *ngIf="createEventForm.controls.eventAddress?.errors.maxlength">Address is too long</p>
-							<p *ngIf="createEventForm.controls.eventAddress?.errors.required">Address required</p>
-						</div>
+					<!-- Event Address -->
+					<div class="form-group">
+						<label for="eventAddress" class="col-form-label">Address:</label>
+						<input type="text" class="form-control" id="eventAddress" formControlName="eventAddress" required
+								 [(ngModel)]=event.eventAddress #evenAddress="ngModel" maxlength="255">
+					</div>
 
-						<!--&lt;!&ndash; Event Start Time &ndash;&gt;-->
-						<!--<div class="form-group">-->
-							<!--<label for="eventStartDateTime" class="col-form-label">Event Start Time:</label>-->
-							<!--<input class="form-control" id="eventStartDateTime" formControlName="eventStartDateTime" [(ngForm)]="date" >-->
-						<!--</div>-->
-						<!-- Angular Validation -->
-						<div class="alert alert-danger" *ngIf="createEventForm.controls.eventStartDateTime?.invalid && createEventForm.controls.profilePassword?.touched">
-							<p *ngIf="createEventForm.controls.eventStartDateTime?.errors.maxlength">Start Date is too long</p>
-							<p *ngIf="createEventForm.controls.eventStartDateTime?.errors.required">Start Date required</p>
-						</div>
+					<!-- Event Start Time -->
+					<div class="form-group">
+						<label for="eventStartDateTime" class="col-form-label">Event Start Time:</label>
+						<input class="form-control" id="eventStartDateTime" formControlName="eventStartDateTime" required
+								 [(ngForm)]="startDate" #evenAttendeeLimit=ngModel">
+					</div>
 
-						<!-- Event End Date -->
-						<!--<div class="form-group">-->
-							<!--<label for="eventEndDateTime" class="col-form-label">Event End Date:</label>-->
-							<!--<input class="form-control" id="eventEndDateTime" formControlName="eventEndDateTime" [(ngForm)]="date">-->
-						<!--</div>-->
-						<!-- Angular Validation -->
-						<div class="alert alert-danger" *ngIf="createEventForm.controls.eventEndDateTime?.invalid && createEventForm.controls.eventEndDateTime?.touched">
-							<p *ngIf="createEventForm.controls.eventEndDateTime?.errors.maxlength">End Date is too long</p>
-							<p *ngIf="createEventForm.controls.eventEndDateTime?.errors.required">End Date required</p>
-						</div>
+					<!-- Event End Date -->
+					<div class="form-group">
+						<label for="eventEndDateTime" class="col-form-label">Event End Date:</label>
+						<input class="form-control" id="eventEndDateTime" formControlName="eventEndDateTime" required
+								 [(ngForm)]="endDate" #evenAttendeeLimit=ngModel">
+					</div>
 
-						<!-- Event Attendee Limit -->
-						<form>
-						 <div class="form-group">
-							<label for="eventAttendeeLimit" class="col-form-label">Event Attendee Limit:</label>
-							<input type="number" class="form-control" id="eventAttendeeLimit" formControlName="eventAttendeeLimit">
-						 </div>
-						 <div class="alert alert-danger" *ngIf="createEventForm.controls.eventAttendeeLimit?.invalid && createEventForm.controls.eventAttendeeLimit?.touched">
-						 <p *ngIf="createEventForm.controls.eventAttendeeLimit?.errors.maxlength">Event Attendee Limit is too long</p>
-						 <p *ngIf="createEventForm.controls.eventAttendeeLimit?.errors.required">Event Attendee Limit</p>
-						 </div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-							<button type="submit" id="submit" name="signUp" class="btn btn-info">Create Event</button>
-						</div>
-					</form>
-				</div>
-				<div *ngIf="status !== null" class="alert alert-dismissible" [ngClass]="status.type" role="alert">
-					<button type="button" class="close" aria-label="Close" (click)="status = null;"><span
-						aria-hidden="true">&times;</span></button>
-					{{ status.message }}
-				</div>
+					<!-- Event Attendee Limit -->
+					<div class="form-group">
+						<label for="eventAttendeeLimit" class="col-form-label">Event Attendee Limit:</label>
+						<input type="number" class="form-control" id="eventAttendeeLimit" formControlName="eventAttendeeLimit"
+								 required [(ngModel)]=event.eventAttendeeLimit #evenAttendeeLimit=ngModel" maxlength="32">
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+						<button type="submit" id="submit" [disabled]="createEventForm.invalid" class="btn btn-info">Create
+							Event
+						</button>
+					</div>
+				</form>
+			</div>
+			<div *ngIf="status !== null" class="alert alert-dismissible" [ngClass]="status.type" role="alert">
+				<button type="button" class="close" aria-label="Close" (click)="status = null;"><span aria-hidden="true">&times;</span>
+				</button>
+				{{ status.message }}
 			</div>
 		</div>
 	</div>
+</div>

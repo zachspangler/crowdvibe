@@ -28,6 +28,7 @@ const JwtHelper = JwtModule.forRoot({
 	imports:      [BrowserModule, HttpClientModule, JwtHelper,ReactiveFormsModule, FormsModule, routing, NgDatepickerModule],
 	declarations: [...moduleDeclarations, ...allAppComponents],
 	bootstrap:    [AppComponent],
-	providers:    [appRoutingProviders]
+	providers:    [appRoutingProviders],
+	exports:      [AppComponent]
 })
 export class AppModule {}

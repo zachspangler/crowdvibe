@@ -12,39 +12,38 @@
 							  src="https://dl.dropboxusercontent.com/s/s05h8qapt3p00kn/face.jpg?dl=0"
 							  height="100" width="100">
 						<p class="card-text">
-							<small class="text-muted">Hosted By: Zach</small>
+							<small class="text-muted">Hosted By: {{profile.profileFirstName}}</small>
 						</p>
 						<div class="text-center">
 							<i class="fa fa-thermometer-three-quarters fa-2x m-2 text-warning" aria-hidden="true"></i>
 						</div>
-						<h4 class="card-title">Happy Hour</h4>
+						<h4 class="card-title"></h4>
 						<div class="text-center">
 							<i class="fa fa-thermometer-full fa-2x m-2 text-danger" aria-hidden="true"></i>
 						</div>
-						<p class="card-text">Some co-workers are getting together for a drink, we would love to meet
-							some new people in town.</p>
+						<p class="card-text">{{event.eventDetail}}</p>
 						<p class="card-text my-1">
 							<small class="text-muted">@:</small>
-							D Rinkers Pub
+							{{event.eventAddress}}
 						</p>
 						<p class="card-text my-1">363 Palmer Ave Ne</p>
 						<p class="card-text my-1">Fun Town</p>
 						<p class="card-text my-1">89933</p>
 						<p class="card-text my-1">
 							<small class="text-muted">Starts:</small>
-							6:00pm
+							{{event.startDate}}
 						</p>
 						<p class="card-text my-1">
 							<small class="text-muted">Ends:</small>
-							2:00am
+							{{event.endDate}}
 						</p>
 						<p class="card-text my-1">
 							<small class="text-muted">Price:</small>
-							Free
+							{{event.eventPrice}}
 						</p>
 						<p class="card-text my-1">
 							<small class="text-muted">Attending:</small>
-							57
+							{{eventAttendance.eventAttendanceNumberAttending}}
 						</p>
 						<div class="dropdown">
 							<button class="btn btn-secondary dropdown-toggle"
