@@ -55,7 +55,9 @@ try {
 
 		// after sending the image to Cloudinary, create a new image
         if($eventId !== null) {
-            $event = Event::getEventByEventId($pdo, $eventId);
+            $event = Event::getEventByEventId($pdo, $eventId->getEventId());
+            $event->setEventImage($cloudinaryResult["secure_url"]);
+            $event->update($pdo);
         }
         if($eventId === null) {
             $profile = Profile::getProfileByProfileId($pdo, $_SESSION["profile"]->getProfileId());

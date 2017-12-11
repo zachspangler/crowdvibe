@@ -99,8 +99,9 @@ try {
 				}
 				$reply->data=$storage;
 			} else {
-				$address = getAddressByLatLong(35.085883, -106.649854);
-				var_dump($address);
+                foreach ($events as $event) {
+                    $address = getAddressByLatLong($pdo, $event->getEventLat, $event->getEventLong);
+                }
 				$reply->data = $address;
 			}
 

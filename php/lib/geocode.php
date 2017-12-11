@@ -44,7 +44,7 @@ function getLatLongByAddress ($address) : \stdClass {
  */
 function getAddressByLatLong($lat, $long) : \stdClass {
 	if(empty($lat)or empty($long) === true) {
-		throw(new \InvalidArgumentException("address content is empty or insecure"));
+		throw(new \InvalidArgumentException("address content is empty"));
 	}
 	//$lat = filter_var($lat, FILTER_SANITIZE_NUMBER_FLOAT);
 	//$long = filter_var($long, FILTER_SANITIZE_NUMBER_FLOAT);
