@@ -100,6 +100,7 @@ try {
 				$reply->data=$storage;
 			} else {
 				$address = getAddressByLatLong(35.085883, -106.649854);
+				var_dump($address);
 				$reply->data = $address;
 			}
 

@@ -1,5 +1,8 @@
 <?php
 
+namespace Edu\Cnm\CrowdVibe;
+require_once(dirname(__DIR__, 2) . "/vendor/autoload.php");
+
 /**
  * function to get latitude and longitude by address
  *
@@ -31,18 +34,20 @@ function getLatLongByAddress ($address) : \stdClass {
 
 
 /**
- * function to get latitude and longitude by address
+ * function to get address by latitude and longitude
  *
- * @param string $address profile address
- * @throws \InvalidArgumentException if $address is not a string or insecure
+ * @param float $lat event address
+ * @param float $long event address
+ * @throws \InvalidArgumentException if $lat or $long is not a float or insecure
  *
  */
 function getAddressByLatLong($lat, $long) : \stdClass {
 	if(empty($lat)or empty($long) === true) {
 		throw(new \InvalidArgumentException("address content is empty or insecure"));
 	}
-	$lat = filter_var($lat, FILTER_SANITIZE_NUMBER_FLOAT);
-	$long = filter_var($long, FILTER_SANITIZE_NUMBER_FLOAT);
+	//$lat = filter_var($lat, FILTER_SANITIZE_NUMBER_FLOAT);
+	//$long = filter_var($long, FILTER_SANITIZE_NUMBER_FLOAT);
+
 
 	$url = 'https://maps.googleapis.com/maps/api/geocode/json';
 	$config = readConfig("/etc/apache2/capstone-mysql/crowdvibe.ini");
@@ -54,5 +59,12 @@ function getAddressByLatLong($lat, $long) : \stdClass {
 	$reply = new stdClass();
 	$reply->formatted_address = $address;
 
+	var_dump($json);
+
 	return $reply;
 }
+$fuckOff = getAddressByLatLong(35.085883,
+$long = -106.649854);
+
+var_dump($fuckOff, $api);
+
