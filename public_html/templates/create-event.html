@@ -46,7 +46,7 @@
 						<!-- Event Image -->
 						<div class="form-group">
 							<label for="eventImage" class="col-form-label">Event Image:</label>
-							<input type="image" class="form-control" id="eventImage" formControlName="eventImage">
+							<input type="text" class="form-control" id="eventImage" formControlName="eventImage">
 						</div>
 						<!-- Angular Validation -->
 						<div class="alert alert-danger" *ngIf="createEventForm.controls.eventImage?.invalid && createEventForm.controls.eventImage?.touched">
@@ -57,7 +57,7 @@
 						<!-- Event Address -->
 						<div class="form-group">
 							<label for="eventAddress" class="col-form-label">Address:</label>
-							<textarea type="text" class="form-control" id="eventAddress" formControlName="eventAddress"></textarea>
+							<input type="text" class="form-control" id="eventAddress" formControlName="eventAddress">
 						</div>
 						<!-- Angular Validation -->
 						<div class="alert alert-danger" *ngIf="createEventForm.controls.eventAddress?.invalid && createEventForm.controls.eventAddress?.touched">
@@ -70,21 +70,11 @@
 							<label for="eventStartDateTime" class="col-form-label">Event Start Time:</label>
 							<input type="datetime-local" class="form-control" id="eventStartDateTime" formControlName="eventStartDateTime" >
 						</div>
-						<!-- Angular Validation -->
-						<div class="alert alert-danger" *ngIf="createEventForm.controls.eventStartDateTime?.invalid && createEventForm.controls.profilePassword?.touched">
-							<p *ngIf="createEventForm.controls.eventStartDateTime?.errors.maxlength">Start Date is too long</p>
-							<p *ngIf="createEventForm.controls.eventStartDateTime?.errors.required">Start Date required</p>
-						</div>
 
 						<!-- Event End Date -->
 						<div class="form-group">
 							<label for="eventEndDateTime" class="col-form-label">Event End Date:</label>
 							<input type="datetime-local" class="form-control" id="eventEndDateTime" formControlName="eventEndDateTime">
-						</div>
-						<!-- Angular Validation -->
-						<div class="alert alert-danger" *ngIf="createEventForm.controls.eventEndDateTime?.invalid && createEventForm.controls.eventEndDateTime?.touched">
-							<p *ngIf="createEventForm.controls.eventEndDateTime?.errors.maxlength">End Date is too long</p>
-							<p *ngIf="createEventForm.controls.eventEndDateTime?.errors.required">End Date required</p>
 						</div>
 
 						<!-- Event Attendee Limit -->
@@ -98,7 +88,7 @@
 						 </div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-							<button type="submit" id="submit" name="signUp" class="btn btn-info">Sign Up</button>
+							<button type="submit" id="createEvent" name="createEvent" class="btn btn-info">Create Event</button>
 						</div>
 					</form>
 				</div>

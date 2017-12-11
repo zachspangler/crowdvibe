@@ -5,7 +5,10 @@ import {EventService} from "../services/event.service";
 import {Event} from "../classes/event";
 import {setTimeout} from "timers";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {getTime} from 'date-fns';
 
+//declare $ for jquery
+declare let $: any;
 
 @Component({
 	selector: "create-event",
@@ -15,10 +18,10 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 export class CreateEventComponent implements OnInit {
 
 	createEventForm: FormGroup;
-
 	status: Status = null;
 
-	constructor(private formBuilder: FormBuilder, private router: Router, private eventService: eventService) {
+
+	constructor(private formBuilder: FormBuilder, private router: Router, private eventService: EventService) {
 		console.log("Event Constructed")
 	}
 
@@ -35,9 +38,9 @@ export class CreateEventComponent implements OnInit {
 		});
 	}
 
-	createSignUp(): void {
+	createEvent(): void {
 
-		let createEvent = new CreateEvent(this.createEventForm.value.eventAddress, this.createEventForm.value.eventAttendeeLimit, this.createEventForm.value.eventDetail, this.createEventForm.value.eventEndDateTime, this.createEventForm.value.eventImage, this.createEventForm.value.eventName, this.createEventForm.value.eventPrice, this.createEventForm.value.eventStartDateTime);
+		let createEvent = new Event(null, null, this.createEventForm.value.eventAddress, this.createEventForm.value.eventAttendeeLimit, this.createEventForm.value.eventDetail, getTime(this.createEventForm.value.eventEndDateTime), this.createEventForm.value.eventImage, this.createEventForm.value.eventName, this.createEventForm.value.eventPrice, getTime(this.createEventForm.value.eventStartDateTime));
 
 		this.eventService.createEvent(createEvent)
 			.subscribe(status => {
@@ -52,6 +55,4 @@ export class CreateEventComponent implements OnInit {
 				}
 			});
 	}
-
-
 }
