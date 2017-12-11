@@ -2,6 +2,7 @@
 
 namespace Edu\Cnm\CrowdVibe;
 require_once(dirname(__DIR__, 2) . "/vendor/autoload.php");
+require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 /**
  * function to get latitude and longitude by address
@@ -52,19 +53,19 @@ function getAddressByLatLong($lat, $long) : \stdClass {
 	$url = 'https://maps.googleapis.com/maps/api/geocode/json';
 	$config = readConfig("/etc/apache2/capstone-mysql/crowdvibe.ini");
 	$api = $config["google"];
+	var_dump($api);
 
 	$json = file_get_contents($url . '?latlng=' . $lat . "," . $long  . '&key=' . $api);
 	$jsonObject = json_decode($json);
 	$address = $jsonObject->results[0]->formatted_address;
-	$reply = new stdClass();
+	$reply = new \stdClass();
 	$reply->formatted_address = $address;
 
-	var_dump($json);
 
 	return $reply;
 }
 $fuckOff = getAddressByLatLong(35.085883,
 $long = -106.649854);
 
-var_dump($fuckOff, $api);
+var_dump($fuckOff);
 

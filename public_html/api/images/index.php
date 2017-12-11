@@ -50,11 +50,20 @@ try {
 		$tempUserFileName = $_FILES["image"]["tmp_name"];
 		// upload image to cloudinary and get public id
 		$cloudinaryResult = \Cloudinary\Uploader::upload($tempUserFileName, array("width" => 500, "crop" => "scale"));
+
+        $eventId = filter_input(INPUT_POST, "eventId", FILTER_VALIDATE_INT);
+
 		// after sending the image to Cloudinary, create a new image
-		$profile = Profile::getProfileByProfileId($pdo, $_SESSION["profile"]->getProfileId());
-		$profile->setProfileImage($cloudinaryResult["secure_url"]);
-		$profile->update($pdo);
-		$reply->message = "Image uploaded Ok";
+        if($eventId !== null) {
+            $event = Event::getEventByEventId($pdo, $eventId);
+        }
+        if($eventId === null) {
+            $profile = Profile::getProfileByProfileId($pdo, $_SESSION["profile"]->getProfileId());
+            $profile->setProfileImage($cloudinaryResult["secure_url"]);
+            $profile->update($pdo);
+        }
+
+        $reply->message = "Image uploaded Ok";
 	}
 } catch(Exception $exception) {
 	$reply->status = $exception->getCode();
