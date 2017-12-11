@@ -55,7 +55,7 @@ try {
 
 		// after sending the image to Cloudinary, create a new image
         if($eventId !== null) {
-            $event = Event::getEventByEventId($pdo, $eventId->getEventId());
+            $event = Event::getEventByEventId($pdo, $eventId);
             $event->setEventImage($cloudinaryResult["secure_url"]);
             $event->update($pdo);
         }
