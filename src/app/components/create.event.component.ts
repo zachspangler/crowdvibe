@@ -2,10 +2,11 @@ import {Component, OnInit} from "@angular/core";
 import {Status} from "../classes/status";
 import {EventService} from "../services/event.service";
 import {BrowserModule} from '@angular/platform-browser';
-import {DateTimePickerModule} from "ng-pick-datetime";
+// import {DateTimePickerModule} from "ng-pick-datetime";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {Event} from "../classes/event";
 import {getTime} from 'date-fns';
+
 
 @Component({
 	selector: "create-event",
@@ -13,6 +14,7 @@ import {getTime} from 'date-fns';
 })
 
 export class CreateEventComponent {
+
 
 
 	startDate: Date;
