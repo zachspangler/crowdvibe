@@ -100,12 +100,10 @@ try {
 				$reply->data=$storage;
 			} else {
                 foreach ($events as $event) {
-                    $address = getAddressByLatLong($pdo, $event->getEventLat, $event->getEventLong);
+                    $address = Event::getAddressByLatLong($pdo, $event->getEventLat, $event->getEventLong);
                 }
 				$reply->data = $address;
 			}
-
-
 		}
 
 		//* latlong *\\

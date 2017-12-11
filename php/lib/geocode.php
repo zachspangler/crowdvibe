@@ -64,8 +64,6 @@ function getAddressByLatLong($lat, $long) : \stdClass {
 
 	return $reply;
 }
-$fuckOff = getAddressByLatLong(35.085883,
-$long = -106.649854);
 
-var_dump($fuckOff);
+
 
