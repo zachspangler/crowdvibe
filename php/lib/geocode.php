@@ -27,3 +27,4 @@ function getLatLongByAddress ($address) : \stdClass {
 
 	return $reply;
 }
+
