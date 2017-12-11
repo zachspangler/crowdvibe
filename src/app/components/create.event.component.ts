@@ -2,8 +2,8 @@ import {Component, OnInit} from "@angular/core";
 import {Status} from "../classes/status";
 import {EventService} from "../services/event.service";
 import {BrowserModule} from '@angular/platform-browser';
-import * as enLocale from 'date-fns/locale/en';
-import {DatepickerOptions} from 'ng2-datepicker';
+import {DateTimePickerModule} from "ng-pick-datetime";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {Event} from "../classes/event";
 import {getTime} from 'date-fns';
 
@@ -14,11 +14,9 @@ import {getTime} from 'date-fns';
 
 export class CreateEventComponent {
 
+
 	startDate: Date;
 	endDate: Date;
-	options: DatepickerOptions = {
-		locale: enLocale
-	};
 	eventStartDateTime : number = getTime(this.startDate);
 	eventEndDateTime : number = getTime(this.endDate);
 

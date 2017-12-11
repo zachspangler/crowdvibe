@@ -45,53 +45,40 @@
 					<div class="form-group">
 						<label for="eventAddress" class="col-form-label">Address:</label>
 						<input type="text" class="form-control" id="eventAddress" required
-								 [(ngModel)]="event.eventAddress" #eventAddress="ngModel" maxlength="255" [ngModelOptions]="{standalone: true}">
+								 [(ngModel)]="event.eventAddress" #eventAddress="ngModel" maxlength="255"
+								 [ngModelOptions]="{standalone: true}">
 					</div>
 
 					<!-- Event Start Time -->
-					<div class="container mb-5">
-						<div class="columns is-multiline">
-							<div class="column is-6 is-offset-3">
-								<div class="datepicker-container-start">
-									Start Date: {{startDate}}
-								</div>
-							</div>
-							<div class="column is-6 is-offset-3">
-								<div class="datepicker-container-start">
-									<ng-datepicker [(ngModel)]="startDate" [options]="options" [ngModelOptions]="{standalone: true}"></ng-datepicker>
-								</div>
-							</div>
+					<div class="container">
+						Start Date: {{startDate}}
+						<div>
+							<owl-date-time [(ngModel)]="startDate" [locale]="en" [ngModelOptions]="{standalone: true}"></owl-date-time>
 						</div>
 					</div>
 
 					<!-- Event End Date -->
 					<div class="container">
-						<div class="columns is-multiline">
-							<div class="column is-6 is-offset-3">
-								<div class="datepicker-container">
-									End Date: {{endDate}}
-								</div>
-							</div>
-							<div class="column is-6 is-offset-3">
-								<div class="datepicker-container">
-									<ng-datepicker [(ngModel)]="endDate" [options]="options" [ngModelOptions]="{standalone: true}"></ng-datepicker>
-								</div>
+						End Date: {{endDate}}
+							<div>
+								<owl-date-time [(ngModel)]="endDate" [locale]="en" [ngModelOptions]="{standalone: true}"></owl-date-time>
 							</div>
 						</div>
-					</div>
 
-					<!-- Event Attendee Limit -->
-					<div class="form-group">
-						<label for="eventAttendeeLimit" class="col-form-label">Event Attendee Limit:</label>
-						<input type="number" class="form-control" id="eventAttendeeLimit"
-								 required [(ngModel)]="event.eventAttendeeLimit" #eventAttendeeLimit="ngModel" maxlength="32" [ngModelOptions]="{standalone: true}">
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-						<button type="submit" id="submit" [disabled]="createEventForm.invalid" class="btn btn-info">Create
-							Event
-						</button>
-					</div>
+
+						<!-- Event Attendee Limit -->
+						<div class="form-group">
+							<label for="eventAttendeeLimit" class="col-form-label">Event Attendee Limit:</label>
+							<input type="number" class="form-control" id="eventAttendeeLimit"
+									 required [(ngModel)]="event.eventAttendeeLimit" #eventAttendeeLimit="ngModel" maxlength="32"
+									 [ngModelOptions]="{standalone: true}">
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+							<button type="submit" id="submit" [disabled]="createEventForm.invalid" class="btn btn-info">Create
+								Event
+							</button>
+						</div>
 				</form>
 			</div>
 			<div *ngIf="status !== null" class="alert alert-dismissible" [ngClass]="status.type" role="alert">

@@ -23,6 +23,7 @@ import {SignUpComponent} from "./components/sign.up.component";
 import {SignOutComponent} from "./components/sign.out.component";
 
 
+
 // import services
 import {AuthService} from "./services/auth.service";
 import {CookieService} from "ng2-cookies";
@@ -51,7 +52,7 @@ export const allAppComponents = [
 	ProfileComponent,
 	SignInComponent,
 	SignUpComponent,
-	SignOutComponent,
+	SignOutComponent
 ];
 
 //an array of routes that will be passed of to the module
