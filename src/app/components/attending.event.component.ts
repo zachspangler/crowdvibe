@@ -23,7 +23,7 @@ export class EventAttendanceComponent {
 		console.log("Attendance Recorded")
 	}
 
-	ngOnInit(): void {
+	ngOnInIt(): void {
 		this.createEventAttendanceForm = this.formBuilder.group({
 			eventAttendanceNumberAttending: ["",[Validators.maxLength(500), Validators.required]]
 		});
