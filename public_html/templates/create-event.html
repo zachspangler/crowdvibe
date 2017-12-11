@@ -51,20 +51,23 @@
 
 					<!-- Event Start Time -->
 					<div class="container">
-						Start Date: {{startDate}}
-						<div>
-							<owl-date-time [(ngModel)]="startDate" [locale]="en" [ngModelOptions]="{standalone: true}"></owl-date-time>
+						<div class="row">
+								<div class="input-control">
+									<label for="startDate">Basic:</label>
+									<owl-date-time [(ngModel)]="startDate" [inputId]="'startDate'"></owl-date-time>
+								</div>
 						</div>
 					</div>
 
 					<!-- Event End Date -->
 					<div class="container">
-						End Date: {{endDate}}
-							<div>
-								<owl-date-time [(ngModel)]="endDate" [locale]="en" [ngModelOptions]="{standalone: true}"></owl-date-time>
+						<div class="row">
+							<div class="input-control">
+								<label for="endDate">Basic:</label>
+								<owl-date-time [(ngModel)]="endDate" [inputId]="'endDate'" [ngModelOptions]="{standalone: true}"></owl-date-time>
 							</div>
 						</div>
-
+					</div>
 
 						<!-- Event Attendee Limit -->
 						<div class="form-group">

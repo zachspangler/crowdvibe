@@ -1,11 +1,10 @@
 import {Component, OnInit} from "@angular/core";
+import {Router} from "@angular/router";
 import {Status} from "../classes/status";
 import {EventService} from "../services/event.service";
-import {BrowserModule} from '@angular/platform-browser';
-// import {DateTimePickerModule} from "ng-pick-datetime";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {Event} from "../classes/event";
-import {getTime} from 'date-fns';
+import {setTimeout} from "timers";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 
 @Component({
@@ -13,34 +12,46 @@ import {getTime} from 'date-fns';
 	templateUrl: "./templates/create-event.html"
 })
 
-export class CreateEventComponent {
+export class CreateEventComponent implements OnInit {
 
+	createEventForm: FormGroup;
 
-
-	startDate: Date;
-	endDate: Date;
-	eventStartDateTime : number = getTime(this.startDate);
-	eventEndDateTime : number = getTime(this.endDate);
-
-	event: Event = new Event(null, null, null, null, null, null, null, null, null, null);
 	status: Status = null;
 
-
-
-	constructor(private eventService: EventService) {
+	constructor(private formBuilder: FormBuilder, private router: Router, private eventService: eventService) {
 		console.log("Event Constructed")
 	}
 
-	createEvent(): void {
-		console.log(this.startDate, this.endDate);
-		console.log(this.eventStartDateTime, this.eventEndDateTime);
-		let createAnEvent = new Event(null, null, this.event.eventAddress, this.event.eventAttendeeLimit, this.event.eventDetail, this.eventEndDateTime, this.event.eventImage,  this.event.eventName, this.event.eventPrice, this.eventStartDateTime);
-		this.eventService.createEvent(createAnEvent)
-			.subscribe(status => this.status = status);
+	ngOnInit(): void {
+		this.createEventForm = this.formBuilder.group({
+			eventAddress: ["", [Validators.maxLength(255), Validators.required]],
+			eventAttendeeLimit: ["", [Validators.maxLength(5), Validators.required]],
+			eventDetail: ["", [Validators.maxLength(500), Validators.required]],
+			eventEndDateTime: ["", [Validators.maxLength(6), Validators.required]],
+			eventImage: ["", [Validators.maxLength(255), Validators.required]],
+			eventName: ["", [Validators.maxLength(64), Validators.required]],
+			eventPrice: ["", [Validators.maxLength(7), Validators.required]],
+			eventStartDateTime: ["", [Validators.maxLength(6), Validators.required]]
+		});
 	}
 
-	editEvent(): void {
-		this.eventService.editEvent(this.event)
-			.subscribe(status => this.status = status);
+	createSignUp(): void {
+
+		let createEvent = new CreateEvent(this.createEventForm.value.eventAddress, this.createEventForm.value.eventAttendeeLimit, this.createEventForm.value.eventDetail, this.createEventForm.value.eventEndDateTime, this.createEventForm.value.eventImage, this.createEventForm.value.eventName, this.createEventForm.value.eventPrice, this.createEventForm.value.eventStartDateTime);
+
+		this.eventService.createEvent(createEvent)
+			.subscribe(status => {
+				this.status = status;
+
+				if(this.status.status === 200) {
+					alert(status.message);
+					setTimeout(function() {
+						$("#createEvent").modal('hide');
+					}, 500);
+					this.router.navigate(["home"]);
+				}
+			});
 	}
+
+
 }
