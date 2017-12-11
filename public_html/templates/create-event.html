@@ -53,12 +53,12 @@
 						<div class="columns is-multiline">
 							<div class="column is-6 is-offset-3">
 								<div class="datepicker-container-start">
-									Start Date: {{eventStartDateTime}}
+									Start Date: {{startDate}}
 								</div>
 							</div>
 							<div class="column is-6 is-offset-3">
 								<div class="datepicker-container-start">
-									<ng-datepicker [(ngModel)]="eventStartDateTime" [options]="options" [ngModelOptions]="{standalone: true}"></ng-datepicker>
+									<ng-datepicker [(ngModel)]="startDate" [options]="options" [ngModelOptions]="{standalone: true}"></ng-datepicker>
 								</div>
 							</div>
 						</div>
@@ -69,12 +69,12 @@
 						<div class="columns is-multiline">
 							<div class="column is-6 is-offset-3">
 								<div class="datepicker-container">
-									End Date: {{eventEndDateTime}}
+									End Date: {{endDate}}
 								</div>
 							</div>
 							<div class="column is-6 is-offset-3">
 								<div class="datepicker-container">
-									<ng-datepicker [(ngModel)]="eventEndDateTime" [options]="options" [ngModelOptions]="{standalone: true}"></ng-datepicker>
+									<ng-datepicker [(ngModel)]="endDate" [options]="options" [ngModelOptions]="{standalone: true}"></ng-datepicker>
 								</div>
 							</div>
 						</div>

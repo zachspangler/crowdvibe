@@ -14,14 +14,13 @@ import {getTime} from 'date-fns';
 
 export class CreateEventComponent {
 
-	eventStartDateTime: Date;
-	eventEndDateTime: Date;
+	startDate: Date;
+	endDate: Date;
 	options: DatepickerOptions = {
 		locale: enLocale
 	};
-
-	// eventStartDateTime = getTime(this.eventStartDateTime);
-	// eventEndDateTime = getTime(this.eventEndDateTime);
+	eventStartDateTime : number = getTime(this.startDate);
+	eventEndDateTime : number = getTime(this.endDate);
 
 	event: Event = new Event(null, null, null, null, null, null, null, null, null, null);
 	status: Status = null;
@@ -33,7 +32,10 @@ export class CreateEventComponent {
 	}
 
 	createEvent(): void {
-		this.eventService.createEvent(this.event)
+		console.log(this.startDate, this.endDate);
+		console.log(this.eventStartDateTime, this.eventEndDateTime);
+		let createAnEvent = new Event(null, null, this.event.eventAddress, this.event.eventAttendeeLimit, this.event.eventDetail, this.eventEndDateTime, this.event.eventImage,  this.event.eventName, this.event.eventPrice, this.eventStartDateTime);
+		this.eventService.createEvent(createAnEvent)
 			.subscribe(status => this.status = status);
 	}
 

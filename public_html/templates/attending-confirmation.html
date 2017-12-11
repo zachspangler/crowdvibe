@@ -1,23 +1,35 @@
-<!-- Modal -->
-<div class="modal" id="attendanceCheckIn" tabindex="-1" role="dialog" aria-labelledby="attendanceCheckInLabel" aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="attendanceCheckInLabel">Are you ready to vibe?</h5>
-			</div>
-			<div class="modal-body">
-				<form #signInForm="ngForm" class="form-horizontal" name="createEventAttendanceForm" id="createEventAttendanceForm" novalidate
-						(ngSubmit)="eventAttednanceNumberAttending">
-					<div class="form-group">
-						<label for="eventAttendanceNumberAttending" class="col-form-label">Number Attending?</label>
-						<input type="number" name="eventAttendanceNumberAttending" id="eventAttendanceNumberAttending" required [(ngModel)]=eventAttendance.eventAttendanceNumberAttending #eventAttednanceNumberAttending="ngModel" class="form-control input-sm">
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">Not Yet!</button>
-						<button type="submit" id="submit" [disabled]="createEventAttendanceForm.valid" class="btn btn-info">Lets Do It!</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-</div>
+<!--&lt;!&ndash; Modal &ndash;&gt;-->
+<!--<div class="modal" id="createEventAttendance" tabindex="-1" role="dialog" aria-labelledby="createEventAttendanceLabel" aria-hidden="true">-->
+	<!--<div class="modal-dialog" role="document">-->
+		<!--<div class="modal-content">-->
+			<!--<div class="modal-header">-->
+				<!--<h5 class="modal-title" id="createEventAttendanceLabel">Are you ready to vibe?</h5>-->
+			<!--</div>-->
+			<!--<div class="modal-body">-->
+				<!--<form class="form-horizontal" name="signUpForm" id="signUpForm" [formGroup]="signUpForm" novalidate (ngSubmit)="createSignUp();">-->
+					<!--&lt;!&ndash; First Name &ndash;&gt;-->
+					<!--<div class="form-group">-->
+						<!--<label for="eventAttendanceNumberAttending" class="col-form-label">Number Attending?</label>-->
+						<!--<input type="text" class="form-control" id="eventAttendanceNumberAttending" formControlName="profileFirstName">-->
+					<!--</div>-->
+					<!--&lt;!&ndash; Angular Validation &ndash;&gt;-->
+					<!--<div class="alert alert-danger" *ngIf="signUpForm.controls.eventAttendanceNumberAttending?.invalid && signUpForm.controls.eventAttendanceNumberAttending?.touched">-->
+						<!--<p *ngIf="signUpForm.controls.eventAttendanceNumberAttending?.errors.maxlength">Number Attending is too long</p>-->
+						<!--<p *ngIf="signUpForm.controls.eventAttendanceNumberAttending?.errors.required">Number Attending is required</p>-->
+					<!--</div>-->
+					<!--<div class="modal-footer">-->
+						<!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Not Yet!</button>-->
+						<!--<button type="submit" id="createEventAttendance" name="createEventAttendance" class="btn btn-info">Lets Do It!</button>-->
+					<!--</div>-->
+				<!--</form>-->
+			<!--</div>-->
+
+			<!--<div *ngIf="status !== null" class="alert alert-dismissible" [ngClass]="status.type" role="alert">-->
+				<!--<button type="button" class="close" aria-label="Close" (click)="status = null;"><span-->
+					<!--aria-hidden="true">&times;</span></button>-->
+				<!--{{ status.message }}-->
+			<!--</div>-->
+		<!--</div>-->
+		<!--</div>-->
+	<!--</div>-->
+<!--</div>-->

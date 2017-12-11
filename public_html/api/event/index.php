@@ -98,6 +98,9 @@ try {
 					$storage->attach($event, $eventAvg);
 				}
 				$reply->data=$storage;
+			} else {
+				$address = getAddressByLatLong(35.085883, -106.649854);
+				$reply->data = $address;
 			}
 
 

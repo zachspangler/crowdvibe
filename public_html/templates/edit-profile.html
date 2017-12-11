@@ -1,5 +1,6 @@
 <!-- Modal -->
-<div class="modal fade" id="editProfile" tabindex="-1" role="dialog" aria-labelledby="editProfileLabel" aria-hidden="true">
+<div class="modal fade" id="editProfile" tabindex="-1" role="dialog" aria-labelledby="editProfileLabel"
+	  aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -9,14 +10,17 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				<form class="form-horizontal" name="editProfileForm" id="editProfileForm" [formGroup]="editProfileForm" novalidate (ngSubmit)="editProfile();">
+				<form class="form-horizontal" name="editProfileForm" id="editProfileForm" [formGroup]="editProfileForm" (submit)="editProfile();" novalidate>
 					<!-- First Name -->
 					<div class="form-group">
 						<label for="profileFirstName" class="col-form-label">First Name:</label>
-						<input type="text" class="form-control" id="profileFirstName" formControlName="profileFirstName">
+						<div class="input-group">
+							<input type="text" class="form-control" name="profileFirstName" id="profileFirstName" formControlName="profileFirstName">
+						</div>
 					</div>
 					<!-- Angular Validation -->
-					<div class="alert alert-danger" *ngIf="editProfileForm.controls.profileFirstName?.invalid && editProfileForm.controls.profileFirstName?.touched">
+					<div class="alert alert-danger"
+						  *ngIf="editProfileForm.controls.profileFirstName?.invalid && editProfileForm.controls.profileFirstName?.touched">
 						<p *ngIf="editProfileForm.controls.profileFirstName?.errors.maxlength">First Name is too long</p>
 						<p *ngIf="editProfileForm.controls.profileFirstName?.errors.required">First Name is required</p>
 					</div>
@@ -24,10 +28,13 @@
 					<!-- Last Name -->
 					<div class="form-group">
 						<label for="profileLastName" class="col-form-label">Last Name:</label>
-						<input type="text" class="form-control" id="profileLastName" formControlName="profileLastName">
+						<div class="input-group">
+							<input type="text" class="form-control" name="profileLastName" id="profileLastName" formControlName="profileLastName">
+						</div>
 					</div>
 					<!-- Angular Validation -->
-					<div class="alert alert-danger" *ngIf="editProfileForm.controls.profileLastName?.invalid && editProfileForm.controls.profileLastName?.touched">
+					<div class="alert alert-danger"
+						  *ngIf="editProfileForm.controls.profileLastName?.invalid && editProfileForm.controls.profileLastName?.touched">
 						<p *ngIf="editProfileForm.controls.profileLastName?.errors.maxlength">Last Name is too long</p>
 						<p *ngIf="editProfileForm.controls.profileLastName?.errors.required">Last Name is required</p>
 					</div>
@@ -35,10 +42,13 @@
 					<!-- Username -->
 					<div class="form-group">
 						<label for="profileUserName" class="col-form-label">User Name:</label>
-						<input type="text" class="form-control" id="profileUserName" formControlName="profileUserName">
+						<div class="input-group">
+							<input type="text" class="form-control" name="profileUsername" id="profileUserName" formControlName="profileUserName">
+						</div>
 					</div>
 					<!-- Angular Validation -->
-					<div class="alert alert-danger" *ngIf="editProfileForm.controls.profileUserName?.invalid && editProfileForm.controls.profileUserName?.touched">
+					<div class="alert alert-danger"
+						  *ngIf="editProfileForm.controls.profileUserName?.invalid && editProfileForm.controls.profileUserName?.touched">
 						<p *ngIf="editProfileForm.controls.profileUserName?.errors.maxlength">Username is too long</p>
 						<p *ngIf="editProfileForm.controls.profileUserName?.errors.required">Username is required</p>
 					</div>
@@ -46,10 +56,13 @@
 					<!-- Profile Image -->
 					<div class="form-group">
 						<label for="profileImage" class="col-form-label">Profile Image:</label>
-						<input type="text" class="form-control" id="profileImage" formControlName="profileImage">
+						<div class="input-group">
+							<input type="text" class="form-control" name="profileImage" id="profileImage" formControlName="profileImage">
+						</div>
 					</div>
 					<!-- Angular Validation -->
-					<div class="alert alert-danger" *ngIf="editProfileForm.controls.profileImage?.invalid && editProfileForm.controls.profileImage?.touched">
+					<div class="alert alert-danger"
+						  *ngIf="editProfileForm.controls.profileImage?.invalid && editProfileForm.controls.profileImage?.touched">
 						<p *ngIf="editProfileForm.controls.profileUserName?.errors.maxlength">Username is too long</p>
 						<p *ngIf="editProfileForm.controls.profileUserName?.errors.required">Username is required</p>
 					</div>
@@ -57,10 +70,13 @@
 					<!-- Email -->
 					<div class="form-group">
 						<label for="profileEmail" class="col-form-label">Email:</label>
-						<input type="email" class="form-control" id="profileEmail" formControlName="profileEmail">
+						<div class="input-group">
+							<input type="email" class="form-control" name="profileEmail" id="profileEmail" formControlName="profileEmail">
+						</div>
 					</div>
 					<!-- Angular Validation -->
-					<div class="alert alert-danger" *ngIf="editProfileForm.controls.profileEmail?.invalid && editProfileForm.controls.profileEmail?.touched">
+					<div class="alert alert-danger"
+						  *ngIf="editProfileForm.controls.profileEmail?.invalid && editProfileForm.controls.profileEmail?.touched">
 						<p *ngIf="editProfileForm.controls.profileEmail?.errors.maxlength">Email is too long</p>
 						<p *ngIf="editProfileForm.controls.profileEmail?.errors.required">Email is required</p>
 					</div>
@@ -68,10 +84,13 @@
 					<!-- Bio -->
 					<div class="form-group">
 						<label for="profileBio" class="col-form-label">Bio:</label>
-						<textarea type="text" class="form-control" id="profileBio" formControlName="profileBio"></textarea>
+						<div class="input-group">
+									<textarea type="text" class="form-control" name="profileBio" id="profileBio" formControlName="profileBio"></textarea>
+						</div>
 					</div>
 					<!-- Angular Validation -->
-					<div class="alert alert-danger" *ngIf="editProfileForm.controls.profileBio?.invalid && editProfileForm.controls.profileBio?.touched">
+					<div class="alert alert-danger"
+						  *ngIf="editProfileForm.controls.profileBio?.invalid && editProfileForm.controls.profileBio?.touched">
 						<p *ngIf="editProfileForm.controls.profileBio?.errors.maxlength">Bio is too long</p>
 						<p *ngIf="editProfileForm.controls.profileBio?.errors.required">Bio required</p>
 					</div>
@@ -79,16 +98,21 @@
 					<!-- Password -->
 					<div class="form-group">
 						<label for="profilePassword" class="col-form-label">Password:</label>
-						<input type="password" class="form-control" id="profilePassword" formControlName="profilePassword" >
+						<div class="input-group">
+							<input type="password" class="form-control" name="profilePassword" id="profilePassword" formControlName="profilePassword">
+						</div>
 					</div>
 					<!-- Angular Validation -->
-					<div class="alert alert-danger" *ngIf="editProfileForm.controls.profilePassword?.invalid && editProfileForm.controls.profilePassword?.touched">
+					<div class="alert alert-danger"
+						  *ngIf="editProfileForm.controls.profilePassword?.invalid && editProfileForm.controls.profilePassword?.touched">
 						<p *ngIf="editProfileForm.controls.profilePassword?.errors.maxlength">Password is too long</p>
 						<p *ngIf="editProfileForm.controls.profilePassword?.errors.required">Password required</p>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-						<button type="submit" id="profileSaveChanges" name="profileSaveChanges" class="btn btn-info">Save Changes</button>
+						<button type="submit" id="profileSaveChanges" name="profileSaveChanges" class="btn btn-info">
+							Save Changes
+						</button>
 					</div>
 				</form>
 			</div>

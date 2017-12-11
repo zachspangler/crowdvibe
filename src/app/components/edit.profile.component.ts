@@ -5,8 +5,6 @@ import {Profile} from "../classes/profile";
 import {Status} from "../classes/status";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
-declare var $: any;
-
 @Component({
 	selector: "edit-profile",
 	templateUrl: "./templates/edit-profile.html"
@@ -15,7 +13,6 @@ declare var $: any;
 export class EditProfileComponent implements OnInit {
 
 	editProfileForm: FormGroup;
-	deleted: boolean = false;
 	profile: Profile = new Profile(null, null, null, null, null, null, null, null);
 	status: Status = null;
 
@@ -51,17 +48,6 @@ export class EditProfileComponent implements OnInit {
 			}
 		});
 	}
-
-	// deleteProfile() : void {
-	// 	this.profileService.deleteProfile(this.profile.profileId)
-	// 		.subscribe(status => {
-	// 			this.status = status;
-	// 			if(this.status.status === 200) {
-	// 				this.deleted = true;
-	// 				this.profile = new Profile(null, null, null, null, null, null, null, null);
-	// 			}
-	// 		});
-	// }
 
 	editProfile() : void {
 		this.profileService.editProfile(this.profile)
