@@ -14,34 +14,36 @@ import {AttendanceProfiles} from "../classes/attendanceProfiles";
 	templateUrl: "./templates/event.html"
 })
 
-export class EventComponent implements OnInit{
+export class EventComponent{}
 
-		event: Event = new Event(null, null, null, null, null, null, null, null, null, null);
-		attendanceProfiles : AttendanceProfiles[] = [];
-
-		constructor(private formBuilder: FormBuilder, private eventService: EventService, private eventAttendanceService : EventAttendanceService, private profileService : ProfileService, private route: ActivatedRoute) {}
-
-
-		getEventByEventId() : void {
-			let eventId : string = this.route.snapshot.params["eventId"];
-			this.eventService.getEvent(eventId)
-				.subscribe(event =>this.event = event);
-		}
-
-		getEventAttendanceByEventId() : void {
-			let eventId : string = this.route.snapshot.params["eventId"];
-			this.eventAttendanceService.getEventAttendanceByProfileId(eventId)
-				.subscribe(eventAttendances =>{
-					this.attendanceProfiles = eventAttendances
-
-				});
-		}
-
-
-
-		ngOnInit() : void {
-			this.getEventByEventId();
-			this.getEventAttendanceByEventId();
-}
-
-}
+// export class EventComponent implements OnInit{
+//
+// 		event: Event = new Event(null, null, null, null, null, null, null, null, null, null);
+// 		attendanceProfiles : AttendanceProfiles[] = [];
+//
+// 		constructor(private formBuilder: FormBuilder, private eventService: EventService, private eventAttendanceService : EventAttendanceService, private profileService : ProfileService, private route: ActivatedRoute) {}
+//
+//
+// 		getEventByEventId() : void {
+// 			let eventId : string = this.route.snapshot.params["eventId"];
+// 			this.eventService.getEvent(eventId)
+// 				.subscribe(event =>this.event = event);
+// 		}
+//
+// 		getEventAttendanceByEventId() : void {
+// 			let eventId : string = this.route.snapshot.params["eventId"];
+// 			this.eventAttendanceService.getEventAttendanceByProfileId(eventId)
+// 				.subscribe(eventAttendances =>{
+// 					this.attendanceProfiles = eventAttendances
+//
+// 				});
+// 		}
+//
+//
+//
+// 		ngOnInit() : void {
+// 			this.getEventByEventId();
+// 			this.getEventAttendanceByEventId();
+// }
+//
+// }

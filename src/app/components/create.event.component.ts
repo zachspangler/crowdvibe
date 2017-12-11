@@ -20,8 +20,8 @@ export class CreateEventComponent {
 		locale: enLocale
 	};
 
-	eventStartDateTime = getTime(this.eventStartDateTime);
-	eventEndDateTime = getTime(this.eventEndDateTime);
+	// eventStartDateTime = getTime(this.eventStartDateTime);
+	// eventEndDateTime = getTime(this.eventEndDateTime);
 
 	event: Event = new Event(null, null, null, null, null, null, null, null, null, null);
 	status: Status = null;

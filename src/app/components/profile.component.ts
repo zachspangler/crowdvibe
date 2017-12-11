@@ -12,31 +12,33 @@ import {forEach} from "@angular/router/src/utils/collection";
 	templateUrl: "./templates/profile.html"
 })
 
-export class ProfileComponent implements OnInit {
-	profile : Profile = new Profile(null, null, null, null, null, null, null, null);
-	eventAttendances : EventAttendance[] = [];
+export class ProfileComponent {}
 
-    profileId : string	= this.route.snapshot.params["id"];
-
-	constructor(private profileService : ProfileService, private route: ActivatedRoute, private eventAttendanceService : EventAttendanceService) {}
-	ngOnInit() {
-		this.getUser()
-	}
-
-	getUser() {
-		this.profileService.getProfile(this.profileId)
-			.subscribe(profile =>this.profile = profile);
-	}
-
-	getEventAttendanceByEventAttendanceId() {
-		this.eventAttendanceService.getEventAttendanceByProfileId( this.profileId)
-			.subscribe(eventAttendance =>{
-				this.eventAttendances = eventAttendance
-				forEach(){
-
-				}
-
-
-			});
-	}
-}
+// export class ProfileComponent implements OnInit {
+// 	profile : Profile = new Profile(null, null, null, null, null, null, null, null);
+// 	eventAttendances : EventAttendance[] = [];
+//
+//     profileId : string	= this.route.snapshot.params["id"];
+//
+// 	constructor(private profileService : ProfileService, private route: ActivatedRoute, private eventAttendanceService : EventAttendanceService) {}
+// 	ngOnInit() {
+// 		this.getUser()
+// 	}
+//
+// 	getUser() {
+// 		this.profileService.getProfile(this.profileId)
+// 			.subscribe(profile =>this.profile = profile);
+// 	}
+//
+// 	getEventAttendanceByEventAttendanceId() {
+// 		this.eventAttendanceService.getEventAttendanceByProfileId( this.profileId)
+// 			.subscribe(eventAttendance =>{
+// 				this.eventAttendances = eventAttendance
+// 				forEach(){
+//
+// 				}
+//
+//
+// 			});
+// 	}
+// }
