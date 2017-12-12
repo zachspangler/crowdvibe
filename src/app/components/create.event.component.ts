@@ -21,6 +21,7 @@ export class CreateEventComponent implements OnInit {
     createEventForm: FormGroup;
     status: Status = null;
     @ViewChild(ImageComponent) imageComponent: ImageComponent;
+    cloudinarySecureUrl: string;
 
 
     constructor(private formBuilder: FormBuilder, private router: Router, private eventService: EventService) {
@@ -41,13 +42,11 @@ export class CreateEventComponent implements OnInit {
     }
 
     createEvent(): void {
-        this.imageComponent.uploadImage();
-        let cloudinarySecureUrl = this.imageComponent.getCloudinaryId();
 
-        console.log(cloudinarySecureUrl);
+        console.log(this.cloudinarySecureUrl);
 
 
-        let createEvent = new Event(null, null, this.createEventForm.value.eventAddress, this.createEventForm.value.eventAttendeeLimit, this.createEventForm.value.eventDetail, getTime(this.createEventForm.value.eventEndDateTime), cloudinarySecureUrl, this.createEventForm.value.eventName, this.createEventForm.value.eventPrice, getTime(this.createEventForm.value.eventStartDateTime));
+        let createEvent = new Event(null, null, this.createEventForm.value.eventAddress, this.createEventForm.value.eventAttendeeLimit, this.createEventForm.value.eventDetail, getTime(this.createEventForm.value.eventEndDateTime), this.cloudinarySecureUrl, this.createEventForm.value.eventName, this.createEventForm.value.eventPrice, getTime(this.createEventForm.value.eventStartDateTime));
 
         this.eventService.createEvent(createEvent)
             .subscribe(status => {
@@ -61,5 +60,10 @@ export class CreateEventComponent implements OnInit {
                     this.router.navigate(["home"]);
                 }
             });
+    }
+
+    onCloudinarySecureUrlChange(newCloudinarySecureUrl: string): void {
+        this.cloudinarySecureUrl = newCloudinarySecureUrl;
+        this.createEvent();
     }
 }

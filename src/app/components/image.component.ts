@@ -6,7 +6,7 @@ import "rxjs/add/observable/from";
 
 @Component({
 	selector: "upload-image",
-	templateUrl: "./templates/image.php"
+	templateUrl: "./templates/image.html"
 })
 
 export class ImageComponent implements OnInit {

@@ -9,7 +9,7 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<form class="form-horizontal" name="createEventForm" id="createEventForm" [formGroup]="createEventForm" novalidate (ngSubmit)="createEvent();">
+					<form class="form-horizontal" name="createEventForm" id="createEventForm" [formGroup]="createEventForm" novalidate (submit)="imageComponent.uploadImage();">
 						<!-- Event Name -->
 						<div class="form-group">
 							<label for="eventName" class="col-form-label">Event Name:</label>
@@ -43,16 +43,6 @@
 							<p *ngIf="createEventForm.controls.eventPrice?.errors.required">Event Price is required</p>
 						</div>
 
-						<!-- Event Image -->
-						<div class="form-group">
-							<label for="eventImage" class="col-form-label">Event Image:</label>
-							<input type="text" class="form-control" id="eventImage" formControlName="eventImage">
-						</div>
-						<!-- Angular Validation -->
-						<div class="alert alert-danger" *ngIf="createEventForm.controls.eventImage?.invalid && createEventForm.controls.eventImage?.touched">
-							<p *ngIf="createEventForm.controls.eventImage?.errors.maxlength">Event Image is too long</p>
-							<p *ngIf="createEventForm.controls.eventImage?.errors.required">Event Image is required</p>
-						</div>
 
 						<!-- Event Address -->
 						<div class="form-group">
@@ -93,6 +83,7 @@
 							<button type="submit" id="createEvent" name="createEvent" class="btn btn-white">Create Event</button>
 						</div>
 					</form>
+					<upload-image (cloudinarySecureUrlChangeEvent)="onCloudinarySecureUrlChange($event)"></upload-image>
 				</div>
 
 				<div *ngIf="status !== null" class="alert alert-dismissible" [ngClass]="status.type" role="alert">

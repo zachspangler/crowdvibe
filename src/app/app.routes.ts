@@ -22,7 +22,8 @@ import {SignInComponent} from "./components/sign.in.component";
 import {SignUpComponent} from "./components/sign.up.component";
 import {SignOutComponent} from "./components/sign.out.component";
 import {EventAttendanceComponent} from "./components/event.attendance.component";
-// import {ImageComponent} from "./components/image.component";
+import {ImageComponent} from "./components/image.component";
+import {FileSelectDirective} from "ng2-file-upload";
 
 
 // import services
@@ -57,7 +58,8 @@ export const allAppComponents = [
 	SignInComponent,
 	SignUpComponent,
 	SignOutComponent,
-	// ImageComponent
+	ImageComponent,
+	FileSelectDirective
 ];
 
 //an array of routes that will be passed of to the module
