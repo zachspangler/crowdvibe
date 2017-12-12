@@ -72,7 +72,7 @@ try {
 			throw(new \InvalidArgumentException("passwords do not match"));
 		}
 
-		$profileImage = "../images/profileFiller.jpg";
+		$profileImage = "../image/profileFiller.jpg";
 		$profileSalt = bin2hex(random_bytes(32));
 		$profileHash = hash_pbkdf2("sha512", $requestObject->profilePassword, $profileSalt, 262144);
 		$profileActivationToken = bin2hex(random_bytes(16));
