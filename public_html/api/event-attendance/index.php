@@ -77,6 +77,7 @@ try {
                         "profileLastName" => $profile->getProfileLastName(),
                         "profileUserName" => $profile->getProfileUserName(),
                         "rating" => $ratingScore,
+							  "eventAttendanceNumber" => $eventAttendance->getEventAttendanceNumber()
                     ];
                     $profiles[] = $profile;
 

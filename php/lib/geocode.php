@@ -53,7 +53,6 @@ function getAddressByLatLong($lat, $long) : \stdClass {
 	$url = 'https://maps.googleapis.com/maps/api/geocode/json';
 	$config = readConfig("/etc/apache2/capstone-mysql/crowdvibe.ini");
 	$api = $config["google"];
-	var_dump($api);
 
 	$json = file_get_contents($url . '?latlng=' . $lat . "," . $long  . '&key=' . $api);
 	$jsonObject = json_decode($json);

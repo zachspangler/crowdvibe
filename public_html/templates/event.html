@@ -1,4 +1,5 @@
 <login-nav></login-nav>
+<event-attend-confirm></event-attend-confirm>
 <main class="rating-event">
 	<div class="container">
 		<div class="row">
@@ -12,15 +13,12 @@
 							  src="https://dl.dropboxusercontent.com/s/s05h8qapt3p00kn/face.jpg?dl=0"
 							  height="100" width="100">
 						<p class="card-text">
-							<small class="text-muted">Hosted By: {{ event.eventName }}</small>
+							<small class="text-muted">Hosted By: {{ profile.profileFirstName }}</small>
 						</p>
 						<div class="text-center">
 							<i class="fa fa-thermometer-three-quarters fa-2x m-2 text-warning" aria-hidden="true"></i>
 						</div>
 						<h4 class="card-title"></h4>
-						<div class="text-center">
-							<i class="fa fa-thermometer-full fa-2x m-2 text-danger" aria-hidden="true"></i>
-						</div>
 						<p class="card-text">{{ event.eventDetail }}</p>
 						<p class="card-text my-1">
 							<small class="text-muted">@:</small>
@@ -31,19 +29,19 @@
 						<p class="card-text my-1">89933</p>
 						<p class="card-text my-1">
 							<small class="text-muted">Starts:</small>
-							{{ event.eventStartDateTime }}
+							{{ event.eventStartDateTime | date: "MM/dd/yy hh:mm a" }}
 						</p>
 						<p class="card-text my-1">
 							<small class="text-muted">Ends:</small>
-							{{ event.eventEndDateTime }}
+							{{ event.eventEndDateTime | date: "MM/dd/yy hh:mm a" }}
 						</p>
 						<p class="card-text my-1">
 							<small class="text-muted">Price:</small>
-							{{ event.eventPrice }}
+							${{ event.eventPrice }}
 						</p>
 						<p class="card-text my-1">
 							<small class="text-muted">Attending:</small>
-							{{ event.eventPrice }}
+							{{ event.eventAttendanceNumberAttend }}
 						</p>
 						<div class="dropdown">
 							<button class="btn btn-secondary dropdown-toggle"
@@ -64,7 +62,7 @@
 							</div>
 						</div>
 					</div>
-					<a href="#">
+					<a href="#" data-toggle="modal" data-target="#createEventAttendance">
 						<div class="card-footer">
 							<small class="text-muted align-content-center"><i class="fa fa-users" aria-hidden="true"></i>
 								Attend Event

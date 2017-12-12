@@ -7,6 +7,7 @@ export class AttendanceProfiles {
                 public profileImage: string,
                 public profileLastName: string,
                 public profileUsername: string,
-                public profileRating: number
+                public profileRating: number,
+                public eventAttendanceNumber: number
     ){}
 }
