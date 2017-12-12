@@ -1,32 +1,29 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, OnChanges} from "@angular/core";
 import {ActivatedRoute, Params} from "@angular/router";
 import {ProfileService} from "../services/profile.service";
 import {Profile} from "../classes/profile";
 import {Status} from "../classes/status";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {JwtHelperService} from "@auth0/angular-jwt";
 
 @Component({
 	selector: "edit-profile",
 	templateUrl: "./templates/edit-profile.html"
 })
 
-export class EditProfileComponent implements OnInit {
+export class EditProfileComponent implements OnChanges {
 
 	editProfileForm: FormGroup;
 	profile: Profile = new Profile(null, null, null, null, null, null, null, null);
 	status: Status = null;
 
-	constructor(private formBuilder: FormBuilder, private profileService: ProfileService, private route: ActivatedRoute) {}
+	constructor(private formBuilder: FormBuilder, private jwtHelperService: JwtHelperService, private profileService: ProfileService, private route: ActivatedRoute) {}
 
-	ngOnInit(): void {
-		this.route.params.forEach((params: Params) => {
-			let profileId = params["profileId"];
-			this.profileService.getProfile(profileId)
-				.subscribe(profile => {
-					this.profile = profile;
-					this.editProfileForm.patchValue(profile);
-				});
-		});
+	ngOnChanges(): void {
+
+			let profileToken = this.jwtHelperService.decodeToken(localStorage.getItem("jwt-token"));
+				this.profileService.getProfile(profileToken.auth.profileId)
+				.subscribe(profile => this.profile = profile);
 
 		this.editProfileForm = this.formBuilder.group({
 			profileBio: ["", [Validators.maxLength(255), Validators.required]],

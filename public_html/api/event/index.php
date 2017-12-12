@@ -97,17 +97,17 @@ try {
 					$eventAvg = Rating::getRatingByEventId($pdo, $event->getEventId);
 					$storage->attach($event, $eventAvg);
 				}
-				$reply->data=$storage;
-			} else {
+				$reply->data = $storage;
+			}
+			} else if (empty($eventLat && $eventLog) === false) {
                 foreach ($events as $event) {
                     $address = Event::getAddressByLatLong($pdo, $event->getEventLat, $event->getEventLong);
                 }
 				$reply->data = $address;
+			} else {
+				$reply->data = Event::getAllEvents($pdo)->toArray();
 			}
-		}
-
-		//* latlong *\\
-	} else if($method === "PUT" || $method === "POST") {
+		} else if($method === "PUT" || $method === "POST") {
 
 		//enforce the user is signed in and only trying to edit their own profile
 		if(empty($_SESSION["profile"]) === true) {

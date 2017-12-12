@@ -17,7 +17,7 @@ import {AttendanceProfiles} from "../classes/attendanceProfiles";
 export class EventComponent{}
 
 // export class EventComponent implements OnInit{
-//
+
 // 		event: Event = new Event(null, null, null, null, null, null, null, null, null, null);
 // 		attendanceProfiles : AttendanceProfiles[] = [];
 //
@@ -41,9 +41,9 @@ export class EventComponent{}
 //
 //
 //
-// 		ngOnInit() : void {
-// 			this.getEventByEventId();
-// 			this.getEventAttendanceByEventId();
-// }
-//
+// // 		ngOnInit() : void {
+// // 			this.getEventByEventId();
+// // 			this.getEventAttendanceByEventId();
+// // }
+
 // }

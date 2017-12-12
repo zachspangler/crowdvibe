@@ -1,7 +1,7 @@
 	<!-- Create Event Modal -->
 	<div class="modal fade" id="createEvent" tabindex="-1" role="dialog" aria-labelledby="createEventLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
-			<div class="modal-content">
+			<div class="modal-content bg-dark">
 				<div class="modal-header">
 					<h5 class="modal-title" id="createEventLabel">Create Event</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -23,7 +23,7 @@
 
 						<!-- Last Name -->
 						<div class="form-group">
-							<label for="eventDetail" class="col-form-label">Event Detail::</label>
+							<label for="eventDetail" class="col-form-label">Event Detail:</label>
 							<input type="text" class="form-control" id="eventDetail" formControlName="eventDetail">
 						</div>
 						<!-- Angular Validation -->
@@ -87,8 +87,8 @@
 						 <p *ngIf="createEventForm.controls.eventAttendeeLimit?.errors.required">Event Attendee Limit</p>
 						 </div>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-							<button type="submit" id="createEvent" name="createEvent" class="btn btn-info">Create Event</button>
+							<button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
+							<button type="submit" id="createEvent" name="createEvent" class="btn btn-white">Create Event</button>
 						</div>
 					</form>
 				</div>
