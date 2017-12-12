@@ -1,4 +1,4 @@
-import {Component, OnChanges} from "@angular/core";
+import {Component,  OnInit} from "@angular/core";
 import {ActivatedRoute, Params} from "@angular/router";
 import {ProfileService} from "../services/profile.service";
 import {Profile} from "../classes/profile";
@@ -11,19 +11,23 @@ import {JwtHelperService} from "@auth0/angular-jwt";
 	templateUrl: "./templates/edit-profile.html"
 })
 
-export class EditProfileComponent implements OnChanges {
+export class EditProfileComponent implements OnInit {
 
 	editProfileForm: FormGroup;
 	profile: Profile = new Profile(null, null, null, null, null, null, null, null);
 	status: Status = null;
 
-	constructor(private formBuilder: FormBuilder, private jwtHelperService: JwtHelperService, private profileService: ProfileService, private route: ActivatedRoute) {}
+	constructor(private formBuilder: FormBuilder, private jwtHelperService: JwtHelperService, private profileService: ProfileService, private route: ActivatedRoute) {
+	}
 
-	ngOnChanges(): void {
-
-			let profileToken = this.jwtHelperService.decodeToken(localStorage.getItem("jwt-token"));
-				this.profileService.getProfile(profileToken.auth.profileId)
-				.subscribe(profile => this.profile = profile);
+	ngOnInit(): void {
+		let profileToken = this.jwtHelperService.decodeToken(localStorage.getItem("jwt-token"));
+		let profileId = profileToken.auth.profileId;
+		this.profileService.getProfile(profileId)
+			.subscribe(user => {
+				this.editProfile = profileId;
+				this.editProfileForm.patchValue(this.editProfile);
+			});
 
 		this.editProfileForm = this.formBuilder.group({
 			profileBio: ["", [Validators.maxLength(255), Validators.required]],
@@ -38,7 +42,7 @@ export class EditProfileComponent implements OnChanges {
 		this.applyFormChanges();
 	}
 
-	applyFormChanges() : void {
+	applyFormChanges(): void {
 		this.editProfileForm.valueChanges.subscribe(values => {
 			for(let field in values) {
 				this.profile[field] = values[field];
@@ -46,7 +50,7 @@ export class EditProfileComponent implements OnChanges {
 		});
 	}
 
-	editProfile() : void {
+	editProfile(): void {
 		this.profileService.editProfile(this.profile)
 			.subscribe(status => this.status = status);
 	}

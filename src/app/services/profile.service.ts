@@ -27,6 +27,7 @@ export class ProfileService {
 
 	// call to the Profile API and get a Profile object by its id
 	getProfile(id: string): Observable<Profile> {
+		console.log(id);
 		return (this.http.get<Profile>(this.profileUrl + id));
 	}
 

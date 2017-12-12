@@ -32,9 +32,9 @@ function setJwtAndAuthHeader(string $value, stdClass $content): void {
 		->setExpiration(time() + 3600)
 		->sign($signer, $signature->toString())
 		->getToken();
+	$_SESSION["JWT-TOKEN"] = (string)$token;
 	// add the JWT to the header
-	setcookie("JWT-TOKEN", $token, 0, "/", null,true, true);
-	$_SESSION["JWT-TOKEN"] = $token->__toString();
+	header("X-JWT-TOKEN: $token");
 }
 /**
  * verifies the X-JWT-TOKEN sent by Angular matches the JWT-TOKEN saved in this session.
@@ -61,13 +61,13 @@ function validateJwtHeader () : \Lcobucci\JWT\Token   {
 	}
 	//enforce the session has needed content
 	if(empty( $_SESSION["signature"]) === true ) {
-		throw new InvalidArgumentException("not logged in", 400);
+		throw new InvalidArgumentException("not logged in", 401);
 	}
 	//grab the string representation of the Token from the header then parse it into an object
 	$headerJwt = $headers["X-JWT-TOKEN"];
 	$headerJwt = (new Parser())->parse($headerJwt);
 	//enforce that the JWT payload in the session matches the payload from header
-	if ($_SESSION["JWT-TOKEN"] !== $headerJwt->__toString()) {
+	if ($_SESSION["JWT-TOKEN"] !== (string)$headerJwt) {
 		$_COOKIE = [];
 		$_SESSION = [];
 		throw (new InvalidArgumentException("please log in again", 400));
@@ -84,11 +84,11 @@ function verifiedAndValidatedSignature ( \Lcobucci\JWT\Token  $headerJwt) : void
 	$validator = new ValidationData();
 	$validator->setId(session_id());
 	if($headerJwt->validate($validator) !== true) {
-		throw (new InvalidArgumentException("not authorized to preform task", 400));
+		throw (new InvalidArgumentException("not authorized to preform task", 402));
 	}
 	//verify that the JWT was signed by the server
 	$signer = new Sha512();
 	if($headerJwt->verify($signer, $_SESSION["signature"]) !== true) {
-		throw (new InvalidArgumentException("not authorized to preform task", 400));
+		throw (new InvalidArgumentException("not authorized to preform task", 403));
 	}
 }

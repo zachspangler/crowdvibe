@@ -18,7 +18,7 @@ import {AttendanceProfiles} from "../classes/attendanceProfiles";
 export class EventComponent implements OnInit {
 
 	event: Event = new Event(null, null, null, null, null, null, null, null, null, null);
-	eventAttendance: EventAttendance [] = [];
+	attendanceProfiles: AttendanceProfiles [] = [];
 	status: Status = null;
 
 	constructor(private formBuilder: FormBuilder, private eventService: EventService, private eventAttendanceService: EventAttendanceService, private profileService: ProfileService, private route: ActivatedRoute) {
@@ -29,8 +29,10 @@ export class EventComponent implements OnInit {
 			let eventId = params["eventId"];
 			this.eventService.getEvent(eventId)
 				.subscribe(event => this.event = event);
-		});
 
+			this.eventAttendanceService.getEventAttendanceByEventAttendanceEventId(eventId)
+				.subscribe(attendanceProfiles => this.attendanceProfiles = attendanceProfiles);
+		});
 	}
 }
 

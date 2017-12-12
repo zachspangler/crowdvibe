@@ -6,7 +6,6 @@ import {Event} from "../classes/event";
 import {Status} from "../classes/status";
 import {JwtHelperService} from "@auth0/angular-jwt";
 import {ActivatedRoute} from "@angular/router";
-import {AuthService} from "../services/auth.service";
 import {Router} from "@angular/router";
 
 
@@ -26,9 +25,9 @@ export class HomeComponent implements OnInit{
 
 	events: Event[] = [];
 
-	profileId : string = this.route.snapshot.params["id"];
+	//profileId : string = this.route.snapshot.params["id"];
 
-	constructor(private authService : AuthService, private eventService: EventService, private profileService: ProfileService, private jwtHelperService: JwtHelperService, private route: ActivatedRoute, private router: Router) {}
+	constructor( private eventService: EventService, private profileService: ProfileService, private jwtHelperService: JwtHelperService, private route: ActivatedRoute, private router: Router) {}
 
 	ngOnInit(): void {
 
@@ -37,9 +36,13 @@ export class HomeComponent implements OnInit{
 	}
 
 	getProfile() {
-		// let profileToken = this.authService.decodeJwt(localStorage.getItem("jwt-token"));
-		this.profileService.getProfile(this.profileId)
+		let profileToken = this.jwtHelperService.decodeToken(localStorage.getItem("jwt-token"));
+
+		 let profileId = profileToken.auth.profileId;
+
+		 this.profileService.getProfile(profileId)
 			.subscribe(profile =>this.profile = profile);
+		console.log(this.profile);
 	}
 
 	listEvents(): void {

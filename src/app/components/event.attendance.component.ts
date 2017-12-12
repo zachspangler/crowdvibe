@@ -30,13 +30,13 @@ export class EventAttendanceComponent implements OnInit {
 	}
 	createEventAttendance(): void{
 
-		let createEventAttendance = new EventAttendance(null,null,null, 0, this.createEventAttendanceForm.value.eventAttendanceNumberAttending);
+		let createEventAttendance = new EventAttendance(null,null,null, 1, this.createEventAttendanceForm.value.eventAttendanceNumberAttending);
 
 		this.eventAttendanceService.createEventAttendance(createEventAttendance)
 			.subscribe(status=>{
 				this.status = status;
 
-				if(this.status.status === 500){
+				if(this.status.status === 200){
 					alert(status.message);
 					setTimeout(function(){
 						$("#createEventAttendance").modal('hide');

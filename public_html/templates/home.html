@@ -77,11 +77,11 @@
 						</p>
 						<p class="card-text my-1">
 							<small class="text-muted">Start Time:</small>
-							{{ event.eventStartDateTime }}
+							{{ event.eventStartDateTime | date: "MM/dd/yy hh:mm a" }}
 						</p>
 						<p class="card-text my-1">
 							<small class="text-muted">End Time:</small>
-							{{ event.eventEndDateTime }}
+							{{ event.eventEndDateTime | date: "MM/dd/yy hh:mm a" }}
 						</p>
 					</div>
 				</a>

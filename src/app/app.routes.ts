@@ -1,5 +1,6 @@
 //import needed @angularDependencies
 import {RouterModule, Routes} from "@angular/router";
+import {AuthGuardService as AuthGuard} from "./services/auth.guard.service";
 
 //import all needed Interceptors
 import {APP_BASE_HREF} from "@angular/common";
@@ -26,6 +27,7 @@ import {EventAttendanceComponent} from "./components/event.attendance.component"
 
 // import services
 import {AuthService} from "./services/auth.service";
+import {AuthGuardService} from "./services/auth.guard.service";
 import {CookieService} from "ng2-cookies";
 import {JwtHelperService} from "@auth0/angular-jwt";
 import {EventAttendanceService} from "./services/event.attendance.service";
@@ -59,16 +61,16 @@ export const allAppComponents = [
 
 //an array of routes that will be passed of to the module
 export const routes: Routes = [
-	{path: "home", component: HomeComponent},
+	{path: "home", component: HomeComponent, canActivate: [AuthGuard]},
 	{path: "", component: LandingPageComponent},
 	{path: "event/:eventId", component: EventComponent},
 	{path: "profile/:id", component: ProfileComponent},
 	{path: "sign-out", component: SignOutComponent},
-	{path: "edit-event", component: EditEventComponent},
+	{path: "edit-event", component: EditEventComponent, canActivate: [AuthGuard]},
 ];
 
 // an array of services that will be passed off to the module
-const services : any[] = [AuthService,CookieService,JwtHelperService,EventAttendanceService,EventService,ProfileService,RatingService,SessionService,SignInService,SignUpService];
+const services : any[] = [AuthService,CookieService,JwtHelperService,EventAttendanceService,EventService,ProfileService,RatingService,SessionService,SignInService,SignUpService, AuthGuardService];
 
 // an array of misc providers
 export const providers: any[] = [
