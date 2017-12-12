@@ -11,7 +11,8 @@
 			<div class="modal-body">
 				<form class="form-horizontal" name="signUpForm" id="signUpForm" [formGroup]="signUpForm" novalidate (ngSubmit)="createSignUp();">
 					<!-- First Name -->
-					<div class="form-group">
+					<div class="form-row">
+					<div class="form-group col-md-6">
 						<label for="profileFirstName" class="col-form-label">First Name:</label>
 						<input type="text" class="form-control" id="profileFirstName" formControlName="profileFirstName">
 					</div>
@@ -22,9 +23,10 @@
 					</div>
 
 					<!-- Last Name -->
-					<div class="form-group">
+					<div class="form-group col-md-6">
 						<label for="profileLastName" class="col-form-label">Last Name:</label>
 						<input type="text" class="form-control" id="profileLastName" formControlName="profileLastName">
+					</div>
 					</div>
 								<!-- Angular Validation -->
 					<div class="alert alert-danger" *ngIf="signUpForm.controls.profileLastName?.invalid && signUpForm.controls.profileLastName?.touched">
