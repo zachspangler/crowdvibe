@@ -17,14 +17,14 @@ export class ImageComponent implements OnInit {
 		additionalParameter: {}
 	});
 
-	protected cloudinaryPublicId : string = null;
-	protected cloudinaryPublicIdObservable : Observable<string> = new Observable<string>();
+	protected cloudinarySecureUrl : string = null;
+	protected cloudinarySecureUrlObservable : Observable<string> = new Observable<string>();
 
 	ngOnInit(): void {
 		this.uploader.onSuccessItem = (item: any, response: string, status: number, headers: any) => {
 			let reply = JSON.parse(response);
-			this.cloudinaryPublicId = reply.data;
-			this.cloudinaryPublicIdObservable = Observable.from(this.cloudinaryPublicId);
+			this.cloudinarySecureUrl = reply.data;
+			this.cloudinarySecureUrl = Observable.from(this.cloudinarySecureUrl);
 		};
 	}
 
@@ -33,7 +33,7 @@ export class ImageComponent implements OnInit {
 	}
 
 	getCloudinaryId() : void {
-		this.cloudinaryPublicIdObservable
-			.subscribe(cloudinaryPublicId => this.cloudinaryPublicId = cloudinaryPublicId);
+		this.cloudinarySecureUrl
+			.subscribe(cloudinarySecureUrl => this.cloudinarySecureUrl = cloudinarySecureUrl);
 	}
 }
