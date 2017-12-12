@@ -1,0 +1,23 @@
+<!-- Modal -->
+<div class="modal" id="attendanceCheckIn" tabindex="-1" role="dialog" aria-labelledby="attendanceCheckInLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="attendanceCheckInLabel">Are you ready to vibe?</h5>
+			</div>
+			<div class="modal-body">
+				<form #signInForm="ngForm" class="form-horizontal" name="createEventAttendanceForm" id="createEventAttendanceForm" novalidate
+						(ngSubmit)="eventAttendanceNumberAttending">
+					<div class="form-group">
+						<label for="eventAttendanceNumberAttending" class="col-form-label">Number Attending?</label>
+						<input type="number" name="eventAttendanceNumberAttending" id="eventAttendanceNumberAttending" required [(ngModel)]=eventAttendance.eventAttendanceNumberAttending #eventAttednanceNumberAttending="ngModel" class="form-control input-sm">
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Not Yet!</button>
+						<button type="submit" id="submit" [disabled]="createEventAttnendanceForm.valid" class="btn btn-info">Lets Do It!</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
