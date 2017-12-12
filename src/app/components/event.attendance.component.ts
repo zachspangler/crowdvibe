@@ -11,7 +11,7 @@ declare let $: any;
 
 @Component({
 	selector: "attending-event",
-	templateUrl: "./templates/attending-confirmation.html"
+	templateUrl: "./templates/event-attendance-confirmation.html"
 })
 
 export class EventAttendanceComponent {
