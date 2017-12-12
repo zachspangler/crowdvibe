@@ -30,19 +30,15 @@ export class HomeComponent implements OnInit{
 	constructor( private eventService: EventService, private profileService: ProfileService, private jwtHelperService: JwtHelperService, private route: ActivatedRoute, private router: Router) {}
 
 	ngOnInit(): void {
-
 		this.getProfile();
 		this.listEvents()
 	}
 
 	getProfile() {
 		let profileToken = this.jwtHelperService.decodeToken(localStorage.getItem("jwt-token"));
-
-		 let profileId = profileToken.auth.profileId;
-
+		let profileId = profileToken.auth.profileId;
 		 this.profileService.getProfile(profileId)
 			.subscribe(profile =>this.profile = profile);
-		console.log(this.profile);
 	}
 
 	listEvents(): void {

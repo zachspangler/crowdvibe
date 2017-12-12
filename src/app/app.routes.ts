@@ -61,7 +61,7 @@ export const allAppComponents = [
 
 //an array of routes that will be passed of to the module
 export const routes: Routes = [
-	{path: "home", component: HomeComponent, canActivate: [AuthGuard]},
+	{path: "home", component: HomeComponent},
 	{path: "", component: LandingPageComponent},
 	{path: "event/:eventId", component: EventComponent},
 	{path: "profile/:id", component: ProfileComponent},
