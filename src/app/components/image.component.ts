@@ -1,4 +1,4 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, EventEmitter, OnInit} from "@angular/core";
 import {FileUploader} from "ng2-file-upload";
 import {Cookie} from "ng2-cookies";
 import {Observable} from "rxjs";
@@ -19,12 +19,14 @@ export class ImageComponent implements OnInit {
 
 	protected cloudinarySecureUrl : string = null;
 	protected cloudinarySecureUrlObservable : Observable<string> = new Observable<string>();
+	cloudinarySecureUrlChangeEvent = new EventEmitter<string>();
 
 	ngOnInit(): void {
 		this.uploader.onSuccessItem = (item: any, response: string, status: number, headers: any) => {
 			let reply = JSON.parse(response);
 			this.cloudinarySecureUrl = reply.data;
 			this.cloudinarySecureUrlObservable = Observable.from(this.cloudinarySecureUrl);
+			this.cloudinarySecureUrlChangeEvent.emit(this.cloudinarySecureUrl);
 		};
 	}
 
