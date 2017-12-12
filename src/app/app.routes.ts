@@ -35,7 +35,7 @@ import {RatingService} from "./services/rating.service";
 import {SessionService} from "./services/session.service";
 import {SignInService} from "./services/sign.in.service";
 import {SignUpService} from "./services/sign.up.service";
-import {ImageService} from "./services/images.service";
+import {ImageService} from "./services/image.service";
 
 
 //an array of the components that will be passed off to the module
