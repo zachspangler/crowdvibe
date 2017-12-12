@@ -2,6 +2,7 @@
 <create-event></create-event>
 <edit-profile></edit-profile>
 <edit-event></edit-event>
+<event-attend-confirm></event-attend-confirm>
 <login-nav></login-nav>
 <div class="container-fluid py-4 bg-dark">
 	<div class="row mx-0">
@@ -54,36 +55,37 @@
 				</a>
 			</div>
 			<div *ngFor="let event of events" class="card mb-3">
-				<img class="card-img-top" src="{{ event.eventImage }}" alt="Card image cap">
-				<div class="card-body text-center">
-					<img class="rounded-circle" src="{{ profile.profileImage }}" height="100" width="100">
-					<p class="card-text">
-						<small class="text-muted">Hosted By: Zach</small>
-					</p>
-					<p class="card-text mb-1">
-					<p class="fa fa-star" aria-hidden="true"><i class="fa fa-star-half" aria-hidden="true"></i></p>
-					<h4 class="card-title">{{ event.eventName }}</h4>
-					<p class="card-text">{{ event.eventAddress }}</p>
-					<p class="card-text">Some co-workers are getting together for a drink, we would love to meet
-						some new people in town.</p>
-					<p class="card-text my-1">
-						<small class="text-muted">Price:</small>
-						${{ event.eventPrice }}
-					</p>
-					<p class="card-text my-1">
-						<small class="text-muted">Attending:</small>
-						{{ event.eventName }}
-					</p>
-					<p class="card-text my-1">
-						<small class="text-muted">Start Time:</small>
-						{{ event.eventStartDateTime }}
-					</p>
-					<p class="card-text my-1">
-						<small class="text-muted">End Time:</small>
-						{{ event.eventEndDateTime }}
-					</p>
-				</div>
-				<a href="#" data-toggle="modal" data-target="#attending-event">
+				<a (click)="switchEvent(event);">
+					<img class="card-img-top" src="{{ event.eventImage }}" alt="Card image cap">
+					<div class="card-body text-center">
+						<img class="rounded-circle" src="{{ profile.profileImage }}" height="100" width="100">
+						<p class="card-text">
+							<small class="text-muted">Hosted By: Zach</small>
+						</p>
+						<p class="card-text mb-1">
+						<p class="fa fa-star" aria-hidden="true"><i class="fa fa-star-half" aria-hidden="true"></i></p>
+						<h4 class="card-title">{{ event.eventName }}</h4>
+						<p class="card-text">{{ event.eventAddress }}</p>
+						<p class="card-text">{{ event.eventDetail }}</p>
+						<p class="card-text my-1">
+							<small class="text-muted">Price:</small>
+							${{ event.eventPrice }}
+						</p>
+						<p class="card-text my-1">
+							<small class="text-muted">Attending:</small>
+							{{ event.eventName }}
+						</p>
+						<p class="card-text my-1">
+							<small class="text-muted">Start Time:</small>
+							{{ event.eventStartDateTime }}
+						</p>
+						<p class="card-text my-1">
+							<small class="text-muted">End Time:</small>
+							{{ event.eventEndDateTime }}
+						</p>
+					</div>
+				</a>
+				<a href="#" data-toggle="modal" data-target="#createEventAttendance">
 					<div class="card-footer">
 						<small class="text-muted align-content-center"><i class="fa fa-users" aria-hidden="true"></i>
 							Attend Event

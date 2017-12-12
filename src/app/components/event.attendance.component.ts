@@ -10,11 +10,11 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 declare let $: any;
 
 @Component({
-	selector: "attending-event",
+	selector: "event-attend-confirm",
 	templateUrl: "./templates/event-attendance-confirmation.html"
 })
 
-export class EventAttendanceComponent {
+export class EventAttendanceComponent implements OnInit {
 	createEventAttendanceForm: FormGroup;
 	eventAttendance: EventAttendance = new EventAttendance(null,null,null,null,null);
 	status: Status = null;
@@ -23,7 +23,7 @@ export class EventAttendanceComponent {
 		console.log("Attendance Recorded")
 	}
 
-	ngOnInIt(): void {
+	ngOnInit(): void {
 		this.createEventAttendanceForm = this.formBuilder.group({
 			eventAttendanceNumberAttending: ["",[Validators.maxLength(500), Validators.required]]
 		});

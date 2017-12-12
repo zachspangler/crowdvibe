@@ -20,7 +20,8 @@ import {ProfileComponent} from "./components/profile.component";
 import {SignInComponent} from "./components/sign.in.component";
 import {SignUpComponent} from "./components/sign.up.component";
 import {SignOutComponent} from "./components/sign.out.component";
-import {ImageComponent} from "./components/image.component";
+import {EventAttendanceComponent} from "./components/event.attendance.component";
+// import {ImageComponent} from "./components/image.component";
 
 
 // import services
@@ -34,12 +35,13 @@ import {RatingService} from "./services/rating.service";
 import {SessionService} from "./services/session.service";
 import {SignInService} from "./services/sign.in.service";
 import {SignUpService} from "./services/sign.up.service";
-import {ImageService} from "./services/image.service";
+// import {ImageService} from "./services/image.service";
 
 
 //an array of the components that will be passed off to the module
 export const allAppComponents = [
 	SplashComponent,
+	EventAttendanceComponent,
 	CreateEventComponent,
 	EditEventComponent,
 	EditProfileComponent,
@@ -52,7 +54,7 @@ export const allAppComponents = [
 	SignInComponent,
 	SignUpComponent,
 	SignOutComponent,
-	ImageComponent
+	// ImageComponent
 ];
 
 //an array of routes that will be passed of to the module
@@ -66,7 +68,7 @@ export const routes: Routes = [
 ];
 
 // an array of services that will be passed off to the module
-const services : any[] = [AuthService,CookieService,JwtHelperService,EventAttendanceService,EventService,ProfileService,RatingService,SessionService,SignInService,SignUpService,ImageService];
+const services : any[] = [AuthService,CookieService,JwtHelperService,EventAttendanceService,EventService,ProfileService,RatingService,SessionService,SignInService,SignUpService];
 
 // an array of misc providers
 export const providers: any[] = [
