@@ -19,7 +19,7 @@ use Edu\Cnm\CrowdVibe\{
  **/
 
 //verify the session, start if not active
-if(session_start() !== PHP_SESSION_ACTIVE) {
+if(session_status() !== PHP_SESSION_ACTIVE) {
 	session_start();
 }
 
@@ -30,7 +30,7 @@ $reply->data = null;
 
 try {
 		// grab the mySQL conection
-		$pdo = connectToEncryptedMySQL("/ect/apache2/capstone-mysql/crowdvibe.ini");
+		$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/crowdvibe.ini");
 
 		//determine which HTTP method was used
 		$method = array_key_exists("HTTP_X_METHOD", $_SERVER) ?$_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
