@@ -6,7 +6,7 @@ require_once dirname(__DIR__, 3) . "/php/lib/xsrf.php";
 require_once(dirname(__DIR__, 3) . "/php/lib/uuid.php");
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 use Edu\Cnm\CrowdVibe\{
-	Images,
+	Image,
 	// we only use the profile and event class for testing purposes
 	Profile, Event
 };
@@ -38,6 +38,7 @@ try {
 	$config = readConfig("/etc/apache2/capstone-mysql/crowdvibe.ini");
 	$cloudinary = json_decode($config["cloudinary"]);
 	\Cloudinary::config(["cloud_name" => $cloudinary->cloudName, "api_key" => $cloudinary->apiKey, "api_secret" => $cloudinary->apiSecret]);
+
 	// handle the POST request
 	if($method === "POST") {
 		// set XSRF token
@@ -46,10 +47,12 @@ try {
 		if(empty($_SESSION["profile"]) === true) {
 			throw (new \InvalidArgumentException("you are not allowed to access this profile", 403));
 		}
+
 		// assigning variable to the user profile, add image extension
-		$tempUserFileName = $_FILES["image"]["tmp_name"];
+		$tempImageFileName = $_FILES["image"]["tmp_name"];
+
 		// upload image to cloudinary and get public id
-		$cloudinaryResult = \Cloudinary\Uploader::upload($tempUserFileName, array("width" => 500, "crop" => "scale"));
+		$cloudinaryResult = \Cloudinary\Uploader::upload($tempImageFileName, array("width" => 500, "crop" => "scale"));
 
         $eventId = filter_input(INPUT_POST, "eventId", FILTER_VALIDATE_INT);
 
