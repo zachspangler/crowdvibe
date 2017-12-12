@@ -18,9 +18,8 @@ export class SignOutComponent {
 		private router: Router) {}
 
 	signOut() : void {
-		localStorage.clear("jwt-token");
+		localStorage.clear();
 		this.signOutService.getSignOut();
 		window.location.replace("");
 	}
-}
 }

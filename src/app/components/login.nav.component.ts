@@ -11,7 +11,7 @@ export class LoginNavComponent {}
 
 
 
-//observable used for searching Profiles by name
-termStream = new Subject<string>();
-
- profileUsername : Profile  profile = new Profile(null,null, null, null, null, null, null, null);
+// //observable used for searching Profiles by name
+// termStream = new Subject<string>();
+//
+//  profileUsername : Profile  profile = new Profile(null,null, null, null, null, null, null, null);

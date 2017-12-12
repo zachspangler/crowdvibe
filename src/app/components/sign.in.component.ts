@@ -25,7 +25,7 @@ export class SignInComponent {
 	}
 
 	signIn(): void {
-		localStorage.clear("jwt-token");
+		localStorage.clear();
 		this.SignInService.postSignIn(this.signin).subscribe(status => {
 			this.status = status;
 
