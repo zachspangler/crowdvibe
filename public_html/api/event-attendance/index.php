@@ -1,8 +1,8 @@
 <?php
-require_once dirname(__DIR__,3) . "/vendor/autoload.php";
-require_once dirname(__DIR__, 3) . "/php/classes/autoload.php";
-require_once dirname(__DIR__, 3) . "/php/lib/xsrf.php";
-require_once(dirname(__DIR__, 3) . "/php/lib/uuid.php");
+require_once dirname(__DIR__,3) . "../../vendor/autoload.php";
+require_once dirname(__DIR__, 3) . "../../php/classes/autoload.php";
+require_once dirname(__DIR__, 3) . "../../php/lib/xsrf.php";
+require_once(dirname(__DIR__, 3) . "../../php/lib/uuid.php");
 require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 use Edu\Cnm\CrowdVibe\{EventAttendance, JsonObjectStorage, Profile, Rating};
@@ -58,6 +58,7 @@ try {
 			if($eventAttendances !== null) {
 			    $profiles = [];
                 foreach ($eventAttendances as $eventAttendance) {
+                	//PDO $pdo, string $profileId
                     $profile = Profile::getProfileByProfileId($pdo, $eventAttendance->getEventAttendanceProfileId());
                     $rating = Rating::getRatingByProfileId($pdo, $eventAttendance->getEventAttendanceProfileId());
                     //create an std object like the example I showed you
