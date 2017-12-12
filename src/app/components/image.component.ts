@@ -24,7 +24,7 @@ export class ImageComponent implements OnInit {
 		this.uploader.onSuccessItem = (item: any, response: string, status: number, headers: any) => {
 			let reply = JSON.parse(response);
 			this.cloudinarySecureUrl = reply.data;
-			this.cloudinarySecureUrl = Observable.from(this.cloudinarySecureUrl);
+			this.cloudinarySecureUrlObservable = Observable.from(this.cloudinarySecureUrl);
 		};
 	}
 
@@ -33,7 +33,7 @@ export class ImageComponent implements OnInit {
 	}
 
 	getCloudinaryId() : void {
-		this.cloudinarySecureUrl
+		this.cloudinarySecureUrlObservable
 			.subscribe(cloudinarySecureUrl => this.cloudinarySecureUrl = cloudinarySecureUrl);
 	}
 }

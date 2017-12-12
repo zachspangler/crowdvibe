@@ -8,7 +8,7 @@ import {DeepDiveInterceptor} from "./services/deep.dive.interceptor";
 
 // import all components
 import {SplashComponent} from "./components/splash.component";
-import {EventAttendanceComponent} from "./components/attending.event.component";
+import {EventAttendanceComponent} from "./components/event.attendance.component";
 import {CreateEventComponent} from "./components/create.event.component";
 import {EditEventComponent} from "./components/edit.event.component";
 import {EditProfileComponent} from "./components/edit.profile.component";
@@ -68,7 +68,7 @@ export const routes: Routes = [
 ];
 
 // an array of services that will be passed off to the module
-const services : any[] = [AuthService,CookieService,JwtHelperService,EventAttendanceService,EventService,ProfileService,RatingService,SessionService,SignInService,SignUpService];
+const services : any[] = [AuthService,CookieService,JwtHelperService,EventAttendanceService,EventService,ProfileService,RatingService,SessionService,SignInService,SignUpService,ImageService];
 
 // an array of misc providers
 export const providers: any[] = [
