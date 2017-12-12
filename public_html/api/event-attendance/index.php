@@ -61,6 +61,12 @@ try {
                 	//PDO $pdo, string $profileId
                     $profile = Profile::getProfileByProfileId($pdo, $eventAttendance->getEventAttendanceProfileId());
                     $rating = Rating::getRatingByProfileId($pdo, $eventAttendance->getEventAttendanceProfileId());
+
+                    if($rating === null) {
+                    	$ratingScore = 0;
+						  } else {
+                    	$ratingScore = $rating->getRatingScore();
+						  }
                     //create an std object like the example I showed you
                     $profile = ( object) [
                         "profileId" => $profile->getProfileId(),
@@ -70,7 +76,7 @@ try {
                         "profileImage" => $profile->getProfileImage(),
                         "profileLastName" => $profile->getProfileLastName(),
                         "profileUserName" => $profile->getProfileUserName(),
-                        "rating" => $rating->getRatingScore(),
+                        "rating" => $ratingScore,
                     ];
                     $profiles[] = $profile;
 

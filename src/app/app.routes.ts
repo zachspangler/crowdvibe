@@ -37,6 +37,7 @@ import {RatingService} from "./services/rating.service";
 import {SessionService} from "./services/session.service";
 import {SignInService} from "./services/sign.in.service";
 import {SignUpService} from "./services/sign.up.service";
+import {SignOutService} from "./services/sign.out.service";
 // import {ImageService} from "./services/image.service";
 
 
@@ -70,7 +71,7 @@ export const routes: Routes = [
 ];
 
 // an array of services that will be passed off to the module
-const services : any[] = [AuthService,CookieService,JwtHelperService,EventAttendanceService,EventService,ProfileService,RatingService,SessionService,SignInService,SignUpService, AuthGuardService];
+const services : any[] = [AuthService,CookieService,JwtHelperService,EventAttendanceService,EventService,ProfileService,RatingService,SessionService,SignInService,SignUpService, SignOutService, AuthGuardService];
 
 // an array of misc providers
 export const providers: any[] = [

@@ -3,11 +3,7 @@ import {ActivatedRoute, Params} from "@angular/router";
 import {EventService} from "../services/event.service";
 import {Event} from "../classes/event";
 import {EventAttendanceService} from "../services/event.attendance.service";
-import {ProfileService} from "../services/profile.service";
-import {Profile} from "../classes/profile";
 import {Status} from "../classes/status";
-import {FormBuilder} from "@angular/forms";
-import {EventAttendance} from "../classes/eventAttendance";
 import {AttendanceProfiles} from "../classes/attendanceProfiles";
 
 
@@ -21,8 +17,7 @@ export class EventComponent implements OnInit {
 	attendanceProfiles: AttendanceProfiles [] = [];
 	status: Status = null;
 
-	constructor(private formBuilder: FormBuilder, private eventService: EventService, private eventAttendanceService: EventAttendanceService, private profileService: ProfileService, private route: ActivatedRoute) {
-	}
+	constructor(private eventService: EventService, private eventAttendanceService: EventAttendanceService, private route: ActivatedRoute) {}
 
 	ngOnInit(): void {
 		this.route.params.forEach((params: Params) => {

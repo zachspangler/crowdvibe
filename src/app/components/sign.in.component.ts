@@ -1,5 +1,4 @@
 import {Component, ViewChild} from "@angular/core";
-
 import {Router} from "@angular/router";
 import {Observable} from "rxjs/Observable"
 import {Status} from "../classes/status";
@@ -26,6 +25,7 @@ export class SignInComponent {
 	}
 
 	signIn(): void {
+		localStorage.clear("jwt-token");
 		this.SignInService.postSignIn(this.signin).subscribe(status => {
 			this.status = status;
 
