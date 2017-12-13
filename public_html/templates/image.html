@@ -1,7 +1,7 @@
 <form class="form-horizontal" name="imageUpload" (submit)="uploadImage();">
 	<div class="form-group">
 		<label for="image" class="modal-labels">Upload an image</label>
-		<input type="file" name="image" id="image" ng2FileSelect [uploader]="uploader" />
+		<input type="file" name="image" ng2FileSelect [uploader]="uploader" />
 	</div>
 	<button type="submit" class="btn btn-info btn-lg"><i class="fa" [ngClass]="icon" aria-hidden="true"></i> {{ buttonLabel }}</button>
 </form>

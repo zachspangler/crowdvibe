@@ -72,10 +72,6 @@
 							${{ event.eventPrice }}
 						</p>
 						<p class="card-text my-1">
-							<small class="text-muted">Attending:</small>
-							{{ event.eventName }}
-						</p>
-						<p class="card-text my-1">
 							<small class="text-muted">Start Time:</small>
 							{{ event.eventStartDateTime | date: "MM/dd/yy hh:mm a" }}
 						</p>
@@ -85,7 +81,7 @@
 						</p>
 					</div>
 				</a>
-				<a href="#" data-toggle="modal" data-target="#createEventAttendance" (click)="getEventId(this.event.eventId)">
+				<a href="#" data-toggle="modal" data-target="#createEventAttendance">
 					<div class="card-footer">
 						<small class="text-muted align-content-center"><i class="fa fa-users" aria-hidden="true"></i>
 							Attend Event
