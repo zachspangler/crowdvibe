@@ -43,12 +43,6 @@
 						<p *ngIf="editProfileForm.controls.profileUserName?.errors.required">Username is required</p>
 					</div>
 
-					<!-- Image -->
-					<div class="form-group">
-						<label for="profileImage" class="col-form-label">Image:</label>
-						<input type="email" class="form-control" id="profileImage" formControlName="profileImage">
-					</div>
-
 					<!-- Email -->
 					<div class="form-group">
 						<label for="profileEmail" class="col-form-label">Email:</label>
@@ -81,12 +75,10 @@
 						<p *ngIf="editProfileForm.controls.profilePassword?.errors.maxlength">Password is too long</p>
 						<p *ngIf="editProfileForm.controls.profilePassword?.errors.required">Password required</p>
 					</div>
-
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-						<button type="submit" id="submit" name="signUp" class="btn btn-white">Save Changes</button>
-					</div>
 				</form>
+				<div class="modal-footer">
+					<upload-image [buttonLabel]="'Edit Profile'" [icon]="'fa-user'" (cloudinarySecureUrlChangeEvent)="onCloudinarySecureUrlChange($event)"></upload-image>
+				</div>
 			</div>
 
 			<div *ngIf="status !== null" class="alert alert-dismissible" [ngClass]="status.type" role="alert">
