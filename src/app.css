@@ -45,7 +45,7 @@
 .event {
 	/*background-image: url("./image/crowd.jpeg");*/
 	background-position: center;
-	background-repeat: no-repeat;
+	background-repeat: repeat;
 	background-size: cover;
 	height: 100%;
 }
