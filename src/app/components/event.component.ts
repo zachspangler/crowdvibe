@@ -7,7 +7,6 @@ import {Status} from "../classes/status";
 import {AttendanceProfiles} from "../classes/attendanceProfiles";
 import {ProfileService} from "../services/profile.service";
 import {Profile} from "../classes/profile";
-import {AttendanceProfiles} from "../classes/attendanceProfiles";
 
 
 @Component({
