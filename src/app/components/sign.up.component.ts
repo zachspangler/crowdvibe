@@ -53,9 +53,7 @@ export class SignUpComponent implements OnInit {
 
 				if(this.status.status === 200) {
 					alert(status.message);
-					setTimeout(function() {
-						$("#join").modal('hide');
-					}, 500);
+					setTimeout(function() {$("#join").modal('hide');}, 500);
 					this.router.navigate([""]);
 				}
 				// // //Reset Form

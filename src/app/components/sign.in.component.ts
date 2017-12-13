@@ -31,8 +31,7 @@ export class SignInComponent {
 
 			if(this.status.status === 200) {
 				this.signInForm.reset();
-				setTimeout(function(){$("#login").modal('hide');
-				});
+				setTimeout(function(){$("#login").modal('hide');}, 500);
 				this.router.navigate(["home"]);
 			} else {
 				console.log("failed login");
