@@ -57,4 +57,9 @@ export class EditProfileComponent implements OnInit {
 		this.profileService.editProfile(this.profile)
 			.subscribe(status => this.status = status);
 	}
+
+    onCloudinarySecureUrlChange(newCloudinarySecureUrl: string): void {
+        this.cloudinarySecureUrl = newCloudinarySecureUrl;
+        this.editProfile();
+    }
 }

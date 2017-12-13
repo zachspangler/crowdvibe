@@ -9,7 +9,7 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				<form class="form-horizontal" name="editProfileForm" id="editProfileForm" [formGroup]="editProfileForm" novalidate (ngSubmit)="editProfile();">
+				<form class="form-horizontal" [formGroup]="editProfileForm" novalidate (submit)="editProfile();">
 					<!-- First Name -->
 					<div class="form-group">
 						<label for="profileFirstName" class="col-form-label">First Name:</label>
