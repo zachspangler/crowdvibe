@@ -7,6 +7,8 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {JwtHelperService} from "@auth0/angular-jwt";
 import {ImageComponent} from "./image.component";
 
+declare var $: any;
+
 
 @Component({
 	selector: "edit-profile",
