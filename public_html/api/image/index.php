@@ -68,6 +68,7 @@ try {
             $profile->update($pdo);
         }
 
+        $reply->data = $cloudinaryResult["secure_url"];
         $reply->message = "Image uploaded Ok";
 	}
 } catch(Exception $exception) {
