@@ -45,7 +45,7 @@
 .event {
 	/*background-image: url("./image/crowd.jpeg");*/
 	background-position: center;
-	background-repeat: repeat;
+	background-repeat: repeat-y;
 	background-size: cover;
 	height: 100%;
 }
@@ -91,6 +91,7 @@ label, .modal-header {
 	background-size: cover;
 	background-position: center;
 	height: 100vh;
+	background-repeat: repeat-y;
 }
 
 body, html {
