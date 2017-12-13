@@ -1,11 +1,12 @@
 import {Component, OnInit, ViewChild} from "@angular/core";
-import {ActivatedRoute, Params} from "@angular/router";
+import {ActivatedRoute, Params, Router} from "@angular/router";
 import {ProfileService} from "../services/profile.service";
 import {Profile} from "../classes/profile";
 import {Status} from "../classes/status";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {JwtHelperService} from "@auth0/angular-jwt";
 import {ImageComponent} from "./image.component";
+
 
 @Component({
 	selector: "edit-profile",
@@ -20,7 +21,7 @@ export class EditProfileComponent implements OnInit {
     @ViewChild(ImageComponent) imageComponent: ImageComponent;
     cloudinarySecureUrl: string;
 
-	constructor(private formBuilder: FormBuilder, private jwtHelperService: JwtHelperService, private profileService: ProfileService, private route: ActivatedRoute) {
+	constructor(private formBuilder: FormBuilder, private jwtHelperService: JwtHelperService, private profileService: ProfileService, private route: ActivatedRoute, private router: Router) {
 	}
 
 	ngOnInit(): void {
