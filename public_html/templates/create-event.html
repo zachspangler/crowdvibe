@@ -78,12 +78,10 @@
 						 <p *ngIf="createEventForm.controls.eventAttendeeLimit?.errors.maxlength">Event Attendee Limit is too long</p>
 						 <p *ngIf="createEventForm.controls.eventAttendeeLimit?.errors.required">Event Attendee Limit</p>
 						 </div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
-							<button type="submit" id="createEvent" name="createEvent" class="btn btn-white">Create Event</button>
-						</div>
 					</form>
-					<upload-image (cloudinarySecureUrlChangeEvent)="onCloudinarySecureUrlChange($event)"></upload-image>
+					<div class="modal-footer">
+						<upload-image (cloudinarySecureUrlChangeEvent)="onCloudinarySecureUrlChange($event)"></upload-image>
+					</div>
 				</div>
 
 				<div *ngIf="status !== null" class="alert alert-dismissible" [ngClass]="status.type" role="alert">
