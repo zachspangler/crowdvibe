@@ -47,9 +47,4 @@ export class HomeComponent implements OnInit {
 	switchEvent(event: Event): void {
 		this.router.navigate(["/event/", event.eventId]);
 	}
-
-	getEventId(event: string): void {
-		this.router.navigate(["/event/" + event]);
-
-	}
 }
