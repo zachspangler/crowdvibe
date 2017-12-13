@@ -20,7 +20,7 @@ export class EventComponent implements OnInit {
 	attendanceProfiles: AttendanceProfiles [] = [];
 	status: Status = null;
 
-	constructor(private eventService: EventService, private eventAttendanceService: EventAttendanceService, private profileService: ProfileService, private attendingProfiles: AttendanceProfiles, private route: ActivatedRoute) {}
+	constructor(private eventService: EventService, private eventAttendanceService: EventAttendanceService, private profileService: ProfileService, private route: ActivatedRoute) {}
 
 	ngOnInit(): void {
 		this.route.params.forEach((params: Params) => {
