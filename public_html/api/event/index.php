@@ -137,9 +137,7 @@ try {
 		// make sure there is a valid date for event (required field)
 		if(empty($requestObject->eventStartDateTime) === true) {
 			throw (new \InvalidArgumentException("No event start date", 405));
-			} else {
-				$requestObject->eventStartDateTime = date("Y-m-d H:i:s.u");
-				}
+			}
 
 		// make sure event Price is available (required field)
 		if(empty($requestObject->eventPrice) === true) {
