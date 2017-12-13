@@ -66,9 +66,9 @@
 				<a (click)="switchEvent(event);">
 					<img class="card-img-top" src="{{ event.eventImage }}" alt="Card image cap">
 					<div class="card-body text-center">
-						<img class="rounded-circle" src="{{ profile.profileImage }}" height="100" width="100">
+						<img class="rounded-circle" [src]="getHostByProfileId(event.eventProfileId).profileImage" height="100" width="100">
 						<p class="card-text">
-							<small class="text-muted">Hosted By: Zach</small>
+							<small class="text-muted">Hosted By: {{ getHostByProfileId(event.eventProfileId).profileFirstName }}</small>
 						</p>
 						<p class="card-text mb-1">
 						<p class="" aria-hidden="true"><i class="fa fa-thermometer-full fa-2x text-danger" aria-hidden="true"></i></p>

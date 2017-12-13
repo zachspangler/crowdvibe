@@ -23,6 +23,7 @@ export class HomeComponent implements OnInit {
 	status: Status = null;
 
 	events: Event[] = [];
+	hosts: Profile[] = [];
 
 	constructor(private eventService: EventService, private profileService: ProfileService, private jwtHelperService: JwtHelperService, private route: ActivatedRoute, private router: Router) {
 	}
@@ -41,7 +42,23 @@ export class HomeComponent implements OnInit {
 
 	listEvents(): void {
 		this.eventService.getAllEvents()
-			.subscribe(events => this.events = events);
+			.subscribe(events => {
+				this.events = events;
+				this.listHosts();
+			});
+	}
+
+	listHosts(): void {
+		let hostProfileIds = this.events
+			.map(event => event.eventProfileId)
+			.filter((profileId, index, profileIds) => profileIds.lastIndexOf(profileId) === index);
+		this.hosts = [];
+		hostProfileIds.map(profileId => this.profileService.getProfile(profileId)
+			.subscribe(profile => this.hosts.push(profile)));
+	}
+
+	getHostByProfileId(profileId: string) {
+		return(this.hosts.find(profile => profile.profileId === profileId));
 	}
 
 	switchEvent(event: Event): void {

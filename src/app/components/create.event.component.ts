@@ -43,8 +43,6 @@ export class CreateEventComponent implements OnInit {
 
     createEvent(): void {
 
-
-
         let createEvent = new Event(null, null, this.createEventForm.value.eventAddress, this.createEventForm.value.eventAttendeeLimit, this.createEventForm.value.eventDetail, getTime(this.createEventForm.value.eventEndDateTime), this.cloudinarySecureUrl, this.createEventForm.value.eventName, this.createEventForm.value.eventPrice, getTime(this.createEventForm.value.eventStartDateTime));
 
         this.eventService.createEvent(createEvent)
