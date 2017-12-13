@@ -26,15 +26,16 @@ export class EventComponent implements OnInit {
 		this.route.params.forEach((params: Params) => {
 			let eventId = params["eventId"];
 			this.eventService.getEvent(eventId)
-				.subscribe(event => this.event = event);
+				.subscribe(event => {
+					this.event = event;
+					//this is for event attendance cards
+					this.eventAttendanceService.getEventAttendanceByEventAttendanceEventId(this.event.eventId)
+						.subscribe(attendanceProfiles => this.attendanceProfiles = attendanceProfiles);
 
-			//this is for event attendance cards
-			this.eventAttendanceService.getEventAttendanceByEventAttendanceEventId(eventId)
-				.subscribe(attendanceProfiles => this.attendanceProfiles = attendanceProfiles);
-
-			//get Host for the event
-			this.profileService.getProfile(this.event.eventProfileId)
-				.subscribe(profile => this.profile = profile);
+					//get Host for the event
+					this.profileService.getProfile(this.event.eventProfileId)
+						.subscribe(profile => this.profile = profile);
+				});
 
 			this.getNumberAttending();
 		});
