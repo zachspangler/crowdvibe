@@ -16,9 +16,9 @@ export class EditProfileComponent implements OnInit {
 
 	editProfileForm: FormGroup;
 	profile: Profile = new Profile(null, null, null, null, null, null, null, null);
+	@ViewChild(ImageComponent) imageComponent: ImageComponent;
+	cloudinarySecureUrl: string;
 	status: Status = null;
-    @ViewChild(ImageComponent) imageComponent: ImageComponent;
-    cloudinarySecureUrl: string;
 
 	constructor(private formBuilder: FormBuilder, private jwtHelperService: JwtHelperService, private profileService: ProfileService, private route: ActivatedRoute) {
 	}
@@ -42,7 +42,7 @@ export class EditProfileComponent implements OnInit {
 			profilePassword: ["", [Validators.maxLength(48), Validators.required]],
 		});
 
-		this.applyFormChanges();
+		//this.applyFormChanges();
 	}
 
 	applyFormChanges(): void {
