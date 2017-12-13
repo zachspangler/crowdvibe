@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from "@angular/core";
+import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
 import {FileUploader} from "ng2-file-upload";
 import {Cookie} from "ng2-cookies";
 import {Observable} from "rxjs";
@@ -19,6 +19,8 @@ export class ImageComponent implements OnInit {
 
 	protected cloudinarySecureUrl : string = null;
 	protected cloudinarySecureUrlObservable : Observable<string> = new Observable<string>();
+
+	@Input() buttonLabel: string = "Save Schtuff";
 	@Output() cloudinarySecureUrlChangeEvent = new EventEmitter<string>();
 
 	ngOnInit(): void {
