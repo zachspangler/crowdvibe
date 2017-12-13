@@ -63,16 +63,16 @@
 					<!-- Angular Validation -->
 					<div class="alert alert-danger" *ngIf="editProfileForm.controls.profileBio?.invalid && editProfileForm.controls.profileBio?.touched">
 						<p *ngIf="editProfileForm.controls.profileBio?.errors.maxlength">Bio is too long</p>
-						<p *ngIf="editProfileForm.controls.profileBio?.errors.required">Bio required</p>
-					</div>
+						<!--<p *ngIf="editProfileForm.controls.profileBio?.errors.required">Bio required</p>-->
+					<!--</div>-->
 
 					<!-- Password -->
 					<div class="form-group">
 						<label for="profilePassword" class="col-form-label">Password:</label>
 						<input type="password" class="form-control" id="profilePassword" formControlName="profilePassword" >
 					</div>
-					<!-- Angular Validation -->
-					<div class="alert alert-danger" *ngIf="editProfileForm.controls.profilePassword?.invalid && editProfileForm.controls.profilePassword?.touched">
+					<!--&lt;!&ndash; Angular Validation &ndash;&gt;-->
+					<!--<div class="alert alert-danger" *ngIf="editProfileForm.controls.profilePassword?.invalid && editProfileForm.controls.profilePassword?.touched">-->
 						<p *ngIf="editProfileForm.controls.profilePassword?.errors.maxlength">Password is too long</p>
 						<p *ngIf="editProfileForm.controls.profilePassword?.errors.required">Password required</p>
 					</div>
