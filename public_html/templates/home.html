@@ -16,11 +16,11 @@
 					  alt="Card image cap">
 				<div class="card-body text-center">
 					<img class="rounded-circle m-0"
-						  src="https://dl.dropboxusercontent.com/s/s05h8qapt3p00kn/face.jpg?dl=0" height="100"
+						  src={{profile.profileImage}} height="100"
 						  width="100">
 					<h4 class="card-title my-0">{{ profile.profileFirstName }}</h4>
 					<p class="card-text mb-1">
-					<p class="fa fa-star" aria-hidden="true"><i class="fa fa-star-half" aria-hidden="true"></i></p>
+					<p class="fa fa-thermometer-full fa-2x text-danger" aria-hidden="true"><i class="fa fa-thermomenter-full text-danger" aria-hidden="true"></i></p>
 					<p class="card-text mb-1 text-muted">{{ profile.profileUserName }}</p>
 					<p class="card-text my-0">{{ profile.profileEmail }}</p>
 					<p class="card-text my-1">{{ profile.profileBio }}</p>
@@ -63,7 +63,7 @@
 							<small class="text-muted">Hosted By: Zach</small>
 						</p>
 						<p class="card-text mb-1">
-						<p class="fa fa-star" aria-hidden="true"><i class="fa fa-star-half" aria-hidden="true"></i></p>
+						<p class="fa fa-star" aria-hidden="true"><i class="fa fa-thermometer-full fa-2x" aria-hidden="true"></i></p>
 						<h4 class="card-title">{{ event.eventName }}</h4>
 						<p class="card-text">{{ event.eventAddress }}</p>
 						<p class="card-text">{{ event.eventDetail }}</p>

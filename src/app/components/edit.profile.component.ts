@@ -42,7 +42,7 @@ export class EditProfileComponent implements OnInit {
 			profilePassword: ["", [Validators.maxLength(48), Validators.required]],
 		});
 
-		this.applyFormChanges();
+		//this.applyFormChanges();
 	}
 
 	applyFormChanges(): void {
