@@ -62,7 +62,7 @@
 				<a href="#" class="sticky-top">
 				</a>
 			</div>
-			<div *ngFor="let event of events" class="card mb-3">
+			<div *ngFor="let event of events" class="card mb-3 bg-dark">
 				<a (click)="switchEvent(event);">
 					<img class="card-img-top" src="{{ event.eventImage }}" alt="Card image cap">
 					<div class="card-body text-center">
@@ -99,7 +99,7 @@
 			</div>
 		</div>
 		<div class="col-md-2">
-			<div class="card">
+			<div class="card bg-dark">
 				<div class="card-header">
 					<i class="fa fa-wifi faa-pulse animated" aria-hidden="true"></i> What's Vibing
 				</div>
@@ -117,7 +117,7 @@
 					</small>
 				</div>
 			</div>
-			<div class="card">
+			<div class="card bg-dark">
 				<div class="card-header">
 					<i class="fa fa-wifi faa-pulse animated" aria-hidden="true"></i> What's Vibing
 				</div>
