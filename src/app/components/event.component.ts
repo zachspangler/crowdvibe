@@ -19,9 +19,8 @@ export class EventComponent implements OnInit {
 	profile: Profile = new Profile(null, null, null, null, null, null, null, null);
 	attendanceProfiles: AttendanceProfiles [] = [];
 	status: Status = null;
-	eventAttendanceNumberAttend : number = 0;
 
-	constructor(private eventService: EventService, private eventAttendanceService: EventAttendanceService, private profileService: ProfileService, private route: ActivatedRoute) {}
+	constructor(private eventService: EventService, private eventAttendanceService: EventAttendanceService, private profileService: ProfileService, private attendingProfiles: AttendanceProfiles, private route: ActivatedRoute) {}
 
 	ngOnInit(): void {
 		this.route.params.forEach((params: Params) => {
@@ -34,22 +33,15 @@ export class EventComponent implements OnInit {
 				.subscribe(attendanceProfiles => this.attendanceProfiles = attendanceProfiles);
 
 			//get Host for the event
-			// this.profileService.getProfile(this.event.eventProfileId)
-			// 	.subscribe(profile => this.profile = profile);
+			this.profileService.getProfile(this.event.eventProfileId)
+				.subscribe(profile => this.profile = profile);
 
-			//get number of people attending the event
-			for (let attendance of this.attendanceProfiles) {
-				this.eventAttendanceNumberAttend += attendance.eventAttendanceNumber
-			}
 			this.getNumberAttending();
 		});
 	}
 
-	getNumberAttending() {
-		for (let attendance of this.attendanceProfiles) {
-			let eachAttending = attendance.eventAttendanceNumber;
-			this.eventAttendanceNumberAttend += eachAttending;
-		}
-		console.log(this.eventAttendanceNumberAttend);
+	getNumberAttending(): number {
+		let sum =  this.attendanceProfiles.reduce((sum: number, attendanceProfile: AttendanceProfiles) => attendanceProfile.eventAttendanceNumber + sum, 0);
+		return(sum);
 	}
 }

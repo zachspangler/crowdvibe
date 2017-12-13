@@ -15,8 +15,6 @@ import {Router} from "@angular/router";
 
 export class HomeComponent implements OnInit {
 
-	today: number = Date.now();
-
 	eventId: string;
 	profile: Profile = new Profile(null, null, null, null, null, null, null, null);
 	event: Event = new Event(null, null, null, null, null, null, null, null, null, null);
@@ -52,5 +50,4 @@ export class HomeComponent implements OnInit {
 		this.router.navigate(["/event/" + event]);
 
 	}
-
 }
