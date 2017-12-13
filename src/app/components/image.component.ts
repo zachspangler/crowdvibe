@@ -21,6 +21,7 @@ export class ImageComponent implements OnInit {
 	protected cloudinarySecureUrlObservable : Observable<string> = new Observable<string>();
 
 	@Input() buttonLabel: string = "Save Schtuff";
+	@Input() icon: string = "fa-file-image-o";
 	@Output() cloudinarySecureUrlChangeEvent = new EventEmitter<string>();
 
 	ngOnInit(): void {
