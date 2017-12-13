@@ -61,5 +61,12 @@ export class EditProfileComponent implements OnInit {
     onCloudinarySecureUrlChange(newCloudinarySecureUrl: string): void {
         this.cloudinarySecureUrl = newCloudinarySecureUrl;
         this.editProfile();
+
+        if(this.status.status === 200) {
+            this.editProfileForm.reset();
+            setTimeout(function(){$("#login").modal('hide');}, 500);
+            this.router.navigate(["home"]);
+        }
     }
+
 }
