@@ -26,7 +26,6 @@ export class EventComponent implements OnInit {
 	ngOnInit(): void {
 		this.route.params.forEach((params: Params) => {
 			let eventId = params["eventId"];
-			let profileId = params["eventProfileId"];
 			this.eventService.getEvent(eventId)
 				.subscribe(event => this.event = event);
 
@@ -35,14 +34,23 @@ export class EventComponent implements OnInit {
 				.subscribe(attendanceProfiles => this.attendanceProfiles = attendanceProfiles);
 
 			//get Host for the event
-			this.profileService.getProfile(profileId)
-				.subscribe(profile => this.profile = profile);
+			// this.profileService.getProfile(this.event.eventProfileId)
+			// 	.subscribe(profile => this.profile = profile);
 
 			//get number of people attending the event
 			for (let attendance of this.attendanceProfiles) {
-				let eachAttending = attendance.eventAttendanceNumber;
-				this.eventAttendanceNumberAttend += eachAttending;
+				this.eventAttendanceNumberAttend += attendance.eventAttendanceNumber
 			}
+			console.log(this.eventAttendanceNumberAttend);
 		});
+	}
+
+
+	getNumberAttending() {
+		for (let attendance of this.attendanceProfiles) {
+			let eachAttending = attendance.eventAttendanceNumber;
+			this.eventAttendanceNumberAttend += eachAttending;
+		}
+		console.log(this.eventAttendanceNumberAttend);
 	}
 }

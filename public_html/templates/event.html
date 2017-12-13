@@ -24,9 +24,7 @@
 							<small class="text-muted">@:</small>
 							{{ event.eventAddress }}
 						</p>
-						<p class="card-text my-1">363 Palmer Ave Ne</p>
-						<p class="card-text my-1">Fun Town</p>
-						<p class="card-text my-1">89933</p>
+						<p class="card-text my-1">{{ event.eventAddress }}</p>
 						<p class="card-text my-1">
 							<small class="text-muted">Starts:</small>
 							{{ event.eventStartDateTime | date: "MM/dd/yy hh:mm a" }}
