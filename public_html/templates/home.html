@@ -18,12 +18,20 @@
 					<img class="rounded-circle m-0"
 						  src={{profile.profileImage}} height="100"
 						  width="100">
-					<h4 class="card-title my-0">{{ profile.profileFirstName }}</h4>
+
+					<h4 class="card-title my-0">
+					<small class="text-muted my-0">First Name:</small><br>
+					{{ profile.profileFirstName }}</h4>
 					<p class="card-text mb-1">
 					<p class="fa fa-thermometer-full fa-2x text-danger" aria-hidden="true"><i class="fa fa-thermomenter-full text-danger" aria-hidden="true"></i></p>
-					<p class="card-text mb-1 text-muted">{{ profile.profileUserName }}</p>
-					<p class="card-text my-0">{{ profile.profileEmail }}</p>
-					<p class="card-text my-1">{{ profile.profileBio }}</p>
+					<p class="card-text mt-0 mb-2 text-muted">
+						<small class="text-muted">Username:</small><br>
+						{{ profile.profileUserName }}</p>
+					<p class="card-text mt-0 mb-2">
+						<small class="text-muted">Email:</small><br>
+						{{ profile.profileEmail }}</p>
+					<small class="text-muted">Bio:</small><br>
+					<p class="card-text mt-0 mb-2">{{ profile.profileBio }}</p>
 				</div>
 				<div class="card-footer">
 					<a href="#" data-toggle="modal" data-target="#editProfile">
