@@ -41,10 +41,9 @@ export class EventComponent implements OnInit {
 			for (let attendance of this.attendanceProfiles) {
 				this.eventAttendanceNumberAttend += attendance.eventAttendanceNumber
 			}
-			console.log(this.eventAttendanceNumberAttend);
+			this.getNumberAttending();
 		});
 	}
-
 
 	getNumberAttending() {
 		for (let attendance of this.attendanceProfiles) {

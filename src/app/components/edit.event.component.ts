@@ -23,4 +23,6 @@ export class EditEventComponent implements OnInit {
 		const eventAttendee = form.value.eventAttendeeLimit;
 		const eventAddress = form.value.eventAddress;
 	}
+
+
 }

@@ -9,25 +9,23 @@ import {ActivatedRoute} from "@angular/router";
 import {Router} from "@angular/router";
 
 
-
 @Component({
 	templateUrl: "./templates/home.html"
 })
 
-export class HomeComponent implements OnInit{
+export class HomeComponent implements OnInit {
 
 	today: number = Date.now();
 
-
+	eventId: string;
 	profile: Profile = new Profile(null, null, null, null, null, null, null, null);
-	event: Event = new Event (null, null, null, null, null, null, null, null, null, null);
+	event: Event = new Event(null, null, null, null, null, null, null, null, null, null);
 	status: Status = null;
 
 	events: Event[] = [];
 
-	//profileId : string = this.route.snapshot.params["id"];
-
-	constructor( private eventService: EventService, private profileService: ProfileService, private jwtHelperService: JwtHelperService, private route: ActivatedRoute, private router: Router) {}
+	constructor(private eventService: EventService, private profileService: ProfileService, private jwtHelperService: JwtHelperService, private route: ActivatedRoute, private router: Router) {
+	}
 
 	ngOnInit(): void {
 		this.getProfile();
@@ -37,8 +35,8 @@ export class HomeComponent implements OnInit{
 	getProfile() {
 		let profileToken = this.jwtHelperService.decodeToken(localStorage.getItem("jwt-token"));
 		let profileId = profileToken.auth.profileId;
-		 this.profileService.getProfile(profileId)
-			.subscribe(profile =>this.profile = profile);
+		this.profileService.getProfile(profileId)
+			.subscribe(profile => this.profile = profile);
 	}
 
 	listEvents(): void {
@@ -46,7 +44,13 @@ export class HomeComponent implements OnInit{
 			.subscribe(events => this.events = events);
 	}
 
-	switchEvent(event : Event) : void {
+	switchEvent(event: Event): void {
 		this.router.navigate(["/event/", event.eventId]);
 	}
+
+	getEventId(event: string): void {
+		this.router.navigate(["/event/" + event]);
+
+	}
+
 }

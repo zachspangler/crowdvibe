@@ -29,11 +29,10 @@ export class SignInComponent {
 		this.SignInService.postSignIn(this.signin).subscribe(status => {
 			this.status = status;
 
-			if(status.status === 200) {
-
-				//location.reload(true);
+			if(this.status.status === 200) {
 				this.signInForm.reset();
-				setTimeout(function(){$("#login").modal('hide');},250);
+				setTimeout(function(){$("#login").modal('hide');
+				});
 				this.router.navigate(["home"]);
 			} else {
 				console.log("failed login");

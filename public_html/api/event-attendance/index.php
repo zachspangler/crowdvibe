@@ -137,7 +137,7 @@ try {
 				}
 
 				// create new event and insert into the database
-				$id = new EventAttendance(generateUuidV4(), $requestObject->eventAttendanceEventId, $_SESSION["profile"]->getProfileId(), $requestObject->eventAttendanceCheckIn, $requestObject->eventAttendanceNumberAttending);
+				$id = new EventAttendance(generateUuidv4(), $requestObject->eventAttendanceEventId, $_SESSION["profile"]->getProfileId(), $requestObject->eventAttendanceCheckIn, $requestObject->eventAttendanceNumberAttending);
 				$id->insert ($pdo);
 
 				// update reply
