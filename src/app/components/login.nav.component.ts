@@ -26,12 +26,14 @@ export class LoginNavComponent {
 
 	constructor(private profileService: ProfileService, private router: Router) {
 		this.termStream
+			.debounceTime(2000)
+			.distinctUntilChanged()
 			.subscribe(term => this.filterProfileByName(term));
 
 	}
 
 	ngOnInit(): void {
-		this.reloadProfile();
+		//this.reloadProfile();
 
 	}
 
@@ -41,15 +43,8 @@ export class LoginNavComponent {
 
 	}
 
-	reloadApplicationCohorts(): void {
-		this.profileService.getAllProfiles()
-			.subscribe(profiles => this.profiles = profiles);
-
-	}
-
-	filterProfileByName(term: string): void {
-		this.profileService.getAllProfiles()
-			.debounceTime(30000)
+	filterProfileByName(name: string): void {
+		this.profileService.getProfileByProfileName(name)
 			.subscribe(profiles => {
 				this.profiles = profiles;
 				if(this.filteredProfiles !== null) {

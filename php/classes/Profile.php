@@ -669,27 +669,27 @@ class Profile implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getAllProfiles(\PDO $pdo) : \SplFixedArray {
-		// create query template
-		$query = "SELECT profileId, profileActivationToken, profileBio, profileEmail, profileFirstName, profileHash, profileImage, profileLastName, profileSalt, profileUsername FROM profile";
-		$statement = $pdo->prepare($query);
-		$statement->execute();
-
-		// build an array of profiles
-		$profiles = new \SplFixedArray($statement->rowCount());
-		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !== false) {
-			try {
-				$profile = new Profile($row ["profileId"], $row ["profileActivationToken"], $row ["profileBio"], $row["profileEmail"], $row ["profileFirstName"], $row ["profileHash"], $row ["profileImage"], $row ["profileLastName"], $row ["profileSalt"], $row ["profileUserName"]);
-				$profiles[$profiles->key()] = $profile;
-				$profiles->next();
-			} catch(\Exception $exception) {
-				// if the row couldn't be converted, rethrow it
-				throw (new \PDOException($exception->getMessage(), 0, $exception));
-				}
-		}
-		return ($profiles);
-	}
+//	public static function getAllProfiles(\PDO $pdo) : \SplFixedArray {
+//		// create query template
+//		$query = "SELECT profileId, profileActivationToken, profileBio, profileEmail, profileFirstName, profileHash, profileImage, profileLastName, profileSalt, profileUsername FROM profile";
+//		$statement = $pdo->prepare($query);
+//		$statement->execute();
+//
+//		// build an array of profiles
+//		$profiles = new \SplFixedArray($statement->rowCount());
+//		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+//		while(($row = $statement->fetch()) !== false) {
+//			try {
+//				$profile = new Profile($row ["profileId"], $row ["profileActivationToken"], $row ["profileBio"], $row["profileEmail"], $row ["profileFirstName"], $row ["profileHash"], $row ["profileImage"], $row ["profileLastName"], $row ["profileSalt"], $row ["profileUserName"]);
+//				$profiles[$profiles->key()] = $profile;
+//				$profiles->next();
+//			} catch(\Exception $exception) {
+//				// if the row couldn't be converted, rethrow it
+//				throw (new \PDOException($exception->getMessage(), 0, $exception));
+//				}
+//		}
+//		return ($profiles);
+//	}
 
 
 	/**

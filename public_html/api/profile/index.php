@@ -36,7 +36,7 @@ try {
 	$profileActivationToken = filter_input(INPUT_GET, "profileActivationToken", FILTER_SANITIZE_STRING);
 	$profileBio = filter_input(INPUT_GET, "profileBio", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$profileEmail = filter_input(INPUT_GET, "profileEmail", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$profileName = filter_input(INPUT_GET, "profileFirstName", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$profileName = filter_input(INPUT_GET, "profileName", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$profileUserName = filter_input(INPUT_GET, "profileUserName", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
 // make sure the id is valid for methods that require it
@@ -68,8 +68,6 @@ try {
 			if($profile !== null) {
 				$reply->data = $profile;
 			}
-		} else {
-			$reply->data = Profile::getAllProfiles($pdo)->toArray();
 		}
 	} else if ($method === "PUT") {
 		//enforce that the XSRF token is in the header
