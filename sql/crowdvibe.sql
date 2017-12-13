@@ -26,7 +26,7 @@ CREATE TABLE event (
   eventAttendeeLimit SMALLINT UNSIGNED,
   eventDetail VARCHAR(500) NOT NULL,
   eventEndDateTime DATETIME(6) NOT NULL,
-  eventImage VARCHAR (64),
+  eventImage VARCHAR (255),
   eventLat DECIMAL(9,6) NOT NULL,
   eventLong DECIMAL(9,6) NOT NULL,
   eventName VARCHAR(64) NOT NULL,

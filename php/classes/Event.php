@@ -265,7 +265,7 @@ class Event implements \JsonSerializable {
 		$newEventImage = trim($newEventImage);
 		$newEventImage = filter_var($newEventImage, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		// verify the event image will fit in the database
-		if(strlen($newEventImage) > 64) {
+		if(strlen($newEventImage) > 255) {
 			throw (new \RangeException("event image is too long"));
 		}
 		//store the event image
