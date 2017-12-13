@@ -68,6 +68,8 @@ try {
 			if($profile !== null) {
 				$reply->data = $profile;
 			}
+		} else {
+			$reply->data = Profile::getAllProfiles($pdo)->toArray();
 		}
 	} else if ($method === "PUT") {
 		//enforce that the XSRF token is in the header

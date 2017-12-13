@@ -11,51 +11,55 @@ import {Subject} from 'rxjs/Subject';
 	templateUrl: "./templates/login-nav.html"
 })
 
-export class LoginNavComponent {}
+export class LoginNavComponent {
+	filteredProfiles : Profile[] = [];
 
-//
-// //observable used for searching Profiles by name
-// 	termStream = new Subject<string>();
-//
-// 	profile: Profile = new Profile(null, null, null, null, null, null, null, null);
-//
-// 	profiles: Profile[]=[];
-//
-// 	constructor(private profileService: ProfileService, private router: Router) {
-// 		this.termStream
-// 			.subscribe(term => this.filterProfileByName(term));
-//
-// 	}
-//
-// 	ngOnInit(): void {
-// 		this.reloadProfile();
-//
-// 	}
-//
-// 	reloadProfile(): void {
-// 		this.profileService.getProfileByProfileName(this.termStream)
-// 			.subscribe(profile => this.profile = profile);
-//
-// 	}
-// 	reloadApplicationCohorts()	 : void {
-// 		this.applicationCohortService.getAllApplicationCohorts()
-// 			.subscribe(applicationCohorts => this.applicationCohorts = applicationCohorts);
-//
-// 	}
-//
-// 	filterProfileByName(term : string ) : void {
-// 		this.profileService.getProfileByProfileName(term)
-// 			.debounceTime(30000)
-// 			.subscribe(profile => {
-// 				this.profile = profile;
-// 				if (this.filteredProfiles !== null) {
-// 					console.log("I work");
-// 					console.log(this.profile);
-// 				}
-// 			});
-// 	}
-//
-//
-//
-//
+
+
+
+//observable used for searching Profiles by name
+	termStream = new Subject<string>();
+
+	profile: Profile = new Profile(null, null, null, null, null, null, null, null);
+
+	profiles: Profile[] = [];
+
+	constructor(private profileService: ProfileService, private router: Router) {
+		this.termStream
+			.subscribe(term => this.filterProfileByName(term));
+
+	}
+
+	ngOnInit(): void {
+		this.reloadProfile();
+
+	}
+
+	reloadProfile(): void {
+		this.profileService.getAllProfiles()
+			.subscribe(profiles => this.profiles = profiles);
+
+	}
+
+	reloadApplicationCohorts(): void {
+		this.profileService.getAllProfiles()
+			.subscribe(profiles => this.profiles = profiles);
+
+	}
+
+	filterProfileByName(term: string): void {
+		this.profileService.getAllProfiles()
+			.debounceTime(30000)
+			.subscribe(profiles => {
+				this.profiles = profiles;
+				if(this.filteredProfiles !== null) {
+					console.log("I work");
+					console.log(this.profile);
+				}
+			});
+	}
+}
+
+
+
 

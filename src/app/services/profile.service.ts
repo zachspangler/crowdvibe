@@ -45,4 +45,7 @@ export class ProfileService {
 	getProfileByProfileName(profileName: string): Observable<Profile[]> {
 		return (this.http.get<Profile[]>(this.profileUrl + "?profileName=" + profileName));
 	}
+	getAllProfiles() : Observable<Profile[]> {
+		return (this.http.get<Profile[]>(this.profileUrl));
+	}
 }
