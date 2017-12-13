@@ -24,6 +24,7 @@ import {SignOutComponent} from "./components/sign.out.component";
 import {EventAttendanceComponent} from "./components/event.attendance.component";
 import {ImageComponent} from "./components/image.component";
 import {FileSelectDirective} from "ng2-file-upload";
+import {SearchUsersComponent} from "./components/search.users.component";
 
 
 // import services
@@ -59,6 +60,7 @@ export const allAppComponents = [
 	SignUpComponent,
 	SignOutComponent,
 	ImageComponent,
+	SearchUsersComponent,
 	FileSelectDirective
 ];
 
@@ -70,6 +72,7 @@ export const routes: Routes = [
 	{path: "profile/:id", component: ProfileComponent},
 	{path: "sign-out", component: SignOutComponent},
 	{path: "edit-event", component: EditEventComponent, canActivate: [AuthGuard]},
+	{path: "search-users", component: SearchUsersComponent},
 ];
 
 // an array of services that will be passed off to the module

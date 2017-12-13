@@ -6,54 +6,13 @@ import {Router} from "@angular/router";
 import {Subject} from 'rxjs/Subject';
 
 
+
 @Component({
 	selector: "login-nav",
 	templateUrl: "./templates/login-nav.html"
 })
 
-export class LoginNavComponent {
-	filteredProfiles : Profile[] = [];
-
-
-
-
-//observable used for searching Profiles by name
-	termStream = new Subject<string>();
-
-	profile: Profile = new Profile(null, null, null, null, null, null, null, null);
-
-	profiles: Profile[] = [];
-
-	constructor(private profileService: ProfileService, private router: Router) {
-		this.termStream
-			.debounceTime(2000)
-			.distinctUntilChanged()
-			.subscribe(term => this.filterProfileByName(term));
-
-	}
-
-	ngOnInit(): void {
-		//this.reloadProfile();
-
-	}
-
-	reloadProfile(): void {
-		this.profileService.getAllProfiles()
-			.subscribe(profiles => this.profiles = profiles);
-
-	}
-
-	filterProfileByName(name: string): void {
-		this.profileService.getProfileByProfileName(name)
-			.subscribe(profiles => {
-				this.profiles = profiles;
-				if(this.filteredProfiles !== null) {
-					console.log("I work");
-					console.log(this.profile);
-				}
-			});
-	}
-}
+export class LoginNavComponent {}
 
 
 

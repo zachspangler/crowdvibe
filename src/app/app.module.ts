@@ -9,6 +9,7 @@ import {Status} from "./classes/status";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 
+
 const moduleDeclarations = [AppComponent];
 
 //configure the parameters fot the JwtModule

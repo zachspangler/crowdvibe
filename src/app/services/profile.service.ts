@@ -36,8 +36,8 @@ export class ProfileService {
 	}
 
 	// call to the API to grab an array of profiles based on the user input
-	getProfileByProfileUserName(profileUserName: string): Observable<Profile[]> {
-		return (this.http.get<Profile[]>(this.profileUrl + "?profileUserName=" + profileUserName));
+	getProfileByProfileUserName(profileUserName: string): Observable<Profile> {
+		return (this.http.get<Profile>(this.profileUrl + "?profileUserName=" + profileUserName));
 	}
 
 	// call to the API to grab an array of profiles based on the user input

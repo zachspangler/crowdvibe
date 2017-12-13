@@ -64,7 +64,7 @@ try {
 				$reply->data = $profile;
 			}
 		} else if(empty($profileName) === false) {
-			$profile = Profile::getProfileByProfileName($pdo, $profileName);
+			$profile = Profile::getProfileByProfileName($pdo, $profileName)->toArray();
 			if($profile !== null) {
 				$reply->data = $profile;
 			}
