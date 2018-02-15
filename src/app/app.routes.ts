@@ -66,13 +66,14 @@ export const allAppComponents = [
 
 //an array of routes that will be passed of to the module
 export const routes: Routes = [
-	{path: "home", component: HomeComponent},
-	{path: "", component: LandingPageComponent},
-	{path: "event/:eventId", component: EventComponent},
-	{path: "profile/:id", component: ProfileComponent},
-	{path: "sign-out", component: SignOutComponent},
-	{path: "edit-event", component: EditEventComponent, canActivate: [AuthGuard]},
-	{path: "search-users", component: SearchUsersComponent},
+    {path: "", component: LandingPageComponent},
+    {path: "home", component: HomeComponent},
+    {path: "sign-out", component: SignOutComponent},
+    {path: "edit-event", component: EditEventComponent, canActivate: [AuthGuard]},
+    {path: "search-users", component: SearchUsersComponent},
+    {path: "event/:eventId", component: EventComponent},
+    {path: "profile/:id", component: ProfileComponent},
+
 ];
 
 // an array of services that will be passed off to the module

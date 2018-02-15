@@ -4,6 +4,7 @@
 <event-attend-confirm></event-attend-confirm>
 <login-nav></login-nav>
 <edit-profile></edit-profile>
+
 <div class="container-fluid py-4 bg-dark" id="home">
 	<div class="row mx-0">
 		<div class="col-md-4 align-content-center">
@@ -60,7 +61,7 @@
 				<a (click)="switchEvent(event);">
 					<img class="card-img-top" src="{{ event.eventImage }}" alt="Card image cap">
 					<div class="card-body text-center">
-						<img class="rounded-circle" [src]="getHostByProfileId(event.eventProfileId).profileImage" height="100" width="100">
+						<!-- <img class="rounded-circle" [src]="getHostByProfileId(event.eventProfileId).profileImage" height="100" width="100"> -->
 						<p class="card-text">
 							<small class="text-muted">Hosted By: {{ getHostByProfileId(event.eventProfileId).profileFirstName }}</small>
 						</p>
